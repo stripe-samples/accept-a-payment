@@ -29,48 +29,18 @@ jobs:
           install_docker_compose_settings
           export STRIPE_WEBHOOK_SECRET=$(retrieve_webhook_secret)
 
-          for lang in $(cat .cli.json | server_langs_for_integration decline-on-card-authentication)
+          for lang in $(cat .cli.json | server_langs_for_integration custom-payment-flow)
           do
             [ "$lang" = "php" ] && continue
 
-            configure_docker_compose_for_integration decline-on-card-authentication "$lang" ../../client/web \
-                                                      target/accept-a-card-payment-1.0.0-SNAPSHOT-jar-with-dependencies.jar
+            configure_docker_compose_for_integration using-webhooks "$lang" ../../client/vanillajs
 
             docker-compose up -d && wait_web_server
             docker-compose exec -T runner bundle exec rspec spec/server_spec.rb
           done
-
-          for lang in $(cat .cli.json | server_langs_for_integration using-webhooks)
-          do
-            [ "$lang" = "php" ] && continue
-
-            configure_docker_compose_for_integration using-webhooks "$lang" ../../client/web \
-                                                      target/collecting-card-payment-1.0.0-SNAPSHOT-jar-with-dependencies.jar
-
-            docker-compose up -d && wait_web_server
-            if [ "$lang" = "java" ]; then
-              docker-compose exec -T runner bundle exec rspec spec/server_spec.rb
-            else
-              docker-compose exec -T -e SERVER_ROOT_PATH=/checkout runner bundle exec rspec spec/server_spec.rb
-            fi
-          done
-
-          for lang in $(cat .cli.json | server_langs_for_integration without-webhooks)
-          do
-            [ "$lang" = "php" ] && continue
-
-            configure_docker_compose_for_integration without-webhooks "$lang" ../../client/web \
-                                                      target/accept-a-card-payment-1.0.0-SNAPSHOT-jar-with-dependencies.jar
-
-            docker-compose up -d && wait_web_server
-            docker-compose exec -T runner bundle exec rspec spec/server_spec.rb
-          done
-
         env:
           STRIPE_PUBLISHABLE_KEY: ${{ secrets.TEST_STRIPE_PUBLISHABLE_KEY }}
           STRIPE_SECRET_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
-          PREMIUM: price_1HXyXwCWW2eVYDoPnnTQ02VO
-          BASIC: price_1HXyVBCWW2eVYDoPtXcEdXfw
 
       - name: Collect debug information
         if: ${{ failure() }}
@@ -81,5 +51,3 @@ jobs:
         env:
           STRIPE_PUBLISHABLE_KEY: ${{ secrets.TEST_STRIPE_PUBLISHABLE_KEY }}
           STRIPE_SECRET_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
-          PREMIUM: price_1HXyXwCWW2eVYDoPnnTQ02VO
-          BASIC: price_1HXyVBCWW2eVYDoPtXcEdXfw
