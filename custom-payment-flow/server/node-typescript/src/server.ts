@@ -30,31 +30,27 @@ app.use(
   }
 );
 
-app.get("/checkout", (_: express.Request, res: express.Response): void => {
+app.get("/", (_: express.Request, res: express.Response): void => {
   // Serve checkout page.
   const indexPath = resolve(process.env.STATIC_DIR + "/index.html");
   res.sendFile(indexPath);
 });
 
-// tslint:disable-next-line: interface-name
-interface Order {
-  items: object[];
-}
 
-const calculateOrderAmount = (order: Order): number => {
-  // Replace this constant with a calculation of the order's amount.
-  // Calculate the order total on the server to prevent
-  // people from directly manipulating the amount on the client.
-  return 1400;
-};
+app.get("/config", (_: express.Request, res: express.Response): void => {
+  // Serve checkout page.
+  res.send({
+    publishableKey: process.env.STRIPE_PUBLISHABLE_KEY
+  });
+});
 
 app.post(
   "/create-payment-intent",
   async (req: express.Request, res: express.Response): Promise<void> => {
-    const { items, currency }: { items: Order; currency: string } = req.body;
+    const { currency }: { currency: string } = req.body;
     // Create a PaymentIntent with the order amount and currency.
     const params: Stripe.PaymentIntentCreateParams = {
-      amount: calculateOrderAmount(items),
+      amount: 1999,
       currency
     };
 
@@ -65,7 +61,6 @@ app.post(
     // Send publishable key and PaymentIntent client_secret to client.
     res.send({
       clientSecret: paymentIntent.client_secret,
-      publishableKey: process.env.STRIPE_PUBLISHABLE_KEY
     });
   }
 );

@@ -31,31 +31,25 @@ $app->add(function ($request, $response, $next) {
     return $next($request, $response);
 });
 
-$app->get('/checkout', function (Request $request, Response $response, array $args) {   
-  // Display checkout page
+$app->get('/', function (Request $request, Response $response, array $args) {
   return $response->write(file_get_contents(getenv('STATIC_DIR') . '/index.html'));
 });
 
-function calculateOrderAmount($items)
-{
-  // Replace this constant with a calculation of the order's amount
-  // Calculate the order total on the server to prevent
-  // people from directly manipulating the amount on the client
-  return 1400;
-}
+$app->get('/config', function (Request $request, Response $response, array $args) {
+  return $response->withJson(['publishableKey' => getenv('STRIPE_PUBLISHABLE_KEY')]);
+});
 
 $app->post('/create-payment-intent', function (Request $request, Response $response, array $args) {
-    $pub_key = getenv('STRIPE_PUBLISHABLE_KEY');
     $body = json_decode($request->getBody());
 
     // Create a PaymentIntent with the order amount and currency
     $payment_intent = \Stripe\PaymentIntent::create([
-      "amount" => calculateOrderAmount($body->items),
-      "currency" => $body->currency
+      'amount' => 1999,
+      'currency' => $body->currency
     ]);
-    
-    // Send publishable key and PaymentIntent details to client
-    return $response->withJson(array('publishableKey' => $pub_key, 'clientSecret' => $payment_intent->client_secret));
+
+    // Send PaymentIntent details to client
+    return $response->withJson(['clientSecret' => $payment_intent->client_secret]);
 });
 
 $app->post('/webhook', function(Request $request, Response $response) {
@@ -78,7 +72,7 @@ $app->post('/webhook', function(Request $request, Response $response) {
     }
     $type = $event['type'];
     $object = $event['data']['object'];
-    
+
     if ($type == 'payment_intent.succeeded') {
       // Fulfill any orders, e-mail receipts, etc
       // To cancel the payment you will need to issue a Refund (https://stripe.com/docs/api/refunds)
