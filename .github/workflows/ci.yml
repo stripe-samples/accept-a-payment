@@ -1,4 +1,4 @@
-name: CI for stripe-samples/accept-a-card-payment
+name: CI for stripe-samples/accept-a-payment
 on: [push, pull_request]
 
 jobs:
