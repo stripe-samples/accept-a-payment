@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">App</string>
+    <string name="activity_kotlin">Checkout - Kotlin</string>
+    <string name="activity_java">Checkout - Java</string>
+    <string name="action_settings">Settings</string>
+    <string name="launch_checkout_kotlin">Launch Checkout example in Kotlin</string>
+    <string name="launch_checkout_java">Launch Checkout example in Java</string>
+    <string name="pay">Pay</string>
+</resources>

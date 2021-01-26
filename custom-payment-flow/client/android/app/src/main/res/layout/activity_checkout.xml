@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context=".CheckoutActivityKotlin"
+    tools:showIn="@layout/activity_checkout">
+
+    <com.stripe.android.view.CardInputWidget
+        android:id="@+id/cardInputWidget"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="@string/pay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/payButton"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@android:color/holo_green_light"/>
+
+</LinearLayout>

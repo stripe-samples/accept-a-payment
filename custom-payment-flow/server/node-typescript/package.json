@@ -1,0 +1,27 @@
+{
+  "name": "stripe-sample-accept-a-card-payment",
+  "version": "1.0.0",
+  "description": "Stripe card payment sample.",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "node_modules/typescript/bin/tsc",
+    "prestart": "npm run build",
+    "start": "node .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "stripe-samples",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "path": "^0.12.7",
+    "stripe": "^8.121.0"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.2",
+    "@types/node": "^13.1.2",
+    "tslint": "^5.20.1",
+    "typescript": "^3.7.4"
+  }
+}

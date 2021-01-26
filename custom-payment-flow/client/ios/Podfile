@@ -1,0 +1,23 @@
+platform :ios, '11.0'
+
+workspace 'app.xcworkspace'
+
+target 'Stripe Example App (Swift)' do
+  project 'Stripe Example App (Swift).xcodeproj'
+
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for Sample
+  pod 'Stripe'
+end
+
+target 'Stripe Example App (ObjC)' do
+  project 'Stripe Example App (ObjC).xcodeproj'
+
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for Sample
+  pod 'Stripe'
+end

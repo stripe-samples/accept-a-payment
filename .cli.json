@@ -1,0 +1,11 @@
+{
+  "name": "accept-a-card-payment",
+  "configureDotEnv": true,
+  "integrations": [
+    {
+      "name": "custom-payment-flow",
+      "clients": ["web", "android", "ios"],
+      "servers": ["java", "node", "node-typescript", "php-slim", "php", "python", "ruby"]
+    }
+  ]
+}
