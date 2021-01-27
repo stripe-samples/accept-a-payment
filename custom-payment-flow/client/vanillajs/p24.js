@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const stripe = Stripe(publishableKey);
   const elements = stripe.elements();
-  const card = elements.create('card');
-  card.mount('#card-element');
+  const p24 = elements.create('p24Bank');
+  p24.mount('#p24-bank-element');
 
   // When the form is submitted...
   var form = document.getElementById('payment-form');
@@ -24,8 +24,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        currency: 'usd',
-        paymentMethodType: 'card',
+        currency: 'eur',
+        paymentMethodType: 'p24',
       }),
     }).then(r => r.json());
 
@@ -37,22 +37,34 @@ document.addEventListener('DOMContentLoaded', async () => {
     addMessage(`Client secret returned.`);
 
     const nameInput = document.querySelector('#name');
+    const emailInput = document.querySelector('#email');
 
-    // Confirm the card payment given the clientSecret
+    // Confirm the p24 payment given the clientSecret
     // from the payment intent that was just created on
     // the server.
-    let {error, paymentIntent} = await stripe.confirmCardPayment(resp.clientSecret, {
+    let {error, paymentIntent} = await stripe.confirmP24Payment(resp.clientSecret, {
       payment_method: {
-        card: card,
+        p24: p24,
         billing_details: {
           name: nameInput.value,
+          email: emailInput.value,
+        },
+      },
+      payment_method_options: {
+        p24: {
+          // In order to be able to pass the `tos_shown_and_accepted` parameter, you must
+          // ensure that the P24 regulations and information obligation consent
+          // text is clearly visible to the customer. See
+          // https://stripe.com/docs/payments/p24/accept-a-payment#requirements
+          // for directions.
+          tos_shown_and_accepted: true,
         }
-      }
+      },
+      return_url: 'http://localhost:4242/p24-return.html',
     });
 
     if(error) {
       addMessage(error.message);
-      return;
     }
 
     addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);

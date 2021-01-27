@@ -29,13 +29,15 @@ RSpec.describe "full integration path" do
       end
     end
 
-    # it 'fails if no payment method type is passed' do
-    #   resp, status = post_json('/create-payment-intent', {
-    #     currency: 'usd'
-    #   })
-    #   expect(status).to eq(400)
-    #   expect(resp).to have_key('error')
-    #   expect(resp['error']).to have_key('message')
-    # end
+    it 'fails gracefully if missmatched currency and payment method type' do
+      resp, status = post_json('/create-payment-intent', {
+        currency: 'usd',
+        paymentMethodType: 'au_becs_debit',
+      })
+      expect(status).to eq(400)
+      expect(resp).to have_key('error')
+      expect(resp['error']).to have_key('message')
+      expect(resp['error']['message']).to include('The currency provided (usd) is invalid. Payments with au_becs_debit support the following currencies: aud.')
+    end
   end
 end

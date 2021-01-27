@@ -9,8 +9,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const stripe = Stripe(publishableKey);
   const elements = stripe.elements();
-  const card = elements.create('card');
-  card.mount('#card-element');
+  const fpxBank = elements.create('fpxBank', {
+    accountHolderType: 'individual'
+  });
+  fpxBank.mount('#fpx-bank-element');
 
   // When the form is submitted...
   var form = document.getElementById('payment-form');
@@ -24,8 +26,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        currency: 'usd',
-        paymentMethodType: 'card',
+        currency: 'myr',
+        paymentMethodType: 'fpx',
       }),
     }).then(r => r.json());
 
@@ -36,23 +38,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     addMessage(`Client secret returned.`);
 
-    const nameInput = document.querySelector('#name');
-
-    // Confirm the card payment given the clientSecret
+    // Confirm the fpxBank payment given the clientSecret
     // from the payment intent that was just created on
     // the server.
-    let {error, paymentIntent} = await stripe.confirmCardPayment(resp.clientSecret, {
+    let {error, paymentIntent} = await stripe.confirmFpxPayment(resp.clientSecret, {
       payment_method: {
-        card: card,
-        billing_details: {
-          name: nameInput.value,
-        }
-      }
+        fpx: fpxBank,
+      },
+      return_url: 'http://localhost:4242/fpx-return.html',
     });
 
     if(error) {
       addMessage(error.message);
-      return;
     }
 
     addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);

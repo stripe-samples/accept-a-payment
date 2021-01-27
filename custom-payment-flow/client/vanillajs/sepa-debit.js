@@ -9,8 +9,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const stripe = Stripe(publishableKey);
   const elements = stripe.elements();
-  const card = elements.create('card');
-  card.mount('#card-element');
+  const iban = elements.create('iban', {
+    supportedCountries: ['SEPA'],
+  });
+  iban.mount('#iban-element');
+
 
   // When the form is submitted...
   var form = document.getElementById('payment-form');
@@ -18,44 +21,42 @@ document.addEventListener('DOMContentLoaded', async () => {
     e.preventDefault();
     // Make a call to the server to create a new
     // payment intent and store its client_secret.
-    const resp = await fetch('/create-payment-intent', {
+    const {clientSecret} = await fetch('/create-payment-intent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        currency: 'usd',
-        paymentMethodType: 'card',
+        currency: 'eur',
+        paymentMethodType: 'sepa_debit',
       }),
     }).then(r => r.json());
-
-    if(resp.error) {
-      addMessage(resp.error.message);
-      return;
-    }
 
     addMessage(`Client secret returned.`);
 
     const nameInput = document.querySelector('#name');
+    const emailInput = document.querySelector('#email');
 
     // Confirm the card payment given the clientSecret
     // from the payment intent that was just created on
     // the server.
-    let {error, paymentIntent} = await stripe.confirmCardPayment(resp.clientSecret, {
+    const {error, paymentIntent} = await stripe.confirmSepaDebitPayment(clientSecret, {
       payment_method: {
-        card: card,
+        sepa_debit: iban,
         billing_details: {
           name: nameInput.value,
+          email: emailInput.value
         }
       }
-    });
+    })
 
     if(error) {
       addMessage(error.message);
-      return;
     }
 
-    addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
+    if(paymentIntent.status === 'processing') {
+      addMessage(`Payment processing: ${paymentIntent.id} check webhook events for fulfillment.`);
+    }
   });
 });
 

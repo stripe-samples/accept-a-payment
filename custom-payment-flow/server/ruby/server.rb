@@ -43,12 +43,18 @@ post '/create-payment-intent' do
   # [0] https://stripe.com/docs/api/payment_intents/create
   begin
     payment_intent = Stripe::PaymentIntent.create(
-      # payment_method_types: [payment_method_type],
+      payment_method_types: [payment_method_type],
       amount: 1999, # Charge the customer 19.99 in the given currency.
       currency: currency
     )
+  rescue Stripe::StripeError => e
+    halt 400,
+      { 'Content-Type' => 'application/json' },
+      { error: { message: e.error.message }}.to_json
   rescue => e
-    p e
+    halt 500,
+      { 'Content-Type' => 'application/json' },
+      { error: { message: e.error.message }}.to_json
   end
 
   # This API endpoint renders back JSON with the client_secret for the payment

@@ -9,8 +9,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const stripe = Stripe(publishableKey);
   const elements = stripe.elements();
-  const card = elements.create('card');
-  card.mount('#card-element');
+  const auBankAccount = elements.create('auBankAccount');
+  auBankAccount.mount('#au-bank-account-element');
+
 
   // When the form is submitted...
   var form = document.getElementById('payment-form');
@@ -24,8 +25,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        currency: 'usd',
-        paymentMethodType: 'card',
+        currency: 'aud',
+        paymentMethodType: 'au_becs_debit',
       }),
     }).then(r => r.json());
 
@@ -37,22 +38,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     addMessage(`Client secret returned.`);
 
     const nameInput = document.querySelector('#name');
+    const emailInput = document.querySelector('#email');
 
     // Confirm the card payment given the clientSecret
     // from the payment intent that was just created on
     // the server.
-    let {error, paymentIntent} = await stripe.confirmCardPayment(resp.clientSecret, {
+    const {error, paymentIntent} = await stripe.confirmAuBecsDebitPayment(resp.clientSecret, {
       payment_method: {
-        card: card,
+        au_becs_debit: auBankAccount,
         billing_details: {
           name: nameInput.value,
+          email: emailInput.value
         }
       }
-    });
+    })
 
     if(error) {
       addMessage(error.message);
-      return;
     }
 
     addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);

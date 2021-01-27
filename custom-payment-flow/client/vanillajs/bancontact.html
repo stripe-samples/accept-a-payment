@@ -4,11 +4,11 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Card</title>
+    <title>Bancontact</title>
 
     <link rel="stylesheet" href="css/base.css" />
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="/card.js" defer></script>
+    <script src="/bancontact.js" defer></script>
   </head>
   <body>
     <main>
@@ -18,17 +18,10 @@
         </label>
         <input id="name" placeholder="Jenny Rosen" value="Jenny Rosen" required />
 
-        <label for="card-element">
-          Card
-        </label>
-        <div id="card-element">
-          <!-- Elements will create input elements here -->
-        </div>
+        <button type="submit">Pay</button>
 
-        <!-- We'll put the error messages in this element -->
-        <div id="card-errors" role="alert"></div>
-
-        <button id="submit">Pay</button>
+        <!-- Used to display form errors. -->
+        <div id="error-message" role="alert"></div>
       </form>
 
       <hr />

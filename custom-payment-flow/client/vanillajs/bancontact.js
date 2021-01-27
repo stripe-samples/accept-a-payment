@@ -8,9 +8,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   const stripe = Stripe(publishableKey);
-  const elements = stripe.elements();
-  const card = elements.create('card');
-  card.mount('#card-element');
 
   // When the form is submitted...
   var form = document.getElementById('payment-form');
@@ -24,8 +21,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        currency: 'usd',
-        paymentMethodType: 'card',
+        currency: 'eur',
+        paymentMethodType: 'bancontact',
       }),
     }).then(r => r.json());
 
@@ -41,18 +38,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Confirm the card payment given the clientSecret
     // from the payment intent that was just created on
     // the server.
-    let {error, paymentIntent} = await stripe.confirmCardPayment(resp.clientSecret, {
+    const {error, paymentIntent} = await stripe.confirmBancontactPayment(resp.clientSecret, {
       payment_method: {
-        card: card,
         billing_details: {
           name: nameInput.value,
         }
-      }
+      },
+      return_url: `http://localhost:4242/bancontact-return.html`
     });
 
     if(error) {
       addMessage(error.message);
-      return;
     }
 
     addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);

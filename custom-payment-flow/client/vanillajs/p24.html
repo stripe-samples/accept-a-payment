@@ -3,12 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <title>Card</title>
-
+    <title>Przelewy24 (P24)</title>
     <link rel="stylesheet" href="css/base.css" />
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="/card.js" defer></script>
+    <script src="/p24.js" defer></script>
   </head>
   <body>
     <main>
@@ -17,11 +15,16 @@
           Name
         </label>
         <input id="name" placeholder="Jenny Rosen" value="Jenny Rosen" required />
-
-        <label for="card-element">
-          Card
+        <label for="email">
+          Email
         </label>
-        <div id="card-element">
+        <input id="email" placeholder="jenny.rosen@example.com" value="jenny.rosen@example.com" required />
+
+
+        <label for="p24-bank-element">
+          P24 Bank
+        </label>
+        <div id="p24-bank-element">
           <!-- Elements will create input elements here -->
         </div>
 
@@ -30,6 +33,7 @@
 
         <button id="submit">Pay</button>
       </form>
+
 
       <hr />
       <div id="messages" role="alert"></div>
