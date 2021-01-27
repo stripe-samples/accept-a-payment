@@ -26,15 +26,32 @@ def get_config():
 def create_payment():
     data = json.loads(request.data)
 
-    # Create a PaymentIntent with the order amount and currency
-    intent = stripe.PaymentIntent.create(
-        amount=1999,
-        currency=data['currency']
-    )
+    # Each payment method type has support for different currencies. In order to
+    # support many payment method types and several currencies, this server
+    # endpoint accepts both the payment method type and the currency as
+    # parameters.
+    #
+    # Some example payment method types include `card`, `ideal`, and `alipay`.
+    payment_method_type = data['paymentMethodType']
+
+    currency = data['currency']
 
     try:
+        # Create a PaymentIntent with the amount, currency, and a payment method type.
+        #
+        # See the documentation [0] for the full list of supported parameters.
+        #
+        # [0] https://stripe.com/docs/api/payment_intents/create
+        intent = stripe.PaymentIntent.create(
+            payment_method_types=[payment_method_type],
+            amount=1999,
+            currency=currency
+        )
+
         # Send PaymentIntent details to the front end.
         return jsonify({'clientSecret': intent.client_secret})
+    except stripe.error.StripeError as e:
+        return jsonify({'error': {'message': str(e)}}), 400
     except Exception as e:
         return jsonify({'error': {'message': str(e)}}), 400
 

@@ -30,17 +30,39 @@ app.get('/config', (req, res) => {
 });
 
 app.post('/create-payment-intent', async (req, res) => {
-  const { items, currency } = req.body;
-  // Create a PaymentIntent with the order amount and currency
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: 1999,
-    currency: currency
-  });
+  const { paymentMethodType, currency } = req.body;
 
-  // Send publishable key and PaymentIntent details to client
-  res.send({
-    clientSecret: paymentIntent.client_secret
-  });
+  // Each payment method type has support for different currencies. In order to
+  // support many payment method types and several currencies, this server
+  // endpoint accepts both the payment method type and the currency as
+  // parameters.
+  //
+  // Some example payment method types include `card`, `ideal`, and `alipay`.
+
+  // Create a PaymentIntent with the amount, currency, and a payment method type.
+  //
+  // See the documentation [0] for the full list of supported parameters.
+  //
+  // [0] https://stripe.com/docs/api/payment_intents/create
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      payment_method_types: [paymentMethodType],
+      amount: 1999,
+      currency: currency
+    });
+
+    // Send publishable key and PaymentIntent details to client
+    res.send({
+      clientSecret: paymentIntent.client_secret
+    });
+
+  } catch(e) {
+    return res.status(400).send({
+      error: {
+        message: e.message
+      }
+    });
+  }
 });
 
 // Expose a endpoint as a webhook handler for asynchronous events.

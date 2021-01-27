@@ -27,4 +27,4 @@ php -S 127.0.0.1:4242
 
 4. Go to localhost:4242
 
-5) For mobile clients: Edit the client to use the "create-payment-intent.php" endpoint instead of "create-payment-intent"
+5. For mobile clients: Edit the client to use the "create-payment-intent.php" endpoint instead of "create-payment-intent"

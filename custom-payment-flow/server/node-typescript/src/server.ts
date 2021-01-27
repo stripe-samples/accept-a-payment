@@ -36,7 +36,6 @@ app.get("/", (_: express.Request, res: express.Response): void => {
   res.sendFile(indexPath);
 });
 
-
 app.get("/config", (_: express.Request, res: express.Response): void => {
   // Serve checkout page.
   res.send({
@@ -47,21 +46,30 @@ app.get("/config", (_: express.Request, res: express.Response): void => {
 app.post(
   "/create-payment-intent",
   async (req: express.Request, res: express.Response): Promise<void> => {
-    const { currency }: { currency: string } = req.body;
+    const { currency, paymentMethodType }: { currency: string, paymentMethodType: string } = req.body;
     // Create a PaymentIntent with the order amount and currency.
     const params: Stripe.PaymentIntentCreateParams = {
       amount: 1999,
-      currency
+      currency,
+      payment_method_types: [paymentMethodType],
     };
 
-    const paymentIntent: Stripe.PaymentIntent = await stripe.paymentIntents.create(
-      params
-    );
+    try {
+      const paymentIntent: Stripe.PaymentIntent = await stripe.paymentIntents.create(
+        params
+      );
 
-    // Send publishable key and PaymentIntent client_secret to client.
-    res.send({
-      clientSecret: paymentIntent.client_secret,
-    });
+      // Send publishable key and PaymentIntent client_secret to client.
+      res.send({
+        clientSecret: paymentIntent.client_secret,
+      });
+    } catch (e) {
+      res.status(400).send({
+        error: {
+          message: e.message,
+        }
+      });
+    }
   }
 );
 

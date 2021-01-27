@@ -1,13 +1,3 @@
-// A reference to Stripe.js
-var stripe;
-
-var orderData = {
-  items: [{ id: "photo-subscription" }],
-  currency: "usd"
-};
-
-// Disable the button until we have Stripe set up on the page
-document.querySelector("button").disabled = true;
 
 fetch("/create-payment-intent.php", {
   method: "POST",

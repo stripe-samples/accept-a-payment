@@ -1,5 +1,6 @@
 package com.stripe.sample;
 
+import java.util.HashMap;
 import java.nio.file.Paths;
 
 import static spark.Spark.get;
@@ -24,15 +25,15 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class Server {
     private static Gson gson = new Gson();
 
-    static class CreatePaymentBody {
-        @SerializedName("items")
-        Object[] items;
+    static class CreatePaymentRequest {
+        @SerializedName("paymentMethodType")
+        String paymentMethodType;
 
         @SerializedName("currency")
         String currency;
 
-        public Object[] getItems() {
-            return items;
+        public String getPaymentMethodType() {
+            return paymentMethodType;
         }
 
         public String getCurrency() {
@@ -40,21 +41,29 @@ public class Server {
         }
     }
 
-    static class CreatePaymentResponse {
+    static class ConfigResponse {
         private String publishableKey;
-        private String clientSecret;
 
-        public CreatePaymentResponse(String publishableKey, String clientSecret) {
+        public ConfigResponse(String publishableKey) {
             this.publishableKey = publishableKey;
-            this.clientSecret = clientSecret;
         }
     }
 
-    static int calculateOrderAmount(Object[] items) {
-        // Replace this constant with a calculation of the order's amount
-        // Calculate the order total on the server to prevent
-        // users from directly manipulating the amount on the client
-        return 1400;
+    static class FailureResponse {
+        private HashMap<String, String> error;
+
+        public FailureResponse(String message) {
+            this.error = new HashMap<String, String>();
+            this.error.put("message", message);
+        }
+    }
+
+    static class CreatePaymentResponse {
+        private String clientSecret;
+
+        public CreatePaymentResponse(String clientSecret) {
+            this.clientSecret = clientSecret;
+        }
     }
 
     public static void main(String[] args) {
@@ -64,19 +73,41 @@ public class Server {
         Stripe.apiKey = dotenv.get("STRIPE_SECRET_KEY");
 
         staticFiles.externalLocation(
-                Paths.get(Paths.get("").toAbsolutePath().toString(), dotenv.get("STATIC_DIR")).normalize().toString());
+          Paths.get(
+            Paths.get("").toAbsolutePath().toString(),
+            dotenv.get("STATIC_DIR")
+          ).normalize().toString());
+
+        get("/config", (request, response) -> {
+            response.type("application/json");
+
+            return gson.toJson(new ConfigResponse(dotenv.get("STRIPE_PUBLISHABLE_KEY")));
+        });
 
         post("/create-payment-intent", (request, response) -> {
             response.type("application/json");
 
-            CreatePaymentBody postBody = gson.fromJson(request.body(), CreatePaymentBody.class);
-            PaymentIntentCreateParams createParams = new PaymentIntentCreateParams.Builder()
-                    .setCurrency(postBody.getCurrency()).setAmount(new Long(calculateOrderAmount(postBody.getItems())))
-                    .build();
-            // Create a PaymentIntent with the order amount and currency
-            PaymentIntent intent = PaymentIntent.create(createParams);
-            // Send publishable key and PaymentIntent details to client
-            return gson.toJson(new CreatePaymentResponse(dotenv.get("STRIPE_PUBLISHABLE_KEY"), intent.getClientSecret()));
+            CreatePaymentRequest postBody = gson.fromJson(request.body(), CreatePaymentRequest.class);
+            PaymentIntentCreateParams createParams = new PaymentIntentCreateParams
+              .Builder()
+              .addPaymentMethodType(postBody.getPaymentMethodType())
+              .setCurrency(postBody.getCurrency())
+              .setAmount(1999L)
+              .build();
+
+            try {
+              // Create a PaymentIntent with the order amount and currency
+              PaymentIntent intent = PaymentIntent.create(createParams);
+
+              // Send PaymentIntent details to client
+              return gson.toJson(new CreatePaymentResponse(intent.getClientSecret()));
+            } catch(StripeException e) {
+              response.status(400);
+              return gson.toJson(new FailureResponse(e.getMessage()));
+            } catch(Exception e) {
+              response.status(500);
+              return gson.toJson(e);
+            }
         });
 
         post("/webhook", (request, response) -> {
