@@ -28,6 +28,10 @@ target/
 .factorypath
 .project
 
+# Dotnet files
+Debug/
+obj/
+
 # -- Android --
 # Built application files
 *.apk
@@ -117,4 +121,3 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
-
