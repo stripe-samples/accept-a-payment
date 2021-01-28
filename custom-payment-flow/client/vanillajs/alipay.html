@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Alipay</title>
+
+    <link rel="stylesheet" href="css/base.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="/alipay.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <form id="payment-form">
+        <label for="name">
+          Name
+        </label>
+        <input id="name" placeholder="Jenny Rosen" value="Jenny Rosen" required />
+
+        <!-- We'll put the error messages in this element -->
+        <div id="card-errors" role="alert"></div>
+
+        <button id="submit">Pay</button>
+      </form>
+
+      <hr />
+      <div id="messages" role="alert"></div>
+    </main>
+  </body>
+</html>
