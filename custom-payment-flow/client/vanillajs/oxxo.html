@@ -8,10 +8,15 @@
 
     <link rel="stylesheet" href="css/base.css" />
     <script src="https://js.stripe.com/v3/"></script>
+
+    <script src="/utils.js" defer></script>
     <script src="/oxxo.js" defer></script>
   </head>
   <body>
     <main>
+      <a href="/">home</a>
+      <h1>OXXO</h1>
+
       <form id="payment-form">
         <label for="name">
           Name
@@ -29,7 +34,6 @@
         <button type="submit">Pay</button>
       </form>
 
-      <hr />
       <div id="messages" role="alert"></div>
     </main>
   </body>

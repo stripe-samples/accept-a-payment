@@ -8,21 +8,25 @@
 
     <link rel="stylesheet" href="css/base.css" />
     <script src="https://js.stripe.com/v3/"></script>
+
+    <script src="/utils.js" defer></script>
     <script src="/alipay.js" defer></script>
   </head>
   <body>
     <main>
+      <a href="/">home</a>
+      <h1>Alipay</h1>
+
       <form id="payment-form">
         <label for="name">
           Name
         </label>
-        <input id="name" placeholder="Jenny Rosen" value="Jenny Rosen" required />
+        <input id="name" value="Jenny Rosen" required />
 
         <button id="submit">Pay</button>
       </form>
 
-      <hr />
-      <div id="messages" role="alert"></div>
+      <div id="messages" role="alert" style="display: none;"></div>
     </main>
   </body>
 </html>

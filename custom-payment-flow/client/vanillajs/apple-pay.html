@@ -8,16 +8,19 @@
 
     <link rel="stylesheet" href="css/base.css" />
     <script src="https://js.stripe.com/v3/"></script>
+
+    <script src="/utils.js" defer></script>
     <script src="/apple-pay.js" defer></script>
   </head>
   <body>
     <main>
+      <a href="/">home</a>
+      <h1>Apple Pay</h1>
 
       <div id="payment-request-button">
         <!-- A Stripe Element will be inserted here. -->
       </div>
 
-      <hr />
       <div id="messages" role="alert"></div>
     </main>
   </body>

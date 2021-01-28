@@ -1,15 +1,10 @@
 @import url('https://fonts.googleapis.com/css?family=Raleway&display=swap');
 
 :root {
-  --gray-offset: rgba(0, 0, 0, 0.03);
-  --gray-border: rgba(0, 0, 0, 0.15);
-  --gray-light: rgba(0, 0, 0, 0.4);
-  --gray-mid: rgba(0, 0, 0, 0.7);
-  --gray-dark: rgba(0, 0, 0, 0.9);
-  --body-color: var(--gray-mid);
-  --headline-color: var(--gray-dark);
-  --accent-color: #ed5f74;
-  --radius: 6px;
+  --light-grey: #F6F9FC;
+  --dark-terminal-color: #0A2540;
+  --accent-color: #635BFF;
+  --radius: 3px;
 }
 
 body {
@@ -18,6 +13,7 @@ body {
   display: flex;
   justify-content: center;
   font-size: 1.2em;
+  color: var(--dark-terminal-color);
 }
 
 main {
@@ -28,12 +24,8 @@ form > * {
   margin: 10px 0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
 button {
-  background-color: #ed5f74;
+  background-color: var(--accent-color);
 }
 
 button {
@@ -70,6 +62,28 @@ label {
   display: block;
 }
 
+a {
+  color: var(--accent-color);
+  font-weight: 900;
+}
+
 #messages {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New';
+}
+
+#payment-form {
+  border: #F6F9FC solid 1px;
+  border-radius: var(--radius);
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 30px 50px -20px rgb(50 50 93 / 25%), 0 30px 60px -30px rgb(0 0 0 / 30%);
+}
+
+#messages {
+  background-color: #0A253C;
+  color: #00D924;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: var(--radius);
+  font-size:0.7em;
 }

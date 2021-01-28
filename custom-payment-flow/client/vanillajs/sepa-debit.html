@@ -6,13 +6,17 @@
 
     <title>SEPA Direct Debit</title>
 
-
     <link rel="stylesheet" href="css/base.css" />
     <script src="https://js.stripe.com/v3/"></script>
+
+    <script src="/utils.js" defer></script>
     <script src="/sepa-debit.js" defer></script>
   </head>
   <body>
     <main>
+      <a href="/">home</a>
+      <h1>SEPA Direct Debit</h1>
+
       <form id="payment-form">
         <label for="name">
           Name
@@ -33,26 +37,25 @@
 
         <button type="submit">Pay</button>
 
-
         <!-- Display mandate acceptance text. -->
         <div id="mandate-acceptance">
-          By providing your payment information and confirming this payment, you
-          authorise (A) Stripe Samples CI and Stripe, our payment service provider, to
-          send instructions to your bank to debit your account and (B) your bank to
-          debit your account in accordance with those instructions. As part of your
-          rights, you are entitled to a refund from your bank under the terms and
-          conditions of your agreement with your bank. A refund must be claimed
-          within 8 weeks starting from the date on which your account was debited.
-          Your rights are explained in a statement that you can obtain from your
-          bank. You agree to receive notifications for future debits up to 2 days
-          before they occur.
+          By providing your payment information and confirming this payment,
+          you authorise (A) <strong>{{YOUR BUSINESS NAME}}</strong> and Stripe,
+          our payment service provider, to send instructions to your bank to
+          debit your account and (B) your bank to debit your account in
+          accordance with those instructions. As part of your rights, you are
+          entitled to a refund from your bank under the terms and conditions of
+          your agreement with your bank. A refund must be claimed within 8
+          weeks starting from the date on which your account was debited.  Your
+          rights are explained in a statement that you can obtain from your
+          bank. You agree to receive notifications for future debits up to 2
+          days before they occur.
         </div>
 
         <!-- Used to display form errors. -->
         <div id="error-message" role="alert"></div>
       </form>
 
-      <hr />
       <div id="messages" role="alert"></div>
     </main>
   </body>

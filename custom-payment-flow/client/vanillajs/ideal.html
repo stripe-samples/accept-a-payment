@@ -8,10 +8,15 @@
 
     <link rel="stylesheet" href="css/base.css" />
     <script src="https://js.stripe.com/v3/"></script>
+
+    <script src="/utils.js" defer></script>
     <script src="/ideal.js" defer></script>
   </head>
   <body>
     <main>
+      <a href="/">home</a>
+      <h1>iDEAL</h1>
+
       <form id="payment-form">
         <label for="name">
           Name
@@ -36,7 +41,6 @@
         <div id="error-message" role="alert"></div>
       </form>
 
-      <hr />
 
       <div id="messages" role="alert"></div>
     </main>

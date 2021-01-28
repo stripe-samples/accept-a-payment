@@ -3,26 +3,27 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Grabpay</title>
+    <title>GrabPay</title>
     <link rel="stylesheet" href="css/base.css" />
     <script src="https://js.stripe.com/v3/"></script>
+
+    <script src="/utils.js" defer></script>
     <script src="/grabpay.js" defer></script>
   </head>
   <body>
     <main>
+      <a href="/">home</a>
+      <h1>GrabPay</h1>
+
       <form id="payment-form">
         <label for="name">
           Name
         </label>
-        <input id="name" placeholder="Jenny Rosen" value="Jenny Rosen" required />
-
-        <!-- We'll put the error messages in this element -->
-        <div id="card-errors" role="alert"></div>
+        <input id="name" value="Jenny Rosen" required />
 
         <button id="submit">Pay</button>
       </form>
 
-      <hr />
       <div id="messages" role="alert"></div>
     </main>
   </body>

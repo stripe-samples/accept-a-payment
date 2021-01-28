@@ -59,10 +59,3 @@ document.addEventListener('DOMContentLoaded', async () => {
     addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
   });
 });
-
-// Helper for displaying status messages.
-const addMessage = (message) => {
-  const messagesDiv = document.querySelector('#messages')
-  messagesDiv.innerHTML += `${message}<br>`;
-  console.log(`Debug: ${message}`);
-}

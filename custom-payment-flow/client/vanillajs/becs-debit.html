@@ -9,20 +9,25 @@
 
     <link rel="stylesheet" href="css/base.css" />
     <script src="https://js.stripe.com/v3/"></script>
+
+    <script src="/utils.js" defer></script>
     <script src="/becs-debit.js" defer></script>
   </head>
   <body>
     <main>
+      <a href="/">home</a>
+      <h1>BECS Direct Debit</h1>
+
       <form id="payment-form">
         <label for="name">
           Name
         </label>
-        <input id="name" placeholder="Jenny Rosen" value="Jenny Rosen" required />
+        <input id="name" value="Jenny Rosen" required />
 
         <label for="email">
           Email Address
         </label>
-        <input id="email" type="email" value="jenny.rosen@example.com" placeholder="jenny.rosen@example.com" required />
+        <input id="email" type="email" value="jenny.rosen@example.com" required />
 
         <label for="au-bank-account-element">
           Bank Account
@@ -44,14 +49,14 @@
           and authorise Stripe Payments Australia Pty Ltd ACN 160 180 343
           Direct Debit User ID number 507156 (“Stripe”) to debit your account
           through the Bulk Electronic Clearing System (BECS) on behalf of
-          Stripe Samples CI (the "Merchant") for any amounts separately
-          communicated to you by the Merchant. You certify that you are either
-          an account holder or an authorised signatory on the account listed above.
+          <strong>{{INSERT YOUR BUSINESS NAME HERE}}</strong> (the "Merchant")
+          for any amounts separately communicated to you by the Merchant. You
+          certify that you are either an account holder or an authorised
+          signatory on the account listed above.
         </div>
 
       </form>
 
-      <hr />
       <div id="messages" role="alert"></div>
     </main>
   </body>
