@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
   // Load the publishable key from the server. The publishable key
-  // is set in your .env file.
+  // is set in your .env file. In practice, most users hard code the
+  // publishable key when initializing the Stripe object.
   const {publishableKey} = await fetch('/config').then(r => r.json());
   if(!publishableKey) {
     addMessage('No publishable key returned from the server. Please check `.env` and try again');
@@ -35,9 +36,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const nameInput = document.querySelector('#name');
 
-    // Confirm the card payment given the clientSecret
-    // from the payment intent that was just created on
-    // the server.
+    // Confirm the payment given the clientSecret from the payment intent that
+    // was just created on the server.
     let {error, paymentIntent} = await stripe.confirmAlipayPayment(resp.clientSecret, {
       payment_method: {
         billing_details: {
