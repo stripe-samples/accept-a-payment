@@ -14,7 +14,7 @@
 
  To run this app, follow the steps here https://github.com/stripe-samples/accept-a-card-payment#how-to-run-locally
 */
-NSString *const BackendUrl = @"http://127.0.0.1:4242/";
+NSString* const BackendUrl = @"http://127.0.0.1:4242/";
 
 @interface CheckoutViewController ()  <STPAuthenticationContext>
 
@@ -78,9 +78,7 @@ NSString *const BackendUrl = @"http://127.0.0.1:4242/";
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@create-payment-intent", BackendUrl]];
     NSDictionary *json = @{
         @"currency": @"usd",
-        @"items": @[
-                @{@"id": @"photo_subscription"}
-        ]
+        @"paymentMethodType": @"card"
     };
     NSData *body = [NSJSONSerialization dataWithJSONObject:json options:0 error:nil];
     NSMutableURLRequest *request = [[NSURLRequest requestWithURL:url] mutableCopy];
@@ -92,16 +90,12 @@ NSString *const BackendUrl = @"http://127.0.0.1:4242/";
 
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         NSDictionary *dataDict =[NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        if (error != nil || httpResponse.statusCode != 200 || dataDict[@"publishableKey"] == nil) {
+        if (error != nil || httpResponse.statusCode != 200 || dataDict[@"clientSecret"] == nil) {
             [self displayAlertWithTitle:@"Error loading page" message:error.localizedDescription ?: @"" restartDemo:NO];
         }
         else {
             NSLog(@"Created PaymentIntent");
             self.paymentIntentClientSecret = dataDict[@"clientSecret"];
-            NSString *publishableKey = dataDict[@"publishableKey"];
-            // Configure the SDK with your Stripe publishable key so that it can make requests to the Stripe API
-            // For added security, our sample app gets the publishable key from the server
-            [StripeAPI setDefaultPublishableKey:publishableKey];
         }
     }];
     [task resume];

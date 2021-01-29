@@ -69,9 +69,7 @@ class CheckoutViewController: UIViewController {
         let url = URL(string: BackendUrl + "create-payment-intent")!
         let json: [String: Any] = [
             "currency": "usd",
-            "items": [
-                ["id": "photo_subscription"]
-            ]
+            "paymentMethodType": "card"
         ]
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -82,17 +80,14 @@ class CheckoutViewController: UIViewController {
                 response.statusCode == 200,
                 let data = data,
                 let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
-                let clientSecret = json["clientSecret"] as? String,
-                let publishableKey = json["publishableKey"] as? String else {
+                let clientSecret = json["clientSecret"] as? String else {
                     let message = error?.localizedDescription ?? "Failed to decode response from server."
                     self?.displayAlert(title: "Error loading page", message: message)
                     return
             }
             print("Created PaymentIntent")
             self?.paymentIntentClientSecret = clientSecret
-            // Configure the SDK with your Stripe publishable key so that it can make requests to the Stripe API
-            // For added security, our sample app gets the publishable key from the server
-            StripeAPI.defaultPublishableKey = publishableKey
+            
         })
         task.resume()
     }

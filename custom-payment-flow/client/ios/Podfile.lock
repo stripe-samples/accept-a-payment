@@ -1,5 +1,7 @@
 PODS:
-  - Stripe (19.4.0)
+  - Stripe (21.2.0):
+    - Stripe/Stripe3DS2 (= 21.2.0)
+  - Stripe/Stripe3DS2 (21.2.0)
 
 DEPENDENCIES:
   - Stripe
@@ -9,8 +11,8 @@ SPEC REPOS:
     - Stripe
 
 SPEC CHECKSUMS:
-  Stripe: 92f1c73a9dbd3c54277ed06a1fea6e08f20414c6
+  Stripe: 37f742a4815882db4454188664a3aa61793a12b1
 
 PODFILE CHECKSUM: 74e053ecbe24d5c0c333157a9d8e18ebf798bb90
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.1
