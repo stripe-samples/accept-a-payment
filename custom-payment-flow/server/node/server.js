@@ -10,11 +10,11 @@ app.use(
   express.json({
     // We need the raw body to verify webhook signatures.
     // Let's compute it only when hitting the Stripe webhook endpoint.
-    verify: function(req, res, buf) {
+    verify: function (req, res, buf) {
       if (req.originalUrl.startsWith('/webhook')) {
         req.rawBody = buf.toString();
       }
-    }
+    },
   })
 );
 
@@ -48,19 +48,19 @@ app.post('/create-payment-intent', async (req, res) => {
     const paymentIntent = await stripe.paymentIntents.create({
       payment_method_types: [paymentMethodType],
       amount: 1999,
-      currency: currency
+      currency: currency,
     });
 
     // Send publishable key and PaymentIntent details to client
     res.send({
-      clientSecret: paymentIntent.client_secret
+      clientSecret: paymentIntent.client_secret,
+      publishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
     });
-
-  } catch(e) {
+  } catch (e) {
     return res.status(400).send({
       error: {
-        message: e.message
-      }
+        message: e.message,
+      },
     });
   }
 });
@@ -106,4 +106,6 @@ app.post('/webhook', async (req, res) => {
   res.sendStatus(200);
 });
 
-app.listen(4242, () => console.log(`Node server listening at http://localhost:4242`));
+app.listen(4242, () =>
+  console.log(`Node server listening at http://localhost:4242`)
+);
