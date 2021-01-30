@@ -1,6 +1,7 @@
 // Helper for displaying status messages.
 const addMessage = (message) => {
   const messagesDiv = document.querySelector('#messages')
+  messagesDiv.style.display = 'block';
   const messageWithLinks = addDashboardLinks(message);
   messagesDiv.innerHTML += `> ${messageWithLinks}<br>`;
 
