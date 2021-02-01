@@ -13,7 +13,6 @@ import Stripe
  * This example collects card payments, implementing the guide here: https://stripe.com/docs/payments/accept-a-payment#ios
  * To run this app, follow the steps here https://github.com/stripe-samples/accept-a-card-payment#how-to-run-locally
  */
-let BackendUrl = "http://127.0.0.1:4242/"
 
 final class CardViewController: UIViewController {
     var paymentIntentClientSecret: String?
@@ -82,17 +81,13 @@ final class CardViewController: UIViewController {
                 response.statusCode == 200,
                 let data = data,
                 let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String : Any],
-                let clientSecret = json["clientSecret"] as? String,
-                let publishableKey = json["publishableKey"] as? String else {
+                let clientSecret = json["clientSecret"] as? String else {
                     let message = error?.localizedDescription ?? "Failed to decode response from server."
                     self?.displayAlert(title: "Error loading page", message: message)
                     return
             }
             print("Created PaymentIntent")
             self?.paymentIntentClientSecret = clientSecret
-            // Configure the SDK with your Stripe publishable key so that it can make requests to the Stripe API
-            // For added security, our sample app gets the publishable key from the server
-            StripeAPI.defaultPublishableKey = publishableKey
         })
         task.resume()
     }
