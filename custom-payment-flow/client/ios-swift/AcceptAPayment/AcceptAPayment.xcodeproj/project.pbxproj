@@ -13,6 +13,11 @@
 		2D14302B25C7FF02002B1294 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2D14302A25C7FF02002B1294 /* Preview Assets.xcassets */; };
 		2D14303625C7FF03002B1294 /* AcceptAPaymentTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D14303525C7FF03002B1294 /* AcceptAPaymentTests.swift */; };
 		2D14304125C7FF03002B1294 /* AcceptAPaymentUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D14304025C7FF03002B1294 /* AcceptAPaymentUITests.swift */; };
+		2D14305225C80152002B1294 /* Alipay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D14305125C80152002B1294 /* Alipay.swift */; };
+		2D14305725C801DE002B1294 /* Card.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D14305625C801DE002B1294 /* Card.swift */; };
+		8D9BB42D3F8ED4A97215D01F /* Pods_AcceptAPayment_AcceptAPaymentUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07C9C87F99E42AE79CE4866D /* Pods_AcceptAPayment_AcceptAPaymentUITests.framework */; };
+		90E6C88D79DED1807A2922E2 /* Pods_AcceptAPayment.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B4A1920BC6C5413F3F42489 /* Pods_AcceptAPayment.framework */; };
+		C6F947362829324D43A0FDC6 /* Pods_AcceptAPaymentTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A103D954066DA45D9980F3 /* Pods_AcceptAPaymentTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		07C9C87F99E42AE79CE4866D /* Pods_AcceptAPayment_AcceptAPaymentUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AcceptAPayment_AcceptAPaymentUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		28A103D954066DA45D9980F3 /* Pods_AcceptAPaymentTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AcceptAPaymentTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D14302025C7FEFF002B1294 /* AcceptAPayment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AcceptAPayment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D14302325C7FEFF002B1294 /* AcceptAPaymentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptAPaymentApp.swift; sourceTree = "<group>"; };
 		2D14302525C7FEFF002B1294 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -45,6 +52,15 @@
 		2D14303C25C7FF03002B1294 /* AcceptAPaymentUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AcceptAPaymentUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D14304025C7FF03002B1294 /* AcceptAPaymentUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptAPaymentUITests.swift; sourceTree = "<group>"; };
 		2D14304225C7FF03002B1294 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2D14305125C80152002B1294 /* Alipay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alipay.swift; sourceTree = "<group>"; };
+		2D14305625C801DE002B1294 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
+		6B4A1920BC6C5413F3F42489 /* Pods_AcceptAPayment.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AcceptAPayment.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		941D142755BF6CA19A7BEC6F /* Pods-AcceptAPayment.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AcceptAPayment.debug.xcconfig"; path = "Target Support Files/Pods-AcceptAPayment/Pods-AcceptAPayment.debug.xcconfig"; sourceTree = "<group>"; };
+		B0DFD4C130ADF0086E6FC35A /* Pods-AcceptAPayment-AcceptAPaymentUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AcceptAPayment-AcceptAPaymentUITests.release.xcconfig"; path = "Target Support Files/Pods-AcceptAPayment-AcceptAPaymentUITests/Pods-AcceptAPayment-AcceptAPaymentUITests.release.xcconfig"; sourceTree = "<group>"; };
+		BE0562EE0FFEDA46BB8166BC /* Pods-AcceptAPaymentTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AcceptAPaymentTests.release.xcconfig"; path = "Target Support Files/Pods-AcceptAPaymentTests/Pods-AcceptAPaymentTests.release.xcconfig"; sourceTree = "<group>"; };
+		CF3BBC1402DFD4D3BC8BD1D1 /* Pods-AcceptAPayment-AcceptAPaymentUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AcceptAPayment-AcceptAPaymentUITests.debug.xcconfig"; path = "Target Support Files/Pods-AcceptAPayment-AcceptAPaymentUITests/Pods-AcceptAPayment-AcceptAPaymentUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		DABAD552A7EBDCC845C73E86 /* Pods-AcceptAPaymentTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AcceptAPaymentTests.debug.xcconfig"; path = "Target Support Files/Pods-AcceptAPaymentTests/Pods-AcceptAPaymentTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F96C1F8E08C2DF9127C2A81B /* Pods-AcceptAPayment.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AcceptAPayment.release.xcconfig"; path = "Target Support Files/Pods-AcceptAPayment/Pods-AcceptAPayment.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90E6C88D79DED1807A2922E2 /* Pods_AcceptAPayment.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6F947362829324D43A0FDC6 /* Pods_AcceptAPaymentTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,12 +84,23 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D9BB42D3F8ED4A97215D01F /* Pods_AcceptAPayment_AcceptAPaymentUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0F2DB0440E18DC772DC1702C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6B4A1920BC6C5413F3F42489 /* Pods_AcceptAPayment.framework */,
+				07C9C87F99E42AE79CE4866D /* Pods_AcceptAPayment_AcceptAPaymentUITests.framework */,
+				28A103D954066DA45D9980F3 /* Pods_AcceptAPaymentTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		2D14301725C7FEFF002B1294 = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +108,8 @@
 				2D14303425C7FF03002B1294 /* AcceptAPaymentTests */,
 				2D14303F25C7FF03002B1294 /* AcceptAPaymentUITests */,
 				2D14302125C7FEFF002B1294 /* Products */,
+				602CEC56B1016E178249C764 /* Pods */,
+				0F2DB0440E18DC772DC1702C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,6 +128,8 @@
 			children = (
 				2D14302325C7FEFF002B1294 /* AcceptAPaymentApp.swift */,
 				2D14302525C7FEFF002B1294 /* ContentView.swift */,
+				2D14305125C80152002B1294 /* Alipay.swift */,
+				2D14305625C801DE002B1294 /* Card.swift */,
 				2D14302725C7FF02002B1294 /* Assets.xcassets */,
 				2D14302C25C7FF02002B1294 /* Info.plist */,
 				2D14302925C7FF02002B1294 /* Preview Content */,
@@ -130,6 +163,20 @@
 			path = AcceptAPaymentUITests;
 			sourceTree = "<group>";
 		};
+		602CEC56B1016E178249C764 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				941D142755BF6CA19A7BEC6F /* Pods-AcceptAPayment.debug.xcconfig */,
+				F96C1F8E08C2DF9127C2A81B /* Pods-AcceptAPayment.release.xcconfig */,
+				CF3BBC1402DFD4D3BC8BD1D1 /* Pods-AcceptAPayment-AcceptAPaymentUITests.debug.xcconfig */,
+				B0DFD4C130ADF0086E6FC35A /* Pods-AcceptAPayment-AcceptAPaymentUITests.release.xcconfig */,
+				DABAD552A7EBDCC845C73E86 /* Pods-AcceptAPaymentTests.debug.xcconfig */,
+				BE0562EE0FFEDA46BB8166BC /* Pods-AcceptAPaymentTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -137,9 +184,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D14304525C7FF03002B1294 /* Build configuration list for PBXNativeTarget "AcceptAPayment" */;
 			buildPhases = (
+				7306AA955CBE60992325DD9A /* [CP] Check Pods Manifest.lock */,
 				2D14301C25C7FEFF002B1294 /* Sources */,
 				2D14301D25C7FEFF002B1294 /* Frameworks */,
 				2D14301E25C7FEFF002B1294 /* Resources */,
+				81EB03408F41491C6830E319 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -154,6 +203,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D14304825C7FF03002B1294 /* Build configuration list for PBXNativeTarget "AcceptAPaymentTests" */;
 			buildPhases = (
+				A430B9C06F5CA073D7A56C7B /* [CP] Check Pods Manifest.lock */,
 				2D14302D25C7FF03002B1294 /* Sources */,
 				2D14302E25C7FF03002B1294 /* Frameworks */,
 				2D14302F25C7FF03002B1294 /* Resources */,
@@ -172,9 +222,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2D14304B25C7FF03002B1294 /* Build configuration list for PBXNativeTarget "AcceptAPaymentUITests" */;
 			buildPhases = (
+				94DD96748CF1145E92006AE5 /* [CP] Check Pods Manifest.lock */,
 				2D14303825C7FF03002B1294 /* Sources */,
 				2D14303925C7FF03002B1294 /* Frameworks */,
 				2D14303A25C7FF03002B1294 /* Resources */,
+				57A94231BF23DB92310638D4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -254,13 +306,118 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		57A94231BF23DB92310638D4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AcceptAPayment-AcceptAPaymentUITests/Pods-AcceptAPayment-AcceptAPaymentUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AcceptAPayment-AcceptAPaymentUITests/Pods-AcceptAPayment-AcceptAPaymentUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AcceptAPayment-AcceptAPaymentUITests/Pods-AcceptAPayment-AcceptAPaymentUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7306AA955CBE60992325DD9A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AcceptAPayment-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		81EB03408F41491C6830E319 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AcceptAPayment/Pods-AcceptAPayment-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-AcceptAPayment/Pods-AcceptAPayment-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AcceptAPayment/Pods-AcceptAPayment-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		94DD96748CF1145E92006AE5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AcceptAPayment-AcceptAPaymentUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A430B9C06F5CA073D7A56C7B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AcceptAPaymentTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		2D14301C25C7FEFF002B1294 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2D14305225C80152002B1294 /* Alipay.swift in Sources */,
 				2D14302625C7FEFF002B1294 /* ContentView.swift in Sources */,
 				2D14302425C7FEFF002B1294 /* AcceptAPaymentApp.swift in Sources */,
+				2D14305725C801DE002B1294 /* Card.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -414,6 +571,7 @@
 		};
 		2D14304625C7FF03002B1294 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 941D142755BF6CA19A7BEC6F /* Pods-AcceptAPayment.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -435,6 +593,7 @@
 		};
 		2D14304725C7FF03002B1294 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F96C1F8E08C2DF9127C2A81B /* Pods-AcceptAPayment.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -456,6 +615,7 @@
 		};
 		2D14304925C7FF03002B1294 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DABAD552A7EBDCC845C73E86 /* Pods-AcceptAPaymentTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -477,6 +637,7 @@
 		};
 		2D14304A25C7FF03002B1294 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BE0562EE0FFEDA46BB8166BC /* Pods-AcceptAPaymentTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -498,6 +659,7 @@
 		};
 		2D14304C25C7FF03002B1294 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CF3BBC1402DFD4D3BC8BD1D1 /* Pods-AcceptAPayment-AcceptAPaymentUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -517,6 +679,7 @@
 		};
 		2D14304D25C7FF03002B1294 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B0DFD4C130ADF0086E6FC35A /* Pods-AcceptAPayment-AcceptAPaymentUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
