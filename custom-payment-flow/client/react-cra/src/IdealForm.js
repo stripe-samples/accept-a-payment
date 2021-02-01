@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
-import { withRouter } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import { withRouter, useLocation } from 'react-router-dom';
 import {
   IdealBankElement,
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
 import StatusMessages from './StatusMessages';
+
 
 const IdealForm = () => {
   const stripe = useStripe();
@@ -49,7 +50,7 @@ const IdealForm = () => {
           name: 'Jenny Rosen',
         },
       },
-      return_url: 'http://localhost:3000/ideal?return',
+      return_url: 'http://localhost:3000/ideal?return=true',
     });
 
     if (error) {
@@ -80,4 +81,49 @@ const IdealForm = () => {
   )
 };
 
-export default withRouter(IdealForm);
+
+// Component for displaying results after returning from
+// iDEAL redirect flow.
+const IdealReturn = () => {
+  const query = new URLSearchParams(useLocation().search);
+  const clientSecret = query.get('payment_intent_client_secret');
+
+  const stripe = useStripe();
+  // helper for displaying status messages.
+  const [messages, setMessages] = useState([]);
+  const addMessage = (message) => {
+    setMessages(messages => [...messages, message]);
+  }
+
+  useEffect(() => {
+    if(!stripe) {
+      return;
+    }
+    const fetchPaymentIntent = async () => {
+      const {error, paymentIntent} = await stripe.retrievePaymentIntent(clientSecret);
+      if(error) {
+        addMessage(error.message);
+      }
+      addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
+    }
+    fetchPaymentIntent();
+  }, [clientSecret, stripe]);
+
+  return (
+    <>
+      <h1>Ideal Return</h1>
+      <StatusMessages messages={messages} />
+    </>
+  )
+};
+
+const Ideal = () => {
+  const query = new URLSearchParams(useLocation().search);
+  if(query.get('return')) {
+    return <IdealReturn />
+  } else {
+    return <IdealForm />
+  }
+}
+
+export default withRouter(Ideal);
