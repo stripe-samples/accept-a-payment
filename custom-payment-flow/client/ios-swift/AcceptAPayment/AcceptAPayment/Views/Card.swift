@@ -15,7 +15,7 @@ import Stripe
  */
 let BackendUrl = "http://127.0.0.1:4242/"
 
-class CheckoutViewController: UIViewController {
+final class CardViewController: UIViewController {
     var paymentIntentClientSecret: String?
 
     lazy var cardTextField: STPPaymentCardTextField = {
@@ -45,7 +45,7 @@ class CheckoutViewController: UIViewController {
             view.rightAnchor.constraint(equalToSystemSpacingAfter: stackView.rightAnchor, multiplier: 2),
             stackView.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 2),
         ])
-//        startCheckout()
+        startCheckout()
     }
 
     func displayAlert(title: String, message: String, restartDemo: Bool = false) {
@@ -129,15 +129,27 @@ class CheckoutViewController: UIViewController {
     }
 }
 
-extension CheckoutViewController: STPAuthenticationContext {
+extension CardViewController: STPAuthenticationContext {
     func authenticationPresentingViewController() -> UIViewController {
         return self
     }
 }
 
+extension CardViewController: UIViewControllerRepresentable {
+    public typealias UIViewControllerType = CardViewController
+
+    public func makeUIViewController(context: UIViewControllerRepresentableContext<CardViewController>) -> CardViewController {
+        return CardViewController()
+    }
+
+    public func updateUIViewController(_ uiViewController: CardViewController, context: UIViewControllerRepresentableContext<CardViewController>) {
+        //
+    }
+}
+
 struct Card: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        CardViewController()
     }
 }
 

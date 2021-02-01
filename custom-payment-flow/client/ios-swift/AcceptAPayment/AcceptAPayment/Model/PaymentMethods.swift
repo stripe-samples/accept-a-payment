@@ -8,6 +8,7 @@
 import Foundation
 
 struct PaymentMethod: Hashable, Codable {
+    var id: Int
     var title: String
     var type: String
 }
