@@ -18,17 +18,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         return true
     }
     
-    // This method handles opening custom URL schemes (e.g., "your-app://")
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        let stripeHandled = StripeAPI.handleURLCallback(with: url)
-        if (stripeHandled) {
-            return true
-        } else {
-            // This was not a Stripe url – handle the URL normally as you would
-        }
-        return false
-    }
-    
     func initializeStripe() {
         let url = URL(string: BackendUrl + "config")!
         var request = URLRequest(url: url)
@@ -57,6 +46,14 @@ struct AcceptAPaymentApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onOpenURL { url in
+                    // This method handles opening custom URL schemes (e.g., "your-app://")
+                    print(url)
+                    let stripeHandled = StripeAPI.handleURLCallback(with: url)
+                    if (!stripeHandled) {
+                        // This was not a Stripe url – handle the URL normally as you would
+                    }
+                }
         }
     }
 }
