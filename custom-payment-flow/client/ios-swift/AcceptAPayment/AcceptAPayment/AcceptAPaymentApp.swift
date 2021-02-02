@@ -10,15 +10,9 @@ import Stripe
 
 let BackendUrl = "http://127.0.0.1:4242/"
 
-class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        // Configure the SDK with your Stripe publishable key so that it can make requests to the Stripe API.
-        // It's a best practice to fetch the publishable key from the server in case you need to roll the key for some reason.
-        initializeStripe()
-        return true
-    }
-    
-    func initializeStripe() {
+@main
+struct AcceptAPaymentApp: App {
+    init() {
         let url = URL(string: BackendUrl + "config")!
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
@@ -37,11 +31,6 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         })
         task.resume()
     }
-}
-
-@main
-struct AcceptAPaymentApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     var body: some Scene {
         WindowGroup {
