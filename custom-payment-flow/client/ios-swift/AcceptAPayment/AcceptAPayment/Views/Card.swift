@@ -11,7 +11,6 @@ import Stripe
 
 /**
  * This example collects card payments, implementing the guide here: https://stripe.com/docs/payments/accept-a-payment#ios
- * To run this app, follow the steps here https://github.com/stripe-samples/accept-a-card-payment#how-to-run-locally
  */
 
 final class CardViewController: UIViewController {
@@ -68,9 +67,7 @@ final class CardViewController: UIViewController {
         let url = URL(string: BackendUrl + "create-payment-intent")!
         let json: [String: Any] = [
             "currency": "usd",
-            "items": [
-                ["id": "photo_subscription"]
-            ]
+            "paymentMethodType": "card"
         ]
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
