@@ -1,22 +1,20 @@
-import React, {useState, useReducer, useEffect} from 'react';
+import React, {useEffect, useState, useReducer} from 'react';
 import { withRouter, useLocation } from 'react-router-dom';
 import {
-  IdealBankElement,
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
 import StatusMessages from './StatusMessages';
 
-
-const IdealForm = () => {
+const BancontactForm = () => {
   const stripe = useStripe();
   const elements = useElements();
+  const [name, setName] = useState('Jenny Rosen');
 
   // helper for displaying status messages.
-  const [messages, setMessages] = useState([]);
-  const addMessage = (message) => {
-    setMessages(messages => [...messages, message]);
-  }
+  const [messages, addMessage] = useReducer((messages, message) => {
+    return [...messages, message];
+  }, []);
 
   const handleSubmit = async (e) => {
     // We don't want to let default form submission happen here,
@@ -36,21 +34,20 @@ const IdealForm = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        paymentMethodType: 'ideal',
+        paymentMethodType: 'bancontact',
         currency: 'eur',
       }),
     }).then(r => r.json());
 
     addMessage('Client secret returned');
 
-    const {error, paymentIntent} = await stripe.confirmIdealPayment(clientSecret, {
+    const {error, paymentIntent} = await stripe.confirmBancontactPayment(clientSecret, {
       payment_method: {
-        ideal: elements.getElement(IdealBankElement),
         billing_details: {
-          name: 'Jenny Rosen',
+          name,
         },
       },
-      return_url: 'http://localhost:3000/ideal?return=true',
+      return_url: 'http://localhost:3000/bancontact?return=true',
     });
 
     if (error) {
@@ -69,22 +66,25 @@ const IdealForm = () => {
 
   return (
     <>
-      <h1>iDEAL</h1>
+      <h1>Bancontact</h1>
+
       <form id="payment-form" onSubmit={handleSubmit}>
-        <label htmlFor="ideal-bank-element">iDEAL Bank</label>
-        <IdealBankElement id="ideal-bank-element" />
+        <label htmlFor="name">
+          Name
+        </label>
+        <input id="name" value={name} onChange={(e) => setName(e.target.value)} required />
 
         <button type="submit">Pay</button>
       </form>
+
       <StatusMessages messages={messages} />
     </>
   )
 };
 
-
 // Component for displaying results after returning from
-// iDEAL redirect flow.
-const IdealReturn = () => {
+// bancontact redirect flow.
+const BancontactReturn = () => {
   const query = new URLSearchParams(useLocation().search);
   const clientSecret = query.get('payment_intent_client_secret');
 
@@ -93,6 +93,7 @@ const IdealReturn = () => {
   const [messages, addMessage] = useReducer((messages, message) => {
     return [...messages, message];
   }, []);
+
 
   useEffect(() => {
     if(!stripe) {
@@ -110,19 +111,19 @@ const IdealReturn = () => {
 
   return (
     <>
-      <h1>Ideal Return</h1>
+      <h1>Bancontact Return</h1>
       <StatusMessages messages={messages} />
     </>
   )
 };
 
-const Ideal = () => {
+const Bancontact = () => {
   const query = new URLSearchParams(useLocation().search);
   if(query.get('return')) {
-    return <IdealReturn />
+    return <BancontactReturn />
   } else {
-    return <IdealForm />
+    return <BancontactForm />
   }
 }
 
-export default withRouter(Ideal);
+export default withRouter(Bancontact);

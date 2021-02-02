@@ -3,22 +3,31 @@ import './App.css';
 import { BrowserRouter as Switch, Route } from 'react-router-dom';
 
 import List from './List';
-import CardForm from './CardForm';
-import IdealForm from './IdealForm';
-import BecsDebitForm from './BecsDebitForm';
-import SEPADebitForm from './SEPADebitForm';
+import Bancontact from './BancontactForm';
+import BecsDebit from './BecsDebitForm';
+import Card from './CardForm';
+import Ideal from './IdealForm';
+import SepaDebit from './SepaDebitForm';
+import Eps from './EpsForm';
+import Fpx from './FpxForm';
 
 function App(props) {
   return (
-    <Switch>
-      <Route exact path="/">
-        <List />
-      </Route>
-      <Route path="/card"><CardForm /></Route>
-      <Route path="/ideal"><IdealForm /></Route>
-      <Route path="/becs-debit"><BecsDebitForm /></Route>
-      <Route path="/sepa-debit"><SEPADebitForm /></Route>
-    </Switch>
+    <>
+      <a href="/">home</a>
+      <Switch>
+        <Route exact path="/">
+          <List />
+        </Route>
+        <Route path="/bancontact"><Bancontact /></Route>
+        <Route path="/eps"><Eps /></Route>
+        <Route path="/fpx"><Fpx /></Route>
+        <Route path="/becs-debit"><BecsDebit /></Route>
+        <Route path="/card"><Card /></Route>
+        <Route path="/ideal"><Ideal /></Route>
+        <Route path="/sepa-debit"><SepaDebit /></Route>
+      </Switch>
+    </>
   );
 }
 

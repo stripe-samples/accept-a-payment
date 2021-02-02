@@ -7,7 +7,7 @@ import {
 } from '@stripe/react-stripe-js';
 import StatusMessages from './StatusMessages';
 
-const SEPADebitForm = () => {
+const SepaDebitForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [name, setName] = useState('Jenny Rosen');
@@ -109,4 +109,4 @@ const SEPADebitForm = () => {
   )
 };
 
-export default withRouter(SEPADebitForm);
+export default withRouter(SepaDebitForm);

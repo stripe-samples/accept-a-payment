@@ -1,22 +1,20 @@
-import React, {useState, useReducer, useEffect} from 'react';
+import React, {useEffect, useReducer} from 'react';
 import { withRouter, useLocation } from 'react-router-dom';
 import {
-  IdealBankElement,
+  FpxBankElement,
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
 import StatusMessages from './StatusMessages';
 
-
-const IdealForm = () => {
+const FpxForm = () => {
   const stripe = useStripe();
   const elements = useElements();
 
   // helper for displaying status messages.
-  const [messages, setMessages] = useState([]);
-  const addMessage = (message) => {
-    setMessages(messages => [...messages, message]);
-  }
+  const [messages, addMessage] = useReducer((messages, message) => {
+    return [...messages, message];
+  }, []);
 
   const handleSubmit = async (e) => {
     // We don't want to let default form submission happen here,
@@ -30,27 +28,29 @@ const IdealForm = () => {
       return;
     }
 
-    const {clientSecret} = await fetch('/create-payment-intent', {
+    let response = await fetch('/create-payment-intent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        paymentMethodType: 'ideal',
-        currency: 'eur',
+        paymentMethodType: 'fpx',
+        currency: 'myr',
       }),
     }).then(r => r.json());
 
+    if(response.error) {
+      addMessage(response.error.message);
+      return;
+    }
+
     addMessage('Client secret returned');
 
-    const {error, paymentIntent} = await stripe.confirmIdealPayment(clientSecret, {
+    let {error, paymentIntent} = await stripe.confirmFpxPayment(response.clientSecret, {
       payment_method: {
-        ideal: elements.getElement(IdealBankElement),
-        billing_details: {
-          name: 'Jenny Rosen',
-        },
+        fpx: elements.getElement(FpxBankElement),
       },
-      return_url: 'http://localhost:3000/ideal?return=true',
+      return_url: 'http://localhost:3000/fpx?return=true',
     });
 
     if (error) {
@@ -69,22 +69,21 @@ const IdealForm = () => {
 
   return (
     <>
-      <h1>iDEAL</h1>
-      <form id="payment-form" onSubmit={handleSubmit}>
-        <label htmlFor="ideal-bank-element">iDEAL Bank</label>
-        <IdealBankElement id="ideal-bank-element" />
+      <h1>FPX</h1>
 
+      <form id="payment-form" onSubmit={handleSubmit}>
+        <FpxBankElement options={{accountHolderType: 'individual'}} />
         <button type="submit">Pay</button>
       </form>
+
       <StatusMessages messages={messages} />
     </>
   )
 };
 
-
 // Component for displaying results after returning from
-// iDEAL redirect flow.
-const IdealReturn = () => {
+// bancontact redirect flow.
+const FpxReturn = () => {
   const query = new URLSearchParams(useLocation().search);
   const clientSecret = query.get('payment_intent_client_secret');
 
@@ -93,6 +92,7 @@ const IdealReturn = () => {
   const [messages, addMessage] = useReducer((messages, message) => {
     return [...messages, message];
   }, []);
+
 
   useEffect(() => {
     if(!stripe) {
@@ -110,19 +110,19 @@ const IdealReturn = () => {
 
   return (
     <>
-      <h1>Ideal Return</h1>
+      <h1>FPX Return</h1>
       <StatusMessages messages={messages} />
     </>
   )
 };
 
-const Ideal = () => {
+const Fpx = () => {
   const query = new URLSearchParams(useLocation().search);
   if(query.get('return')) {
-    return <IdealReturn />
+    return <FpxReturn />
   } else {
-    return <IdealForm />
+    return <FpxForm />
   }
 }
 
-export default withRouter(Ideal);
+export default withRouter(Fpx);
