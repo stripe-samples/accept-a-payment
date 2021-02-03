@@ -3,13 +3,13 @@ import './App.css';
 import { BrowserRouter as Switch, Route } from 'react-router-dom';
 
 import List from './List';
-import Bancontact from './BancontactForm';
-import BecsDebit from './BecsDebitForm';
-import Card from './CardForm';
-import Ideal from './IdealForm';
-import SepaDebit from './SepaDebitForm';
-import Eps from './EpsForm';
-import Fpx from './FpxForm';
+import Bancontact from './Bancontact';
+import BecsDebit from './BecsDebit';
+import Card from './Card';
+import Ideal from './Ideal';
+import SepaDebit from './SepaDebit';
+import Eps from './Eps';
+import Fpx from './Fpx';
 
 function App(props) {
   return (

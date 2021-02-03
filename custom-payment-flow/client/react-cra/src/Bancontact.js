@@ -1,20 +1,14 @@
 import React, {useEffect, useState, useReducer} from 'react';
 import { withRouter, useLocation } from 'react-router-dom';
-import {
-  useStripe,
-  useElements,
-} from '@stripe/react-stripe-js';
+import { useStripe, useElements } from '@stripe/react-stripe-js';
 import StatusMessages from './StatusMessages';
 
 const BancontactForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [name, setName] = useState('Jenny Rosen');
-
   // helper for displaying status messages.
-  const [messages, addMessage] = useReducer((messages, message) => {
-    return [...messages, message];
-  }, []);
+  const [messages, addMessage] = useReducer((msgs, message) => [...msgs, message], []);
 
   const handleSubmit = async (e) => {
     // We don't want to let default form submission happen here,
@@ -28,7 +22,7 @@ const BancontactForm = () => {
       return;
     }
 
-    const {clientSecret} = await fetch('/create-payment-intent', {
+    const {error: err, clientSecret} = await fetch('/create-payment-intent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -38,6 +32,11 @@ const BancontactForm = () => {
         currency: 'eur',
       }),
     }).then(r => r.json());
+
+    if(err) {
+      addMessage(err.message);
+      return;
+    }
 
     addMessage('Client secret returned');
 
