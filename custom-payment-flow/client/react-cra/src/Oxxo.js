@@ -47,7 +47,6 @@ const OxxoForm = () => {
           email,
         },
       },
-      return_url: 'http://localhost:3000/giropay?return=true',
     });
 
     if (error) {

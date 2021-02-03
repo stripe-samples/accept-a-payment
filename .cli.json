@@ -1,5 +1,5 @@
 {
-  "name": "accept-a-card-payment",
+  "name": "accept-a-payment",
   "configureDotEnv": true,
   "integrations": [
     {

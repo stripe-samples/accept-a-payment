@@ -1,7 +1,7 @@
 {
-  "name": "stripe-sample-accept-a-card-payment",
+  "name": "stripe-sample-accept-a-payment",
   "version": "1.0.0",
-  "description": "Stripe card payment sample.",
+  "description": "Stripe payment sample.",
   "main": "dist/server.js",
   "scripts": {
     "build": "node_modules/typescript/bin/tsc",

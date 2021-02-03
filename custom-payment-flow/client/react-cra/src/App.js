@@ -8,16 +8,16 @@ import List from './List';
 // Payment method components.
 import Alipay from './Alipay';
 import Bancontact from './Bancontact';
-import GrabPay from './GrabPay';
 import BecsDebit from './BecsDebit';
 import Card from './Card';
 import Eps from './Eps';
 import Fpx from './Fpx';
-import Ideal from './Ideal';
-import SepaDebit from './SepaDebit';
 import Giropay from './Giropay';
-import Sofort from './Sofort';
+import GrabPay from './GrabPay';
+import Ideal from './Ideal';
 import Oxxo from './Oxxo';
+import SepaDebit from './SepaDebit';
+import Sofort from './Sofort';
 
 function App(props) {
   return (
