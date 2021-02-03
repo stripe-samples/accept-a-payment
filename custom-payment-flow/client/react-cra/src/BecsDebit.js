@@ -30,7 +30,7 @@ const BecsDebitForm = () => {
       return;
     }
 
-    const {clientSecret} = await fetch('/create-payment-intent', {
+    const {error: err, clientSecret} = await fetch('/create-payment-intent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -40,6 +40,11 @@ const BecsDebitForm = () => {
         currency: 'aud',
       }),
     }).then(r => r.json());
+
+    if(err) {
+      addMessage(err.message);
+      return;
+    }
 
     addMessage('Client secret returned');
 
@@ -51,7 +56,6 @@ const BecsDebitForm = () => {
           email,
         },
       },
-      return_url: 'http://localhost:3000/ideal?return=true',
     });
 
     if (error) {

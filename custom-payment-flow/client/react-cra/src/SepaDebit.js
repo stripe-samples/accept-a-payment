@@ -5,18 +5,14 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
-import StatusMessages from './StatusMessages';
+import StatusMessages, {useMessages} from './StatusMessages';
 
 const SepaDebitForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [name, setName] = useState('Jenny Rosen');
   const [email, setEmail] = useState('jenny.rosen@example.com');
-  // helper for displaying status messages.
-  const [messages, setMessages] = useState([]);
-  const addMessage = (message) => {
-    setMessages(messages => [...messages, message]);
-  }
+  const [messages, addMessage] = useMessages();
 
   const handleSubmit = async (e) => {
     // We don't want to let default form submission happen here,
@@ -30,7 +26,7 @@ const SepaDebitForm = () => {
       return;
     }
 
-    const {clientSecret} = await fetch('/create-payment-intent', {
+    const {error: err, clientSecret} = await fetch('/create-payment-intent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -40,6 +36,11 @@ const SepaDebitForm = () => {
         currency: 'eur',
       }),
     }).then(r => r.json());
+
+    if(err) {
+      addMessage(err.message);
+      return;
+    }
 
     addMessage('Client secret returned');
 
@@ -102,8 +103,8 @@ const SepaDebitForm = () => {
           certify that you are either an account holder or an authorised
           signatory on the account listed above.
         </div>
-
       </form>
+
       <StatusMessages messages={messages} />
     </>
   )

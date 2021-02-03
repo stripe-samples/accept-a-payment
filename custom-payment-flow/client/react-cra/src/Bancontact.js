@@ -1,14 +1,13 @@
-import React, {useEffect, useState, useReducer} from 'react';
+import React, {useEffect, useState} from 'react';
 import { withRouter, useLocation } from 'react-router-dom';
 import { useStripe, useElements } from '@stripe/react-stripe-js';
-import StatusMessages from './StatusMessages';
+import StatusMessages, {useMessages} from './StatusMessages';
 
 const BancontactForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [name, setName] = useState('Jenny Rosen');
-  // helper for displaying status messages.
-  const [messages, addMessage] = useReducer((msgs, message) => [...msgs, message], []);
+  const [messages, addMessage] = useMessages();
 
   const handleSubmit = async (e) => {
     // We don't want to let default form submission happen here,
@@ -84,15 +83,12 @@ const BancontactForm = () => {
 // Component for displaying results after returning from
 // bancontact redirect flow.
 const BancontactReturn = () => {
+  const stripe = useStripe();
+  const [messages, addMessage] = useMessages();
+
+  // Extract the client secret from the query string params.
   const query = new URLSearchParams(useLocation().search);
   const clientSecret = query.get('payment_intent_client_secret');
-
-  const stripe = useStripe();
-  // helper for displaying status messages.
-  const [messages, addMessage] = useReducer((messages, message) => {
-    return [...messages, message];
-  }, []);
-
 
   useEffect(() => {
     if(!stripe) {
@@ -106,7 +102,7 @@ const BancontactReturn = () => {
       addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
     }
     fetchPaymentIntent();
-  }, [clientSecret, stripe]);
+  }, [clientSecret, stripe, addMessage]);
 
   return (
     <>

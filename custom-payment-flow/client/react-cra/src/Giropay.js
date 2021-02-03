@@ -1,15 +1,12 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { withRouter, useLocation } from 'react-router-dom';
-import {
-  FpxBankElement,
-  useStripe,
-  useElements,
-} from '@stripe/react-stripe-js';
+import { useStripe, useElements } from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
-const FpxForm = () => {
+const GiropayForm = () => {
   const stripe = useStripe();
   const elements = useElements();
+  const [name, setName] = useState('Jenny Rosen');
   const [messages, addMessage] = useMessages();
 
   const handleSubmit = async (e) => {
@@ -24,14 +21,14 @@ const FpxForm = () => {
       return;
     }
 
-    let {error: err, clientSecret} = await fetch('/create-payment-intent', {
+    const {error: err, clientSecret} = await fetch('/create-payment-intent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        paymentMethodType: 'fpx',
-        currency: 'myr',
+        paymentMethodType: 'giropay',
+        currency: 'eur',
       }),
     }).then(r => r.json());
 
@@ -42,11 +39,13 @@ const FpxForm = () => {
 
     addMessage('Client secret returned');
 
-    let {error, paymentIntent} = await stripe.confirmFpxPayment(clientSecret, {
+    const {error, paymentIntent} = await stripe.confirmGiropayPayment(clientSecret, {
       payment_method: {
-        fpx: elements.getElement(FpxBankElement),
+        billing_details: {
+          name,
+        },
       },
-      return_url: 'http://localhost:3000/fpx?return=true',
+      return_url: 'http://localhost:3000/giropay?return=true',
     });
 
     if (error) {
@@ -65,10 +64,14 @@ const FpxForm = () => {
 
   return (
     <>
-      <h1>FPX</h1>
+      <h1>Giropay</h1>
 
       <form id="payment-form" onSubmit={handleSubmit}>
-        <FpxBankElement options={{accountHolderType: 'individual'}} />
+        <label htmlFor="name">
+          Name
+        </label>
+        <input id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+
         <button type="submit">Pay</button>
       </form>
 
@@ -79,10 +82,11 @@ const FpxForm = () => {
 
 // Component for displaying results after returning from
 // bancontact redirect flow.
-const FpxReturn = () => {
+const GiropayReturn = () => {
   const stripe = useStripe();
   const [messages, addMessage] = useMessages();
 
+  // Extract the client secret from the query string params.
   const query = new URLSearchParams(useLocation().search);
   const clientSecret = query.get('payment_intent_client_secret');
 
@@ -102,19 +106,19 @@ const FpxReturn = () => {
 
   return (
     <>
-      <h1>FPX Return</h1>
+      <h1>Giropay Return</h1>
       <StatusMessages messages={messages} />
     </>
   )
 };
 
-const Fpx = () => {
+const Giropay = () => {
   const query = new URLSearchParams(useLocation().search);
   if(query.get('return')) {
-    return <FpxReturn />
+    return <GiropayReturn />
   } else {
-    return <FpxForm />
+    return <GiropayForm />
   }
 }
 
-export default withRouter(Fpx);
+export default withRouter(Giropay);

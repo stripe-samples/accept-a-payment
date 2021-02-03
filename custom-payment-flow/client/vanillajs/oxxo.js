@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     e.preventDefault();
     // Make a call to the server to create a new
     // payment intent and store its client_secret.
-    const resp = await fetch('/create-payment-intent', {
+    const {error: err, clientSecret} = await fetch('/create-payment-intent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -27,8 +27,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       }),
     }).then(r => r.json());
 
-    if(resp.error) {
-      addMessage(resp.error.message);
+    if(err) {
+      addMessage(err.message);
       return;
     }
 
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Confirm the payment given the clientSecret from the payment intent that
     // was just created on the server.
-    let {error, paymentIntent} = await stripe.confirmOxxoPayment(resp.clientSecret, {
+    let {error, paymentIntent} = await stripe.confirmOxxoPayment(clientSecret, {
       payment_method: {
         billing_details: {
           name: nameInput.value,

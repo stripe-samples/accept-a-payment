@@ -1,21 +1,17 @@
-import React, {useEffect, useState, useReducer} from 'react';
+import React, {useEffect, useState} from 'react';
 import { withRouter, useLocation } from 'react-router-dom';
 import {
   EPSBankElement,
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
-import StatusMessages from './StatusMessages';
+import StatusMessages, {useMessages} from './StatusMessages';
 
 const EpsForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [name, setName] = useState('Jenny Rosen');
-
-  // helper for displaying status messages.
-  const [messages, addMessage] = useReducer((messages, message) => {
-    return [...messages, message];
-  }, []);
+  const [messages, addMessage] = useMessages();
 
   const handleSubmit = async (e) => {
     // We don't want to let default form submission happen here,
@@ -29,7 +25,7 @@ const EpsForm = () => {
       return;
     }
 
-    const {clientSecret} = await fetch('/create-payment-intent', {
+    const {error: err, clientSecret} = await fetch('/create-payment-intent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -39,6 +35,11 @@ const EpsForm = () => {
         currency: 'eur',
       }),
     }).then(r => r.json());
+
+    if(err) {
+      addMessage(err.message);
+      return;
+    }
 
     addMessage('Client secret returned');
 
@@ -88,15 +89,11 @@ const EpsForm = () => {
 // Component for displaying results after returning from
 // bancontact redirect flow.
 const EpsReturn = () => {
+  const stripe = useStripe();
+  const [messages, addMessage] = useMessages();
+
   const query = new URLSearchParams(useLocation().search);
   const clientSecret = query.get('payment_intent_client_secret');
-
-  const stripe = useStripe();
-  // helper for displaying status messages.
-  const [messages, addMessage] = useReducer((messages, message) => {
-    return [...messages, message];
-  }, []);
-
 
   useEffect(() => {
     if(!stripe) {
@@ -110,7 +107,7 @@ const EpsReturn = () => {
       addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
     }
     fetchPaymentIntent();
-  }, [clientSecret, stripe]);
+  }, [clientSecret, stripe, addMessage]);
 
   return (
     <>

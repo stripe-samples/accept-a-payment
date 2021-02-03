@@ -1,22 +1,16 @@
-import React, {useState, useReducer, useEffect} from 'react';
+import React, {useEffect} from 'react';
 import { withRouter, useLocation } from 'react-router-dom';
 import {
   IdealBankElement,
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js';
-import StatusMessages from './StatusMessages';
-
+import StatusMessages, {useMessages} from './StatusMessages';
 
 const IdealForm = () => {
   const stripe = useStripe();
   const elements = useElements();
-
-  // helper for displaying status messages.
-  const [messages, setMessages] = useState([]);
-  const addMessage = (message) => {
-    setMessages(messages => [...messages, message]);
-  }
+  const [messages, addMessage] = useMessages();
 
   const handleSubmit = async (e) => {
     // We don't want to let default form submission happen here,
@@ -30,7 +24,7 @@ const IdealForm = () => {
       return;
     }
 
-    const {clientSecret} = await fetch('/create-payment-intent', {
+    const {error: err, clientSecret} = await fetch('/create-payment-intent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -40,6 +34,11 @@ const IdealForm = () => {
         currency: 'eur',
       }),
     }).then(r => r.json());
+
+    if(err) {
+      addMessage(err.message);
+      return;
+    }
 
     addMessage('Client secret returned');
 
@@ -85,14 +84,11 @@ const IdealForm = () => {
 // Component for displaying results after returning from
 // iDEAL redirect flow.
 const IdealReturn = () => {
+  const stripe = useStripe();
+  const [messages, addMessage] = useMessages();
+
   const query = new URLSearchParams(useLocation().search);
   const clientSecret = query.get('payment_intent_client_secret');
-
-  const stripe = useStripe();
-  // helper for displaying status messages.
-  const [messages, addMessage] = useReducer((messages, message) => {
-    return [...messages, message];
-  }, []);
 
   useEffect(() => {
     if(!stripe) {
@@ -106,7 +102,7 @@ const IdealReturn = () => {
       addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
     }
     fetchPaymentIntent();
-  }, [clientSecret, stripe]);
+  }, [clientSecret, stripe, addMessage]);
 
   return (
     <>

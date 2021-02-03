@@ -1,5 +1,8 @@
-import React from 'react';
+// A small set of helpers for displaying messages while in development.
+import React, {useReducer} from 'react';
 
+// `StatusMessages` is a helper component for displaying messages while in
+// development. This has no impact on your integration and can be deleted.
 const StatusMessages = ({messages}) => {
   if(messages.length) {
     return (
@@ -11,4 +14,13 @@ const StatusMessages = ({messages}) => {
   return '';
 }
 
+// Small hook for adding a message to a list of messages.
+const useMessages = () => {
+  // helper for displaying status messages.
+  return useReducer((messages, message) => {
+    return [...messages, message]
+  }, []);
+}
+
 export default StatusMessages;
+export {useMessages}

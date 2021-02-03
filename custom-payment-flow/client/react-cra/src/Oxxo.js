@@ -1,15 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { withRouter } from 'react-router-dom';
-import {
-  CardElement,
-  useStripe,
-  useElements,
-} from '@stripe/react-stripe-js';
+import { useStripe, useElements } from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
-const CardForm = () => {
+const OxxoForm = () => {
   const stripe = useStripe();
   const elements = useElements();
+  const [name, setName] = useState('Jenny Rosen');
+  const [email, setEmail] = useState('jr.succeed_immediately@example.com');
   const [messages, addMessage] = useMessages();
 
   const handleSubmit = async (e) => {
@@ -30,8 +28,8 @@ const CardForm = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        paymentMethodType: 'card',
-        currency: 'usd',
+        paymentMethodType: 'oxxo',
+        currency: 'mxn',
       }),
     }).then(r => r.json());
 
@@ -42,13 +40,14 @@ const CardForm = () => {
 
     addMessage('Client secret returned');
 
-    const {error, paymentIntent} = await stripe.confirmCardPayment(clientSecret, {
+    const {error, paymentIntent} = await stripe.confirmOxxoPayment(clientSecret, {
       payment_method: {
-        card: elements.getElement(CardElement),
         billing_details: {
-          name: 'Jenny Rosen',
+          name,
+          email,
         },
-      }
+      },
+      return_url: 'http://localhost:3000/giropay?return=true',
     });
 
     if (error) {
@@ -63,20 +62,44 @@ const CardForm = () => {
     // payment_intent.succeeded event that handles any business critical
     // post-payment actions.
     addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
+
+    // When passing {any_prefix}succeed_immediately@{any_suffix}
+    // as the email address in the billing details, the payment
+    // intent will succeed after 3 seconds. We set this timeout
+    // to refetch the payment intent.
+    const i = setInterval(async () => {
+      const {error: e, paymentIntent} = await stripe.retrievePaymentIntent(clientSecret);
+      addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
+      if(paymentIntent.status === 'succeeded') {
+        clearInterval(i);
+      }
+      if(e) {
+        addMessage(e.message);
+      }
+    }, 500);
   }
 
   return (
     <>
-      <h1>Card</h1>
+      <h1>OXXO</h1>
+
       <form id="payment-form" onSubmit={handleSubmit}>
-        <label htmlFor="card">Card</label>
-        <CardElement id="card" />
+        <label htmlFor="name">
+          Name
+        </label>
+        <input id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+
+        <label htmlFor="email">
+          Email
+        </label>
+        <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
 
         <button type="submit">Pay</button>
       </form>
+
       <StatusMessages messages={messages} />
     </>
   )
 };
 
-export default withRouter(CardForm);
+export default withRouter(OxxoForm);
