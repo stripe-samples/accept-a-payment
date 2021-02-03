@@ -20,6 +20,7 @@ If you have questions, comments, or need help with code, we're here to help:
 - on Stack Overflow at the [stripe-payments](https://stackoverflow.com/tags/stripe-payments/info) tag
 - by [email](mailto:support+github@stripe.com)
 
-## Author(s)
+## Authors
 
-[@cjavilla-stripe](https://twitter.com/cjav_dev)
+[@cjav_dev](https://twitter.com/cjav_dev)
+[@thorwebdev](https://twitter.com/thorwebdev)
