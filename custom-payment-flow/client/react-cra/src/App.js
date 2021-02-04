@@ -18,6 +18,8 @@ import Oxxo from './Oxxo';
 import SepaDebit from './SepaDebit';
 import Sofort from './Sofort';
 
+import './App.css';
+
 function App(props) {
   return (
     <>

@@ -30,40 +30,43 @@ const BecsDebitForm = () => {
       return;
     }
 
-    const {error: err, clientSecret} = await fetch('/create-payment-intent', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        paymentMethodType: 'au_becs_debit',
-        currency: 'aud',
-      }),
-    }).then((r) => r.json());
+    const {error: backendError, clientSecret} = await fetch(
+      '/create-payment-intent',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          paymentMethodType: 'au_becs_debit',
+          currency: 'aud',
+        }),
+      }
+    ).then((r) => r.json());
 
-    if (err) {
-      addMessage(err.message);
+    if (backendError) {
+      addMessage(backendError.message);
       return;
     }
 
     addMessage('Client secret returned');
 
-    const {error, paymentIntent} = await stripe.confirmAuBecsDebitPayment(
-      clientSecret,
-      {
-        payment_method: {
-          au_becs_debit: elements.getElement(AuBankAccountElement),
-          billing_details: {
-            name,
-            email,
-          },
+    const {
+      error: stripeError,
+      paymentIntent,
+    } = await stripe.confirmAuBecsDebitPayment(clientSecret, {
+      payment_method: {
+        au_becs_debit: elements.getElement(AuBankAccountElement),
+        billing_details: {
+          name,
+          email,
         },
-      }
-    );
+      },
+    });
 
-    if (error) {
+    if (stripeError) {
       // Show error to your customer (e.g., insufficient funds)
-      addMessage(error.message);
+      addMessage(stripeError.message);
       return;
     }
 

@@ -22,40 +22,43 @@ const SepaDebitForm = () => {
       return;
     }
 
-    const {error: err, clientSecret} = await fetch('/create-payment-intent', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        paymentMethodType: 'sepa_debit',
-        currency: 'eur',
-      }),
-    }).then((r) => r.json());
+    const {error: backendError, clientSecret} = await fetch(
+      '/create-payment-intent',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          paymentMethodType: 'sepa_debit',
+          currency: 'eur',
+        }),
+      }
+    ).then((r) => r.json());
 
-    if (err) {
-      addMessage(err.message);
+    if (backendError) {
+      addMessage(backendError.message);
       return;
     }
 
     addMessage('Client secret returned');
 
-    const {error, paymentIntent} = await stripe.confirmSepaDebitPayment(
-      clientSecret,
-      {
-        payment_method: {
-          sepa_debit: elements.getElement(IbanElement),
-          billing_details: {
-            name,
-            email,
-          },
+    const {
+      error: stripeError,
+      paymentIntent,
+    } = await stripe.confirmSepaDebitPayment(clientSecret, {
+      payment_method: {
+        sepa_debit: elements.getElement(IbanElement),
+        billing_details: {
+          name,
+          email,
         },
-      }
-    );
+      },
+    });
 
-    if (error) {
+    if (stripeError) {
       // Show error to your customer (e.g., insufficient funds)
-      addMessage(error.message);
+      addMessage(stripeError.message);
       return;
     }
 

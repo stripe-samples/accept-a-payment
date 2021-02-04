@@ -22,43 +22,46 @@ const SofortForm = () => {
       return;
     }
 
-    const {error: err, clientSecret} = await fetch('/create-payment-intent', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        paymentMethodType: 'sofort',
-        currency: 'eur',
-      }),
-    }).then((r) => r.json());
+    const {error: backendError, clientSecret} = await fetch(
+      '/create-payment-intent',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          paymentMethodType: 'sofort',
+          currency: 'eur',
+        }),
+      }
+    ).then((r) => r.json());
 
-    if (err) {
-      addMessage(err.message);
+    if (backendError) {
+      addMessage(backendError.message);
       return;
     }
 
     addMessage('Client secret returned');
 
-    const {error, paymentIntent} = await stripe.confirmSofortPayment(
-      clientSecret,
-      {
-        payment_method: {
-          sofort: {
-            country: 'DE',
-          },
-          billing_details: {
-            name,
-            email,
-          },
+    const {
+      error: stripeError,
+      paymentIntent,
+    } = await stripe.confirmSofortPayment(clientSecret, {
+      payment_method: {
+        sofort: {
+          country: 'DE',
         },
-        return_url: `${window.location.origin}/sofort?return=true`,
-      }
-    );
+        billing_details: {
+          name,
+          email,
+        },
+      },
+      return_url: `${window.location.origin}/sofort?return=true`,
+    });
 
-    if (error) {
+    if (stripeError) {
       // Show error to your customer (e.g., insufficient funds)
-      addMessage(error.message);
+      addMessage(stripeError.message);
       return;
     }
 
@@ -115,11 +118,12 @@ const SofortReturn = () => {
       return;
     }
     const fetchPaymentIntent = async () => {
-      const {error, paymentIntent} = await stripe.retrievePaymentIntent(
-        clientSecret
-      );
-      if (error) {
-        addMessage(error.message);
+      const {
+        error: stripeError,
+        paymentIntent,
+      } = await stripe.retrievePaymentIntent(clientSecret);
+      if (stripeError) {
+        addMessage(stripeError.message);
       }
       addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
     };

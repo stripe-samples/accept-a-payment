@@ -20,34 +20,40 @@ const FpxForm = () => {
       return;
     }
 
-    let {error: err, clientSecret} = await fetch('/create-payment-intent', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        paymentMethodType: 'fpx',
-        currency: 'myr',
-      }),
-    }).then((r) => r.json());
+    let {error: backendError, clientSecret} = await fetch(
+      '/create-payment-intent',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          paymentMethodType: 'fpx',
+          currency: 'myr',
+        }),
+      }
+    ).then((r) => r.json());
 
-    if (err) {
-      addMessage(err.message);
+    if (backendError) {
+      addMessage(backendError.message);
       return;
     }
 
     addMessage('Client secret returned');
 
-    let {error, paymentIntent} = await stripe.confirmFpxPayment(clientSecret, {
-      payment_method: {
-        fpx: elements.getElement(FpxBankElement),
-      },
-      return_url: `${window.location.origin}/fpx?return=true`,
-    });
+    let {error: stripeError, paymentIntent} = await stripe.confirmFpxPayment(
+      clientSecret,
+      {
+        payment_method: {
+          fpx: elements.getElement(FpxBankElement),
+        },
+        return_url: `${window.location.origin}/fpx?return=true`,
+      }
+    );
 
-    if (error) {
+    if (stripeError) {
       // Show error to your customer (e.g., insufficient funds)
-      addMessage(error.message);
+      addMessage(stripeError.message);
       return;
     }
 

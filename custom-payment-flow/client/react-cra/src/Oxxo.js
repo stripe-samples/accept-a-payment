@@ -22,25 +22,28 @@ const OxxoForm = () => {
       return;
     }
 
-    const {error: err, clientSecret} = await fetch('/create-payment-intent', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        paymentMethodType: 'oxxo',
-        currency: 'mxn',
-      }),
-    }).then((r) => r.json());
+    const {error: backendError, clientSecret} = await fetch(
+      '/create-payment-intent',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          paymentMethodType: 'oxxo',
+          currency: 'mxn',
+        }),
+      }
+    ).then((r) => r.json());
 
-    if (err) {
-      addMessage(err.message);
+    if (backendError) {
+      addMessage(backendError.message);
       return;
     }
 
     addMessage('Client secret returned');
 
-    const {error, paymentIntent} = await stripe.confirmOxxoPayment(
+    const {error: stripeError, paymentIntent} = await stripe.confirmOxxoPayment(
       clientSecret,
       {
         payment_method: {
@@ -52,9 +55,9 @@ const OxxoForm = () => {
       }
     );
 
-    if (error) {
+    if (stripeError) {
       // Show error to your customer (e.g., insufficient funds)
-      addMessage(error.message);
+      addMessage(stripeError.message);
       return;
     }
 

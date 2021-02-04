@@ -21,7 +21,7 @@ const EpsForm = () => {
       return;
     }
 
-    const {error: err, clientSecret} = await fetch('/create-payment-intent', {
+    const {error: backendError, clientSecret} = await fetch('/create-payment-intent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -32,14 +32,14 @@ const EpsForm = () => {
       }),
     }).then((r) => r.json());
 
-    if (err) {
-      addMessage(err.message);
+    if (backendError) {
+      addMessage(backendError.message);
       return;
     }
 
     addMessage('Client secret returned');
 
-    const {error, paymentIntent} = await stripe.confirmEpsPayment(
+    const {error: stripeError, paymentIntent} = await stripe.confirmEpsPayment(
       clientSecret,
       {
         payment_method: {
@@ -52,9 +52,9 @@ const EpsForm = () => {
       }
     );
 
-    if (error) {
+    if (stripeError) {
       // Show error to your customer (e.g., insufficient funds)
-      addMessage(error.message);
+      addMessage(stripeError.message);
       return;
     }
 
@@ -102,11 +102,12 @@ const EpsReturn = () => {
       return;
     }
     const fetchPaymentIntent = async () => {
-      const {error, paymentIntent} = await stripe.retrievePaymentIntent(
-        clientSecret
-      );
-      if (error) {
-        addMessage(error.message);
+      const {
+        error: stripeError,
+        paymentIntent,
+      } = await stripe.retrievePaymentIntent(clientSecret);
+      if (stripeError) {
+        addMessage(stripeError.message);
       }
       addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
     };

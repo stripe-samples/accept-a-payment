@@ -21,39 +21,42 @@ const AlipayForm = () => {
       return;
     }
 
-    const {error: err, clientSecret} = await fetch('/create-payment-intent', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        paymentMethodType: 'alipay',
-        currency: 'cny',
-      }),
-    }).then((r) => r.json());
+    const {error: backendError, clientSecret} = await fetch(
+      '/create-payment-intent',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          paymentMethodType: 'alipay',
+          currency: 'cny',
+        }),
+      }
+    ).then((r) => r.json());
 
-    if (err) {
-      addMessage(err.message);
+    if (backendError) {
+      addMessage(backendError.message);
       return;
     }
 
     addMessage('Client secret returned');
 
-    const {error, paymentIntent} = await stripe.confirmAlipayPayment(
-      clientSecret,
-      {
-        payment_method: {
-          billing_details: {
-            name,
-          },
+    const {
+      error: stripeError,
+      paymentIntent,
+    } = await stripe.confirmAlipayPayment(clientSecret, {
+      payment_method: {
+        billing_details: {
+          name,
         },
-        return_url: `${window.location.origin}/alipay?return=true`,
-      }
-    );
+      },
+      return_url: `${window.location.origin}/alipay?return=true`,
+    });
 
-    if (error) {
+    if (stripeError) {
       // Show error to your customer (e.g., insufficient funds)
-      addMessage(error.message);
+      addMessage(stripeError.message);
       return;
     }
 
