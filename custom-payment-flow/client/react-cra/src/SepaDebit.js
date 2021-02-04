@@ -1,10 +1,6 @@
 import React, {useState} from 'react';
-import { withRouter} from 'react-router-dom';
-import {
-  IbanElement,
-  useStripe,
-  useElements,
-} from '@stripe/react-stripe-js';
+import {withRouter} from 'react-router-dom';
+import {IbanElement, useStripe, useElements} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
 const SepaDebitForm = () => {
@@ -35,24 +31,27 @@ const SepaDebitForm = () => {
         paymentMethodType: 'sepa_debit',
         currency: 'eur',
       }),
-    }).then(r => r.json());
+    }).then((r) => r.json());
 
-    if(err) {
+    if (err) {
       addMessage(err.message);
       return;
     }
 
     addMessage('Client secret returned');
 
-    const {error, paymentIntent} = await stripe.confirmSepaDebitPayment(clientSecret, {
-      payment_method: {
-        sepa_debit: elements.getElement(IbanElement),
-        billing_details: {
-          name,
-          email,
+    const {error, paymentIntent} = await stripe.confirmSepaDebitPayment(
+      clientSecret,
+      {
+        payment_method: {
+          sepa_debit: elements.getElement(IbanElement),
+          billing_details: {
+            name,
+            email,
+          },
         },
-      },
-    });
+      }
+    );
 
     if (error) {
       // Show error to your customer (e.g., insufficient funds)
@@ -66,26 +65,34 @@ const SepaDebitForm = () => {
     // payment_intent.succeeded event that handles any business critical
     // post-payment actions.
     addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
-  }
+  };
 
   return (
     <>
       <h1>SEPA Direct Debit</h1>
       <form id="payment-form" onSubmit={handleSubmit}>
-        <label htmlFor="name">
-          Name
-        </label>
-        <input id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+        <label htmlFor="name">Name</label>
+        <input
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
 
-        <label htmlFor="email">
-          Email Address
-        </label>
-        <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <label htmlFor="email">Email Address</label>
+        <input
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
-        <label htmlFor="iban-element">
-          Bank Account
-        </label>
-        <IbanElement id="iban-element" options={{supportedCountries: ['SEPA']}} />
+        <label htmlFor="iban-element">Bank Account</label>
+        <IbanElement
+          id="iban-element"
+          options={{supportedCountries: ['SEPA']}}
+        />
 
         <button type="submit">Pay</button>
 
@@ -94,12 +101,14 @@ const SepaDebitForm = () => {
         <div id="mandate-acceptance">
           By providing your bank account details and confirming this payment,
           you agree to this Direct Debit Request and the
-          <a href="https://stripe.com/au-becs-dd-service-agreement/legal">Direct Debit Request service agreement</a>,
-          and authorise Stripe Payments Australia Pty Ltd ACN 160 180 343
+          <a href="https://stripe.com/au-becs-dd-service-agreement/legal">
+            Direct Debit Request service agreement
+          </a>
+          , and authorise Stripe Payments Australia Pty Ltd ACN 160 180 343
           Direct Debit User ID number 507156 (“Stripe”) to debit your account
           through the Bulk Electronic Clearing System (BECS) on behalf of
-          <strong>INSERT YOUR BUSINESS NAME HERE</strong> (the "Merchant")
-          for any amounts separately communicated to you by the Merchant. You
+          <strong>INSERT YOUR BUSINESS NAME HERE</strong> (the "Merchant") for
+          any amounts separately communicated to you by the Merchant. You
           certify that you are either an account holder or an authorised
           signatory on the account listed above.
         </div>
@@ -107,7 +116,7 @@ const SepaDebitForm = () => {
 
       <StatusMessages messages={messages} />
     </>
-  )
+  );
 };
 
 export default withRouter(SepaDebitForm);

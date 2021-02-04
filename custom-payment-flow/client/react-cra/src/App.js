@@ -1,6 +1,5 @@
 import React from 'react';
-import './App.css';
-import { BrowserRouter as Switch, Route } from 'react-router-dom';
+import {BrowserRouter as Switch, Route} from 'react-router-dom';
 
 // Index page with list of payment methods.
 import List from './List';
@@ -27,18 +26,42 @@ function App(props) {
         <Route exact path="/">
           <List />
         </Route>
-        <Route path="/alipay"><Alipay /></Route>
-        <Route path="/bancontact"><Bancontact /></Route>
-        <Route path="/becs-debit"><BecsDebit /></Route>
-        <Route path="/card"><Card /></Route>
-        <Route path="/eps"><Eps /></Route>
-        <Route path="/fpx"><Fpx /></Route>
-        <Route path="/giropay"><Giropay /></Route>
-        <Route path="/grabpay"><GrabPay /></Route>
-        <Route path="/ideal"><Ideal /></Route>
-        <Route path="/oxxo"><Oxxo /></Route>
-        <Route path="/sepa-debit"><SepaDebit /></Route>
-        <Route path="/sofort"><Sofort /></Route>
+        <Route path="/alipay">
+          <Alipay />
+        </Route>
+        <Route path="/bancontact">
+          <Bancontact />
+        </Route>
+        <Route path="/becs-debit">
+          <BecsDebit />
+        </Route>
+        <Route path="/card">
+          <Card />
+        </Route>
+        <Route path="/eps">
+          <Eps />
+        </Route>
+        <Route path="/fpx">
+          <Fpx />
+        </Route>
+        <Route path="/giropay">
+          <Giropay />
+        </Route>
+        <Route path="/grabpay">
+          <GrabPay />
+        </Route>
+        <Route path="/ideal">
+          <Ideal />
+        </Route>
+        <Route path="/oxxo">
+          <Oxxo />
+        </Route>
+        <Route path="/sepa-debit">
+          <SepaDebit />
+        </Route>
+        <Route path="/sofort">
+          <Sofort />
+        </Route>
       </Switch>
     </>
   );

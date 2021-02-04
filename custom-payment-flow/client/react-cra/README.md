@@ -2,9 +2,9 @@
 
 ## How to run locally
 
-This is the React client for the sample and runs independent of the server. To
-start the backend servers, choose from a list of several servers available in
-the sibling `../server` directory. Running a backend server is a requirement
+This is the React client for the sample and runs independently of the server.
+To start the backend servers, choose from a list of several servers available
+in the sibling `../server` directory. Running a backend server is a requirement
 and a dependency for this React front-end to work. See the README in the root
 of the project for more details.
 

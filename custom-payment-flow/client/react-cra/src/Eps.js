@@ -1,10 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import { withRouter, useLocation } from 'react-router-dom';
-import {
-  EPSBankElement,
-  useStripe,
-  useElements,
-} from '@stripe/react-stripe-js';
+import {withRouter, useLocation} from 'react-router-dom';
+import {EPSBankElement, useStripe, useElements} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
 const EpsForm = () => {
@@ -34,24 +30,27 @@ const EpsForm = () => {
         paymentMethodType: 'eps',
         currency: 'eur',
       }),
-    }).then(r => r.json());
+    }).then((r) => r.json());
 
-    if(err) {
+    if (err) {
       addMessage(err.message);
       return;
     }
 
     addMessage('Client secret returned');
 
-    const {error, paymentIntent} = await stripe.confirmEpsPayment(clientSecret, {
-      payment_method: {
-        eps: elements.getElement(EPSBankElement),
-        billing_details: {
-          name,
+    const {error, paymentIntent} = await stripe.confirmEpsPayment(
+      clientSecret,
+      {
+        payment_method: {
+          eps: elements.getElement(EPSBankElement),
+          billing_details: {
+            name,
+          },
         },
-      },
-      return_url: 'http://localhost:3000/bancontact?return=true',
-    });
+        return_url: `${window.location.origin}/bancontact?return=true`,
+      }
+    );
 
     if (error) {
       // Show error to your customer (e.g., insufficient funds)
@@ -65,17 +64,20 @@ const EpsForm = () => {
     // payment_intent.succeeded event that handles any business critical
     // post-payment actions.
     addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
-  }
+  };
 
   return (
     <>
       <h1>EPS</h1>
 
       <form id="payment-form" onSubmit={handleSubmit}>
-        <label htmlFor="name">
-          Name
-        </label>
-        <input id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+        <label htmlFor="name">Name</label>
+        <input
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
 
         <EPSBankElement />
         <button type="submit">Pay</button>
@@ -83,7 +85,7 @@ const EpsForm = () => {
 
       <StatusMessages messages={messages} />
     </>
-  )
+  );
 };
 
 // Component for displaying results after returning from
@@ -96,16 +98,18 @@ const EpsReturn = () => {
   const clientSecret = query.get('payment_intent_client_secret');
 
   useEffect(() => {
-    if(!stripe) {
+    if (!stripe) {
       return;
     }
     const fetchPaymentIntent = async () => {
-      const {error, paymentIntent} = await stripe.retrievePaymentIntent(clientSecret);
-      if(error) {
+      const {error, paymentIntent} = await stripe.retrievePaymentIntent(
+        clientSecret
+      );
+      if (error) {
         addMessage(error.message);
       }
       addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
-    }
+    };
     fetchPaymentIntent();
   }, [clientSecret, stripe, addMessage]);
 
@@ -114,16 +118,16 @@ const EpsReturn = () => {
       <h1>Eps Return</h1>
       <StatusMessages messages={messages} />
     </>
-  )
+  );
 };
 
 const Eps = () => {
   const query = new URLSearchParams(useLocation().search);
-  if(query.get('return')) {
-    return <EpsReturn />
+  if (query.get('return')) {
+    return <EpsReturn />;
   } else {
-    return <EpsForm />
+    return <EpsForm />;
   }
-}
+};
 
 export default withRouter(Eps);

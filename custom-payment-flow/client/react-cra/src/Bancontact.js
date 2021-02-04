@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import { withRouter, useLocation } from 'react-router-dom';
-import { useStripe, useElements } from '@stripe/react-stripe-js';
+import {withRouter, useLocation} from 'react-router-dom';
+import {useStripe, useElements} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
 const BancontactForm = () => {
@@ -30,23 +30,26 @@ const BancontactForm = () => {
         paymentMethodType: 'bancontact',
         currency: 'eur',
       }),
-    }).then(r => r.json());
+    }).then((r) => r.json());
 
-    if(err) {
+    if (err) {
       addMessage(err.message);
       return;
     }
 
     addMessage('Client secret returned');
 
-    const {error, paymentIntent} = await stripe.confirmBancontactPayment(clientSecret, {
-      payment_method: {
-        billing_details: {
-          name,
+    const {error, paymentIntent} = await stripe.confirmBancontactPayment(
+      clientSecret,
+      {
+        payment_method: {
+          billing_details: {
+            name,
+          },
         },
-      },
-      return_url: 'http://localhost:3000/bancontact?return=true',
-    });
+        return_url: `${window.location.origin}/bancontact?return=true`,
+      }
+    );
 
     if (error) {
       // Show error to your customer (e.g., insufficient funds)
@@ -60,24 +63,27 @@ const BancontactForm = () => {
     // payment_intent.succeeded event that handles any business critical
     // post-payment actions.
     addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
-  }
+  };
 
   return (
     <>
       <h1>Bancontact</h1>
 
       <form id="payment-form" onSubmit={handleSubmit}>
-        <label htmlFor="name">
-          Name
-        </label>
-        <input id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+        <label htmlFor="name">Name</label>
+        <input
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
 
         <button type="submit">Pay</button>
       </form>
 
       <StatusMessages messages={messages} />
     </>
-  )
+  );
 };
 
 // Component for displaying results after returning from
@@ -91,16 +97,18 @@ const BancontactReturn = () => {
   const clientSecret = query.get('payment_intent_client_secret');
 
   useEffect(() => {
-    if(!stripe) {
+    if (!stripe) {
       return;
     }
     const fetchPaymentIntent = async () => {
-      const {error, paymentIntent} = await stripe.retrievePaymentIntent(clientSecret);
-      if(error) {
+      const {error, paymentIntent} = await stripe.retrievePaymentIntent(
+        clientSecret
+      );
+      if (error) {
         addMessage(error.message);
       }
       addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
-    }
+    };
     fetchPaymentIntent();
   }, [clientSecret, stripe, addMessage]);
 
@@ -109,16 +117,16 @@ const BancontactReturn = () => {
       <h1>Bancontact Return</h1>
       <StatusMessages messages={messages} />
     </>
-  )
+  );
 };
 
 const Bancontact = () => {
   const query = new URLSearchParams(useLocation().search);
-  if(query.get('return')) {
-    return <BancontactReturn />
+  if (query.get('return')) {
+    return <BancontactReturn />;
   } else {
-    return <BancontactForm />
+    return <BancontactForm />;
   }
-}
+};
 
 export default withRouter(Bancontact);

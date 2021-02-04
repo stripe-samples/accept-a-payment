@@ -1,10 +1,6 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import {
-  CardElement,
-  useStripe,
-  useElements,
-} from '@stripe/react-stripe-js';
+import {withRouter} from 'react-router-dom';
+import {CardElement, useStripe, useElements} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
 const CardForm = () => {
@@ -33,23 +29,26 @@ const CardForm = () => {
         paymentMethodType: 'card',
         currency: 'usd',
       }),
-    }).then(r => r.json());
+    }).then((r) => r.json());
 
-    if(err) {
+    if (err) {
       addMessage(err.message);
       return;
     }
 
     addMessage('Client secret returned');
 
-    const {error, paymentIntent} = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement),
-        billing_details: {
-          name: 'Jenny Rosen',
+    const {error, paymentIntent} = await stripe.confirmCardPayment(
+      clientSecret,
+      {
+        payment_method: {
+          card: elements.getElement(CardElement),
+          billing_details: {
+            name: 'Jenny Rosen',
+          },
         },
       }
-    });
+    );
 
     if (error) {
       // Show error to your customer (e.g., insufficient funds)
@@ -63,7 +62,7 @@ const CardForm = () => {
     // payment_intent.succeeded event that handles any business critical
     // post-payment actions.
     addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
-  }
+  };
 
   return (
     <>
@@ -76,7 +75,7 @@ const CardForm = () => {
       </form>
       <StatusMessages messages={messages} />
     </>
-  )
+  );
 };
 
 export default withRouter(CardForm);

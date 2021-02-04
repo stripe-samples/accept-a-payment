@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { withRouter, useLocation } from 'react-router-dom';
+import {withRouter, useLocation} from 'react-router-dom';
 import {
   IdealBankElement,
   useStripe,
@@ -33,24 +33,27 @@ const IdealForm = () => {
         paymentMethodType: 'ideal',
         currency: 'eur',
       }),
-    }).then(r => r.json());
+    }).then((r) => r.json());
 
-    if(err) {
+    if (err) {
       addMessage(err.message);
       return;
     }
 
     addMessage('Client secret returned');
 
-    const {error, paymentIntent} = await stripe.confirmIdealPayment(clientSecret, {
-      payment_method: {
-        ideal: elements.getElement(IdealBankElement),
-        billing_details: {
-          name: 'Jenny Rosen',
+    const {error, paymentIntent} = await stripe.confirmIdealPayment(
+      clientSecret,
+      {
+        payment_method: {
+          ideal: elements.getElement(IdealBankElement),
+          billing_details: {
+            name: 'Jenny Rosen',
+          },
         },
-      },
-      return_url: 'http://localhost:3000/ideal?return=true',
-    });
+        return_url: `${window.location.origin}/ideal?return=true`,
+      }
+    );
 
     if (error) {
       // Show error to your customer (e.g., insufficient funds)
@@ -64,7 +67,7 @@ const IdealForm = () => {
     // payment_intent.succeeded event that handles any business critical
     // post-payment actions.
     addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
-  }
+  };
 
   return (
     <>
@@ -77,9 +80,8 @@ const IdealForm = () => {
       </form>
       <StatusMessages messages={messages} />
     </>
-  )
+  );
 };
-
 
 // Component for displaying results after returning from
 // iDEAL redirect flow.
@@ -91,16 +93,18 @@ const IdealReturn = () => {
   const clientSecret = query.get('payment_intent_client_secret');
 
   useEffect(() => {
-    if(!stripe) {
+    if (!stripe) {
       return;
     }
     const fetchPaymentIntent = async () => {
-      const {error, paymentIntent} = await stripe.retrievePaymentIntent(clientSecret);
-      if(error) {
+      const {error, paymentIntent} = await stripe.retrievePaymentIntent(
+        clientSecret
+      );
+      if (error) {
         addMessage(error.message);
       }
       addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
-    }
+    };
     fetchPaymentIntent();
   }, [clientSecret, stripe, addMessage]);
 
@@ -109,16 +113,16 @@ const IdealReturn = () => {
       <h1>Ideal Return</h1>
       <StatusMessages messages={messages} />
     </>
-  )
+  );
 };
 
 const Ideal = () => {
   const query = new URLSearchParams(useLocation().search);
-  if(query.get('return')) {
-    return <IdealReturn />
+  if (query.get('return')) {
+    return <IdealReturn />;
   } else {
-    return <IdealForm />
+    return <IdealForm />;
   }
-}
+};
 
 export default withRouter(Ideal);

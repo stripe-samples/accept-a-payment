@@ -1,10 +1,6 @@
 import React, {useEffect} from 'react';
-import { withRouter, useLocation } from 'react-router-dom';
-import {
-  FpxBankElement,
-  useStripe,
-  useElements,
-} from '@stripe/react-stripe-js';
+import {withRouter, useLocation} from 'react-router-dom';
+import {FpxBankElement, useStripe, useElements} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
 const FpxForm = () => {
@@ -33,9 +29,9 @@ const FpxForm = () => {
         paymentMethodType: 'fpx',
         currency: 'myr',
       }),
-    }).then(r => r.json());
+    }).then((r) => r.json());
 
-    if(err) {
+    if (err) {
       addMessage(err.message);
       return;
     }
@@ -46,7 +42,7 @@ const FpxForm = () => {
       payment_method: {
         fpx: elements.getElement(FpxBankElement),
       },
-      return_url: 'http://localhost:3000/fpx?return=true',
+      return_url: `${window.location.origin}/fpx?return=true`,
     });
 
     if (error) {
@@ -61,7 +57,7 @@ const FpxForm = () => {
     // payment_intent.succeeded event that handles any business critical
     // post-payment actions.
     addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
-  }
+  };
 
   return (
     <>
@@ -74,7 +70,7 @@ const FpxForm = () => {
 
       <StatusMessages messages={messages} />
     </>
-  )
+  );
 };
 
 // Component for displaying results after returning from
@@ -87,16 +83,18 @@ const FpxReturn = () => {
   const clientSecret = query.get('payment_intent_client_secret');
 
   useEffect(() => {
-    if(!stripe) {
+    if (!stripe) {
       return;
     }
     const fetchPaymentIntent = async () => {
-      const {error, paymentIntent} = await stripe.retrievePaymentIntent(clientSecret);
-      if(error) {
+      const {error, paymentIntent} = await stripe.retrievePaymentIntent(
+        clientSecret
+      );
+      if (error) {
         addMessage(error.message);
       }
       addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
-    }
+    };
     fetchPaymentIntent();
   }, [clientSecret, stripe, addMessage]);
 
@@ -105,16 +103,16 @@ const FpxReturn = () => {
       <h1>FPX Return</h1>
       <StatusMessages messages={messages} />
     </>
-  )
+  );
 };
 
 const Fpx = () => {
   const query = new URLSearchParams(useLocation().search);
-  if(query.get('return')) {
-    return <FpxReturn />
+  if (query.get('return')) {
+    return <FpxReturn />;
   } else {
-    return <FpxForm />
+    return <FpxForm />;
   }
-}
+};
 
 export default withRouter(Fpx);

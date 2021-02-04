@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import { withRouter } from 'react-router-dom';
-import { useStripe, useElements } from '@stripe/react-stripe-js';
+import {withRouter} from 'react-router-dom';
+import {useStripe, useElements} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
 const OxxoForm = () => {
@@ -31,23 +31,26 @@ const OxxoForm = () => {
         paymentMethodType: 'oxxo',
         currency: 'mxn',
       }),
-    }).then(r => r.json());
+    }).then((r) => r.json());
 
-    if(err) {
+    if (err) {
       addMessage(err.message);
       return;
     }
 
     addMessage('Client secret returned');
 
-    const {error, paymentIntent} = await stripe.confirmOxxoPayment(clientSecret, {
-      payment_method: {
-        billing_details: {
-          name,
-          email,
+    const {error, paymentIntent} = await stripe.confirmOxxoPayment(
+      clientSecret,
+      {
+        payment_method: {
+          billing_details: {
+            name,
+            email,
+          },
         },
-      },
-    });
+      }
+    );
 
     if (error) {
       // Show error to your customer (e.g., insufficient funds)
@@ -67,38 +70,47 @@ const OxxoForm = () => {
     // intent will succeed after 3 seconds. We set this timeout
     // to refetch the payment intent.
     const i = setInterval(async () => {
-      const {error: e, paymentIntent} = await stripe.retrievePaymentIntent(clientSecret);
+      const {error: e, paymentIntent} = await stripe.retrievePaymentIntent(
+        clientSecret
+      );
       addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
-      if(paymentIntent.status === 'succeeded') {
+      if (paymentIntent.status === 'succeeded') {
         clearInterval(i);
       }
-      if(e) {
+      if (e) {
         addMessage(e.message);
       }
     }, 500);
-  }
+  };
 
   return (
     <>
       <h1>OXXO</h1>
 
       <form id="payment-form" onSubmit={handleSubmit}>
-        <label htmlFor="name">
-          Name
-        </label>
-        <input id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+        <label htmlFor="name">Name</label>
+        <input
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
 
-        <label htmlFor="email">
-          Email
-        </label>
-        <input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <label htmlFor="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
         <button type="submit">Pay</button>
       </form>
 
       <StatusMessages messages={messages} />
     </>
-  )
+  );
 };
 
 export default withRouter(OxxoForm);
