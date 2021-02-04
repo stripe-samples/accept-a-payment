@@ -9,7 +9,7 @@ import SwiftUI
 
 var paymentMethodViews: [String: AnyView] = [
     "Card": AnyView(Card()),
-    "Alipay": AnyView(Alipay())
+    "Alipay": AnyView(AlipaySwiftUIView())
 ]
 
 struct PaymentMethodList: View {
