@@ -6,4 +6,6 @@
     <string name="launch_checkout_kotlin">Launch Checkout example in Kotlin</string>
     <string name="launch_checkout_java">Launch Checkout example in Java</string>
     <string name="pay">Pay</string>
+    <string name="card_item">Card</string>
+    <string name="alipay_item">Alipay</string>
 </resources>
