@@ -30,11 +30,8 @@
         </activity>
 
         <activity
-            android:name=".CheckoutActivityKotlin"
+            android:name=".CardActivity"
             android:label="@string/activity_kotlin" />
-        <activity
-            android:name=".CheckoutActivityJava"
-            android:label="@string/activity_java" />
     </application>
 
 </manifest>

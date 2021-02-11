@@ -100,8 +100,8 @@ class LauncherActivity : AppCompatActivity() {
         : RecyclerView.Adapter<PaymentMethodsListAdapter.PaymentMethodListViewHolder>() {
 
         private val items = listOf(
-            PaymentMethodItem(activity.getString(R.string.card_item), CheckoutActivityKotlin::class.java),
-            PaymentMethodItem(activity.getString(R.string.alipay_item), CheckoutActivityKotlin::class.java)
+            PaymentMethodItem(activity.getString(R.string.card_item), CardActivity::class.java),
+            PaymentMethodItem(activity.getString(R.string.alipay_item), CardActivity::class.java)
         )
 
         private data class PaymentMethodItem constructor(val text: String, val activityClass: Class<*>)

@@ -21,7 +21,7 @@ import java.io.IOException
 import java.lang.ref.WeakReference
 
 
-class CheckoutActivityKotlin : AppCompatActivity() {
+class CardActivity : AppCompatActivity() {
 
     /**
      * This example collects card payments, implementing the guide here: https://stripe.com/docs/payments/accept-a-payment#android

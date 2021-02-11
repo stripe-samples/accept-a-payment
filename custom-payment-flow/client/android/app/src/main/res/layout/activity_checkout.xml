@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".CheckoutActivityKotlin"
+    tools:context=".CardActivity"
     tools:showIn="@layout/activity_checkout">
 
     <com.stripe.android.view.CardInputWidget
