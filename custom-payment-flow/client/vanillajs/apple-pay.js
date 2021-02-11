@@ -2,9 +2,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Load the publishable key from the server. The publishable key
   // is set in your .env file. In practice, most users hard code the
   // publishable key when initializing the Stripe object.
-  const {publishableKey} = await fetch('/config').then(r => r.json());
-  if(!publishableKey) {
-    addMessage('No publishable key returned from the server. Please check `.env` and try again');
+  const {publishableKey} = await fetch('/config').then((r) => r.json());
+  if (!publishableKey) {
+    addMessage(
+      'No publishable key returned from the server. Please check `.env` and try again'
+    );
     alert('Please set your Stripe publishable API key in the .env file');
   }
 
@@ -23,7 +25,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     requestPayerEmail: true,
   });
 
-
   // 3. Create a PaymentRequestButton element
   const elements = stripe.elements();
   const prButton = elements.create('paymentRequestButton', {
@@ -32,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Check the availability of the Payment Request API,
   // then mount the PaymentRequestButton
-  paymentRequest.canMakePayment().then(function(result) {
+  paymentRequest.canMakePayment().then(function (result) {
     if (result) {
       prButton.mount('#payment-request-button');
     } else {
@@ -42,7 +43,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   paymentRequest.on('paymentmethod', async (e) => {
     // Confirm the PaymentIntent without handling potential next actions (yet).
-    let {error, paymentIntent} = await stripe.confirmCardPayment(clientSecret,
+    let {error, paymentIntent} = await stripe.confirmCardPayment(
+      clientSecret,
       {
         payment_method: ev.paymentMethod.id,
       },
@@ -67,10 +69,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Check if the PaymentIntent requires any actions and if so let Stripe.js
     // handle the flow. If using an API version older than "2019-02-11" instead
     // instead check for: `paymentIntent.status === "requires_source_action"`.
-    if (paymentIntent.status === "requires_action") {
-
+    if (paymentIntent.status === 'requires_action') {
       // Let Stripe.js handle the rest of the payment flow.
-      let {error, paymentIntent} = await stripe.confirmCardPayment(clientSecret);
+      let {error, paymentIntent} = await stripe.confirmCardPayment(
+        clientSecret
+      );
       if (error) {
         // The payment failed -- ask your customer for a new payment method.
         addMessage(error.message);

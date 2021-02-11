@@ -26,7 +26,7 @@ class CheckoutActivityKotlin : AppCompatActivity() {
     /**
      * This example collects card payments, implementing the guide here: https://stripe.com/docs/payments/accept-a-payment#android
      *
-     * To run this app, follow the steps here: https://github.com/stripe-samples/accept-a-card-payment#how-to-run-locally
+     * To run this app, follow the steps here: https://github.com/stripe-samples/accept-a-payment#how-to-run-locally
      */
     // 10.0.2.2 is the Android emulator's alias to localhost
     private val backendUrl = "http://10.0.2.2:4242/"

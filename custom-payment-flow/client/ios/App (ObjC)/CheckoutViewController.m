@@ -10,9 +10,9 @@
 @import Stripe;
 
 /**
- This example collects card payments, implementing the guide here: https://stripe.com/docs/payments/accept-a-payment#ios
+ This example collects payments, implementing the guide here: https://stripe.com/docs/payments/accept-a-payment#ios
 
- To run this app, follow the steps here https://github.com/stripe-samples/accept-a-card-payment#how-to-run-locally
+ To run this app, follow the steps here https://github.com/stripe-samples/accept-a-payment#how-to-run-locally
 */
 NSString *const BackendUrl = @"http://127.0.0.1:4242/";
 
