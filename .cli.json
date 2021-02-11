@@ -5,7 +5,17 @@
     {
       "name": "custom-payment-flow",
       "clients": ["vanillajs", "react-cra", "android", "ios"],
-      "servers": ["java", "node", "node-typescript", "php-slim", "php", "python", "ruby"]
+      "servers": [
+        "ruby",
+        "node",
+        "python",
+        "php",
+        "java",
+        "go",
+        "dotnet",
+        "node-typescript",
+        "php-slim"
+      ]
     }
   ]
 }
