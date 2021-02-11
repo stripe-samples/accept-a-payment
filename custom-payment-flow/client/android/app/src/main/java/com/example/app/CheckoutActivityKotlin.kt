@@ -28,16 +28,14 @@ class CheckoutActivityKotlin : AppCompatActivity() {
      *
      * To run this app, follow the steps here: https://github.com/stripe-samples/accept-a-card-payment#how-to-run-locally
      */
-    // 10.0.2.2 is the Android emulator's alias to localhost
-    private val backendUrl = "http://10.0.2.2:4242/"
     private val httpClient = OkHttpClient()
-    private lateinit var publishableKey: String
     private lateinit var paymentIntentClientSecret: String
     private lateinit var stripe: Stripe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkout)
+
         startCheckout()
     }
 
@@ -75,14 +73,12 @@ class CheckoutActivityKotlin : AppCompatActivity() {
         val requestJson = """
             {
                 "currency":"usd",
-                "items": [
-                    {"id":"photo_subscription"}
-                ]
+                "paymentMethodType":"card"
             }
             """
         val body = requestJson.toRequestBody(mediaType)
         val request = Request.Builder()
-            .url(backendUrl + "create-payment-intent")
+            .url(BackendUrl + "create-payment-intent")
             .post(body)
             .build()
         httpClient.newCall(request)
@@ -107,16 +103,14 @@ class CheckoutActivityKotlin : AppCompatActivity() {
                         val responseJson =
                             responseData?.let { JSONObject(it) } ?: JSONObject()
 
-                        // The response from the server includes the Stripe publishable key and
-                        // PaymentIntent details.
-                        // For added security, our sample app gets the publishable key
-                        // from the server.
-                        publishableKey = responseJson.getString("publishableKey")
+                        // The response from the server contains the PaymentIntent's client_secret
                         paymentIntentClientSecret = responseJson.getString("clientSecret")
 
-                        // Configure the SDK with your Stripe publishable key so that it can make
-                        // requests to the Stripe API
-                        stripe = Stripe(applicationContext, publishableKey)
+                        // TODO: hardcoding here, `stripe` already initialized on LauncherActivity
+                        // so this Activity needs to reference that
+                        // need to check what the recommended pattern is here for Android
+                        // maybe using a Factory class like the samples do?
+                        stripe = Stripe(applicationContext, "pk_test_XBeVOiJfdrsz56X2j9qhMP59")
                     }
                 }
             })
