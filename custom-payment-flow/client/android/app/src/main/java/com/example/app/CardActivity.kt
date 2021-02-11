@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.GsonBuilder
 import com.stripe.android.ApiResultCallback
+import com.stripe.android.PaymentConfiguration
 import com.stripe.android.PaymentIntentResult
 import com.stripe.android.Stripe
 import com.stripe.android.model.ConfirmPaymentIntentParams
@@ -36,6 +37,7 @@ class CardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_checkout)
 
+        stripe = Stripe(this, PaymentConfiguration.getInstance(applicationContext).publishableKey)
         startCheckout()
     }
 

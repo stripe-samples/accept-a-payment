@@ -9,13 +9,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
-import com.stripe.android.Stripe
 import androidx.appcompat.app.AlertDialog
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
 import java.lang.ref.WeakReference
 import android.util.Log
+import com.stripe.android.PaymentConfiguration
 
 // 10.0.2.2 is the Android emulator's alias to localhost
 val BackendUrl = "http://10.0.2.2:4242/"
@@ -25,7 +25,6 @@ class LauncherActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private val httpClient = OkHttpClient()
     private lateinit var publishableKey: String
-    lateinit var stripe: Stripe
 
     override fun onCreate(savedInstanceState: Bundle??) {
         super.onCreate(savedInstanceState)
@@ -87,9 +86,8 @@ class LauncherActivity : AppCompatActivity() {
                         publishableKey = responseJson.getString("publishableKey")
                         Log.d("Ali publishablekey", publishableKey)
 
-                        // Configure the SDK with your Stripe publishable key so that it can make
-                        // requests to the Stripe API
-                        stripe = Stripe(applicationContext, publishableKey)
+                        // Set up PaymentConfiguration with your Stripe publishable key
+                        PaymentConfiguration.init(applicationContext, publishableKey)
                     }
                 }
             })
