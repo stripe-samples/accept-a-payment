@@ -23,7 +23,7 @@ import java.lang.ref.WeakReference
 class AlipayActivity : AppCompatActivity() {
 
     /**
-     * This example collects card payments, implementing the guide here: https://stripe.com/docs/payments/alipay/accept-a-payment
+     * This example collects Alipay payments, implementing the guide here: https://stripe.com/docs/payments/alipay/accept-a-payment
      * TODO what is the correct link for below
      * To run this app, follow the steps here: https://github.com/stripe-samples/accept-a-card-payment#how-to-run-locally
      */
