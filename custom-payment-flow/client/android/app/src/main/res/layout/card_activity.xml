@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:padding="20dp"
     tools:context=".CardActivity"
-    tools:showIn="@layout/activity_checkout">
+    tools:showIn="@layout/card_activity">
 
     <com.stripe.android.view.CardInputWidget
         android:id="@+id/cardInputWidget"

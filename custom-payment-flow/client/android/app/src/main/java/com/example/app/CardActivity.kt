@@ -35,7 +35,7 @@ class CardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_checkout)
+        setContentView(R.layout.card_activity)
 
         stripe = Stripe(this, PaymentConfiguration.getInstance(applicationContext).publishableKey)
         startCheckout()
@@ -108,11 +108,11 @@ class CardActivity : AppCompatActivity() {
                         // The response from the server contains the PaymentIntent's client_secret
                         paymentIntentClientSecret = responseJson.getString("clientSecret")
 
-                        // TODO: hardcoding here, `stripe` already initialized on LauncherActivity
-                        // so this Activity needs to reference that
-                        // need to check what the recommended pattern is here for Android
-                        // maybe using a Factory class like the samples do?
-                        stripe = Stripe(applicationContext, "pk_test_XBeVOiJfdrsz56X2j9qhMP59")
+                        // Initialize Stripe Android SDK with publishable key
+                        stripe = Stripe(
+                            applicationContext,
+                            PaymentConfiguration.getInstance(applicationContext).publishableKey
+                        )
                     }
                 }
             })
