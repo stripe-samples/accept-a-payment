@@ -13,7 +13,6 @@ import com.stripe.android.PaymentIntentResult
 import com.stripe.android.Stripe
 import com.stripe.android.model.ConfirmPaymentIntentParams
 import com.stripe.android.model.StripeIntent
-import com.stripe.android.view.CardInputWidget
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -21,21 +20,21 @@ import org.json.JSONObject
 import java.io.IOException
 import java.lang.ref.WeakReference
 
-
-class CardActivity : AppCompatActivity() {
+class AlipayActivity : AppCompatActivity() {
 
     /**
-     * This example collects card payments, implementing the guide here: https://stripe.com/docs/payments/accept-a-payment#android
-     *
+     * This example collects card payments, implementing the guide here: https://stripe.com/docs/payments/alipay/accept-a-payment
+     * TODO what is the correct link for below
      * To run this app, follow the steps here: https://github.com/stripe-samples/accept-a-card-payment#how-to-run-locally
      */
+
     private val httpClient = OkHttpClient()
     private lateinit var paymentIntentClientSecret: String
     private lateinit var stripe: Stripe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.card_activity)
+        setContentView(R.layout.alipay_activity)
 
         stripe = Stripe(this, PaymentConfiguration.getInstance(applicationContext).publishableKey)
         startCheckout()
@@ -53,9 +52,6 @@ class CardActivity : AppCompatActivity() {
                 .setMessage(message)
             if (restartDemo) {
                 builder.setPositiveButton("Restart demo") { _, _ ->
-                    val cardInputWidget =
-                        findViewById<CardInputWidget>(R.id.cardInputWidget)
-                    cardInputWidget.clear()
                     startCheckout()
                 }
             }
@@ -68,21 +64,24 @@ class CardActivity : AppCompatActivity() {
         }
     }
 
-    private fun startCheckout() {
+    fun startCheckout() {
         val weakActivity = WeakReference<Activity>(this)
+
         // Create a PaymentIntent by calling the sample server's /create-payment-intent endpoint.
         val mediaType = "application/json; charset=utf-8".toMediaType()
         val requestJson = """
             {
                 "currency":"usd",
-                "paymentMethodType":"card"
+                "paymentMethodType":"alipay"
             }
-            """
+        """
+
         val body = requestJson.toRequestBody(mediaType)
         val request = Request.Builder()
             .url(BackendUrl + "create-payment-intent")
             .post(body)
             .build()
+
         httpClient.newCall(request)
             .enqueue(object: Callback {
                 override fun onFailure(call: Call, e: IOException) {
@@ -100,10 +99,10 @@ class CardActivity : AppCompatActivity() {
                                 "Error: $response"
                             )
                         }
-                    } else {
+                    }
+                    else {
                         val responseData = response.body?.string()
-                        val responseJson =
-                            responseData?.let { JSONObject(it) } ?: JSONObject()
+                        val responseJson = responseData?.let { JSONObject(it) } ?: JSONObject()
 
                         // The response from the server contains the PaymentIntent's client_secret
                         paymentIntentClientSecret = responseJson.getString("clientSecret")
@@ -111,16 +110,11 @@ class CardActivity : AppCompatActivity() {
                 }
             })
 
-        // Hook up the pay button to the card widget and stripe instance
+        // Hook up the pay button to confirm the Alipay PaymentIntent
         val payButton: Button = findViewById(R.id.payButton)
         payButton.setOnClickListener {
-            val cardInputWidget =
-                findViewById<CardInputWidget>(R.id.cardInputWidget)
-            cardInputWidget.paymentMethodCreateParams?.let { params ->
-                val confirmParams = ConfirmPaymentIntentParams
-                    .createWithPaymentMethodCreateParams(params, paymentIntentClientSecret)
-                stripe.confirmPayment(this, confirmParams)
-            }
+            val confirmParams = ConfirmPaymentIntentParams.createAlipay(paymentIntentClientSecret)
+            stripe.confirmPayment(this, confirmParams)
         }
     }
 

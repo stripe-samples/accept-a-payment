@@ -31,7 +31,10 @@
 
         <activity
             android:name=".CardActivity"
-            android:label="@string/activity_kotlin" />
+            android:label="@string/card_activity" />
+        <activity
+            android:name=".AlipayActivity"
+            android:label="@string/alipay_activity" />
     </application>
 
 </manifest>

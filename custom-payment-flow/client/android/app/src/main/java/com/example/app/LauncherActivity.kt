@@ -14,7 +14,6 @@ import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
 import java.lang.ref.WeakReference
-import android.util.Log
 import com.stripe.android.PaymentConfiguration
 
 // 10.0.2.2 is the Android emulator's alias to localhost
@@ -84,7 +83,6 @@ class LauncherActivity : AppCompatActivity() {
                         // For added security, our sample app gets the publishable key
                         // from the server.
                         publishableKey = responseJson.getString("publishableKey")
-                        Log.d("Ali publishablekey", publishableKey)
 
                         // Set up PaymentConfiguration with your Stripe publishable key
                         PaymentConfiguration.init(applicationContext, publishableKey)
@@ -99,7 +97,7 @@ class LauncherActivity : AppCompatActivity() {
 
         private val items = listOf(
             PaymentMethodItem(activity.getString(R.string.card_item), CardActivity::class.java),
-            PaymentMethodItem(activity.getString(R.string.alipay_item), CardActivity::class.java)
+            PaymentMethodItem(activity.getString(R.string.alipay_item), AlipayActivity::class.java)
         )
 
         private data class PaymentMethodItem constructor(val text: String, val activityClass: Class<*>)
