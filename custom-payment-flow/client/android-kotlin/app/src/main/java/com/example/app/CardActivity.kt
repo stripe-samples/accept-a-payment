@@ -27,7 +27,7 @@ class CardActivity : AppCompatActivity() {
     /**
      * This example collects card payments, implementing the guide here: https://stripe.com/docs/payments/accept-a-payment#android
      *
-     * To run this app, follow the steps here: https://github.com/stripe-samples/accept-a-card-payment#how-to-run-locally
+     * To run this app, follow the steps here: https://github.com/stripe-samples/accept-a-payment#how-to-run-locally
      */
     private val httpClient = OkHttpClient()
     private lateinit var paymentIntentClientSecret: String
