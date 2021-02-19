@@ -20,6 +20,7 @@
 		2D1430A725C814CB002B1294 /* PaymentMethodRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1430A625C814CB002B1294 /* PaymentMethodRow.swift */; };
 		2D1430AC25C815A9002B1294 /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1430AB25C815A9002B1294 /* ModelData.swift */; };
 		2D4F230525C83C13001F1EFF /* PaymentMethodList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4F230425C83C13001F1EFF /* PaymentMethodList.swift */; };
+		2D4F233925DFAB5C001F1EFF /* BackendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4F233825DFAB5C001F1EFF /* BackendModel.swift */; };
 		8D9BB42D3F8ED4A97215D01F /* Pods_AcceptAPayment_AcceptAPaymentUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07C9C87F99E42AE79CE4866D /* Pods_AcceptAPayment_AcceptAPaymentUITests.framework */; };
 		90E6C88D79DED1807A2922E2 /* Pods_AcceptAPayment.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B4A1920BC6C5413F3F42489 /* Pods_AcceptAPayment.framework */; };
 		C6F947362829324D43A0FDC6 /* Pods_AcceptAPaymentTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28A103D954066DA45D9980F3 /* Pods_AcceptAPaymentTests.framework */; };
@@ -64,6 +65,7 @@
 		2D1430A625C814CB002B1294 /* PaymentMethodRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodRow.swift; sourceTree = "<group>"; };
 		2D1430AB25C815A9002B1294 /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
 		2D4F230425C83C13001F1EFF /* PaymentMethodList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodList.swift; sourceTree = "<group>"; };
+		2D4F233825DFAB5C001F1EFF /* BackendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendModel.swift; sourceTree = "<group>"; };
 		6B4A1920BC6C5413F3F42489 /* Pods_AcceptAPayment.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AcceptAPayment.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		941D142755BF6CA19A7BEC6F /* Pods-AcceptAPayment.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AcceptAPayment.debug.xcconfig"; path = "Target Support Files/Pods-AcceptAPayment/Pods-AcceptAPayment.debug.xcconfig"; sourceTree = "<group>"; };
 		B0DFD4C130ADF0086E6FC35A /* Pods-AcceptAPayment-AcceptAPaymentUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AcceptAPayment-AcceptAPaymentUITests.release.xcconfig"; path = "Target Support Files/Pods-AcceptAPayment-AcceptAPaymentUITests/Pods-AcceptAPayment-AcceptAPaymentUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 			children = (
 				2D14308D25C81324002B1294 /* PaymentMethods.swift */,
 				2D1430AB25C815A9002B1294 /* ModelData.swift */,
+				2D4F233825DFAB5C001F1EFF /* BackendModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -457,6 +460,7 @@
 				2D14308E25C81324002B1294 /* PaymentMethods.swift in Sources */,
 				2D14305225C80152002B1294 /* Alipay.swift in Sources */,
 				2D14302625C7FEFF002B1294 /* ContentView.swift in Sources */,
+				2D4F233925DFAB5C001F1EFF /* BackendModel.swift in Sources */,
 				2D14302425C7FEFF002B1294 /* AcceptAPaymentApp.swift in Sources */,
 				2D4F230525C83C13001F1EFF /* PaymentMethodList.swift in Sources */,
 				2D14305725C801DE002B1294 /* Card.swift in Sources */,
