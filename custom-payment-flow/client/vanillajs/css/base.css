@@ -67,10 +67,6 @@ a {
   font-weight: 900;
 }
 
-#messages {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New';
-}
-
 #payment-form {
   border: #F6F9FC solid 1px;
   border-radius: var(--radius);
@@ -80,6 +76,7 @@ a {
 }
 
 #messages {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New';
   display: none; /* hide initially, then show once the first message arrives */
   background-color: #0A253C;
   color: #00D924;
