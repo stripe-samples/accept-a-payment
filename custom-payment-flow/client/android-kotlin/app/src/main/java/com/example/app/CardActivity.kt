@@ -8,6 +8,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.GsonBuilder
 import com.stripe.android.ApiResultCallback
+import com.stripe.android.PaymentConfiguration
 import com.stripe.android.PaymentIntentResult
 import com.stripe.android.Stripe
 import com.stripe.android.model.ConfirmPaymentIntentParams
@@ -21,23 +22,22 @@ import java.io.IOException
 import java.lang.ref.WeakReference
 
 
-class CheckoutActivityKotlin : AppCompatActivity() {
+class CardActivity : AppCompatActivity() {
 
     /**
      * This example collects card payments, implementing the guide here: https://stripe.com/docs/payments/accept-a-payment#android
      *
      * To run this app, follow the steps here: https://github.com/stripe-samples/accept-a-payment#how-to-run-locally
      */
-    // 10.0.2.2 is the Android emulator's alias to localhost
-    private val backendUrl = "http://10.0.2.2:4242/"
     private val httpClient = OkHttpClient()
-    private lateinit var publishableKey: String
     private lateinit var paymentIntentClientSecret: String
     private lateinit var stripe: Stripe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_checkout)
+        setContentView(R.layout.card_activity)
+
+        stripe = Stripe(this, PaymentConfiguration.getInstance(applicationContext).publishableKey)
         startCheckout()
     }
 
@@ -75,14 +75,12 @@ class CheckoutActivityKotlin : AppCompatActivity() {
         val requestJson = """
             {
                 "currency":"usd",
-                "items": [
-                    {"id":"photo_subscription"}
-                ]
+                "paymentMethodType":"card"
             }
             """
         val body = requestJson.toRequestBody(mediaType)
         val request = Request.Builder()
-            .url(backendUrl + "create-payment-intent")
+            .url(BackendUrl + "create-payment-intent")
             .post(body)
             .build()
         httpClient.newCall(request)
@@ -107,16 +105,8 @@ class CheckoutActivityKotlin : AppCompatActivity() {
                         val responseJson =
                             responseData?.let { JSONObject(it) } ?: JSONObject()
 
-                        // The response from the server includes the Stripe publishable key and
-                        // PaymentIntent details.
-                        // For added security, our sample app gets the publishable key
-                        // from the server.
-                        publishableKey = responseJson.getString("publishableKey")
+                        // The response from the server contains the PaymentIntent's client_secret
                         paymentIntentClientSecret = responseJson.getString("clientSecret")
-
-                        // Configure the SDK with your Stripe publishable key so that it can make
-                        // requests to the Stripe API
-                        stripe = Stripe(applicationContext, publishableKey)
                     }
                 }
             })

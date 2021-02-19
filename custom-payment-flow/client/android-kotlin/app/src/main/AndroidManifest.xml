@@ -30,11 +30,11 @@
         </activity>
 
         <activity
-            android:name=".CheckoutActivityKotlin"
-            android:label="@string/activity_kotlin" />
+            android:name=".CardActivity"
+            android:label="@string/card_activity" />
         <activity
-            android:name=".CheckoutActivityJava"
-            android:label="@string/activity_java" />
+            android:name=".AlipayActivity"
+            android:label="@string/alipay_activity" />
     </application>
 
 </manifest>

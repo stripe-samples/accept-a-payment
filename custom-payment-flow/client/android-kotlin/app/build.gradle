@@ -24,6 +24,15 @@ android {
     }
 }
 
+// Alipay SDK in /libs directory
+allprojects {
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -33,10 +42,13 @@ dependencies {
     testImplementation 'junit:junit:4.13'
 
     // Stripe Android SDK
-    implementation 'com.stripe:stripe-android:14.1.0'
+    implementation 'com.stripe:stripe-android:16.3.0'
 
     // OkHttp & GSON
     implementation 'com.squareup.okhttp3:okhttp:4.4.0'
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    // Alipay SDK
+    implementation(name:"alipaySdk-15.7.4-20200228192259", ext:"aar")
 
 }

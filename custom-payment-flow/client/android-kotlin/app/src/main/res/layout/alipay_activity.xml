@@ -7,13 +7,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".CheckoutActivityKotlin"
-    tools:showIn="@layout/activity_checkout">
-
-    <com.stripe.android.view.CardInputWidget
-        android:id="@+id/cardInputWidget"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    tools:context=".AlipayActivity"
+    tools:showIn="@layout/alipay_activity">
 
     <Button
         android:text="@string/pay"
