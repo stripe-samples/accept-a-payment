@@ -52,7 +52,7 @@ button:disabled {
   cursor: none;
 }
 
-input {
+input, select {
   display: block;
   font-size: 1.1em;
   width: 100%;
