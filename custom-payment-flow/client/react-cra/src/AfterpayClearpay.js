@@ -1,43 +1,36 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react'
 import {withRouter, useLocation} from 'react-router-dom';
 import {useStripe} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
 const AfterpayClearpayForm = () => {
-  const stripe = useStripe();
   const [messages, addMessage] = useMessages();
+  const stripe = useStripe();
 
-  const [name, setName] = useState('Jenny Rosen');
+  // billing
   const [email, setEmail] = useState('jenny.rosen@example.com');
-
-  // billing address
-  const [line1, setLine1] = useState('123 Main St.');
+  const [name, setName] = useState('Jenny Rosen');
+  const [line1, setLine1] = useState('123 Main St');
   const [line2, setLine2] = useState('');
   const [city, setCity] = useState('San Francisco');
   const [state, setState] = useState('CA');
   const [postalCode, setPostalCode] = useState('94111');
   const [country, setCountry] = useState('AU');
 
-  // shipping address
+  // shipping
   const [shippingName, setShippingName] = useState('Billy Rosen');
-  const [shippingLine1, setShippingLine1] = useState('123 Main St.');
+  const [shippingLine1, setShippingLine1] = useState('123 Main St');
   const [shippingLine2, setShippingLine2] = useState('');
-  const [shippingCity, setShippingCity] = useState('San Francisco');
-  const [shippingState, setShippingState] = useState('CA');
-  const [shippingPostalCode, setShippingPostalCode] = useState('94111');
-  const [shippingCountry, setShippingCountry] = useState('AU');
+  const [shippingCity, setShippingCity] = useState('Reno');
+  const [shippingState, setShippingState] = useState('NV');
+  const [shippingPostalCode, setShippingPostalCode] = useState('89501');
+  const [shippingCountry, setShippingCountry] = useState('US');
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!stripe) {
-      // Stripe.js has not yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
-      addMessage('Stripe.js has not yet loaded.');
-      return;
-    }
-
-    // create the payment intent on the server
+    // create payment intent on the server
     const {error: backendError, clientSecret} = await fetch('/create-payment-intent', {
       method: 'POST',
       headers: {
@@ -47,18 +40,18 @@ const AfterpayClearpayForm = () => {
         paymentMethodType: 'afterpay_clearpay',
         currency: 'usd',
       }),
-    }).then((r) => r.json())
+    })
+      .then((r) => r.json())
 
     if(backendError) {
-      // log and return
       addMessage(backendError.message);
       return;
     }
 
-    const {
-      error: stripeError,
-      paymentIntent,
-    } = await stripe.confirmAfterpayClearpayPayment(clientSecret, {
+    addMessage('PaymentIntent created!')
+
+    // confirm payment on the client
+    const {error: stripeError} = await stripe.confirmAfterpayClearpayPayment(clientSecret, {
       payment_method: {
         billing_details: {
           name,
@@ -70,7 +63,7 @@ const AfterpayClearpayForm = () => {
             state,
             country,
             postal_code: postalCode,
-          }
+          },
         },
       },
       shipping: {
@@ -81,14 +74,13 @@ const AfterpayClearpayForm = () => {
           city: shippingCity,
           state: shippingState,
           country: shippingCountry,
-          postal_code: postalCode,
+          postal_code: shippingPostalCode,
         }
       },
-      return_url: `${window.location.origin}/afterpay-clearpay?return=true`,
-    });
+      return_url: `${window.location.origin}/afterpay-clearpay?return=true`
+    })
 
-    if (stripeError) {
-      // Show error to your customer (e.g., insufficient funds)
+    if(stripeError) {
       addMessage(stripeError.message);
       return;
     }
@@ -96,6 +88,7 @@ const AfterpayClearpayForm = () => {
 
   return (
     <>
+      <h1>Afterpay / Clearpay</h1>
       <form id="payment-form" onSubmit={handleSubmit}>
         <fieldset>
           <legend>Billing</legend>
@@ -113,7 +106,7 @@ const AfterpayClearpayForm = () => {
           <label htmlFor="line1">
             Line 1
           </label>
-          <input id="line1" value={line1} onChange={(e) => setLine1(e.target.value)}  required />
+          <input id="line1" value={line1} onChange={(e) => setLine1(e.target.value)} required />
 
           <label htmlFor="line2">
             Line 2
@@ -149,11 +142,6 @@ const AfterpayClearpayForm = () => {
         <fieldset>
           <legend>Shipping</legend>
 
-          <label htmlFor="shipping_name">
-            Name
-          </label>
-          <input id="shipping_name" value={shippingName} onChange={(e) => setShippingName(e.target.value)} required />
-
           <label htmlFor="shipping_line1">
             Line 1
           </label>
@@ -177,12 +165,12 @@ const AfterpayClearpayForm = () => {
           <label htmlFor="shipping_postal_code">
             Postal code
           </label>
-          <input id="shipping_postal_code" value={shippingPostalCode} onChange={(e) => setPostalCode(e.target.value)} />
+          <input id="shipping_postal_code" value={shippingPostalCode} onChange={(e) => setShippingPostalCode(e.target.value)} />
 
           <label htmlFor="shipping_country">
             Country
           </label>
-          <select id="shipping_country" value={shippingCountry} onChange={(e) => setShippingCountry(e.target.value)}>
+          <select id="shipping_country" value={shippingCountry} onChange={(e) => setCountry(e.target.value) }>
             <option value="AU">Australia</option>
             <option value="NZ">New Zealand</option>
             <option value="UK">United Kingdom</option>
@@ -196,48 +184,45 @@ const AfterpayClearpayForm = () => {
       <StatusMessages messages={messages} />
     </>
   )
-};
+}
 
 const AfterpayClearpayReturn = () => {
   const stripe = useStripe();
   const [messages, addMessage] = useMessages();
 
-  // Extract the client secret from the query string params.
-  const query = new URLSearchParams(useLocation().search);
-  const clientSecret = query.get('payment_intent_client_secret');
+  const params = new URLSearchParams(useLocation().search);
+  const clientSecret = params.get('payment_intent_client_secret');
 
   useEffect(() => {
-    if (!stripe) {
+    if(!stripe) {
       return;
     }
     const fetchPaymentIntent = async () => {
-      const {error, paymentIntent} = await stripe.retrievePaymentIntent(
-        clientSecret
-      );
-      if (error) {
+      const {error, paymentIntent} = await stripe.retrievePaymentIntent(clientSecret);
+      if(error) {
         addMessage(error.message);
       }
       addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
-    };
+    }
     fetchPaymentIntent();
-  }, [clientSecret, stripe, addMessage]);
+  }, [stripe, addMessage, clientSecret])
 
   return (
     <>
       <h1>Afterpay / Clearpay Return</h1>
       <StatusMessages messages={messages} />
     </>
-  );
+  )
 
-};
+}
 
 const AfterpayClearpay = () => {
   const query = new URLSearchParams(useLocation().search);
-  if (query.get('return')) {
+  if(query.get('return')) {
     return <AfterpayClearpayReturn />
   } else {
-    return <AfterpayClearpayForm />
+    return <AfterpayClearpayForm />;
   }
 }
 
-export default withRouter(AfterpayClearpay);
+export default withRouter(AfterpayClearpay)
