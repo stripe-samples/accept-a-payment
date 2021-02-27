@@ -17,6 +17,7 @@ import Ideal from './Ideal';
 import Oxxo from './Oxxo';
 import SepaDebit from './SepaDebit';
 import Sofort from './Sofort';
+import AfterpayClearpay from './AfterpayClearpay';
 
 import './App.css';
 
@@ -30,6 +31,9 @@ function App(props) {
         </Route>
         <Route path="/alipay">
           <Alipay />
+        </Route>
+        <Route path="/afterpay-clearpay">
+          <AfterpayClearpay />
         </Route>
         <Route path="/bancontact">
           <Bancontact />
