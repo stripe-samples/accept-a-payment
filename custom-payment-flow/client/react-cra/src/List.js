@@ -127,6 +127,13 @@ const List = () => {
       category: BANK_TRANSFERS,
     },
     {
+      path: 'afterpay-clearpay',
+      name: 'Afterpay / Clearpay',
+      docs: 'https://stripe.com/docs/payments/afterpay-clearpay',
+      fact_sheet: '',
+      category: BUY_NOW_PAY_LATER,
+    },
+    {
       path: 'klarna',
       name: 'Klarna',
       docs: 'https://stripe.com/docs/sources/klarna',
