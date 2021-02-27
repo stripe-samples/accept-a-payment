@@ -73,6 +73,17 @@ const SepaDebitForm = () => {
   return (
     <>
       <h1>SEPA Direct Debit</h1>
+
+      <p>
+        <h4>Try a <a href="https://stripe.com/docs/testing#sepa-direct-debit">test account</a>:</h4>
+        <div>
+          <code>DE89370400440532013000</code>
+        </div>
+        <div>
+          <code>IE29AIBK93115212345678</code>
+        </div>
+      </p>
+
       <form id="payment-form" onSubmit={handleSubmit}>
         <label htmlFor="name">Name</label>
         <input

@@ -70,6 +70,17 @@ const CardForm = () => {
   return (
     <>
       <h1>Card</h1>
+
+      <p>
+        <h4>Try a <a href="https://stripe.com/docs/testing#cards">test card</a>:</h4>
+        <div>
+          <code>4242424242424242</code> (Visa)
+        </div>
+        <div>
+          <code>4000002500003155</code> (Requires SCA)
+        </div>
+      </p>
+
       <form id="payment-form" onSubmit={handleSubmit}>
         <label htmlFor="card">Card</label>
         <CardElement id="card" />
