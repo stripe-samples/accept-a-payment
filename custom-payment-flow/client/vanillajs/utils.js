@@ -11,7 +11,7 @@ const addMessage = (message) => {
 const addDashboardLinks = (message) => {
   const piDashboardBase = 'https://dashboard.stripe.com/test/payments';
   return message.replace(
-    /(pi_(.*)\b)/g,
+    /(pi_(\S*)\b)/g,
     `<a href="${piDashboardBase}/$1">$1</a>`
   );
 };
