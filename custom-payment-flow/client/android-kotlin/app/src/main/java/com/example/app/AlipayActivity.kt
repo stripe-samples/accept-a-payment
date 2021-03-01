@@ -7,20 +7,19 @@ import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.GsonBuilder
+import com.stripe.android.Stripe
 import com.stripe.android.ApiResultCallback
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.PaymentIntentResult
-import com.stripe.android.Stripe
+import com.stripe.android.AlipayAuthenticator
 import com.stripe.android.model.ConfirmPaymentIntentParams
 import com.stripe.android.model.StripeIntent
-import okhttp3.*
-import java.lang.ref.WeakReference
+import com.alipay.sdk.app.PayTask
 
 class AlipayActivity : AppCompatActivity() {
 
     /**
      * This example collects Alipay payments, implementing the guide here: https://stripe.com/docs/payments/alipay/accept-a-payment
-     * TODO what is the correct link for below
      * To run this app, follow the steps here: https://github.com/stripe-samples/accept-a-card-payment#how-to-run-locally
      */
 
@@ -36,13 +35,12 @@ class AlipayActivity : AppCompatActivity() {
     }
 
     private fun displayAlert(
-        activity: Activity,
         title: String,
         message: String,
         restartDemo: Boolean = false
     ) {
         runOnUiThread {
-            val builder = AlertDialog.Builder(activity)
+            val builder = AlertDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(message)
             if (restartDemo) {
@@ -59,9 +57,30 @@ class AlipayActivity : AppCompatActivity() {
         }
     }
 
-    fun startCheckout() {
-        val weakActivity = WeakReference<Activity>(this)
+    private fun handleResult(result: PaymentIntentResult) {
+        val paymentIntent = result.intent
+        when (paymentIntent.status) {
+            StripeIntent.Status.Succeeded -> {
+                // Payment succeeded
+                val gson = GsonBuilder().setPrettyPrinting().create()
+                displayAlert(
+                    "Payment succeeded",
+                    gson.toJson(paymentIntent),
+                    restartDemo = true
+                )
+            }
+            else -> {
+                // Payment failed/cancelled
+                displayAlert(
+                    "Payment failed",
+                    paymentIntent.lastPaymentError?.message.orEmpty()
+                )
 
+            }
+        }
+    }
+
+    private fun startCheckout() {
         // Create a PaymentIntent by calling the sample server's /create-payment-intent endpoint.
         ApiClient().createPaymentIntent("alipay", completion =  {
             paymentIntentClientSecret, error ->
@@ -70,63 +89,55 @@ class AlipayActivity : AppCompatActivity() {
                     this.paymentIntentClientSecret = it
                 }
                 error?.let {
-                    weakActivity.get()?.let { activity ->
-                        displayAlert(
-                                activity,
-                                "Failed to load page",
-                                "Error: $error"
-                        )
-                    }
+                    displayAlert(
+                        "Failed to load page",
+                        "Error: $error"
+                    )
                 }
             }
         })
 
-        // Hook up the pay button to confirm the Alipay PaymentIntent
+        // Confirm the PaymentIntent when the user taps the pay button
         val payButton: Button = findViewById(R.id.payButton)
         payButton.setOnClickListener {
             val confirmParams = ConfirmPaymentIntentParams.createAlipay(paymentIntentClientSecret)
-            stripe.confirmPayment(this, confirmParams)
+            stripe.confirmAlipayPayment(
+                confirmParams,
+                authenticator = object : AlipayAuthenticator {
+                    override fun onAuthenticationRequest(data: String): Map<String, String> {
+                        return PayTask(this@AlipayActivity).payV2(data, true)
+                    }
+                },
+                callback = object : ApiResultCallback<PaymentIntentResult> {
+                    override fun onSuccess(result: PaymentIntentResult) {
+                        handleResult(result)
+                    }
+
+                    override fun onError(e: Exception) {
+                        // Error using the Alipay SDK, let's use a webview instead
+                        stripe.confirmPayment(this@AlipayActivity, confirmParams)
+                    }
+                }
+            )
         }
     }
 
+    // Handle activity result. This is needed when the webview is used
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val weakActivity = WeakReference<Activity>(this)
 
         // Handle the result of stripe.confirmPayment
         stripe.onPaymentResult(requestCode, data, object : ApiResultCallback<PaymentIntentResult> {
             override fun onSuccess(result: PaymentIntentResult) {
-                val paymentIntent = result.intent
-                val status = paymentIntent.status
-                if (status == StripeIntent.Status.Succeeded) {
-                    val gson = GsonBuilder().setPrettyPrinting().create()
-                    weakActivity.get()?.let { activity ->
-                        displayAlert(
-                            activity,
-                            "Payment succeeded",
-                            gson.toJson(paymentIntent),
-                            restartDemo = true
-                        )
-                    }
-                } else if (status == StripeIntent.Status.RequiresPaymentMethod) {
-                    weakActivity.get()?.let { activity ->
-                        displayAlert(
-                            activity,
-                            "Payment failed",
-                            paymentIntent.lastPaymentError?.message.orEmpty()
-                        )
-                    }
-                }
+                handleResult(result)
             }
 
             override fun onError(e: Exception) {
-                weakActivity.get()?.let { activity ->
-                    displayAlert(
-                        activity,
-                        "Payment failed",
-                        e.toString()
-                    )
-                }
+                // Error
+                displayAlert(
+                    "Error",
+                    e.toString()
+                )
             }
         })
     }
