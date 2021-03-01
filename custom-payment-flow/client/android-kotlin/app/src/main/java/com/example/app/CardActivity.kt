@@ -14,11 +14,6 @@ import com.stripe.android.Stripe
 import com.stripe.android.model.ConfirmPaymentIntentParams
 import com.stripe.android.model.StripeIntent
 import com.stripe.android.view.CardInputWidget
-import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
-import java.io.IOException
 import java.lang.ref.WeakReference
 
 
@@ -29,7 +24,6 @@ class CardActivity : AppCompatActivity() {
      *
      * To run this app, follow the steps here: https://github.com/stripe-samples/accept-a-payment#how-to-run-locally
      */
-    private val httpClient = OkHttpClient()
     private lateinit var paymentIntentClientSecret: String
     private lateinit var stripe: Stripe
 
@@ -71,45 +65,23 @@ class CardActivity : AppCompatActivity() {
     private fun startCheckout() {
         val weakActivity = WeakReference<Activity>(this)
         // Create a PaymentIntent by calling the sample server's /create-payment-intent endpoint.
-        val mediaType = "application/json; charset=utf-8".toMediaType()
-        val requestJson = """
-            {
-                "currency":"usd",
-                "paymentMethodType":"card"
-            }
-            """
-        val body = requestJson.toRequestBody(mediaType)
-        val request = Request.Builder()
-            .url(BackendUrl + "create-payment-intent")
-            .post(body)
-            .build()
-        httpClient.newCall(request)
-            .enqueue(object: Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    weakActivity.get()?.let { activity ->
-                        displayAlert(activity, "Failed to load page", "Error: $e")
-                    }
+        ApiClient().createPaymentIntent("card", completion =  {
+            paymentIntentClientSecret, error ->
+            run {
+                paymentIntentClientSecret?.let {
+                    this.paymentIntentClientSecret = it
                 }
-
-                override fun onResponse(call: Call, response: Response) {
-                    if (!response.isSuccessful) {
-                        weakActivity.get()?.let { activity ->
-                            displayAlert(
+                error?.let {
+                    weakActivity.get()?.let { activity ->
+                        displayAlert(
                                 activity,
                                 "Failed to load page",
-                                "Error: $response"
-                            )
-                        }
-                    } else {
-                        val responseData = response.body?.string()
-                        val responseJson =
-                            responseData?.let { JSONObject(it) } ?: JSONObject()
-
-                        // The response from the server contains the PaymentIntent's client_secret
-                        paymentIntentClientSecret = responseJson.getString("clientSecret")
+                                "Error: $error"
+                        )
                     }
                 }
-            })
+            }
+        })
 
         // Hook up the pay button to the card widget and stripe instance
         val payButton: Button = findViewById(R.id.payButton)
