@@ -1,9 +1,7 @@
 package com.example.app
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.GsonBuilder
@@ -15,6 +13,7 @@ import com.stripe.android.AlipayAuthenticator
 import com.stripe.android.model.ConfirmPaymentIntentParams
 import com.stripe.android.model.StripeIntent
 import com.alipay.sdk.app.PayTask
+import kotlinx.android.synthetic.main.alipay_activity.*
 
 class AlipayActivity : AppCompatActivity() {
 
@@ -98,7 +97,6 @@ class AlipayActivity : AppCompatActivity() {
         })
 
         // Confirm the PaymentIntent when the user taps the pay button
-        val payButton: Button = findViewById(R.id.payButton)
         payButton.setOnClickListener {
             val confirmParams = ConfirmPaymentIntentParams.createAlipay(paymentIntentClientSecret)
             stripe.confirmAlipayPayment(
