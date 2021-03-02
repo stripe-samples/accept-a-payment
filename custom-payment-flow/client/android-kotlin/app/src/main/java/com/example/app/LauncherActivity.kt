@@ -13,7 +13,6 @@ import androidx.appcompat.app.AlertDialog
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
-import java.lang.ref.WeakReference
 import com.stripe.android.PaymentConfiguration
 
 // 10.0.2.2 is the Android emulator's alias to localhost
@@ -25,7 +24,7 @@ class LauncherActivity : AppCompatActivity() {
     private val httpClient = OkHttpClient()
     private lateinit var publishableKey: String
 
-    override fun onCreate(savedInstanceState: Bundle??) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_launcher)
@@ -36,12 +35,11 @@ class LauncherActivity : AppCompatActivity() {
     }
 
     private fun displayAlert(
-        activity: Activity,
         title: String,
         message: String
     ) {
         runOnUiThread {
-            val builder = AlertDialog.Builder(activity)
+            val builder = AlertDialog.Builder(this)
                 .setTitle(title)
                 .setMessage(message)
 
@@ -53,8 +51,6 @@ class LauncherActivity : AppCompatActivity() {
     }
 
     private fun fetchPublishableKey() {
-        val weakActivity = WeakReference<Activity>(this)
-
         val request = Request.Builder()
             .url(BackendUrl + "config")
             .build()
@@ -62,20 +58,15 @@ class LauncherActivity : AppCompatActivity() {
         httpClient.newCall(request)
             .enqueue(object: Callback {
                 override fun onFailure(call: Call, e: IOException) {
-                    weakActivity.get()?.let { activity ->
-                        displayAlert(activity, "Failed to load page", "Error: $e")
-                    }
+                    displayAlert("Failed to load page", "Error: $e")
                 }
 
                 override fun onResponse(call: Call, response: Response) {
                     if (!response.isSuccessful) {
-                        weakActivity.get()?.let { activity ->
-                            displayAlert(
-                                activity,
-                                "Failed to load page",
-                                "Error: $response"
-                            )
-                        }
+                        displayAlert(
+                            "Failed to load page",
+                            "Error: $response"
+                        )
                     } else {
                         val responseData = response.body?.string()
                         val responseJson =
