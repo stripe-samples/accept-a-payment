@@ -3,8 +3,22 @@
   "configureDotEnv": true,
   "integrations": [
     {
+      "name": "prebuilt-checkout-page",
+      "clients": ["html", "react-cra"],
+      "servers": [
+        "ruby",
+        "node",
+        "python",
+        "php",
+        "java",
+        "go",
+        "dotnet",
+        "php-slim"
+      ]
+    },
+    {
       "name": "custom-payment-flow",
-      "clients": ["vanillajs", "react-cra", "android", "ios"],
+      "clients": ["html", "react-cra", "ios", "android-kotlin", "ios-swiftui"],
       "servers": [
         "ruby",
         "node",
