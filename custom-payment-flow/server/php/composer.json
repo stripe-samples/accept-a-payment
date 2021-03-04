@@ -1,6 +1,6 @@
 {
     "require": {
-        "stripe/stripe-php": "^7.69.0"
+        "stripe/stripe-php": "^7.75"
     },
     "scripts": {
         "start": "php -S localhost:4242"
