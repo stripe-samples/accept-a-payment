@@ -4,9 +4,8 @@ _Learn how to securely accept payments online._
 
 This repository includes examples of 2 types of integration flows:
 
-|||
-|---|---|
 |[Prebuilt Checkout page](./prebuilt-checkout-page)| [Custom payment flow](./custom-payment-flow) |
+|---|---|
 | Lower complexity. | Higher complexity. |
 | Customize logo, images, and colors. | Customize all components with CSS. |
 | Add payment method types with a single line change. | Implement each payment method type as a custom integration. |
