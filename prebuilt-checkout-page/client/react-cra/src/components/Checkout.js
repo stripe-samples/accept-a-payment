@@ -1,7 +1,7 @@
-import React, { useEffect, useReducer } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
+import React, {useEffect, useReducer} from 'react';
+import {loadStripe} from '@stripe/stripe-js';
 
-const fetchCheckoutSession = async ({ quantity }) => {
+const fetchCheckoutSession = async ({quantity}) => {
   return fetch('/create-checkout-session', {
     method: 'POST',
     headers: {
@@ -13,7 +13,7 @@ const fetchCheckoutSession = async ({ quantity }) => {
   }).then((res) => res.json());
 };
 
-const formatPrice = ({ amount, currency, quantity }) => {
+const formatPrice = ({amount, currency, quantity}) => {
   const numberFormat = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency,
@@ -64,9 +64,9 @@ function reducer(state, action) {
         }),
       };
     case 'setLoading':
-      return { ...state, loading: action.payload.loading };
+      return {...state, loading: action.payload.loading};
     case 'setError':
-      return { ...state, error: action.payload.error };
+      return {...state, error: action.payload.error};
     default:
       throw new Error();
   }
@@ -84,14 +84,14 @@ const Checkout = () => {
   useEffect(() => {
     async function fetchConfig() {
       // Fetch config from our backend.
-      const { publicKey, unitAmount, currency } = await fetch(
+      const {publicKey, unitAmount, currency} = await fetch(
         '/config'
       ).then((res) => res.json());
       // Make sure to call `loadStripe` outside of a component’s render to avoid
       // recreating the `Stripe` object on every render.
       dispatch({
         type: 'useEffectUpdate',
-        payload: { unitAmount, currency, stripe: await loadStripe(publicKey) },
+        payload: {unitAmount, currency, stripe: await loadStripe(publicKey)},
       });
     }
     fetchConfig();
@@ -99,20 +99,20 @@ const Checkout = () => {
 
   const handleClick = async (event) => {
     // Call your backend to create the Checkout session.
-    dispatch({ type: 'setLoading', payload: { loading: true } });
-    const { sessionId } = await fetchCheckoutSession({
+    dispatch({type: 'setLoading', payload: {loading: true}});
+    const {sessionId} = await fetchCheckoutSession({
       quantity: state.quantity,
     });
     // When the customer clicks on the button, redirect them to Checkout.
-    const { error } = await state.stripe.redirectToCheckout({
+    const {error} = await state.stripe.redirectToCheckout({
       sessionId,
     });
     // If `redirectToCheckout` fails due to a browser or network
     // error, display the localized error message to your customer
     // using `error.message`.
     if (error) {
-      dispatch({ type: 'setError', payload: { error } });
-      dispatch({ type: 'setLoading', payload: { loading: false } });
+      dispatch({type: 'setError', payload: {error}});
+      dispatch({type: 'setLoading', payload: {loading: false}});
     }
   };
 
@@ -139,7 +139,7 @@ const Checkout = () => {
             <button
               className="increment-btn"
               disabled={state.quantity === 1}
-              onClick={() => dispatch({ type: 'decrement' })}
+              onClick={() => dispatch({type: 'decrement'})}
             >
               -
             </button>
@@ -154,7 +154,7 @@ const Checkout = () => {
             <button
               className="increment-btn"
               disabled={state.quantity === 10}
-              onClick={() => dispatch({ type: 'increment' })}
+              onClick={() => dispatch({type: 'increment'})}
             >
               +
             </button>

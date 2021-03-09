@@ -1,23 +1,17 @@
 // Fetch your Stripe publishable key to initialize Stripe.js
 // In practice, you might just hard code the publishable API
 // key here.
-fetch('/config')
-  .then(function (result) {
-    return result.json();
-  })
-  .then(function (json) {
-    window.config = json;
-    window.stripe = Stripe(config.publicKey);
-  });
+const {publicKey} = await fetch('/config').then((r) => r.json());
+const stripe = Stripe(publicKey);
 
 // When the form is submitted...
 var submitBtn = document.querySelector('#submit');
-submitBtn.addEventListener('click', function (evt) {
+submitBtn.addEventListener('click', async (e) => {
   var inputEl = document.getElementById('quantity-input');
   var quantity = parseInt(inputEl.value);
 
-  // Create the checkout session.
-  fetch('/create-checkout-session', {
+  // Create the checkout session on the server.
+  const {error, sessionId} = await fetch('/create-checkout-session', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -25,22 +19,26 @@ submitBtn.addEventListener('click', function (evt) {
     body: JSON.stringify({
       quantity: quantity, // with the quantity
     }),
-  }).then(function (result) {
-    return result.json();
-  }).then(function (data) {
-    // Redirect to Checkout. with the ID of the
-    // CheckoutSession created on the server.
-    stripe.redirectToCheckout({
-      sessionId: data.sessionId,
-    })
-    .then(function(result) {
-      // If redirection fails, display an error to the customer.
-      if (result.error) {
-        var displayError = document.getElementById('error-message');
-        displayError.textContent = result.error.message;
-      }
-    });
+  }).then((r) => r.json());
+
+  // If the server responds with an error, display that to the user.
+  if (error) {
+    var displayError = document.getElementById('error-message');
+    displayError.textContent = result.error.message;
+    return;
+  }
+
+  // If the Checkout Session was created successfully on the server,
+  // redirect to the Stripe hosted Checkout page.
+  const {error: stripeError} = await stripe.redirectToCheckout({
+    sessionId: data.sessionId,
   });
+
+  // If the redirect fails, display an error to the user.
+  if (stripeError) {
+    var displayError = document.getElementById('error-message');
+    displayError.textContent = result.error.message;
+  }
 });
 
 // The max and min number of photos a customer can purchase
@@ -59,13 +57,13 @@ quantityInput.addEventListener('change', function (e) {
 });
 
 /* Method for changing the product quantity when a customer clicks the increment / decrement buttons */
-var addBtn = document.getElementById("add");
-var subtractBtn = document.getElementById("subtract");
+var addBtn = document.getElementById('add');
+var subtractBtn = document.getElementById('subtract');
 var updateQuantity = function (evt) {
   if (evt && evt.type === 'keypress' && evt.keyCode !== 13) {
     return;
   }
-  var delta = evt && evt.target.id === 'add' && 1 || -1;
+  var delta = (evt && evt.target.id === 'add' && 1) || -1;
 
   addBtn.disabled = false;
   subtractBtn.disabled = false;

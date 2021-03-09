@@ -1,5 +1,5 @@
 {
-  "name": "checkout-one-time-payments",
+  "name": "accept-a-payment-checkout",
   "version": "1.0.0",
   "description": "Accept payments with Stripe Checkout",
   "main": "index.js",
