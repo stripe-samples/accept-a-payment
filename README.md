@@ -1,9 +1,22 @@
 # Accept a payment
 
-- 2 integration paths. custom form or checkout.
-- make sure that there is a .env with the API keys set as shown in .env.example
-- follow instructions in each server readme
+_Learn how to securely accept payments online._
 
+This repository includes examples of 2 types of integration flows:
+
+|||
+|---|---|
+|[Prebuilt Checkout page](./prebuilt-checkout-page)| [Custom payment flow](./custom-payment-flow) |
+| Lower complexity. | Higher complexity. |
+| Customize logo, images, and colors. | Customize all components with CSS. |
+| Add payment method types with a single line change. | Implement each payment method type as a custom integration. |
+| Built-in support for Apple Pay, and Google Pay. | Integrate Apple Pay and Google Pay with extra code.|
+| Redirect to Stripe hosted page. | Customers stay on your site. |
+| Small refactor to collect recurring payments. | Large refactor to collect recurring payments. |
+
+
+
+---
 ## FAQ
 
 Q: Why did you pick these frameworks?
