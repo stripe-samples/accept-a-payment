@@ -2,9 +2,9 @@
 
 _Learn how to securely accept payments online._
 
-This repository includes examples of 2 types of integration flows:
+This repository includes examples of 2 types of integration types.
 
-|[Prebuilt Checkout page](./prebuilt-checkout-page)| [Custom payment flow](./custom-payment-flow) |
+|[Prebuilt Checkout page](./prebuilt-checkout-page) ([docs](https://stripe.com/docs/payments/accept-a-payment?ui=checkout))| [Custom payment flow](./custom-payment-flow) ([docs](https://stripe.com/docs/payments/accept-a-payment?ui=elements)) |
 |---|---|
 | Lower complexity. | Higher complexity. |
 | Customize logo, images, and colors. | Customize all components with CSS. |
@@ -12,8 +12,23 @@ This repository includes examples of 2 types of integration flows:
 | Built-in support for Apple Pay, and Google Pay. | Integrate Apple Pay and Google Pay with extra code.|
 | Redirect to Stripe hosted page. | Customers stay on your site. |
 | Small refactor to collect recurring payments. | Large refactor to collect recurring payments. |
+| Input validation and error handling built in. | Implement your own input validation and error handling. |
+| Localized in 25+ languages. | Implement your own localization. |
 
+## Installation
 
+The recommended way to use this Stripe Sample is with the [Stripe CLI](https://stripe.com/docs/stripe-cli):
+
+```sh
+stripe samples create accept-a-payment
+```
+
+You can also clone the repository, but there is a bit more manual setup work to configure the `.env` environment variable file in the server directory.
+
+You'll find more detailed instructions for each integration type in the relevant readmes:
+
+- [Prebuilt Checkout page](./prebuilt-checkout-page/README.md)
+- [Custom payment flow](./prebuilt-checkout-page/README.md)
 
 ---
 ## FAQ
@@ -34,5 +49,6 @@ If you have questions, comments, or need help with code, we're here to help:
 
 ## Authors
 
-[@cjav_dev](https://twitter.com/cjav_dev)
-[@thorwebdev](https://twitter.com/thorwebdev)
+- [@cjav_dev](https://twitter.com/cjav_dev)
+- [@thorwebdev](https://twitter.com/thorwebdev)
+- [@aliriaz](https://github.com/aliriaz-stripe)
