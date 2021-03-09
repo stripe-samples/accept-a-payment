@@ -17,7 +17,7 @@ This repository includes examples of 2 types of integration types.
 
 ## Installation
 
-The recommended way to use this Stripe Sample is with the [Stripe CLI](https://stripe.com/docs/stripe-cli):
+The recommended way to use this Stripe Sample is with the [Stripe CLI](https://stripe.com/docs/stripe-cli#install):
 
 ```sh
 stripe samples create accept-a-payment
