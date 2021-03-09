@@ -23,9 +23,11 @@ The recommended way to use this Stripe Sample is with the [Stripe CLI](https://s
 stripe samples create accept-a-payment
 ```
 
-You can also clone the repository, but there is a bit more manual setup work to configure the `.env` environment variable file in the server directory.
+You can also clone the repository, but there is a bit more manual setup work to
+configure the `.env` environment variable file in the server directory.
 
-You'll find more detailed instructions for each integration type in the relevant readmes:
+You'll find more detailed instructions for each integration type in the
+relevant READMEs:
 
 - [Prebuilt Checkout page](./prebuilt-checkout-page/README.md)
 - [Custom payment flow](./prebuilt-checkout-page/README.md)
@@ -46,6 +48,8 @@ If you have questions, comments, or need help with code, we're here to help:
 - on Twitter at [@StripeDev](https://twitter.com/StripeDev)
 - on Stack Overflow at the [stripe-payments](https://stackoverflow.com/tags/stripe-payments/info) tag
 - by [email](mailto:support+github@stripe.com)
+
+Sign up to [stay updated with developer news](https://go.stripe.global/dev-digest).
 
 ## Authors
 

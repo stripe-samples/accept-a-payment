@@ -32,15 +32,6 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class Server {
     private static Gson gson = new Gson();
 
-    static class PostBody {
-        @SerializedName("quantity")
-        Long quantity;
-
-        public Long getQuantity() {
-            return quantity;
-        }
-    }
-
     public static void main(String[] args) {
         port(4242);
 
@@ -58,7 +49,7 @@ public class Server {
             Price price = Price.retrieve(dotenv.get("PRICE"));
 
             Map<String, Object> responseData = new HashMap<>();
-            responseData.put("publicKey", dotenv.get("STRIPE_PUBLISHABLE_KEY"));
+            responseData.put("publishableKey", dotenv.get("STRIPE_PUBLISHABLE_KEY"));
             responseData.put("unitAmount", price.getUnitAmount());
             responseData.put("currency", price.getCurrency());
             return gson.toJson(responseData);
@@ -76,10 +67,8 @@ public class Server {
 
         post("/create-checkout-session", (request, response) -> {
             response.type("application/json");
-            PostBody postBody = gson.fromJson(request.body(), PostBody.class);
 
             String domainUrl = dotenv.get("DOMAIN");
-            Long quantity = postBody.getQuantity();
             String price = dotenv.get("PRICE");
 
             // Pull the comma separated list of payment method types from the
@@ -90,29 +79,24 @@ public class Server {
             // the payment method types you accept.
             String[] pmTypes = dotenv.get("PAYMENT_METHOD_TYPES", "card").split(",", 0);
             List<PaymentMethodType> paymentMethodTypes = Stream
-              .of(pmTypes)
-              .map(String::toUpperCase)
-              .map(PaymentMethodType::valueOf)
-              .collect(Collectors.toList());
+                .of(pmTypes)
+                .map(String::toUpperCase)
+                .map(PaymentMethodType::valueOf)
+                .collect(Collectors.toList());
 
-            // Create new Checkout Session for the order
-            // Other optional params include:
-            // [billing_address_collection] - to display billing address details on the page
-            // [customer] - if you have an existing Stripe Customer ID
-            // [customer_email] - lets you prefill the email input in the form
+            // Create new Checkout Session for the payment
             // For full details see https://stripe.com/docs/api/checkout/sessions/create
-
             // ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID
             // set as a query param
             SessionCreateParams.Builder builder = new SessionCreateParams.Builder()
-                    .setSuccessUrl(domainUrl + "/success.html?session_id={CHECKOUT_SESSION_ID}")
-                    .setCancelUrl(domainUrl + "/canceled.html")
-                    .addAllPaymentMethodType(paymentMethodTypes)
-                    .setMode(SessionCreateParams.Mode.PAYMENT);
-
-            // Add a line item for the sticker the Customer is purchasing
-            LineItem item = new LineItem.Builder().setQuantity(quantity).setPrice(price).build();
-            builder.addLineItem(item);
+                .setSuccessUrl(domainUrl + "/success.html?session_id={CHECKOUT_SESSION_ID}")
+                .setCancelUrl(domainUrl + "/canceled.html")
+                .addAllPaymentMethodType(paymentMethodTypes)
+                .setMode(SessionCreateParams.Mode.PAYMENT)
+                .addLineItem(SessionCreateParams.LineItem.builder()
+                        .setQuantity(1L)
+                        .setPrice(price)
+                        .build());
 
             SessionCreateParams createParams = builder.build();
             Session session = Session.create(createParams);
@@ -139,6 +123,22 @@ public class Server {
 
             switch (event.getType()) {
                 case "checkout.session.completed":
+                    // Note: If you need access to the line items, for instance
+                    // to automate fullfillment based on the the ID of the
+                    // Price, you'll need to refetch the Checkout Session here,
+                    // and expand the line items:
+                    //
+                    // SessionRetrieveParams params =
+                    // SessionRetrieveParams.builder()
+                    //     .addExpand("line_items")
+                    //     .build();
+                    //
+                    // // Pass in the ID of the session from event.getData().getObject().getId()
+                    // Session session = Session.retrieve("cs_test_...", params, null);
+                    //
+                    // SessionListLineItemsParams listLineItemsParams = SessionListLineItemsParams.builder().build();
+                    //
+                    // LineItemCollection lineItems = session.listLineItems(listLineItemsParams);
                     System.out.println("Payment succeeded!");
                     response.status(200);
                     return "";
@@ -153,8 +153,8 @@ public class Server {
         Dotenv dotenv = Dotenv.load();
         String price = dotenv.get("PRICE");
         if(price == "price_12345" || price == "" || price == null) {
-          System.out.println("You must set a Price ID in the .env file. Please see the README.");
-          System.exit(0);
+            System.out.println("You must set a Price ID in the .env file. Please see the README.");
+            System.exit(0);
         }
     }
 }

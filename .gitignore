@@ -12,6 +12,7 @@ dist
 # Ruby files
 Gemfile.lock
 vendor
+.byebug_history
 
 # Python files
 __pycache__

@@ -1,4 +1,6 @@
-RSpec.describe "full integration path" do
+require_relative './spec_helper.rb'
+
+RSpec.describe "custom-payment-flow integration" do
   it "fetches the index route" do
     # Get the index html page
     response = get("/")

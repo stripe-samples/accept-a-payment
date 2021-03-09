@@ -2,8 +2,8 @@
 
 public class ConfigResponse
 {
-    [JsonProperty("publicKey")]
-    public string PublicKey { get; set; }
+    [JsonProperty("publishableKey")]
+    public string PublishableKey { get; set; }
 
     [JsonProperty("unitAmount")]
     public long? UnitAmount { get; set; }

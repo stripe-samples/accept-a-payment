@@ -41,9 +41,9 @@ def get_example():
 def get_publishable_key():
     price = stripe.Price.retrieve(os.getenv('PRICE'))
     return jsonify({
-      'publicKey': os.getenv('STRIPE_PUBLISHABLE_KEY'),
-      'unitAmount': price['unit_amount'],
-      'currency': price['currency']
+        'publishableKey': os.getenv('STRIPE_PUBLISHABLE_KEY'),
+        'unitAmount': price['unit_amount'],
+        'currency': price['currency']
     })
 
 # Fetch the Checkout Session to display the JSON result on the success page
@@ -62,25 +62,18 @@ def create_checkout_session():
     try:
         # Create new Checkout Session for the order
         # Other optional params include:
-        # [billing_address_collection] - to display billing address details on the page
-        # [customer] - if you have an existing Stripe Customer ID
-        # [payment_intent_data] - lets capture the payment later
-        # [customer_email] - lets you prefill the email input in the form
-        # For full details see https:#stripe.com/docs/api/checkout/sessions/create
 
+        # For full details see https:#stripe.com/docs/api/checkout/sessions/create
         # ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
         checkout_session = stripe.checkout.Session.create(
-            success_url=domain_url +
-            "/success.html?session_id={CHECKOUT_SESSION_ID}",
-            cancel_url=domain_url + "/canceled.html",
-            payment_method_types= os.getenv("PAYMENT_METHOD_TYPES").split(','),
-            mode="payment",
-            line_items=[
-                {
-                    "price": os.getenv('PRICE'),
-                    "quantity": data['quantity']
-                }
-            ]
+            success_url=domain_url + '/success.html?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url=domain_url + '/canceled.html',
+            payment_method_types= os.getenv('PAYMENT_METHOD_TYPES').split(','),
+            mode='payment',
+            line_items=[{
+                'price': os.getenv('PRICE'),
+                'quantity': 1,
+            }]
         )
         return jsonify({'sessionId': checkout_session['id']})
     except Exception as e:
@@ -114,7 +107,16 @@ def webhook_received():
 
     if event_type == 'checkout.session.completed':
         print('🔔 Payment succeeded!')
-
+        # Note: If you need access to the line items, for instance to
+        # automate fullfillment based on the the ID of the Price, you'll
+        # need to refetch the Checkout Session here, and expand the line items:
+        #
+        # session = stripe.checkout.Session.retrieve(
+        #     data['object']['id'], expand=['line_items'])
+        #
+        # line_items = session.line_items
+        #
+        # Read more about expand here: https://stripe.com/docs/expand
     return jsonify({'status': 'success'})
 
 if __name__ == '__main__':

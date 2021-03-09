@@ -4,12 +4,15 @@
 # Refer to `server.rb` for integration details.
 require 'stripe'
 require 'toml-rb'
+require 'byebug'
 require 'dotenv'
 
 class ConfigHelper
   attr_reader :vars
 
   REQUIRED_VARS = [
+    'PRICE',
+    'DOMAIN',
     'STATIC_DIR',
     'STRIPE_PUBLISHABLE_KEY',
     'STRIPE_SECRET_KEY',
@@ -34,6 +37,12 @@ class ConfigHelper
     Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 
     helper.valid_paths?
+    Dotenv.load
+
+    helper.valid_domain?
+    Dotenv.load
+
+    helper.valid_prices?
     Dotenv.load
   end
 
@@ -67,14 +76,102 @@ class ConfigHelper
     end
   end
 
+  def valid_prices?
+    puts "Checking that a valid price is configured..."
+    _valid_price?('PRICE', 1500)
+  end
+
+  def _valid_price?(price_id, unit_amount)
+    price = ENV[price_id]
+    if price.nil? || price == '' || price.include?('...')
+      puts <<~DOC
+        Environment variable missing for #{price_id}. This should be the ID
+        of a Price object in your Stripe account. You can create a product and
+        related prices in the dashbaord here: https://dashboard.stripe.com/test/products.
+
+        Would you like us to create a Price now? [Y/n]
+      DOC
+      c = gets.chomp
+      if c.upcase == "N"
+        puts "Please create a Product and Price from the dashboard, then set its ID in .env."
+        exit
+      else
+        stripe_price = Stripe::Price.create(
+          unit_amount: 1500,
+          currency: 'USD',
+          product_data: {
+            name: 'Sample Price',
+            metadata: {
+              stripe_sample_id: 'accept-a-payment',
+              stripe_sample_integration: 'prebuilt-checkout-page',
+              stripe_sample_lang: 'ruby',
+            }
+          }
+        )
+        puts <<~DOC
+          Price created!
+
+
+        DOC
+        set_dotenv!(price_id, stripe_price.id)
+      end
+    end
+  end
+
+  def valid_domain?
+    puts "Checking that a valid base URL (DOMAIN) is set..."
+    domain = ENV['DOMAIN']
+    if domain.nil?
+      puts <<~DOC
+        No DOMAIN environment variable found in `.env`. This should be a
+        base URL and include the scheme like `http://localhost:4242`.
+
+        Would you like to use the default? [Y/n]
+      DOC
+      c = gets.chomp
+      if c.upcase == "N"
+        exit
+      else
+        set_dotenv!('DOMAIN', 'http://localhost:4242')
+        return
+      end
+    end
+
+    if !domain.start_with?('http')
+      puts <<~DOC
+        Invalid DOMAIN set: `#{domain}`. This should be a
+        base URL and include the scheme like `http://localhost:4242`.
+
+        Would you like to use the default? [Y/n]
+      DOC
+
+      c = gets.chomp
+      if c.upcase == "N"
+        exit
+      else
+        set_dotenv!('DOMAIN', 'http://localhost:4242')
+        return
+      end
+    end
+  end
+
   def valid_paths?
-    static_dir = @vars['STATIC_DIR']
+    puts "Checking that paths are valid..."
+    static_dir = ENV['STATIC_DIR']
     if static_dir.nil?
       puts <<~DOC
         No STATIC_DIR environment variable found in `.env`. This should be the
         relative path to the directory where the client side HTML code is.
+
+        Would you like to use the default STATIC_DIR=../../client/html? [Y/n]
       DOC
-      return false
+
+      c = gets.chomp
+      if c.upcase == "N"
+        exit
+      else
+        set_dotenv!('STATIC_DIR', '../../client/html')
+      end
     end
 
     if static_dir == ''

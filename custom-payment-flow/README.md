@@ -1,4 +1,4 @@
-# Accept a payment with Stripe Checkout
+# Accept a payment with a custom form
 
 This integration shows you how to accept payments with Stripe
 [Checkout](https://stripe.com/docs/checkout).
@@ -25,10 +25,12 @@ stripe samples create accept-a-payment
 Then pick:
 
 ```sh
-prebuilt-checkout-page
+custom-payment-flow
 ```
 
-This sample includes several different server implementations and several different client implementations. The servers all implement the same routes and the clients all work with the same server routes.
+This sample includes several different server implementations and several
+different client implementations. The servers all implement the same routes and
+the clients all work with the same server routes.
 
 Pick a server:
 
@@ -61,7 +63,7 @@ Rename and move the [`.env.example`](.env.example) file into a file named
 example:
 
 ```
-cp .env.example prebuilt-checkout-page/server/node/.env
+cp .env.example custom-payment-flow/server/node/.env
 ```
 
 Example `.env` file:
@@ -69,7 +71,6 @@ Example `.env` file:
 ```sh
 STRIPE_PUBLISHABLE_KEY=<replace-with-your-publishable-key>
 STRIPE_SECRET_KEY=<replace-with-your-secret-key>
-PRICE=<replace-with-a-price-id-from-your-account>
 STATIC_DIR=../../client/html
 DOMAIN=http://localhost:4242
 ```
@@ -85,53 +86,7 @@ The other environment variables are configurable:
 
 `DOMAIN` is the domain of your website, where Checkout will redirect back to after the customer completes the payment on the Checkout page.
 
-**2. Create a Price**
-
-[![Required](https://img.shields.io/badge/REQUIRED-TRUE-ORANGE.svg)](https://shields.io/)
-
-
-You can create Products and Prices in the Dashboard or with the API. This sample requires a Price to run. Once you've created a Price, and add its ID to your `.env`.
-
-`PRICE` is the ID of a [Price](https://stripe.com/docs/api/prices/create) for your product. A Price has a unit amount and currency.
-
-You can quickly create a Price with the Stripe CLI like so:
-
-```sh
-stripe prices create --unit-amount 500 --currency usd -d "product_data[name]=demo"
-```
-
-Which will return the json:
-
-```json
-{
-  "id": "price_1Hh1ZeCZ6qsJgndJaX9fauRl",
-  "object": "price",
-  "active": true,
-  "billing_scheme": "per_unit",
-  "created": 1603841250,
-  "currency": "usd",
-  "livemode": false,
-  "lookup_key": null,
-  "metadata": {
-  },
-  "nickname": null,
-  "product": "prod_IHalmba0p05ZKD",
-  "recurring": null,
-  "tiers_mode": null,
-  "transform_quantity": null,
-  "type": "one_time",
-  "unit_amount": 500,
-  "unit_amount_decimal": "500"
-}
-```
-
-Take the Price ID, in the example case `price_1Hh1ZeCZ6qsJgndJaX9fauRl`, and set the environment variable in `.env`:
-
-```sh
-PRICE=price_1Hh1ZeCZ6qsJgndJaX9fauRl
-```
-
-**3. Follow the server instructions on how to run**
+**2. Follow the server instructions on how to run**
 
 Pick the server language you want and follow the instructions in the server folder README on how to run.
 

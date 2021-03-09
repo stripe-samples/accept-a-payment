@@ -27,10 +27,10 @@ namespace server.Controllers
             var service = new PriceService(this.client);
             var price = await service.GetAsync(this.options.Value.Price);
 
-            // return json: publicKey (env), unitAmount, currency
+            // return json: publishableKey (`./.env`), unitAmount, currency
             return new ConfigResponse
             {
-                PublicKey = this.options.Value.PublishableKey,
+                PublishableKey = this.options.Value.PublishableKey,
                 UnitAmount = price.UnitAmount,
                 Currency = price.Currency,
             };
@@ -45,7 +45,7 @@ namespace server.Controllers
         }
 
         [HttpPost("create-checkout-session")]
-        public async Task<CreateCheckoutSessionResponse> CreateCheckoutSession([FromBody] CreateCheckoutSessionRequest req)
+        public async Task<CreateCheckoutSessionResponse> CreateCheckoutSession()
         {
             // Pulled from environment variables in the `.env` file. In practice,
             // users often hard code this list of strings representing the types of
@@ -70,7 +70,7 @@ namespace server.Controllers
                 {
                     new SessionLineItemOptions
                     {
-                        Quantity = req.Quantity,
+                        Quantity = 1,
                         Price = this.options.Value.Price,
                     },
                 },
@@ -110,6 +110,19 @@ namespace server.Controllers
                 var session = stripeEvent.Data.Object as Stripe.Checkout.Session;
                 Console.WriteLine($"Session ID: {session.Id}");
                 // Take some action based on session.
+                // Note: If you need access to the line items, for instance to
+                // automate fullfillment based on the the ID of the Price, you'll
+                // need to refetch the Checkout Session here, and expand the line items:
+                //
+                //var options = new SessionGetOptions();
+                // options.AddExpand("line_items");
+                //
+                // var service = new SessionService();
+                // Session session = service.Get(session.Id, options);
+                //
+                // StripeList<LineItem> lineItems = session.LineItems;
+                //
+                // Read more about expand here: https://stripe.com/docs/expand
             }
 
             return Ok();

@@ -1,36 +1,32 @@
 require 'stripe'
 require 'sinatra'
 require 'dotenv'
+require './config_helper.rb'
 
 # Copy the .env.example in the root into a .env file in this folder.
 Dotenv.load
-
 # Ensure environment variables were configured properly.
-price = ENV['PRICE']
-if price == 'price_12345' || price == '' || price.nil?
-  puts "You must set a Price ID in your .env file. Please see the README."
-  exit
-end
-
+ConfigHelper.check_env!
 Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 
 set :static, true
-
 set :public_folder, File.join(File.dirname(__FILE__), ENV['STATIC_DIR'])
 set :port, 4242
 set :bind, '0.0.0.0'
 
+# Serve the static assets and a basic index.html page.
 get '/' do
   content_type 'text/html'
   send_file File.join(settings.public_folder, 'index.html')
 end
 
+# Serve the publishable key.
 get '/config' do
   content_type 'application/json'
   price = Stripe::Price.retrieve(ENV['PRICE'])
 
   {
-    publicKey: ENV['STRIPE_PUBLISHABLE_KEY'],
+    publishableKey: ENV['STRIPE_PUBLISHABLE_KEY'],
     unitAmount: price['unit_amount'],
     currency: price['currency']
   }.to_json
@@ -45,6 +41,11 @@ get '/checkout-session' do
   session.to_json
 end
 
+# Create a Checkout Session and return its ID to the front end so that the
+# client can redirect to Checkout with:
+#
+#   stripe.redirectToCheckout({ sessionId: # "cs_test_...id_of_the_session" })
+#
 post '/create-checkout-session' do
   content_type 'application/json'
   data = JSON.parse request.body.read
@@ -55,27 +56,24 @@ post '/create-checkout-session' do
   # In practice, users often hard code a list of strings.
   pm_types = ENV.fetch('PAYMENT_METHOD_TYPES', 'card').split(',').map(&:strip)
 
-  # Create new Checkout Session for the order
+  # Create new Checkout Session
+  #
   # Other optional params include:
-  # [billing_address_collection] - to display billing address details on the page
-  # [customer] - if you have an existing Stripe Customer ID
-  # [customer_email] - lets you prefill the email input in the form
   # For full details see https:#stripe.com/docs/api/checkout/sessions/create
-  # ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
   session = Stripe::Checkout::Session.create(
+    # ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the
+    # session ID set as a query param when redirecting back to the success page.
     success_url: ENV['DOMAIN'] + '/success.html?session_id={CHECKOUT_SESSION_ID}',
     cancel_url: ENV['DOMAIN'] + '/canceled.html',
     payment_method_types: pm_types,
     mode: 'payment',
     line_items: [{
-      quantity: data['quantity'],
+      quantity: 1,
       price: ENV['PRICE'],
     }]
   )
 
-  {
-    sessionId: session['id']
-  }.to_json
+  { sessionId: session.id }.to_json
 end
 
 post '/webhook' do
@@ -106,15 +104,22 @@ post '/webhook' do
     data = JSON.parse(payload, symbolize_names: true)
     event = Stripe::Event.construct_from(data)
   end
-  # Get the type of webhook event sent - used to check the status of PaymentIntents.
-  event_type = event['type']
-  data = event['data']
-  data_object = data['object']
 
-  puts '🔔  Payment succeeded!' if event_type == 'checkout.session.completed'
+  if event.type == 'checkout.session.completed'
+    checkout_session = event.data.object
+    # Note: If you need access to the line items, for instance to
+    # automate fullfillment based on the the ID of the Price, you'll
+    # need to refetch the Checkout Session here, and expand the line items:
+    #
+    # session_with_lines = Stripe::Checkout::Session.retrieve(
+    #   checkout_session.id,
+    #   expand: ['line_items']
+    # )
+    #
+    # Read more about expand here: https://stripe.com/docs/expand
+    puts '🔔  Payment succeeded!'
+  end
 
   content_type 'application/json'
-  {
-    status: 'success'
-  }.to_json
+  { status: 'success' }.to_json
 end

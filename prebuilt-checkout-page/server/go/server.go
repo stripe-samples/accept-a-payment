@@ -60,13 +60,13 @@ func handleConfig(w http.ResponseWriter, r *http.Request) {
 		nil,
 	)
 	writeJSON(w, struct {
-		PublicKey  string `json:"publicKey"`
-		UnitAmount int64  `json:"unitAmount"`
-		Currency   string `json:"currency"`
+		PublishableKey string `json:"publishableKey"`
+		UnitAmount     int64  `json:"unitAmount"`
+		Currency       string `json:"currency"`
 	}{
-		PublicKey:  os.Getenv("STRIPE_PUBLISHABLE_KEY"),
-		UnitAmount: p.UnitAmount,
-		Currency:   string(p.Currency),
+		PublishableKey: os.Getenv("STRIPE_PUBLISHABLE_KEY"),
+		UnitAmount:     p.UnitAmount,
+		Currency:       string(p.Currency),
 	})
 }
 
@@ -80,13 +80,7 @@ func handleCheckoutSession(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, s)
 }
 
-type checkoutSessionCreateReq struct {
-	Quantity int64 `json:"quantity"`
-}
-
 func handleCreateCheckoutSession(w http.ResponseWriter, r *http.Request) {
-	req := checkoutSessionCreateReq{}
-	json.NewDecoder(r.Body).Decode(&req)
 	domainURL := os.Getenv("DOMAIN")
 
 	// Pulls the list of payment method types from environment variables (`.env`).
@@ -110,7 +104,7 @@ func handleCreateCheckoutSession(w http.ResponseWriter, r *http.Request) {
 		Mode:               stripe.String(string(stripe.CheckoutSessionModePayment)),
 		LineItems: []*stripe.CheckoutSessionLineItemParams{
 			{
-				Quantity: stripe.Int64(req.Quantity),
+				Quantity: stripe.Int64(1),
 				Price:    stripe.String(os.Getenv("PRICE")),
 			},
 		},
@@ -149,6 +143,17 @@ func handleWebhook(w http.ResponseWriter, r *http.Request) {
 
 	if event.Type == "checkout.session.completed" {
 		fmt.Println("Checkout Session completed!")
+		// Note: If you need access to the line items, for instance to
+		// automate fullfillment based on the the ID of the Price, you'll
+		// need to refetch the Checkout Session here, and expand the line items:
+		//
+		// params := &stripe.CheckoutSessionParams{}
+		// params.AddExpand("line_items")
+		// s, _ := session.Get("cs_test_...", params)
+		// lineItems := s.LineItems
+		//
+		// Read more about expand here: https://stripe.com/docs/expand
+
 	}
 
 	writeJSON(w, nil)
