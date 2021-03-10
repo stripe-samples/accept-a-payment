@@ -37,7 +37,10 @@ relevant READMEs:
 
 Q: Why did you pick these frameworks?
 
-A: We chose the most minimal framework to convey the key Stripe calls and concepts you need to understand. These demos are meant as an educational tool that helps you roadmap how to integrate Stripe within your own system independent of the framework.
+A: We chose the most minimal framework to convey the key Stripe calls and
+concepts you need to understand. These demos are meant as an educational tool
+that helps you roadmap how to integrate Stripe within your own system
+independent of the framework.
 
 ## Get support
 
