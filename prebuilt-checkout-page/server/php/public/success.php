@@ -1,10 +1,15 @@
+<?php
+require_once 'shared.php';
+// Retrieve the Checkout Session for the successful payment flow that just
+// completed. This will be displayed in a `pre` tag as json in this file.
+$checkout_session = \Stripe\Checkout\Session::retrieve([ 'id' => $_GET['session_id'] ]);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <title>Stripe Checkout Sample</title>
-    <meta name="description" content="A demo of Stripe Payment Intents" />
-
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="css/normalize.css" />
     <link rel="stylesheet" href="css/global.css" />
@@ -24,13 +29,11 @@
           </div>
           <div class="sr-section completed-view">
             <div class="sr-callout">
-              <pre>
-    
-              </pre>
+              <pre><?php echo json_encode($checkout_session, JSON_PRETTY_PRINT) ?></pre>
             </div>
             <button onclick="window.location.href = '/';">Restart demo</button>
-          </div> 
-        </div> 
+          </div>
+        </div>
         <div class="sr-content">
         <div class="pasha-image-stack">
           <img
@@ -56,19 +59,5 @@
         </div>
       </div>
     </div>
-    <script>
-      var urlParams = new URLSearchParams(window.location.search);
-      var sessionId = urlParams.get("session_id")
-      if (sessionId) {
-        fetch("/get-checkout-session.php?sessionId=" + sessionId).then(function(result){
-          return result.json()
-        }).then(function(session){
-          var sessionJSON = JSON.stringify(session, null, 2);
-          document.querySelector("pre").textContent = sessionJSON;
-        }).catch(function(err){
-          console.log('Error when fetching Checkout session', err);
-        });
-      }
-    </script>
   </body>
 </html>

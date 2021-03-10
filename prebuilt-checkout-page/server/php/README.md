@@ -11,7 +11,7 @@
 
 Copy `config.ini.sample` to `config.ini`, replace with your Stripe API keys:
 
-```
+```sh
 cp config.ini.sample config.ini
 ```
 
@@ -28,7 +28,9 @@ Note that `price_12345` is a placeholder and the sample will not work with that
 price ID. You can [create a price](https://stripe.com/docs/api/prices/create)
 from the dashboard or with the Stripe CLI.
 
-2. Run composer to set up dependencies
+2. Install dependencies with composer
+
+From the directory that contains composer.json, run:
 
 ```
 composer install
@@ -36,10 +38,11 @@ composer install
 
 3. Run the server locally
 
+Start the server from the public directory with:
+
 ```
 cd public
 php -S localhost:4242
 ```
 
-4. If you're using the html client, go to `localhost:4242` to see the demo. For
-   react, visit `localhost:3000`.
+4. Go to `localhost:4242` to see the demo.
