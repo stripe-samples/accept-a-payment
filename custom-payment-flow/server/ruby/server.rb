@@ -93,16 +93,15 @@ post '/webhook' do
     data = JSON.parse(payload, symbolize_names: true)
     event = Stripe::Event.construct_from(data)
   end
-  # Get the type of webhook event sent - used to check the status of PaymentIntents.
-  event_type = event['type']
-  data = event['data']
-  data_object = data['object']
 
-  if event_type == 'payment_intent.succeeded'
+  if event.type == 'payment_intent.succeeded'
+    payment_intent = event.data.object
     puts '💰 Payment received!'
     # Fulfill any orders, e-mail receipts, etc
     # To cancel the payment you will need to issue a Refund (https://stripe.com/docs/api/refunds)
-  elsif event_type == 'payment_intent.payment_failed'
+  end
+  if event.type == 'payment_intent.payment_failed'
+    payment_intent = event.data.object
     puts '❌ Payment failed.'
   end
 
