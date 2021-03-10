@@ -1,9 +1,11 @@
-# Checkout subscription with add-ons with PHP
+# Accept payments with Stripe Checkout using PHP
+
+This server example contains both the client and server bits required for
+setting up a Checkout integration.
 
 ## Requirements
 
 * PHP
-* [Configured .env file](../../README.md)
 
 ## How to run
 
