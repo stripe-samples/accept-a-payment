@@ -6,9 +6,11 @@ if(array_key_exists('return', $_GET) && $_GET['return'] == 'true') {
   $paymentIntent = \Stripe\PaymentIntent::retrieve([
     'id' => $_GET['payment_intent']
   ]);
-  echo "<p>Payment " . $paymentIntent->id . " has status: " . $paymentIntent->status . '</p>';
-  echo "<a href='/afterpay-clearpay.php'>Try Afterpay/Clearpay again</a><br>";
-  echo "<a href='/'>Restart demo</a>";
+?>
+<p>Payment <?php echo $paymentIntent->id ?> has status: <?php echo $paymentIntent->status ?></p>
+<a href='/afterpay-clearpay.php'>Try Afterpay/Clearpay again</a><br>
+<a href='/'>Restart demo</a>
+<?php
   exit;
 }
 
@@ -20,14 +22,20 @@ try {
   ]);
 } catch (\Stripe\Exception\ApiErrorException $e) {
   http_response_code(400);
-  echo json_encode(['error' => ['message' => $e->getError()->message]]);
+  error_log($e->getError()->message);
+?>
+  <h1>Error</h1>
+  <p>Failed to create a PaymentIntent</p>
+  <p>Please check the server logs for more information</p>
+<?php
   exit;
 } catch (Exception $e) {
+  error_log($e);
   http_response_code(500);
-  echo json_encode($e);
   exit;
 }
 ?>
+
 
 <!DOCTYPE html>
 <html>

@@ -8,11 +8,16 @@ try {
   ]);
 } catch (\Stripe\Exception\ApiErrorException $e) {
   http_response_code(400);
-  echo json_encode(['error' => ['message' => $e->getError()->message]]);
+  error_log($e->getError()->message);
+?>
+  <h1>Error</h1>
+  <p>Failed to create a PaymentIntent</p>
+  <p>Please check the server logs for more information</p>
+<?php
   exit;
 } catch (Exception $e) {
+  error_log($e);
   http_response_code(500);
-  echo json_encode($e);
   exit;
 }
 ?>
