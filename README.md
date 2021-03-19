@@ -25,24 +25,23 @@ This repository includes examples of 2 types of integration types.
 |Afterpay/Clearpay| ✅ | ✅ |
 |Alipay| ✅ | ✅ |
 |Apple Pay| ✅ | ✅ |
-|Bacs Direct Debit| ✅ | ✅ |
+|Bacs Direct Debit| ✅ |  |
 |Bancontact| ✅ | ✅ |
-|BECS Direct Debit| ✅ | ✅ |
+|BECS Direct Debit| | ✅ |
 |Cards| ✅ | ✅ |
 |EPS| ✅ | ✅ |
 |FPX| ✅ | ✅ |
 |giropay| ✅ | ✅ |
-|GooglePay| ✅ | ✅ |
+|Google Pay| ✅ | ✅ |
 |GrabPay| ✅ | ✅ |
 |iDEAL| ✅ | ✅ |
-|Klarna| ✅ | ✅ |
-|Microsoft Pay| ✅ | ✅ |
-|Multibanco| ✅ | ✅ |
-|OXXO| ✅ | ✅ |
+|Klarna|  |  |
+|Multibanco| | ✅ |
+|OXXO| | ✅ |
 |Przelewy24 (P24)| ✅ | ✅ |
 |SEPA Direct Debit| ✅ | ✅ |
 |Sofort| ✅ | ✅ |
-|WeChat Pay| ✅ | ✅ |
+|WeChat Pay|  |  |
 
 
 ## Installation
