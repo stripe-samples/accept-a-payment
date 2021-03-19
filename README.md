@@ -15,6 +15,36 @@ This repository includes examples of 2 types of integration types.
 | Input validation and error handling built in. | Implement your own input validation and error handling. |
 | Localized in 25+ languages. | Implement your own localization. |
 
+
+### Payment Method Type Support
+
+|Payment Method Type | [Prebuilt Checkout page](./prebuilt-checkout-page) ([docs](https://stripe.com/docs/payments/accept-a-payment?ui=checkout))| [Custom payment flow](./custom-payment-flow) ([docs](https://stripe.com/docs/payments/accept-a-payment?ui=elements)) |
+|---|---|---|
+|ACH Credit Transfer|  |  |
+|ACH Debit|  |  |
+|Afterpay/Clearpay| ✅ | ✅ |
+|Alipay| ✅ | ✅ |
+|Apple Pay| ✅ | ✅ |
+|Bacs Direct Debit| ✅ | ✅ |
+|Bancontact| ✅ | ✅ |
+|BECS Direct Debit| ✅ | ✅ |
+|Cards| ✅ | ✅ |
+|EPS| ✅ | ✅ |
+|FPX| ✅ | ✅ |
+|giropay| ✅ | ✅ |
+|GooglePay| ✅ | ✅ |
+|GrabPay| ✅ | ✅ |
+|iDEAL| ✅ | ✅ |
+|Klarna| ✅ | ✅ |
+|Microsoft Pay| ✅ | ✅ |
+|Multibanco| ✅ | ✅ |
+|OXXO| ✅ | ✅ |
+|Przelewy24 (P24)| ✅ | ✅ |
+|SEPA Direct Debit| ✅ | ✅ |
+|Sofort| ✅ | ✅ |
+|WeChat Pay| ✅ | ✅ |
+
+
 ## Installation
 
 The recommended way to use this Stripe Sample is with the [Stripe CLI](https://stripe.com/docs/stripe-cli#install):
