@@ -1,7 +1,8 @@
 <?php
 require_once 'shared.php';
+
 try {
-  $paymentIntent = \Stripe\PaymentIntent::create([
+  $paymentIntent = $stripe->paymentIntents->create([
     'payment_method_types' => ['card'],
     'amount' => 1999,
     'currency' => 'usd',
@@ -30,6 +31,7 @@ try {
     <title>Card</title>
     <link rel="stylesheet" href="css/base.css" />
     <script src="https://js.stripe.com/v3/"></script>
+    <script src="./utils.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', async () => {
         const stripe = Stripe('<?php echo $config["stripe_publishable_key"] ?>');
@@ -51,10 +53,10 @@ try {
             },
           );
           if(error) {
-            alert(error.message);
+            addMessage(error.message);
             return;
           }
-          alert(`Payment (${paymentIntent.id}): ${paymentIntent.status}`);
+          addMessage(`Payment (${paymentIntent.id}): ${paymentIntent.status}`);
         });
       });
     </script>
@@ -65,13 +67,20 @@ try {
       <h1>Card</h1>
 
       <p>
-        <h4>Try a <a href="https://stripe.com/docs/testing#cards">test card</a>:</h4>
+        <h4>Try a <a href="https://stripe.com/docs/testing#cards" target="_blank">test card</a>:</h4>
         <div>
           <code>4242424242424242</code> (Visa)
         </div>
         <div>
-          <code>4000002500003155</code> (Requires SCA)
+          <code>5555555555554444</code> (Mastercard)
         </div>
+        <div>
+          <code>4000002500003155</code> (Requires <a href="https://www.youtube.com/watch?v=2kc-FjU2-mY" target="_blank">3DSecure</a>)
+        </div>
+      </p>
+
+      <p>
+        Use any future expiration, any 3 digit CVC, and any postal code.
       </p>
 
       <form id="payment-form">

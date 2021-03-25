@@ -44,4 +44,4 @@ domain = http://localhost:4242</pre>
   exit;
 }
 
-\Stripe\Stripe::setApiKey($config['stripe_secret_key']);
+$stripe = new \Stripe\StripeClient($config['stripe_secret_key']);
