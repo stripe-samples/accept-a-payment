@@ -1,21 +1,8 @@
 <?php
 require_once 'shared.php';
 
-// Returning after redirecting to the Afterpay/Clearpay portal.
-if(array_key_exists('return', $_GET) && $_GET['return'] == 'true') {
-  $paymentIntent = \Stripe\PaymentIntent::retrieve([
-    'id' => $_GET['payment_intent']
-  ]);
-?>
-<p>Payment <?php echo $paymentIntent->id ?> has status: <?php echo $paymentIntent->status ?></p>
-<a href='/eps.php'>Try EPS again</a><br>
-<a href='/'>Restart demo</a>
-<?php
-  exit;
-}
-
 try {
-  $paymentIntent = \Stripe\PaymentIntent::create([
+  $paymentIntent = $stripe->paymentIntents->create([
     'payment_method_types' => ['eps'],
     'amount' => 1999,
     'currency' => 'eur',
@@ -44,6 +31,7 @@ try {
     <title>EPS</title>
     <link rel="stylesheet" href="css/base.css" />
     <script src="https://js.stripe.com/v3/"></script>
+    <script src="./utils.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', async () => {
         const stripe = Stripe('<?php echo $config["stripe_publishable_key"] ?>');
@@ -69,14 +57,14 @@ try {
                   name: nameInput.value,
                 },
               },
-              return_url: `${window.location.origin}/eps.php?return=true`,
+              return_url: `${window.location.origin}/return.php`,
             },
           );
           if(error) {
-            alert(error.message);
+            addMessage(error.message);
             return;
           }
-          alert(`Payment (${paymentIntent.id}): ${paymentIntent.status}`);
+          addMessage(`Payment (${paymentIntent.id}): ${paymentIntent.status}`);
         });
       });
     </script>

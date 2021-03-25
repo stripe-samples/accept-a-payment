@@ -2,7 +2,9 @@
 require_once 'shared.php';
 // Retrieve the Checkout Session for the successful payment flow that just
 // completed. This will be displayed in a `pre` tag as json in this file.
-$checkout_session = \Stripe\Checkout\Session::retrieve([ 'id' => $_GET['session_id'] ]);
+$checkout_session = $stripe->checkout->sessions->retrieve(
+  $_GET['session_id']
+);
 ?>
 
 <!DOCTYPE html>

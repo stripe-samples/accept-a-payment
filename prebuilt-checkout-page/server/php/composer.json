@@ -3,6 +3,6 @@
     "stripe/stripe-php": "^7.75"
   },
   "scripts": {
-    "start": "php -S 0.0.0.0:4242 public/index.php"
+    "start": "cd public && php -S 0.0.0.0:4242"
   }
 }
