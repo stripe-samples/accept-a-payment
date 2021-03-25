@@ -28,7 +28,9 @@ Then pick:
 prebuilt-checkout-page
 ```
 
-This sample includes several different server implementations and several different client implementations. The servers all implement the same routes and the clients all work with the same server routes.
+This sample includes several different server implementations and several
+different client implementations. The servers all implement the same routes and
+the clients all work with the same server routes.
 
 Pick a server:
 
@@ -50,7 +52,8 @@ Pick a client:
 
 **Installing and cloning manually**
 
-If you do not want to use the Stripe CLI, you can manually clone and configure the sample yourself:
+If you do not want to use the Stripe CLI, you can manually clone and configure
+the sample yourself:
 
 ```
 git clone https://github.com/stripe-samples/accept-a-payment
@@ -81,18 +84,23 @@ keys.
 
 The other environment variables are configurable:
 
-`STATIC_DIR` tells the server where to the client files are located and does not need to be modified unless you move the server files.
+`STATIC_DIR` tells the server where to the client files are located and does
+not need to be modified unless you move the server files.
 
-`DOMAIN` is the domain of your website, where Checkout will redirect back to after the customer completes the payment on the Checkout page.
+`DOMAIN` is the domain of your website, where Checkout will redirect back to
+after the customer completes the payment on the Checkout page.
 
 **2. Create a Price**
 
 [![Required](https://img.shields.io/badge/REQUIRED-TRUE-ORANGE.svg)](https://shields.io/)
 
 
-You can create Products and Prices in the Dashboard or with the API. This sample requires a Price to run. Once you've created a Price, and add its ID to your `.env`.
+You can create Products and Prices in the Dashboard or with the API. This
+sample requires a Price to run. Once you've created a Price, and add its ID to
+your `.env`.
 
-`PRICE` is the ID of a [Price](https://stripe.com/docs/api/prices/create) for your product. A Price has a unit amount and currency.
+`PRICE` is the ID of a [Price](https://stripe.com/docs/api/prices/create) for
+your product. A Price has a unit amount and currency.
 
 You can quickly create a Price with the Stripe CLI like so:
 
@@ -133,7 +141,8 @@ PRICE=price_1Hh1ZeCZ6qsJgndJaX9fauRl
 
 **3. Follow the server instructions on how to run**
 
-Pick the server language you want and follow the instructions in the server folder README on how to run.
+Pick the server language you want and follow the instructions in the server
+folder README on how to run.
 
 For example, if you want to run the Node server:
 
@@ -157,7 +166,8 @@ First [install the CLI](https://stripe.com/docs/stripe-cli) and [link your Strip
 stripe listen --forward-to localhost:4242/webhook
 ```
 
-The CLI will print a webhook secret key to the console. Set `STRIPE_WEBHOOK_SECRET` to this value in your `.env` file.
+The CLI will print a webhook secret key to the console. Set
+`STRIPE_WEBHOOK_SECRET` to this value in your `.env` file.
 
 You should see events logged in the console where the CLI is running.
 
