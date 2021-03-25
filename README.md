@@ -59,7 +59,7 @@ You'll find more detailed instructions for each integration type in the
 relevant READMEs:
 
 - [Prebuilt Checkout page](./prebuilt-checkout-page/README.md)
-- [Custom payment flow](./prebuilt-checkout-page/README.md)
+- [Custom payment flow](./custom-payment-flow/README.md)
 
 ---
 ## FAQ
