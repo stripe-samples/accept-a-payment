@@ -12,8 +12,7 @@
         "php",
         "java",
         "go",
-        "dotnet",
-        "php-slim"
+        "dotnet"
       ]
     },
     {
@@ -27,8 +26,7 @@
         "java",
         "go",
         "dotnet",
-        "node-typescript",
-        "php-slim"
+        "node-typescript"
       ]
     }
   ]

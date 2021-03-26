@@ -19,7 +19,7 @@ const maybeLink = (m) => {
   return (
     <span dangerouslySetInnerHTML={{__html: m.replace(
       /(pi_(\S*)\b)/g,
-      `<a href="${piDashboardBase}/$1">$1</a>`
+      `<a href="${piDashboardBase}/$1" target="_blank">$1</a>`
     )}}></span>
   )
 };
