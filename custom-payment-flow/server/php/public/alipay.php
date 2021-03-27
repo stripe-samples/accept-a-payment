@@ -35,7 +35,7 @@ try {
     <script src="./utils.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', async () => {
-        const stripe = Stripe('<?php echo $config["stripe_publishable_key"] ?>');
+        const stripe = Stripe('<?= $config["stripe_publishable_key"]; ?>');
         const paymentForm = document.querySelector('#payment-form');
         paymentForm.addEventListener('submit', async (e) => {
           // Avoid a full page POST request.
@@ -46,7 +46,7 @@ try {
 
           // Confirm the payment that was created server side:
           const {error, paymentIntent} = await stripe.confirmAlipayPayment(
-            '<?php echo $paymentIntent->client_secret ?>', {
+            '<?= $paymentIntent->client_secret; ?>', {
               payment_method: {
                 billing_details: {
                   name: nameInput.value,
