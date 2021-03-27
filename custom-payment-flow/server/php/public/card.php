@@ -34,7 +34,7 @@ try {
     <script src="./utils.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', async () => {
-        const stripe = Stripe('<?php echo $config["stripe_publishable_key"] ?>');
+        const stripe = Stripe('<?= $config["stripe_publishable_key"]; ?>');
         const elements = stripe.elements();
         const cardElement = elements.create('card');
         cardElement.mount('#card-element');
@@ -46,7 +46,7 @@ try {
 
           // Confirm the card payment that was created server side:
           const {error, paymentIntent} = await stripe.confirmCardPayment(
-            '<?php echo $paymentIntent->client_secret ?>', {
+            '<?= $paymentIntent->client_secret; ?>', {
               payment_method: {
                 card: cardElement,
               },

@@ -40,11 +40,11 @@ $checkout_session = $stripe->checkout->sessions->create([
     <script src="https://js.stripe.com/v3/"></script>
     <script>
       document.addEventListener('DOMContentLoaded', async (e) => {
-        const stripe = Stripe("<?php echo $config['stripe_publishable_key']; ?>");
+        const stripe = Stripe("<?= $config['stripe_publishable_key']; ?>");
         const submitButton = document.getElementById('submit');
         submitButton.addEventListener('click', function(e) {
           e.preventDefault();
-          stripe.redirectToCheckout({ sessionId: "<?php echo $checkout_session->id; ?>" });
+          stripe.redirectToCheckout({ sessionId: "<?= $checkout_session->id; ?>" });
         });
       });
     </script>

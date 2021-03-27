@@ -31,7 +31,7 @@ $checkout_session = $stripe->checkout->sessions->retrieve(
           </div>
           <div class="sr-section completed-view">
             <div class="sr-callout">
-              <pre><?php echo json_encode($checkout_session, JSON_PRETTY_PRINT) ?></pre>
+              <pre><?= json_encode($checkout_session, JSON_PRETTY_PRINT); ?></pre>
             </div>
             <button onclick="window.location.href = '/';">Restart demo</button>
           </div>

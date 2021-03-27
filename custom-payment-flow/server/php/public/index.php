@@ -6,7 +6,7 @@
 
     <title>Accept a payment</title>
 
-    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="/css/base.css" />
   </head>
   <body>
     <main>

@@ -22,12 +22,12 @@ $paymentIntent = $stripe->paymentIntents->retrieve(
       <h1>Payment Status</h1>
 
       <h3>PaymentIntent</h3>
-      <p><a href="https://dashboard.stripe.com/test/payments/<?php echo $paymentIntent->id; ?>" target="_blank">Dashboard</a></p>
-      <p>ID <?php echo $paymentIntent->id; ?></p>
-      <p>Status: <?php echo $paymentIntent->status; ?></p>
-      <p>Amount: <?php echo $paymentIntent->amount; ?></p>
-      <p>Currency: <?php echo $paymentIntent->currency; ?></p>
-      <p>Payment Method: <?php echo $paymentIntent->payment_method; ?></p>
+      <p><a href="https://dashboard.stripe.com/test/payments/<?= $paymentIntent->id; ?>" target="_blank">Dashboard</a></p>
+      <p>ID <?= $paymentIntent->id; ?></p>
+      <p>Status: <?= $paymentIntent->status; ?></p>
+      <p>Amount: <?= $paymentIntent->amount; ?></p>
+      <p>Currency: <?= $paymentIntent->currency; ?></p>
+      <p>Payment Method: <?= $paymentIntent->payment_method; ?></p>
       <a href='/'>Restart demo</a>
     </main>
   </body>

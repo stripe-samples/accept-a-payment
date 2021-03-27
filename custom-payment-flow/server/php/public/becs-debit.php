@@ -35,7 +35,7 @@ try {
     <script src="./utils.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', async () => {
-        const stripe = Stripe('<?php echo $config["stripe_publishable_key"] ?>');
+        const stripe = Stripe('<?= $config["stripe_publishable_key"]; ?>');
         const elements = stripe.elements();
         const auBankAccount = elements.create('auBankAccount');
         auBankAccount.mount('#au-bank-account-element');
@@ -52,7 +52,7 @@ try {
 
           // Confirm the payment that was created server side:
           const {error, paymentIntent} = await stripe.confirmAuBecsDebitPayment(
-            '<?php echo $paymentIntent->client_secret ?>', {
+            '<?= $paymentIntent->client_secret; ?>', {
               payment_method: {
                 au_becs_debit: auBankAccount,
                 billing_details: {
