@@ -5,7 +5,7 @@ require_once 'shared.php';
 // `http://localhost:4242`. This is used when constructing the fully qualified
 // URL where the user will be redirected to after going through the payment
 // flow.
-$domain_url = $config['domain'];
+$domain_url = $_ENV['DOMAIN'];
 
 // Create new Checkout Session for the order
 // ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID set as a query param
@@ -21,7 +21,7 @@ $checkout_session = $stripe->checkout->sessions->create([
   ],
   'mode' => 'payment',
   'line_items' => [[
-    'price' => $config['price'],
+    'price' => $_ENV['PRICE'],
     'quantity' => 1,
   ]]
 ]);
@@ -40,7 +40,7 @@ $checkout_session = $stripe->checkout->sessions->create([
     <script src="https://js.stripe.com/v3/"></script>
     <script>
       document.addEventListener('DOMContentLoaded', async (e) => {
-        const stripe = Stripe("<?= $config['stripe_publishable_key']; ?>");
+        const stripe = Stripe("<?= $_ENV['STRIPE_PUBLISHABLE_KEY']; ?>");
         const submitButton = document.getElementById('submit');
         submitButton.addEventListener('click', function(e) {
           e.preventDefault();

@@ -20,7 +20,7 @@ try {
   $event = \Stripe\Webhook::constructEvent(
     $input,
     $_SERVER['HTTP_STRIPE_SIGNATURE'],
-    $config['stripe_webhook_secret']
+    $_ENV['STRIPE_WEBHOOK_SECRET']
   );
 } catch (Exception $e) {
   // If deserialization fails, this error message will be rendered back to Stripe.

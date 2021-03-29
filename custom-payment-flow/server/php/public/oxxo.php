@@ -35,7 +35,7 @@ try {
     <script src="./utils.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', async () => {
-        const stripe = Stripe('<?= $config["stripe_publishable_key"]; ?>');
+        const stripe = Stripe('<?= $_ENV["STRIPE_PUBLISHABLE_KEY"]; ?>');
 
         const paymentForm = document.querySelector('#payment-form');
         paymentForm.addEventListener('submit', async (e) => {
