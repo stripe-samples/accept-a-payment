@@ -12,6 +12,13 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   typescript: true
 });
 
+// For sample support and debugging, not required for production:
+stripe.setAppInfo({
+  name: "stripe-samples/accept-a-payment",
+  version: "0.0.1",
+  url: "https://github.com/stripe-samples"
+});
+
 const app = express();
 const resolve = path.resolve;
 

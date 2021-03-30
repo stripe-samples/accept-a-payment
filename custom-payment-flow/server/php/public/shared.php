@@ -48,4 +48,14 @@ DOMAIN=http://localhost:4242</pre>
   exit;
 }
 
-$stripe = new \Stripe\StripeClient($_ENV['STRIPE_SECRET_KEY']);
+// For sample support and debugging. Not required for production:
+\Stripe\Stripe::setAppInfo(
+  "stripe-samples/accept-a-payment/custom-payment-form",
+  "0.0.1",
+  "https://github.com/stripe-samples"
+);
+
+$stripe = new \Stripe\StripeClient([
+  'api_key' => $_ENV['STRIPE_SECRET_KEY'],
+  'stripe_version' => '2020-08-27',
+]);

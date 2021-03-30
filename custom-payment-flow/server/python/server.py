@@ -7,6 +7,14 @@ from flask import Flask, render_template, jsonify, request, send_from_directory
 from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
+
+# For sample support and debugging, not required for production:
+stripe.set_app_info(
+    'stripe-samples/accept-a-payment/custom-payment-flow',
+    version='0.0.1',
+    url='https://github.com/stripe-samples')
+
+stripe.api_version = '2020-08-27'
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
 static_dir = str(os.path.abspath(os.path.join(__file__ , "..", os.getenv("STATIC_DIR"))))

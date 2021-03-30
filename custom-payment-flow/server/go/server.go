@@ -24,6 +24,13 @@ func main() {
 
 	stripe.Key = os.Getenv("STRIPE_SECRET_KEY")
 
+	// For sample support and debugging, not required for production:
+	stripe.SetAppInfo(&stripe.AppInfo{
+		Name:    "stripe-samples/accept-a-payment/custom-payment-flow",
+		Version: "0.0.1",
+		URL:     "https://github.com/stripe-samples",
+	})
+
 	http.Handle("/", http.FileServer(http.Dir(os.Getenv("STATIC_DIR"))))
 	http.HandleFunc("/config", handleConfig)
 	http.HandleFunc("/create-payment-intent", handleCreatePaymentIntent)
@@ -78,10 +85,10 @@ func handleCreatePaymentIntent(w http.ResponseWriter, r *http.Request) {
 		// some additional Stripe-specific information about what went wrong.
 		if stripeErr, ok := err.(*stripe.Error); ok {
 			fmt.Printf("Other Stripe error occurred: %v\n", stripeErr.Error())
-		  writeJSONErrorMessage(w, stripeErr.Error(), 400)
+			writeJSONErrorMessage(w, stripeErr.Error(), 400)
 		} else {
 			fmt.Printf("Other error occurred: %v\n", err.Error())
-		  writeJSONErrorMessage(w, "Unknown server error", 500)
+			writeJSONErrorMessage(w, "Unknown server error", 500)
 		}
 
 		return

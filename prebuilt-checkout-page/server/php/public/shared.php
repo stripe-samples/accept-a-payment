@@ -76,4 +76,11 @@ DOMAIN=http://localhost:4242</pre>
   exit;
 }
 
+// For sample support and debugging. Not required for production:
+\Stripe\Stripe::setAppInfo(
+  "stripe-samples/accept-a-payment/prebuilt-checkout-page",
+  "0.0.1",
+  "https://github.com/stripe-samples"
+);
+
 $stripe = new \Stripe\StripeClient($_ENV['STRIPE_SECRET_KEY']);
