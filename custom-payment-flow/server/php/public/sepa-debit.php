@@ -69,7 +69,26 @@ try {
             addMessage(error.message);
             return;
           }
-          addMessage(`Payment (${paymentIntent.id}): ${paymentIntent.status}`);
+
+          // Initially the test PaymentIntent will be in the `processing` state.
+          // We'll refetch the payment intent client-side after 5 seconds to show
+          // that it successfully transitions to the `succeeded` state.
+          //
+          // In practice, you should use webhook notifications for fulfillment.
+          if(paymentIntent.status === 'processing') {
+            addMessage(
+              `Payment processing: ${paymentIntent.id} check webhook events for fulfillment.`
+            );
+            addMessage('Refetching payment intent in 5s.');
+            setTimeout(async () => {
+              const {paymentIntent: pi} = await stripe.retrievePaymentIntent(
+                '<?= $paymentIntent->client_secret; ?>'
+              );
+              addMessage(`Payment (${pi.id}): ${pi.status}`);
+            }, 5000)
+          } else {
+            addMessage(`Payment (${paymentIntent.id}): ${paymentIntent.status}`);
+          }
         });
       });
     </script>

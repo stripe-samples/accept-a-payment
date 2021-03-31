@@ -62,12 +62,24 @@ const SepaDebitForm = () => {
       return;
     }
 
-    // Show a success message to your customer
-    // There's a risk of the customer closing the window before callback
-    // execution. Set up a webhook or plugin to listen for the
-    // payment_intent.succeeded event that handles any business critical
-    // post-payment actions.
-    addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
+    // Initially the test PaymentIntent will be in the `processing` state.
+    // We'll refetch the payment intent client-side after 5 seconds to show
+    // that it successfully transitions to the `succeeded` state.
+    //
+    // In practice, you should use webhook notifications for fulfillment.
+    if(paymentIntent.status === 'processing') {
+      addMessage(
+        `Payment processing: ${paymentIntent.id} check webhook events for fulfillment.`
+      );
+      addMessage('Refetching payment intent in 5s.');
+      setTimeout(async () => {
+        const {paymentIntent: pi} = await stripe.retrievePaymentIntent(clientSecret);
+        addMessage(`Payment (${pi.id}): ${pi.status}`);
+      }, 5000)
+    } else {
+      addMessage(`Payment (${paymentIntent.id}): ${paymentIntent.status}`);
+    }
+
   };
 
   return (
