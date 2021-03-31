@@ -10,7 +10,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     alert('Please set your Stripe publishable API key in the .env file');
   }
 
-  const stripe = Stripe(publishableKey);
+  const stripe = Stripe(publishableKey, {
+    apiVersion: '2020-08-27',
+  });
+
   const elements = stripe.elements();
   const p24 = elements.create('p24Bank');
   p24.mount('#p24-bank-element');

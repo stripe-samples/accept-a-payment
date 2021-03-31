@@ -34,7 +34,9 @@ try {
     <script src="./utils.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', async () => {
-        const stripe = Stripe('<?= $_ENV["STRIPE_PUBLISHABLE_KEY"]; ?>');
+        const stripe = Stripe('<?= $_ENV["STRIPE_PUBLISHABLE_KEY"]; ?>', {
+          apiVersion: '2020-08-27',
+        });
         const elements = stripe.elements();
         const cardElement = elements.create('card');
         cardElement.mount('#card-element');
@@ -43,6 +45,9 @@ try {
         paymentForm.addEventListener('submit', async (e) => {
           // Avoid a full page POST request.
           e.preventDefault();
+
+          // Disable the form from submitting twice.
+          paymentForm.querySelector('button').disabled = true;
 
           // Confirm the card payment that was created server side:
           const {error, paymentIntent} = await stripe.confirmCardPayment(
@@ -54,6 +59,9 @@ try {
           );
           if(error) {
             addMessage(error.message);
+
+            // Re-enable the form so the customer can resubmit.
+            paymentForm.querySelector('button').disabled = false;
             return;
           }
           addMessage(`Payment (${paymentIntent.id}): ${paymentIntent.status}`);

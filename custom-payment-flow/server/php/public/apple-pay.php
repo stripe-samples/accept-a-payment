@@ -35,7 +35,9 @@ try {
     <script>
       document.addEventListener('DOMContentLoaded', async () => {
         // 1. Initialize Stripe
-        const stripe = Stripe('<?= $_ENV["STRIPE_PUBLISHABLE_KEY"]; ?>');
+        const stripe = Stripe('<?= $_ENV["STRIPE_PUBLISHABLE_KEY"]; ?>', {
+          apiVersion: '2020-08-27',
+        });
 
         // 2. Create a payment request object
         var paymentRequest = stripe.paymentRequest({

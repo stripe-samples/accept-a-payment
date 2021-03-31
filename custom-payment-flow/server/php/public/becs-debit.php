@@ -23,7 +23,6 @@ try {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html>
   <head>
@@ -35,7 +34,9 @@ try {
     <script src="./utils.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', async () => {
-        const stripe = Stripe('<?= $_ENV["STRIPE_PUBLISHABLE_KEY"]; ?>');
+        const stripe = Stripe('<?= $_ENV["STRIPE_PUBLISHABLE_KEY"]; ?>', {
+          apiVersion: '2020-08-27',
+        });
         const elements = stripe.elements();
         const auBankAccount = elements.create('auBankAccount');
         auBankAccount.mount('#au-bank-account-element');

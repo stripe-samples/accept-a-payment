@@ -9,7 +9,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     alert('Please set your Stripe publishable API key in the .env file');
   }
 
-  const stripe = Stripe(publishableKey);
+  const stripe = Stripe(publishableKey, {
+    apiVersion: '2020-08-27',
+  });
+
   const url = new URL(window.location);
   const clientSecret = url.searchParams.get('payment_intent_client_secret');
 
