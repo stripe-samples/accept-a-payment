@@ -67,6 +67,15 @@ a {
   font-weight: 900;
 }
 
+small {
+  font-size: .6em;
+}
+
+fieldset, input, select {
+  border: 1px solid #efefef;
+}
+
+
 #payment-form {
   border: #F6F9FC solid 1px;
   border-radius: var(--radius);

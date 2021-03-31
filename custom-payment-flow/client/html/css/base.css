@@ -56,6 +56,7 @@ input, select {
   display: block;
   font-size: 1.1em;
   width: 100%;
+  margin-bottom: 10px;
 }
 
 label {
@@ -69,6 +70,10 @@ a {
 
 small {
   font-size: .6em;
+}
+
+fieldset, input, select {
+  border: 1px solid #efefef;
 }
 
 #payment-form {
