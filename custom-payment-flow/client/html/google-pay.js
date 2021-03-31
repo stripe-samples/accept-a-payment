@@ -67,7 +67,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     addMessage(`Client secret returned.`);
 
-
     // Confirm the PaymentIntent without handling potential next actions (yet).
     let {error, paymentIntent} = await stripe.confirmCardPayment(
       clientSecret,
