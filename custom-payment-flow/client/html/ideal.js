@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             name: nameInput.value,
           },
         },
-        return_url: 'http://localhost:4242/ideal-return.html',
+        return_url: `${window.location.origin}/return.html`,
       }
     );
 

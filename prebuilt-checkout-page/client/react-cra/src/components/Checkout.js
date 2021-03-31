@@ -5,7 +5,9 @@ import {loadStripe} from '@stripe/stripe-js';
 let stripe;
 (async () => {
   const {publishableKey} = await fetch('/config').then(r=>r.json());
-  stripe = await loadStripe(publishableKey);
+  stripe = await loadStripe(publishableKey, {
+    apiVersion: '2020-08-27',
+  });
 })();
 
 const Checkout = () => {

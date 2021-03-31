@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             tos_shown_and_accepted: true,
           },
         },
-        return_url: 'http://localhost:4242/p24-return.html',
+        return_url: `${window.location.origin}/return.html`,
       }
     );
 

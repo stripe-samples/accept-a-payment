@@ -67,6 +67,10 @@ a {
   font-weight: 900;
 }
 
+small {
+  font-size: .6em;
+}
+
 #payment-form {
   border: #F6F9FC solid 1px;
   border-radius: var(--radius);

@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             country: shippingCountryInput.value,
           }
         },
-        return_url: `${window.location.origin}/afterpay-clearpay-return.html`,
+        return_url: `${window.location.origin}/return.html`,
       }
     );
 

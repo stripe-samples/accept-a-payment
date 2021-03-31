@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         payment_method: {
           fpx: fpxBank,
         },
-        return_url: `${window.location.origin}/fpx-return.html`,
+        return_url: `${window.location.origin}/return.html`,
       }
     );
 

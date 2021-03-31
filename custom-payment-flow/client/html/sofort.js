@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           email: emailInput.value,
         },
       },
-      return_url: `${window.location.origin}/sofort-return.html`,
+      return_url: `${window.location.origin}/return.html`,
     });
 
     if (stripeError) {

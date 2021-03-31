@@ -12,13 +12,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   const stripe = Stripe(publishableKey);
   const url = new URL(window.location);
   const clientSecret = url.searchParams.get('payment_intent_client_secret');
+
   const {error, paymentIntent} = await stripe.retrievePaymentIntent(
     clientSecret
   );
-
   if (error) {
     addMessage(error.message);
   }
-
   addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
 });

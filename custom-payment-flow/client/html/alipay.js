@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             name: nameInput.value,
           },
         },
-        return_url: `${window.location.origin}/alipay-return.html`,
+        return_url: `${window.location.origin}/return.html`,
       }
     );
 

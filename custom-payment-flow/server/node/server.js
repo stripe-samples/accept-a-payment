@@ -3,15 +3,14 @@ const app = express();
 const { resolve } = require('path');
 // Replace if using a different env file or config
 const env = require('dotenv').config({ path: './.env' });
+
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2020-08-27',
-});
-
-// For sample support and debugging, not required for production:
-stripe.setAppInfo({
-  name: "stripe-samples/accept-a-payment/custom-payment-flow",
-  version: "0.0.1",
-  url: "https://github.com/stripe-samples"
+  appInfo: { // For sample support and debugging, not required for production:
+    name: "stripe-samples/accept-a-payment/custom-payment-flow",
+    version: "0.0.1",
+    url: "https://github.com/stripe-samples"
+  }
 });
 
 app.use(express.static(process.env.STATIC_DIR));

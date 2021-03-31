@@ -9,15 +9,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     alert('Please set your Stripe publishable API key in the .env file');
   }
 
-  const stripe = Stripe(publishableKey);
+  const stripe = Stripe(publishableKey, {
+    apiVersion: '2020-08-27',
+  });
   const elements = stripe.elements();
   const card = elements.create('card');
   card.mount('#card-element');
 
   // When the form is submitted...
-  var form = document.getElementById('payment-form');
+  const form = document.getElementById('payment-form');
+  let submitted = false;
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    // Disable double submission of the form
+    if(submitted) { return; }
+    submitted = true;
+    form.querySelector('button').disabled = true;
+
     // Make a call to the server to create a new
     // payment intent and store its client_secret.
     const {error: backendError, clientSecret} = await fetch(
@@ -36,6 +45,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (backendError) {
       addMessage(backendError.message);
+
+      // reenable the form.
+      submitted = false;
+      form.querySelector('button').disabled = false;
       return;
     }
 
@@ -60,6 +73,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (stripeError) {
       addMessage(stripeError.message);
+
+      // reenable the form.
+      submitted = false;
+      form.querySelector('button').disabled = false;
       return;
     }
 

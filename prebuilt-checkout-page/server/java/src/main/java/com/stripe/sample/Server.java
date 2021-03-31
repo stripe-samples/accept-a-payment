@@ -45,7 +45,7 @@ public class Server {
         Stripe.setAppInfo(
             "stripe-samples/accept-a-payment/prebuilt-checkout-page",
             "0.0.1",
-            "https://github.com/stripe-samples",
+            "https://github.com/stripe-samples"
         );
 
         staticFiles.externalLocation(

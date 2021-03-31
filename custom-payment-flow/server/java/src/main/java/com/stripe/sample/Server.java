@@ -76,7 +76,7 @@ public class Server {
         Stripe.setAppInfo(
             "stripe-samples/accept-a-payment/custom-payment-flow",
             "0.0.1",
-            "https://github.com/stripe-samples",
+            "https://github.com/stripe-samples"
         );
 
         staticFiles.externalLocation(

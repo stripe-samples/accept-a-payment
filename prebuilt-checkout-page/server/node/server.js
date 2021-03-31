@@ -9,13 +9,11 @@ checkEnv();
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2020-08-27',
-});
-
-// For sample support and debugging, not required for production:
-stripe.setAppInfo({
-  name: "stripe-samples/accept-a-payment/prebuilt-checkout-page",
-  version: "0.0.1",
-  url: "https://github.com/stripe-samples"
+  appInfo: { // For sample support and debugging, not required for production:
+    name: "stripe-samples/accept-a-payment/prebuilt-checkout-page",
+    version: "0.0.1",
+    url: "https://github.com/stripe-samples"
+  }
 });
 
 app.use(express.static(process.env.STATIC_DIR));
