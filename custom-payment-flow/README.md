@@ -1,18 +1,19 @@
 # Accept a payment with a custom form
 
+Stripe Elements is a set of prebuilt UI components, like inputs and buttons,
+for building your checkout flow. It’s available as a feature of Stripe.js.
+Stripe.js tokenizes the sensitive information within an Element without ever
+having it touch your server.
+
+Elements includes features like:
+
+ - Formatting card information automatically as it’s entered
+ - Translating placeholders into your customer’s preferred language
+ - Using responsive design to fit the width of your customer’s screen or mobile device
+ - Customizing the styling to match the look and feel of your checkout flow
+
 This integration shows you how to accept payments with Stripe
-[Checkout](https://stripe.com/docs/checkout).
-
-Building a payment form UI from scratch is difficult -- input field
-validation, error message handing, and localization are just a few things
-to think about when designing a simple checkout flow.
-
-We built [Checkout](https://stripe.com/docs/payments/checkout) to do that
-work for you so now you can focus on building the best storefront
-experience for your customers.
-
-Once your customer is ready to pay, use Stripe.js to redirect them to the
-URL of your Stripe hosted payment page. 🥳
+[Elements](https://stripe.com/docs/stripe-js).
 
 ## How to run locally
 
