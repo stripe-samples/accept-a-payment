@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {withRouter, useLocation} from 'react-router-dom';
-import {EPSBankElement, useStripe, useElements} from '@stripe/react-stripe-js';
+import {EpsBankElement, useStripe, useElements} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
 const EpsForm = () => {
@@ -43,12 +43,12 @@ const EpsForm = () => {
       clientSecret,
       {
         payment_method: {
-          eps: elements.getElement(EPSBankElement),
+          eps: elements.getElement(EpsBankElement),
           billing_details: {
             name,
           },
         },
-        return_url: `${window.location.origin}/bancontact?return=true`,
+        return_url: `${window.location.origin}/eps?return=true`,
       }
     );
 
@@ -79,7 +79,7 @@ const EpsForm = () => {
           required
         />
 
-        <EPSBankElement />
+        <EpsBankElement />
         <button type="submit">Pay</button>
       </form>
 
@@ -116,7 +116,7 @@ const EpsReturn = () => {
 
   return (
     <>
-      <h1>Eps Return</h1>
+      <h1>EPS Return</h1>
       <StatusMessages messages={messages} />
     </>
   );

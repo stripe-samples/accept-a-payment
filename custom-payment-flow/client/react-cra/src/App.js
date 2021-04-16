@@ -13,6 +13,7 @@ import Card from './Card';
 import Eps from './Eps';
 import Fpx from './Fpx';
 import Giropay from './Giropay';
+import GooglePay from './GooglePay';
 import GrabPay from './GrabPay';
 import Ideal from './Ideal';
 import Oxxo from './Oxxo';
@@ -59,6 +60,9 @@ function App(props) {
         </Route>
         <Route path="/grabpay">
           <GrabPay />
+        </Route>
+        <Route path="/google-pay">
+          <GooglePay />
         </Route>
         <Route path="/ideal">
           <Ideal />

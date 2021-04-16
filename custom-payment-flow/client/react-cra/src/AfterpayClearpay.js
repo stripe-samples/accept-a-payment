@@ -142,6 +142,11 @@ const AfterpayClearpayForm = () => {
         <fieldset>
           <legend>Shipping</legend>
 
+          <label htmlFor="shipping_name">
+            Name
+          </label>
+          <input id="shipping_name" value={shippingName} onChange={(e) => setShippingName(e.target.value)} required />
+
           <label htmlFor="shipping_line1">
             Line 1
           </label>
@@ -170,7 +175,7 @@ const AfterpayClearpayForm = () => {
           <label htmlFor="shipping_country">
             Country
           </label>
-          <select id="shipping_country" value={shippingCountry} onChange={(e) => setCountry(e.target.value) }>
+          <select id="shipping_country" value={shippingCountry} onChange={(e) => setShippingCountry(e.target.value) }>
             <option value="AU">Australia</option>
             <option value="NZ">New Zealand</option>
             <option value="UK">United Kingdom</option>
