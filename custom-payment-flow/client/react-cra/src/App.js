@@ -5,6 +5,7 @@ import {BrowserRouter as Switch, Route} from 'react-router-dom';
 import List from './List';
 
 // Payment method components.
+import AfterpayClearpay from './AfterpayClearpay';
 import Alipay from './Alipay';
 import ApplePay from './ApplePay';
 import Bancontact from './Bancontact';
@@ -17,9 +18,9 @@ import GooglePay from './GooglePay';
 import GrabPay from './GrabPay';
 import Ideal from './Ideal';
 import Oxxo from './Oxxo';
+import P24 from './P24';
 import SepaDebit from './SepaDebit';
 import Sofort from './Sofort';
-import AfterpayClearpay from './AfterpayClearpay';
 
 import './App.css';
 
@@ -69,6 +70,9 @@ function App(props) {
         </Route>
         <Route path="/oxxo">
           <Oxxo />
+        </Route>
+        <Route path="/p24">
+          <P24 />
         </Route>
         <Route path="/sepa-debit">
           <SepaDebit />
