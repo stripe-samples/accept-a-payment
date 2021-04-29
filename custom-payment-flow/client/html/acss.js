@@ -55,14 +55,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             email: emailInput.value,
           },
         },
-        // payment_method_options: {
-        //   acss_debit: {
-        //     mandate_options: {
-        //       payment_schedule: 'sporadic',
-        //       transaction_type: 'personal',
-        //     },
-        //   },
-        // },
         return_url: `${window.location.origin}/return.html`,
       }
     );
