@@ -10,7 +10,7 @@ ConfigHelper.check_env!
 # For sample support and debugging, not required for production:
 Stripe.set_app_info(
   'stripe-samples/accept-a-payment/custom-payment-flow',
-  version: '0.0.1',
+  version: '0.0.2',
   url: 'https://github.com/stripe-samples'
 )
 Stripe.api_version = '2020-08-27'
@@ -43,6 +43,24 @@ post '/create-payment-intent' do
   # Some example payment method types include `card`, `ideal`, and `alipay`.
   payment_method_type = data['paymentMethodType']
   currency = data['currency']
+  params = {
+    payment_method_types: [payment_method_type],
+    amount: 1999, # Charge the customer 19.99 in the given currency.
+    currency: currency
+  }
+
+  ## If this is for an ACSS payment, we add payment_method_options to create
+  ## the Mandate.
+  if payment_method_type == 'acss_debit'
+    params[:payment_method_options] = {
+      acss_debit: {
+        mandate_options: {
+          payment_schedule: 'sporadic',
+          transaction_type: 'personal',
+        },
+      },
+    }
+  end
 
   # Create a PaymentIntent with the amount, currency, and a payment method type.
   #
@@ -50,11 +68,7 @@ post '/create-payment-intent' do
   #
   # [0] https://stripe.com/docs/api/payment_intents/create
   begin
-    payment_intent = Stripe::PaymentIntent.create(
-      payment_method_types: [payment_method_type],
-      amount: 1999, # Charge the customer 19.99 in the given currency.
-      currency: currency
-    )
+    payment_intent = Stripe::PaymentIntent.create(params)
   rescue Stripe::StripeError => e
     halt 400,
       { 'Content-Type' => 'application/json' },

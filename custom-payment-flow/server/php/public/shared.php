@@ -51,7 +51,7 @@ DOMAIN=http://localhost:4242</pre>
 // For sample support and debugging. Not required for production:
 \Stripe\Stripe::setAppInfo(
   "stripe-samples/accept-a-payment/custom-payment-form",
-  "0.0.1",
+  "0.0.2",
   "https://github.com/stripe-samples"
 );
 
