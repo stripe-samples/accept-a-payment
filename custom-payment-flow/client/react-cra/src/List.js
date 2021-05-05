@@ -37,6 +37,13 @@ const List = () => {
       category: BANK_DEBITS,
     },
     {
+      path: 'acss-debit',
+      name: 'Pre-authorized debit in Canada (ACSS)',
+      docs: 'https://stripe.com/docs/payments/acss-debit/accept-a-payment',
+      fact_sheet: '',
+      category: BANK_DEBITS,
+    },
+    {
       path: 'bacs-debit',
       name: 'Bacs Direct Debit',
       docs: 'https://stripe.com/docs/payments/payment-methods/bacs-debit',

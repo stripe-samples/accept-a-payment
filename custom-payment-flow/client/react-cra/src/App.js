@@ -7,6 +7,7 @@ import List from './List';
 // Payment method components.
 import AfterpayClearpay from './AfterpayClearpay';
 import Alipay from './Alipay';
+import AcssDebit from './AcssDebit';
 import ApplePay from './ApplePay';
 import Bancontact from './Bancontact';
 import BecsDebit from './BecsDebit';
@@ -34,6 +35,9 @@ function App(props) {
         </Route>
         <Route path="/alipay">
           <Alipay />
+        </Route>
+        <Route path="/acss-debit">
+          <AcssDebit />
         </Route>
         <Route path="/apple-pay">
           <ApplePay />
