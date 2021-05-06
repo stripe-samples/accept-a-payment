@@ -72,10 +72,11 @@ try {
           // Make a call to the server to create a new
           // payment intent and store its client_secret.
           addMessage(`Client secret returned.`);
+          let clientSecret = '<?= $paymentIntent->client_secret; ?>';
 
           // Confirm the PaymentIntent without handling potential next actions (yet).
           let {error, paymentIntent} = await stripe.confirmCardPayment(
-            '<?= $paymentIntent->client_secret; ?>',
+            clientSecret,
             {
               payment_method: e.paymentMethod.id,
             },
