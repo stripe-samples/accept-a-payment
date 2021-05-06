@@ -4,16 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.alipay.sdk.app.PayTask
 import com.google.gson.GsonBuilder
-import com.stripe.android.Stripe
-import com.stripe.android.ApiResultCallback
-import com.stripe.android.PaymentConfiguration
-import com.stripe.android.PaymentIntentResult
-import com.stripe.android.AlipayAuthenticator
+import com.stripe.android.*
 import com.stripe.android.model.ConfirmPaymentIntentParams
 import com.stripe.android.model.StripeIntent
-import com.alipay.sdk.app.PayTask
 import kotlinx.android.synthetic.main.alipay_activity.*
+import kotlinx.coroutines.launch
 
 class AlipayActivity : AppCompatActivity() {
 
@@ -99,24 +97,21 @@ class AlipayActivity : AppCompatActivity() {
         // Confirm the PaymentIntent when the user taps the pay button
         payButton.setOnClickListener {
             val confirmParams = ConfirmPaymentIntentParams.createAlipay(paymentIntentClientSecret)
-            stripe.confirmAlipayPayment(
-                confirmParams,
-                authenticator = object : AlipayAuthenticator {
-                    override fun onAuthenticationRequest(data: String): Map<String, String> {
-                        return PayTask(this@AlipayActivity).payV2(data, true)
-                    }
-                },
-                callback = object : ApiResultCallback<PaymentIntentResult> {
-                    override fun onSuccess(result: PaymentIntentResult) {
+            lifecycleScope.launch {
+                runCatching {
+                    stripe.confirmAlipayPayment(
+                        confirmParams,
+                        authenticator = { data -> PayTask(this@AlipayActivity).payV2(data, true) })
+                }.fold(
+                    onSuccess = { result ->
                         handleResult(result)
-                    }
-
-                    override fun onError(e: Exception) {
+                    },
+                    onFailure = {
                         // Error using the Alipay SDK, let's use a webview instead
                         stripe.confirmPayment(this@AlipayActivity, confirmParams)
                     }
-                }
-            )
+                )
+            }
         }
     }
 
@@ -125,18 +120,23 @@ class AlipayActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         // Handle the result of stripe.confirmPayment
-        stripe.onPaymentResult(requestCode, data, object : ApiResultCallback<PaymentIntentResult> {
-            override fun onSuccess(result: PaymentIntentResult) {
-                handleResult(result)
-            }
-
-            override fun onError(e: Exception) {
-                // Error
-                displayAlert(
-                    "Error",
-                    e.toString()
+        if (stripe.isPaymentResult(requestCode, data)) {
+            lifecycleScope.launch {
+                runCatching {
+                    stripe.getPaymentIntentResult(requestCode, data!!)
+                }.fold(
+                    onSuccess = { result ->
+                        handleResult(result)
+                    },
+                    onFailure = {
+                        // Error
+                        displayAlert(
+                            "Error",
+                            it.toString()
+                        )
+                    }
                 )
             }
-        })
+        }
     }
 }
