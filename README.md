@@ -28,6 +28,7 @@ This repository includes examples of 2 types of integration types.
 |Bacs Direct Debit| ✅ |  |
 |Bancontact| ✅ | ✅ |
 |BECS Direct Debit| | ✅ |
+|Boleto| ✅ | ✅ |
 |Cards| ✅ | ✅ |
 |EPS| ✅ | ✅ |
 |FPX| ✅ | ✅ |
