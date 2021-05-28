@@ -2,6 +2,7 @@
 
 You can [🎥 watch a video](https://www.youtube.com/watch?v=mqEjRgoZWdo) to see how this server was implemented and [read the transcripts](./TRANSCRIPTS.md).
 
+---
 
 CJ Avilla (00:02):
 In this episode, we cover the basic server side implementation for accepting a one-time payment with a custom form. If you're interested in a faster integration path using Stripe hosted checkout, head over to the checkout playlist in the Stripe developer channel. So the payment flow you'll see today for collecting a one-time payment has two steps first creating the payment intent on the server. And second confirming the payment on the client, using the client's secret for the payment intent. In this episode, you'll learn how to add an endpoint to your server to create the payment intent. So depending on whether you're using vanilla JS or react on the web or Stripe iOS or Stripe Android on mobile, you can watch videos for those specific front-end implementations that will pair with the code we implement here. So rather than start from scratch, we're going to jump start our server implementation using the developer office hours based sample.

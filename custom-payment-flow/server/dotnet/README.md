@@ -1,4 +1,4 @@
-# Checkout single subscription
+# Accept a payment
 
 An [.NET Core](https://dotnet.microsoft.com/download/dotnet-core) implementation
 
