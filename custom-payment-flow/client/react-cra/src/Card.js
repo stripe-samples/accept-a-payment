@@ -91,6 +91,8 @@ const CardForm = () => {
         <button type="submit">Pay</button>
       </form>
       <StatusMessages messages={messages} />
+
+      <p> <a href="https://youtu.be/IhvtIbfDZJI" target="_blank">Watch a demo walkthrough</a> </p>
     </>
   );
 };

@@ -112,6 +112,8 @@ const OxxoForm = () => {
       </form>
 
       <StatusMessages messages={messages} />
+
+      <p> <a href="https://youtu.be/zmNMMBbYFf0" target="_blank">Watch a demo walkthrough</a> </p>
     </>
   );
 };

@@ -94,6 +94,8 @@ const ApplePay = () => {
       {paymentRequest && <PaymentRequestButtonElement options={{paymentRequest}} />}
 
       <StatusMessages messages={messages} />
+
+      <p> <a href="https://youtu.be/bMCsJfJyQKA" target="_blank">Watch a demo walkthrough</a> </p>
     </>
   );
 };
