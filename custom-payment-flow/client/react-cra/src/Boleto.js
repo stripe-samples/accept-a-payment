@@ -3,7 +3,7 @@ import {withRouter} from 'react-router-dom';
 import {useStripe, useElements} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
-const BoletoForm = () => {
+const Boleto = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [country, setCountry] = useState('BR');
@@ -14,6 +14,8 @@ const BoletoForm = () => {
   const [name, setName] = useState('Jenny Rosen');
   const [email, setEmail] = useState('jr@example.com');
   const [taxId, setTaxId] = useState('000.000.000-00');
+  const [messages, addMessage] = useMessages();
+
 
   const handleSubmit = async (e) => {
     // We don't want to let default form submission happen here,
@@ -179,4 +181,4 @@ const BoletoForm = () => {
   );
 };
 
-export default withRouter(BoletoForm);
+export default withRouter(Boleto);

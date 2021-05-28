@@ -81,10 +81,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
 
-    // When passing {any_prefix}succeed_immediately@{any_suffix}
-    // as the email address in the billing details, the payment
-    // intent will succeed after 3 seconds. We set this timeout
-    // to refetch the payment intent.
+    // From https://stripe.com/docs/payments/boleto/accept-a-payment#test-integration
+    // When passing {any_prefix}expire_with_delay@{any_domain},
+    // simulates a Boleto voucher which expires before a customer pays and the payment_intent.payment_failed webhook arrives within a minute.
+    // The expires_after field in next_action.boleto_display_details is set to about a minute in the future ,
+    // regardless of what the expires_after_days parameter in payment method options is set to.
+    // When passing {any_prefix}@{any_domain}
+    // Simulates a Boleto voucher which a customer pays immediately and the payment_intent.succeeded webhook arrives within a minute.
+    // In production, this webhook arrives after 1 business day.
     const i = setInterval(async () => {
       const {paymentIntent} = await stripe.retrievePaymentIntent(clientSecret);
       addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
