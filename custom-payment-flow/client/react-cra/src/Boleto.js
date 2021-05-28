@@ -57,14 +57,14 @@ const BoletoForm = () => {
               country,
               state,
               city,
-              postalCode, // TODO probably issue
+              postal_code: postalCode,
               line1, 
             },
             name,
             email,
           },
           boleto: {
-            taxId, // TODO probably issue
+            tax_id: taxId,
           },
         },
       }
@@ -170,7 +170,7 @@ const BoletoForm = () => {
           onChange={(e) => setLine1(e.target.value)}
           required
         />
-        
+
         <button type="submit">Pay</button>
       </form>
 

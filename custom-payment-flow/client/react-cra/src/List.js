@@ -148,6 +148,13 @@ const List = () => {
       category: BUY_NOW_PAY_LATER,
     },
     {
+      path: 'boleto',
+      name: 'Boleto',
+      docs: 'https://stripe.com/docs/payments/boleto',
+      fact_sheet: 'https://stripe.com/payments/payment-methods-guide#boleto',
+      category: VOUCHERS,
+    },
+    {
       path: 'oxxo',
       name: 'OXXO',
       docs: 'https://stripe.com/docs/payments/oxxo',

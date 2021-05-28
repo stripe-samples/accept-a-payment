@@ -11,6 +11,7 @@ import AcssDebit from './AcssDebit';
 import ApplePay from './ApplePay';
 import Bancontact from './Bancontact';
 import BecsDebit from './BecsDebit';
+import Boleto from './Boleto';
 import Card from './Card';
 import Eps from './Eps';
 import Fpx from './Fpx';
@@ -50,6 +51,9 @@ function App(props) {
         </Route>
         <Route path="/becs-debit">
           <BecsDebit />
+        </Route>
+        <Route path="/boleto">
+          <Boleto />
         </Route>
         <Route path="/card">
           <Card />
