@@ -81,6 +81,8 @@ jobs:
       - name: Prepare tests
         run: |
           echo '--format RSpec::Github::Formatter --format progress' >> .rspec
+          echo "$(cat custom-payment-flow/client/react-cra/package.json | jq '.proxy = "http://web:4242"')" > custom-payment-flow/client/react-cra/package.json
+          echo "$(cat prebuilt-checkout-page/client/react-cra/package.json | jq '.proxy = "http://web:4242"')" > prebuilt-checkout-page/client/react-cra/package.json
 
       - name: Run tests for client/html
         if: ${{ always() }}
@@ -102,6 +104,12 @@ jobs:
           retry="${command} --only-failures"
           $command || $retry || $retry
 
+          configure_docker_compose_for_integration prebuilt-checkout-page node ../../client/html
+          docker-compose --profile=e2e up -d && wait_web_server
+          command="docker-compose exec -T runner bundle exec rspec spec/prebuilt_checkout_page_e2e_spec.rb"
+          retry="${command} --only-failures"
+          $command || $retry || $retry
+
       - name: Run tests for client/react-cra
         if: ${{ always() }}
         env:
@@ -109,7 +117,6 @@ jobs:
         run: |
           source sample-ci/helpers.sh
 
-          echo "$(cat custom-payment-flow/client/react-cra/package.json | jq '.proxy = "http://web:4242"')" > custom-payment-flow/client/react-cra/package.json
 
           install_docker_compose_settings
           export STRIPE_WEBHOOK_SECRET=$(retrieve_webhook_secret)
@@ -121,6 +128,12 @@ jobs:
           configure_docker_compose_for_integration custom-payment-flow node ../../client/react-cra
           docker-compose --profile=frontend up -d && wait_web_server
           command="docker-compose exec -T runner bundle exec rspec spec/custom_payment_flow_e2e_spec.rb"
+          retry="${command} --only-failures"
+          $command || $retry || $retry
+
+          configure_docker_compose_for_integration prebuilt-checkout-page node ../../client/react-cra
+          docker-compose --profile=frontend up -d && wait_web_server
+          command="docker-compose exec -T runner bundle exec rspec spec/prebuilt_checkout_page_e2e_spec.rb"
           retry="${command} --only-failures"
           $command || $retry || $retry
 
