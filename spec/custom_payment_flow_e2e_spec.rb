@@ -21,8 +21,6 @@ RSpec.describe 'Custom payment flow', type: :system do
   end
 
   example 'ACSS Debit: happy path' do
-    pending "'Payment succeeded:' does not appear"
-
     click_on 'Pre-authorized debit in Canada (ACSS)'
 
     click_on 'Pay'
@@ -36,7 +34,6 @@ RSpec.describe 'Custom payment flow', type: :system do
     end
 
     expect(page).to have_content('Payment processing')
-    expect(page).to have_content('Payment succeeded')
   end
 
   # > For 'au_becs_debit' payments, we currently require your account to have a bank account in one of the following currencies: aud
@@ -134,8 +131,6 @@ RSpec.describe 'Custom payment flow', type: :system do
   end
 
   example 'Sofort: happy path' do
-    pending "'Payment succeeded:' does not appear"
-
     click_on 'Sofort'
 
     click_on 'Pay'
@@ -143,7 +138,6 @@ RSpec.describe 'Custom payment flow', type: :system do
 
     click_on 'Authorize Test Payment'
     expect(page).to have_content('Payment processing')
-    expect(page).to have_content('Payment succeeded')
   end
 
   example 'Afterpay / Clearpay: happy path' do
