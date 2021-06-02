@@ -1,6 +1,11 @@
 name: CI for stripe-samples/accept-a-payment
 on: [push, pull_request]
 
+env:
+  STRIPE_PUBLISHABLE_KEY: ${{ secrets.TEST_STRIPE_PUBLISHABLE_KEY }}
+  STRIPE_SECRET_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
+  PRICE: ${{ secrets.TEST_PRICE }}
+
 jobs:
   test:
     runs-on: ubuntu-20.04
@@ -21,9 +26,12 @@ jobs:
         run: |
           source sample-ci/helpers.sh
 
-          install_dummy_tests
           install_docker_compose_settings
           export STRIPE_WEBHOOK_SECRET=$(retrieve_webhook_secret)
+          cat <<EOF >> .env
+          DOMAIN=http://web:4242
+          PRICE=${PRICE}
+          EOF
 
           for lang in $(cat .cli.json | server_langs_for_integration custom-payment-flow)
           do
@@ -32,11 +40,18 @@ jobs:
             configure_docker_compose_for_integration custom-payment-flow "$lang" ../../client/html
 
             docker-compose up -d && wait_web_server
-            docker-compose exec -T runner bundle exec rspec spec/server_spec.rb
+            docker-compose exec -T runner bundle exec rspec spec/custom_payment_flow_server_spec.rb
           done
-        env:
-          STRIPE_PUBLISHABLE_KEY: ${{ secrets.TEST_STRIPE_PUBLISHABLE_KEY }}
-          STRIPE_SECRET_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
+
+          for lang in $(cat .cli.json | server_langs_for_integration prebuilt-checkout-page)
+          do
+            [ "$lang" = "php" ] && continue
+
+            configure_docker_compose_for_integration prebuilt-checkout-page "$lang" ../../client/html
+
+            docker-compose up -d && wait_web_server
+            docker-compose exec -T runner bundle exec rspec spec/prebuilt_checkout_page_spec.rb
+          done
 
       - name: Collect debug information
         if: ${{ failure() }}
@@ -44,6 +59,3 @@ jobs:
           cat docker-compose.yml
           docker-compose ps -a
           docker-compose logs web
-        env:
-          STRIPE_PUBLISHABLE_KEY: ${{ secrets.TEST_STRIPE_PUBLISHABLE_KEY }}
-          STRIPE_SECRET_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
