@@ -36,8 +36,17 @@ RSpec.describe 'Custom payment flow', type: :system do
     expect(page).to have_content('Payment processing')
   end
 
-  # > For 'au_becs_debit' payments, we currently require your account to have a bank account in one of the following currencies: aud
-  xexample 'BECS Direct Debit' do
+  example 'BECS Direct Debit' do
+    click_on 'BECS Direct Debit'
+
+    within_frame find('iframe[name*=__privateStripeFrame][title*="input"]') do
+      fill_in 'au_bsb', with: '000-000'
+      fill_in 'au_bank_account_number', with: '000123456'
+    end
+
+    click_on 'Pay'
+    expect(page).to have_no_content('succeeded')
+    expect(page).to have_content('we currently require your account to have a bank account in one of the following currencies: aud')
   end
 
   example 'SEPA Direct Debit: happy path' do
@@ -80,8 +89,20 @@ RSpec.describe 'Custom payment flow', type: :system do
     expect(page).to have_content('Payment succeeded')
   end
 
-  # > This payment method is available to Stripe accounts in MY and your Stripe account is in US.
-  xexample 'FPX: happy path' do
+  example 'FPX with US Stripe account' do
+    click_on 'FPX'
+
+    within_frame find('iframe[name*=__privateStripeFrame][title*="button"]') do
+      find('#fpx_bank-list-value', text: 'Select bank').click
+    end
+
+    within_frame find('iframe[name*=__privateStripeFrame][title*="list"]') do
+      find('.SelectListItem-text', text: 'Maybank2U').click
+    end
+
+    click_on 'Pay'
+    expect(page).to have_no_content('succeeded')
+    expect(page).to have_content('The payment method type provided: fpx is invalid') # This payment method is available to Stripe accounts in MY and your Stripe account is in US.'
   end
 
   example 'Giropay: happy path' do
@@ -150,12 +171,20 @@ RSpec.describe 'Custom payment flow', type: :system do
     expect(page).to have_content('Payment succeeded')
   end
 
-  # > The payment method type "boleto" is invalid. Please ensure the provided type is activated in your dashboard (https://dashboard.stripe.com/account/payments/settings) and your account is enabled for any preview features that you are trying to use.
-  xexample 'Boleto: happy path' do
+  example 'Boleto' do
+    click_on 'Boleto'
+
+    click_on 'Pay'
+    expect(page).to have_no_content('succeeded')
+    expect(page).to have_content('The payment method type "boleto" is invalid.') # Boleto is not available without an invitation yet
   end
 
-  # > This payment method is available to Stripe accounts in MX and your Stripe account is in US.
-  xexample 'OXXO: happy path' do
+  example 'OXXO' do
+    click_on 'OXXO'
+
+    click_on 'Pay'
+    expect(page).to have_no_content('succeeded')
+    expect(page).to have_content('The payment method type provided: oxxo is invalid') # This payment method is available to Stripe accounts in MX and your Stripe account is in US.
   end
 
   example 'Alipay' do
@@ -168,13 +197,28 @@ RSpec.describe 'Custom payment flow', type: :system do
     expect(page).to have_content('Payment succeeded')
   end
 
-  xexample 'ApplePay: happy path' do
+  example 'Apple Pay' do
+    click_on 'Apple Pay'
+
+    expect(page).to have_content('Before you start, you need to:')
+    expect(page).to have_content('Add a payment method to your browser.')
+    expect(page).to have_content('Serve your application over HTTPS.')
+    expect(page).to have_content('Verify your domain with Apple Pay')
   end
 
-  xexample 'Google Pay: happy path' do
+  example 'Google Pay' do
+    click_on 'Google Pay'
+
+    expect(page).to have_content('Before you start, you need to:')
+    expect(page).to have_content('Add a payment method to your browser.')
+    expect(page).to have_content('Serve your application over HTTPS.')
   end
 
-  # > This payment method is available to Stripe accounts in SG and MY and your Stripe account is in US.
-  xexample 'Grabpay: happy path' do
+  example 'GrabPay' do
+    click_on 'GrabPay'
+
+    click_on 'Pay'
+    expect(page).to have_no_content('succeeded')
+    expect(page).to have_content('The payment method type provided: grabpay is invalid') # This payment method is available to Stripe accounts in SG and MY and your Stripe account is in US.
   end
 end
