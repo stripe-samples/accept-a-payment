@@ -70,7 +70,6 @@ jobs:
         with:
           repository: 'stripe-samples/sample-ci'
           path: 'sample-ci'
-          ref: e2e # TODO: remove this
 
       - name: Setup dependencies
         run: |
