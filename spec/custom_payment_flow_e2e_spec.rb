@@ -39,6 +39,9 @@ RSpec.describe 'Custom payment flow', type: :system do
   example 'BECS Direct Debit' do
     click_on 'BECS Direct Debit'
 
+    fill_in 'name', with: 'Jenny Rosen'
+    fill_in 'email', with: 'jenny.rosen@example.com'
+
     within_frame find('iframe[name*=__privateStripeFrame][title*="input"]') do
       fill_in 'au_bsb', with: '000-000'
       fill_in 'au_bank_account_number', with: '000123456'

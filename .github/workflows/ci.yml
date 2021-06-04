@@ -116,7 +116,6 @@ jobs:
         run: |
           source sample-ci/helpers.sh
 
-
           install_docker_compose_settings
           export STRIPE_WEBHOOK_SECRET=$(retrieve_webhook_secret)
           cat <<EOF >> .env

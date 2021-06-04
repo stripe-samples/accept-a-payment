@@ -22,7 +22,7 @@ RSpec.describe 'Custom payment flow', type: :system do
     expect(page).to have_content '"amount_total": 1000'
   end
 
-  example "Cancel a payment" do
+  example 'Cancel a payment' do
     visit server_url('/')
 
     click_on 'Buy'
