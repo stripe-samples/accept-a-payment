@@ -7,7 +7,7 @@ version: 2
 updates:
   # ruby dependencies
   - package-ecosystem: "bundler"
-    directory: "/custom-payemnt-flow/server/ruby/" # Location of package manifests
+    directory: "/custom-payment-flow/server/ruby/" # Location of package manifests
     schedule:
       interval: "daily"
   - package-ecosystem: "bundler"
@@ -17,7 +17,7 @@ updates:
       
   # python dependencies
   - package-ecosystem: "pip"
-    directory: "/custom-payemnt-flow/server/python/" # Location of package manifests
+    directory: "/custom-payment-flow/server/python/" # Location of package manifests
     schedule:
       interval: "daily"
   - package-ecosystem: "pip"
@@ -27,7 +27,7 @@ updates:
             
   # php dependencies
   - package-ecosystem: "composer"
-    directory: "/custom-payemnt-flow/server/php/" # Location of package manifests
+    directory: "/custom-payment-flow/server/php/" # Location of package manifests
     schedule:
       interval: "daily"
   - package-ecosystem: "composer"
@@ -38,11 +38,11 @@ updates:
                   
   # node dependencies
   - package-ecosystem: "npm"
-    directory: "/custom-payemnt-flow/server/node/" # Location of package manifests
+    directory: "/custom-payment-flow/server/node/" # Location of package manifests
     schedule:
       interval: "daily"
   - package-ecosystem: "npm"
-    directory: "/custom-payemnt-flow/server/node-typescript/" # Location of package manifests
+    directory: "/custom-payment-flow/server/node-typescript/" # Location of package manifests
     schedule:
       interval: "daily"
   - package-ecosystem: "composer"
