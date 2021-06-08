@@ -4,11 +4,9 @@ Click==8.0.1
 Flask==2.0.1
 idna==2.8
 itsdangerous==2.0.1
-Jinja2==2.11.3
 MarkupSafe==2.0.1
 python-dotenv==0.10.3
 requests==2.25.1
 stripe==2.56.0
 toml==0.10.2
 urllib3==1.26.5
-Werkzeug==1.0.1
