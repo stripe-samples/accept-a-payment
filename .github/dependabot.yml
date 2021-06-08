@@ -7,67 +7,75 @@ version: 2
 updates:
   # ruby dependencies
   - package-ecosystem: "bundler"
-    directory: "/custom-payment-flow/server/ruby/" # Location of package manifests
+    directory: "/custom-payment-flow/server/ruby/"
     schedule:
       interval: "daily"
   - package-ecosystem: "bundler"
-    directory: "/prebuilt-checkout-page/server/ruby/" # Location of package manifests
+    directory: "/prebuilt-checkout-page/server/ruby/"
     schedule:
       interval: "daily"
 
   # python dependencies
   - package-ecosystem: "pip"
-    directory: "/custom-payment-flow/server/python/" # Location of package manifests
+    directory: "/custom-payment-flow/server/python/"
     schedule:
       interval: "daily"
   - package-ecosystem: "pip"
-    directory: "/prebuilt-checkout-page/server/python/" # Location of package manifests
+    directory: "/prebuilt-checkout-page/server/python/"
     schedule:
       interval: "daily"
 
   # php dependencies
   - package-ecosystem: "composer"
-    directory: "/custom-payment-flow/server/php/" # Location of package manifests
+    directory: "/custom-payment-flow/server/php/"
     schedule:
       interval: "daily"
   - package-ecosystem: "composer"
-    directory: "/prebuilt-checkout-page/server/php/" # Location of package manifests
+    directory: "/prebuilt-checkout-page/server/php/"
     schedule:
       interval: "daily"
 
 
   # node dependencies
   - package-ecosystem: "npm"
-    directory: "/custom-payment-flow/server/node/" # Location of package manifests
+    directory: "/custom-payment-flow/server/node/"
     schedule:
       interval: "daily"
   - package-ecosystem: "npm"
-    directory: "/custom-payment-flow/server/node-typescript/" # Location of package manifests
+    directory: "/custom-payment-flow/server/node-typescript/"
     schedule:
       interval: "daily"
   - package-ecosystem: "npm"
-    directory: "/prebuilt-checkout-page/server/node/" # Location of package manifests
+    directory: "/prebuilt-checkout-page/server/node/"
     schedule:
       interval: "daily"
 
   # go dependencies
   - package-ecosystem: "gomod"
-    directory: "/custom-payment-flow/server/go/" # Location of package manifests
+    directory: "/custom-payment-flow/server/go/"
     schedule:
       interval: "daily"
   - package-ecosystem: "gomod"
-    directory: "/prebuilt-checkout-page/server/go/" # Location of package manifests
+    directory: "/prebuilt-checkout-page/server/go/"
     schedule:
       interval: "daily"
 
   # java dependencies
   - package-ecosystem: "maven"
-    directory: "/custom-payment-flow/server/java/" # Location of package manifests
+    directory: "/custom-payment-flow/server/java/"
     schedule:
       interval: "daily"
   - package-ecosystem: "maven"
-    directory: "/prebuilt-checkout-page/server/java/" # Location of package manifests
+    directory: "/prebuilt-checkout-page/server/java/"
     schedule:
       interval: "daily"
 
-
+  # dotnet dependencies
+  - package-ecosystem: "nuget"
+    directory: "/custom-payment-flow/server/dotnet/"
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "nuget"
+    directory: "/prebuilt-checkout-page/server/dotnet/"
+    schedule:
+      interval: "daily"
