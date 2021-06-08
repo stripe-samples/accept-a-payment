@@ -14,7 +14,7 @@ updates:
     directory: "/prebuilt-checkout-page/server/ruby/" # Location of package manifests
     schedule:
       interval: "daily"
-      
+
   # python dependencies
   - package-ecosystem: "pip"
     directory: "/custom-payment-flow/server/python/" # Location of package manifests
@@ -24,7 +24,7 @@ updates:
     directory: "/prebuilt-checkout-page/server/python/" # Location of package manifests
     schedule:
       interval: "daily"
-            
+
   # php dependencies
   - package-ecosystem: "composer"
     directory: "/custom-payment-flow/server/php/" # Location of package manifests
@@ -34,8 +34,8 @@ updates:
     directory: "/prebuilt-checkout-page/server/php/" # Location of package manifests
     schedule:
       interval: "daily"
-      
-                  
+
+
   # node dependencies
   - package-ecosystem: "npm"
     directory: "/custom-payment-flow/server/node/" # Location of package manifests
@@ -47,5 +47,15 @@ updates:
       interval: "daily"
   - package-ecosystem: "npm"
     directory: "/prebuilt-checkout-page/server/node/" # Location of package manifests
+    schedule:
+      interval: "daily"
+
+  # go dependencies
+  - package-ecosystem: "gomod"
+    directory: "/custom-payment-flow/server/go/" # Location of package manifests
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "gomod"
+    directory: "/prebuilt-checkout-page/server/go/" # Location of package manifests
     schedule:
       interval: "daily"
