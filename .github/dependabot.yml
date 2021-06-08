@@ -45,7 +45,7 @@ updates:
     directory: "/custom-payment-flow/server/node-typescript/" # Location of package manifests
     schedule:
       interval: "daily"
-  - package-ecosystem: "composer"
+  - package-ecosystem: "npm"
     directory: "/prebuilt-checkout-page/server/node/" # Location of package manifests
     schedule:
       interval: "daily"
