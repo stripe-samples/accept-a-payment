@@ -9,14 +9,13 @@ import express from "express";
 import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2020-08-27",
-  typescript: true,
   appInfo: { // For sample support and debugging, not required for production:
     name: "stripe-samples/accept-a-payment",
+    url: "https://github.com/stripe-samples",
     version: "0.0.2",
-    url: "https://github.com/stripe-samples"
-  }
+  },
+  typescript: true,
 });
-
 
 const app = express();
 const resolve = path.resolve;
@@ -62,15 +61,15 @@ app.post(
 
     // If this is for an ACSS payment, we add payment_method_options to create
     // the Mandate.
-    if(paymentMethodType === 'acss_debit') {
+    if (paymentMethodType === "acss_debit") {
       params.payment_method_options = {
         acss_debit: {
           mandate_options: {
-            payment_schedule: 'sporadic',
-            transaction_type: 'personal',
+            payment_schedule: "sporadic",
+            transaction_type: "personal",
           },
         },
-      }
+      };
     }
 
     try {
