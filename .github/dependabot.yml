@@ -59,3 +59,15 @@ updates:
     directory: "/prebuilt-checkout-page/server/go/" # Location of package manifests
     schedule:
       interval: "daily"
+
+  # java dependencies
+  - package-ecosystem: "maven"
+    directory: "/custom-payment-flow/server/java/" # Location of package manifests
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "maven"
+    directory: "/prebuilt-checkout-page/server/java/" # Location of package manifests
+    schedule:
+      interval: "daily"
+
+
