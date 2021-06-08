@@ -15,11 +15,11 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "path": "^0.12.7",
-    "stripe": "^8.145.0"
+    "stripe": "^8.154.0"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
-    "@types/express": "^4.17.2",
+    "@types/express": "^4.17.12",
     "@types/node": "^13.1.2",
     "tslint": "^5.20.1",
     "typescript": "^3.7.4"
