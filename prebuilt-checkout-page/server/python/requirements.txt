@@ -1,7 +1,7 @@
 certifi==2021.5.30
 chardet==3.0.4
 Click==8.0.1
-Flask==1.0.3
+Flask==2.0.1
 idna==2.8
 itsdangerous==2.0.1
 Jinja2==2.11.3
