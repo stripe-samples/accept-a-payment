@@ -1,0 +1,51 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  # ruby dependencies
+  - package-ecosystem: "bundler"
+    directory: "/custom-payemnt-flow/server/ruby/" # Location of package manifests
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "bundler"
+    directory: "/prebuilt-checkout-page/server/ruby/" # Location of package manifests
+    schedule:
+      interval: "daily"
+      
+  # python dependencies
+  - package-ecosystem: "pip"
+    directory: "/custom-payemnt-flow/server/python/" # Location of package manifests
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "pip"
+    directory: "/prebuilt-checkout-page/server/python/" # Location of package manifests
+    schedule:
+      interval: "daily"
+            
+  # php dependencies
+  - package-ecosystem: "composer"
+    directory: "/custom-payemnt-flow/server/php/" # Location of package manifests
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "composer"
+    directory: "/prebuilt-checkout-page/server/php/" # Location of package manifests
+    schedule:
+      interval: "daily"
+      
+                  
+  # node dependencies
+  - package-ecosystem: "npm"
+    directory: "/custom-payemnt-flow/server/node/" # Location of package manifests
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "npm"
+    directory: "/custom-payemnt-flow/server/node-typescript/" # Location of package manifests
+    schedule:
+      interval: "daily"
+  - package-ecosystem: "composer"
+    directory: "/prebuilt-checkout-page/server/node/" # Location of package manifests
+    schedule:
+      interval: "daily"
