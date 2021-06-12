@@ -154,3 +154,28 @@ jobs:
           name: screenshots
           path: |
             tmp/capybara
+
+  android_build:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: |
+          cd custom-payment-flow/client/android-kotlin
+          ./gradlew build
+
+  ios_build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: |
+          cd custom-payment-flow/client/ios-swiftui
+          pod install
+          xcodebuild build \
+                     -scheme AcceptAPayment \
+                     -workspace AcceptAPayment.xcworkspace/ \
+                     CODE_SIGN_IDENTITY="" \
+                     CODE_SIGNING_REQUIRED="NO" \
+                     CODE_SIGN_ENTITLEMENTS="" \
+                     CODE_SIGNING_ALLOWED="NO"
