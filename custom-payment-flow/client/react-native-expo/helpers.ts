@@ -1,18 +1,15 @@
-import { Alert } from 'react-native';
-import { API_URL } from './Config';
+import {Alert} from 'react-native';
+import {API_URL} from './Config';
 
-export async function fetchPublishableKey(
-  paymentMethod?: string
-): Promise<string | null> {
+export async function fetchPublishableKey(): Promise<string | null> {
   try {
-    const response = await fetch(
-      `${API_URL}/stripe-key?paymentMethod=${paymentMethod}`
-    );
+    const response = await fetch(`${API_URL}/config`);
 
-    const { publishableKey } = await response.json();
+    const {publishableKey} = await response.json();
 
     return publishableKey;
   } catch (e) {
+    console.log(e);
     console.warn('Unable to fetch publishable key. Is your server running?');
     Alert.alert(
       'Error',

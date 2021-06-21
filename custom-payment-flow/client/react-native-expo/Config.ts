@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 import ENV from 'react-native-config';
 
 // Address to stripe server running on local machine
