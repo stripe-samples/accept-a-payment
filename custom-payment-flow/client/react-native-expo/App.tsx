@@ -28,7 +28,7 @@ export default function App() {
     <StripeProvider
       publishableKey={publishableKey}
       merchantIdentifier="merchant.com.stripe.react.native"
-      urlScheme="stripe-sample"
+      urlScheme="exp://127.0.0.1:19000/--/"
     >
       <StatusBar
         backgroundColor={colors.blurple_dark}
