@@ -4,14 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.google.gson.GsonBuilder
-import com.stripe.android.ApiResultCallback
 import com.stripe.android.PaymentConfiguration
-import com.stripe.android.PaymentIntentResult
 import com.stripe.android.Stripe
+import com.stripe.android.getPaymentIntentResult
 import com.stripe.android.model.ConfirmPaymentIntentParams
 import com.stripe.android.model.StripeIntent
 import kotlinx.android.synthetic.main.card_activity.*
+import kotlinx.coroutines.launch
 
 class CardActivity : AppCompatActivity() {
 
@@ -86,30 +87,35 @@ class CardActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         // Handle the result of stripe.confirmPayment
-        stripe.onPaymentResult(requestCode, data, object : ApiResultCallback<PaymentIntentResult> {
-            override fun onSuccess(result: PaymentIntentResult) {
-                val paymentIntent = result.intent
-                if (paymentIntent.status == StripeIntent.Status.Succeeded) {
-                    val gson = GsonBuilder().setPrettyPrinting().create()
-                    displayAlert(
-                        "Payment succeeded",
-                        gson.toJson(paymentIntent),
-                        restartDemo = true
-                    )
-                } else if (paymentIntent.status == StripeIntent.Status.RequiresPaymentMethod) {
-                    displayAlert(
-                        "Payment failed",
-                        paymentIntent.lastPaymentError?.message.orEmpty()
-                    )
-                }
-            }
-
-            override fun onError(e: Exception) {
-                displayAlert(
-                    "Error",
-                    e.toString()
+        if (stripe.isPaymentResult(requestCode, data)) {
+            lifecycleScope.launch {
+                runCatching {
+                    stripe.getPaymentIntentResult(requestCode, data!!)
+                }.fold(
+                    onSuccess = { result ->
+                        val paymentIntent = result.intent
+                        if (paymentIntent.status == StripeIntent.Status.Succeeded) {
+                            val gson = GsonBuilder().setPrettyPrinting().create()
+                            displayAlert(
+                                "Payment succeeded",
+                                gson.toJson(paymentIntent),
+                                restartDemo = true
+                            )
+                        } else if (paymentIntent.status == StripeIntent.Status.RequiresPaymentMethod) {
+                            displayAlert(
+                                "Payment failed",
+                                paymentIntent.lastPaymentError?.message.orEmpty()
+                            )
+                        }
+                    },
+                    onFailure = {
+                        displayAlert(
+                            "Error",
+                            it.toString()
+                        )
+                    }
                 )
             }
-        })
+        }
     }
 }

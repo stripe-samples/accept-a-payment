@@ -25,6 +25,7 @@ namespace server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // For sample support and debugging, not required for production:
             StripeConfiguration.AppInfo = new AppInfo
             {
                 Name = "stripe-samples/accept-a-payment/custom-payment-flow",

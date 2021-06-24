@@ -1,6 +1,8 @@
-# Checkout single subscription
+# Accept a payment
 
 An [.NET Core](https://dotnet.microsoft.com/download/dotnet-core) implementation
+
+You can [🎥 watch a video](https://www.youtube.com/watch?v=mqEjRgoZWdo) to see how this server was implemented and [read the transcripts](./TRANSCRIPTS.md).
 
 ## Requirements
 
@@ -11,18 +13,22 @@ An [.NET Core](https://dotnet.microsoft.com/download/dotnet-core) implementation
 
 1. Confirm `.env` configuration
 
-This sample requires a Price ID in the `PRICE` environment variable.
+Ensure the API keys are configured in `.env` in this directory. It should include the following keys:
 
-Open `.env` and confirm `PRICE` is set equal to the ID of a Price from your
-Stripe account. It should look something like:
+```yaml
+# Stripe API keys - see https://stripe.com/docs/development/quickstart#api-keys
+STRIPE_PUBLISHABLE_KEY=pk_test...
+STRIPE_SECRET_KEY=sk_test...
 
+# Required to verify signatures in the webhook handler.
+# See README on how to use the Stripe CLI to test webhooks
+STRIPE_WEBHOOK_SECRET=whsec_...
+
+# Path to front-end implementation. Note: PHP has it's own front end implementation.
+STATIC_DIR=../../client/html
+DOMAIN=http://localhost:4242
 ```
-PRICE=price_1Hh1ZeCZ6qsJgndJaX9fauRl
-```
 
-Note that `price_12345` is a placeholder and the sample will not work with that
-price ID. You can [create a price](https://stripe.com/docs/api/prices/create)
-from the dashboard or with the Stripe CLI.
 
 2. Run the application
 

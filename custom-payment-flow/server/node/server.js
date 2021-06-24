@@ -6,12 +6,11 @@ const env = require('dotenv').config({path: './.env'});
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2020-08-27',
-  appInfo: {
-    // For sample support and debugging, not required for production:
-    name: 'stripe-samples/accept-a-payment/custom-payment-flow',
-    version: '0.0.1',
-    url: 'https://github.com/stripe-samples',
-  },
+  appInfo: { // For sample support and debugging, not required for production:
+    name: "stripe-samples/accept-a-payment/custom-payment-flow",
+    version: "0.0.2",
+    url: "https://github.com/stripe-samples"
+  }
 });
 
 app.use(express.static(process.env.STATIC_DIR));
@@ -47,6 +46,24 @@ app.post('/create-payment-intent', async (req, res) => {
   // parameters.
   //
   // Some example payment method types include `card`, `ideal`, and `alipay`.
+  const params = {
+    payment_method_types: [paymentMethodType],
+    amount: 1999,
+    currency: currency,
+  }
+
+  // If this is for an ACSS payment, we add payment_method_options to create
+  // the Mandate.
+  if(paymentMethodType === 'acss_debit') {
+    params.payment_method_options = {
+      acss_debit: {
+        mandate_options: {
+          payment_schedule: 'sporadic',
+          transaction_type: 'personal',
+        },
+      },
+    }
+  }
 
   // Create a PaymentIntent with the amount, currency, and a payment method type.
   //
@@ -54,11 +71,7 @@ app.post('/create-payment-intent', async (req, res) => {
   //
   // [0] https://stripe.com/docs/api/payment_intents/create
   try {
-    const paymentIntent = await stripe.paymentIntents.create({
-      payment_method_types: [paymentMethodType],
-      amount: 1999,
-      currency: currency,
-    });
+    const paymentIntent = await stripe.paymentIntents.create(params);
 
     // Send publishable key and PaymentIntent details to client
     res.send({

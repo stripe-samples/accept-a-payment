@@ -37,6 +37,13 @@ const List = () => {
       category: BANK_DEBITS,
     },
     {
+      path: 'acss-debit',
+      name: 'Pre-authorized debit in Canada (ACSS)',
+      docs: 'https://stripe.com/docs/payments/acss-debit/accept-a-payment',
+      fact_sheet: '',
+      category: BANK_DEBITS,
+    },
+    {
       path: 'bacs-debit',
       name: 'Bacs Direct Debit',
       docs: 'https://stripe.com/docs/payments/payment-methods/bacs-debit',
@@ -139,6 +146,13 @@ const List = () => {
       docs: 'https://stripe.com/docs/sources/klarna',
       fact_sheet: 'https://stripe.com/payments/payment-methods-guide#klarna',
       category: BUY_NOW_PAY_LATER,
+    },
+    {
+      path: 'boleto',
+      name: 'Boleto',
+      docs: 'https://stripe.com/docs/payments/boleto',
+      fact_sheet: 'https://stripe.com/payments/payment-methods-guide#boleto',
+      category: VOUCHERS,
     },
     {
       path: 'oxxo',

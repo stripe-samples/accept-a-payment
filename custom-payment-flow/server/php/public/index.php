@@ -56,6 +56,7 @@
 
       <h3>Vouchers</h3>
       <ul>
+        <li><a href="/boleto.php">Boleto</a></li>
         <li><a href="/oxxo.php">OXXO</a></li>
       </ul>
 

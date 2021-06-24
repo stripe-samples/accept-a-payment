@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Pre-authorized debit in Canada</title>
+
+    <link rel="stylesheet" href="css/base.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script src="/utils.js" defer></script>
+    <script src="/acss.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <a href="/">home</a>
+      <h1>Pre-authorized debit in Canada (ACSS)</h1>
+
+      <p>
+        <h4>Try these test email addresses:</h4>
+        <dl>
+          <dt><strong>Immediately attempt</strong></dt>
+          <dd><code>{any_prefix}+skip_waiting@{any_domain}</code></dd>
+          <dt><strong>Skip the mandate delay and receive the micro-deposit verification</strong></dt>
+          <dd><code>{any_prefix}+skip_waiting+test_email@{any_domain}</code></dd>
+        </dl>
+      </p>
+
+      <form id="payment-form">
+        <label for="name">
+          Name
+        </label>
+        <input id="name" value="Jenny Rosen" required />
+        <label for="email">
+          Email
+        </label>
+        <input id="email" value="jenny+skip_waiting@example.com" required />
+
+        <button id="submit">Pay</button>
+      </form>
+
+      <div id="messages" role="alert" style="display: none;"></div>
+
+      <p> <a href="https://youtu.be/KWhynzGP5bw" target="_blank">Watch a demo walkthrough</a> </p>
+    </main>
+  </body>
+</html>

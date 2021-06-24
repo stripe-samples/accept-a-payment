@@ -72,7 +72,7 @@ const CardForm = () => {
       <h1>Card</h1>
 
       <p>
-        <h4>Try a <a href="https://stripe.com/docs/testing#cards" target="_blank">test card</a>:</h4>
+        <h4>Try a <a href="https://stripe.com/docs/testing#cards" target="_blank" rel="noopener noreferrer">test card</a>:</h4>
         <div>
           <code>4242424242424242</code> (Visa)
         </div>
@@ -80,7 +80,7 @@ const CardForm = () => {
           <code>5555555555554444</code> (Mastercard)
         </div>
         <div>
-          <code>4000002500003155</code> (Requires <a href="https://www.youtube.com/watch?v=2kc-FjU2-mY" target="_blank">3DSecure</a>)
+          <code>4000002500003155</code> (Requires <a href="https://www.youtube.com/watch?v=2kc-FjU2-mY" target="_blank" rel="noopener noreferrer">3DSecure</a>)
         </div>
       </p>
 
@@ -91,6 +91,8 @@ const CardForm = () => {
         <button type="submit">Pay</button>
       </form>
       <StatusMessages messages={messages} />
+
+      <p> <a href="https://youtu.be/IhvtIbfDZJI" target="_blank">Watch a demo walkthrough</a> </p>
     </>
   );
 };

@@ -11,9 +11,9 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	"github.com/stripe/stripe-go/v71"
-	"github.com/stripe/stripe-go/v71/paymentintent"
-	"github.com/stripe/stripe-go/v71/webhook"
+	"github.com/stripe/stripe-go/v72"
+	"github.com/stripe/stripe-go/v72/paymentintent"
+	"github.com/stripe/stripe-go/v72/webhook"
 )
 
 func main() {
@@ -78,6 +78,20 @@ func handleCreatePaymentIntent(w http.ResponseWriter, r *http.Request) {
 		Currency:           stripe.String(req.Currency),
 		PaymentMethodTypes: stripe.StringSlice([]string{req.PaymentMethodType}),
 	}
+
+
+  // If this is for an ACSS payment, we add payment_method_options to create
+  // the Mandate.
+  if(req.PaymentMethodType == "acss_debit") {
+    params.PaymentMethodOptions = &stripe.PaymentIntentPaymentMethodOptionsParams{
+      ACSSDebit: &stripe.PaymentIntentPaymentMethodOptionsACSSDebitParams{
+          MandateOptions: &stripe.PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsParams{
+              PaymentSchedule: stripe.String("sporadic"),
+              TransactionType: stripe.String("personal"),
+          },
+      },
+    }
+  }
 
 	pi, err := paymentintent.New(params)
 	if err != nil {

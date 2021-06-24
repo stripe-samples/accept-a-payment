@@ -24,7 +24,7 @@ submitBtn.addEventListener('click', async (e) => {
   // If the server responds with an error, display that to the user.
   if (error) {
     var displayError = document.getElementById('error-message');
-    displayError.textContent = result.error.message;
+    displayError.textContent = error;
     return;
   }
 
@@ -37,6 +37,6 @@ submitBtn.addEventListener('click', async (e) => {
   // If the redirect fails, display an error to the user.
   if (stripeError) {
     var displayError = document.getElementById('error-message');
-    displayError.textContent = result.error.message;
+    displayError.textContent = error;
   }
 });

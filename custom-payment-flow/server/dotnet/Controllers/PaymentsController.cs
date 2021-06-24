@@ -42,6 +42,23 @@ namespace server.Controllers
               req.PaymentMethodType,
             },
           };
+
+          // If this is for an ACSS payment, we add payment_method_options to create
+          // the Mandate.
+          if(req.PaymentMethodType == "acss_debit") {
+            options.PaymentMethodOptions = new PaymentIntentPaymentMethodOptionsOptions
+            {
+              AcssDebit = new PaymentIntentPaymentMethodOptionsAcssDebitOptions
+              {
+                MandateOptions = new PaymentIntentPaymentMethodOptionsAcssDebitMandateOptionsOptions
+                {
+                  PaymentSchedule = "sporadic",
+                  TransactionType = "personal",
+                },
+              }
+            };
+          }
+
           var service = new PaymentIntentService(this.client);
 
           try

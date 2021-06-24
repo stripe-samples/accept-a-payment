@@ -1,8 +1,13 @@
 name: CI for stripe-samples/accept-a-payment
 on: [push, pull_request]
 
+env:
+  STRIPE_PUBLISHABLE_KEY: ${{ secrets.TEST_STRIPE_PUBLISHABLE_KEY }}
+  STRIPE_SECRET_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
+  PRICE: ${{ secrets.TEST_PRICE }}
+
 jobs:
-  test:
+  server_test:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v2
@@ -21,9 +26,13 @@ jobs:
         run: |
           source sample-ci/helpers.sh
 
-          install_dummy_tests
           install_docker_compose_settings
           export STRIPE_WEBHOOK_SECRET=$(retrieve_webhook_secret)
+          cat <<EOF >> .env
+          DOMAIN=http://web:4242
+          PRICE=${PRICE}
+          PAYMENT_METHOD_TYPES="card"
+          EOF
 
           for lang in $(cat .cli.json | server_langs_for_integration custom-payment-flow)
           do
@@ -32,11 +41,18 @@ jobs:
             configure_docker_compose_for_integration custom-payment-flow "$lang" ../../client/html
 
             docker-compose up -d && wait_web_server
-            docker-compose exec -T runner bundle exec rspec spec/server_spec.rb
+            docker-compose exec -T runner bundle exec rspec spec/custom_payment_flow_server_spec.rb
           done
-        env:
-          STRIPE_PUBLISHABLE_KEY: ${{ secrets.TEST_STRIPE_PUBLISHABLE_KEY }}
-          STRIPE_SECRET_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
+
+          for lang in $(cat .cli.json | server_langs_for_integration prebuilt-checkout-page)
+          do
+            [ "$lang" = "php" ] && continue
+
+            configure_docker_compose_for_integration prebuilt-checkout-page "$lang" ../../client/html
+
+            docker-compose up -d && wait_web_server
+            docker-compose exec -T runner bundle exec rspec spec/prebuilt_checkout_page_spec.rb
+          done
 
       - name: Collect debug information
         if: ${{ failure() }}
@@ -44,6 +60,122 @@ jobs:
           cat docker-compose.yml
           docker-compose ps -a
           docker-compose logs web
+
+  e2e_test:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/checkout@v2
+        with:
+          repository: 'stripe-samples/sample-ci'
+          path: 'sample-ci'
+
+      - name: Setup dependencies
+        run: |
+          source sample-ci/helpers.sh
+
+          setup_dependencies
+
+      - name: Prepare tests
+        run: |
+          echo "$(cat custom-payment-flow/client/react-cra/package.json | jq '.proxy = "http://web:4242"')" > custom-payment-flow/client/react-cra/package.json
+          echo "$(cat prebuilt-checkout-page/client/react-cra/package.json | jq '.proxy = "http://web:4242"')" > prebuilt-checkout-page/client/react-cra/package.json
+
+      - name: Run tests for client/html
+        if: ${{ always() }}
         env:
-          STRIPE_PUBLISHABLE_KEY: ${{ secrets.TEST_STRIPE_PUBLISHABLE_KEY }}
-          STRIPE_SECRET_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
+          SERVER_URL: http://web:4242
+        run: |
+          source sample-ci/helpers.sh
+
+          install_docker_compose_settings
+          export STRIPE_WEBHOOK_SECRET=$(retrieve_webhook_secret)
+          cat <<EOF >> .env
+          DOMAIN=${SERVER_URL}
+          PRICE=${PRICE}
+          EOF
+
+          configure_docker_compose_for_integration custom-payment-flow node ../../client/html
+          docker-compose --profile=e2e up -d && wait_web_server
+          command="docker-compose exec -T runner bundle exec rspec spec/custom_payment_flow_e2e_spec.rb"
+          $command \
+            || $command --only-failures \
+            || $command --only-failures --format RSpec::Github::Formatter --format progress
+
+          configure_docker_compose_for_integration prebuilt-checkout-page node ../../client/html
+          docker-compose --profile=e2e up -d && wait_web_server
+          command="docker-compose exec -T runner bundle exec rspec spec/prebuilt_checkout_page_e2e_spec.rb"
+          $command \
+            || $command --only-failures \
+            || $command --only-failures --format RSpec::Github::Formatter --format progress
+
+      - name: Run tests for client/react-cra
+        if: ${{ always() }}
+        env:
+          SERVER_URL: http://frontend:3000
+        run: |
+          source sample-ci/helpers.sh
+
+          install_docker_compose_settings
+          export STRIPE_WEBHOOK_SECRET=$(retrieve_webhook_secret)
+          cat <<EOF >> .env
+          DOMAIN=${SERVER_URL}
+          PRICE=${PRICE}
+          EOF
+
+          configure_docker_compose_for_integration custom-payment-flow node ../../client/react-cra
+          docker-compose --profile=frontend up -d && wait_web_server
+          command="docker-compose exec -T runner bundle exec rspec spec/custom_payment_flow_e2e_spec.rb"
+          $command \
+            || $command --only-failures \
+            || $command --only-failures --format RSpec::Github::Formatter --format progress
+
+          configure_docker_compose_for_integration prebuilt-checkout-page node ../../client/react-cra
+          docker-compose --profile=frontend up -d && wait_web_server
+          command="docker-compose exec -T runner bundle exec rspec spec/prebuilt_checkout_page_e2e_spec.rb"
+          $command \
+            || $command --only-failures \
+            || $command --only-failures --format RSpec::Github::Formatter --format progress
+
+      - name: Collect debug information
+        if: ${{ failure() }}
+        run: |
+          cat docker-compose.yml
+          docker-compose ps -a
+          docker-compose --profile=frontend logs web
+
+          docker cp $(docker-compose ps -qa runner | head -1):/work/tmp .
+
+      - name: Upload capybara screenshots
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshots
+          path: |
+            tmp/capybara
+
+  android_build:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: |
+          cd custom-payment-flow/client/android-kotlin
+          ./gradlew build
+
+  ios_build:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: |
+          cd custom-payment-flow/client/ios-swiftui
+          pod install
+          xcodebuild build \
+                     -scheme AcceptAPayment \
+                     -workspace AcceptAPayment.xcworkspace/ \
+                     CODE_SIGN_IDENTITY="" \
+                     CODE_SIGNING_REQUIRED="NO" \
+                     CODE_SIGN_ENTITLEMENTS="" \
+                     CODE_SIGNING_ALLOWED="NO"

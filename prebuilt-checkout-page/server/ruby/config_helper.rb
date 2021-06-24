@@ -4,7 +4,6 @@
 # Refer to `server.rb` for integration details.
 require 'stripe'
 require 'toml-rb'
-require 'byebug'
 require 'dotenv'
 
 class ConfigHelper
