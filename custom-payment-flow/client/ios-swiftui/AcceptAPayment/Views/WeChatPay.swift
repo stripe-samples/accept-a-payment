@@ -19,6 +19,7 @@ struct WeChatPay: View {
                     // Check if WeChat app is installed
                     if (!UIApplication.shared.canOpenURL(URL(string: "weixin://")!)) {
                         print("Can't open WeChat App. Please install from the App Store and try again.")
+                        return
                     }
                     isConfirmingPayment = true
                     /// Note: This flag is only intended for development, and only impacts payments made with testmode keys.
