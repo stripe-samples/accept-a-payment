@@ -1,18 +1,24 @@
 PODS:
-  - Stripe (21.3.0):
-    - Stripe/Stripe3DS2 (= 21.3.0)
-  - Stripe/Stripe3DS2 (21.3.0)
+  - Stripe (21.5.1):
+    - Stripe/Stripe3DS2 (= 21.5.1)
+  - Stripe/Stripe3DS2 (21.5.1)
 
 DEPENDENCIES:
-  - Stripe
+  - Stripe (from `https://github.com/stripe/stripe-ios.git`, branch `wechatpay-pm-beta`)
 
-SPEC REPOS:
-  trunk:
-    - Stripe
+EXTERNAL SOURCES:
+  Stripe:
+    :branch: wechatpay-pm-beta
+    :git: https://github.com/stripe/stripe-ios.git
+
+CHECKOUT OPTIONS:
+  Stripe:
+    :commit: c89caaff7f3bdf612461d407e01f7b64d2a429a1
+    :git: https://github.com/stripe/stripe-ios.git
 
 SPEC CHECKSUMS:
-  Stripe: 1edcfa3ae759524b3901165d84411624ab420add
+  Stripe: 515db5536fd659b5d79a0898ce1b882b61ab597e
 
-PODFILE CHECKSUM: cd1626af620de5e1a82cd3d4a441ba8de413e30a
+PODFILE CHECKSUM: f5176f117c7e6a76b8059d700e68dc92868f7dbd
 
 COCOAPODS: 1.10.1
