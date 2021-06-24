@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          currency: 'sgd',
+          currency: 'cny',
           paymentMethodType: 'wechat_pay',
         }),
       }
@@ -44,23 +44,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     const nameInput = document.querySelector('#name');
     // Confirm the payment given the clientSecret from the payment intent that
     // was just created on the server.
-    const {
-      error: stripeError,
-      paymentIntent,
-    } = await stripe.confirmWechatPayPayment(
-      clientSecret,
-      {
-        payment_method: {
-          wechat_pay: {},
-        },
-        payment_method_options: {
-          wechat_pay: {
-            client: 'web',
+    const {error: stripeError, paymentIntent} =
+      await stripe.confirmWechatPayPayment(
+        clientSecret,
+        {
+          payment_method: {
+            wechat_pay: {},
+          },
+          payment_method_options: {
+            wechat_pay: {
+              client: 'web',
+            },
           },
         },
-      },
-      {handleActions: false}
-    );
+        {handleActions: false}
+      );
 
     if (stripeError) {
       addMessage(stripeError.message);
@@ -73,5 +71,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
+
+    // We set an interval to check the status of the PaymentIntent.
+    const i = setInterval(async () => {
+      const {paymentIntent} = await stripe.retrievePaymentIntent(clientSecret);
+      if (paymentIntent.status !== 'requires_action') {
+        addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
+        clearInterval(i);
+      }
+    }, 1000);
   });
 });
