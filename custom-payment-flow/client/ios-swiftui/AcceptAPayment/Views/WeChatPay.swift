@@ -11,7 +11,7 @@ import Stripe
 struct WeChatPay: View {
     @ObservedObject var model = BackendModel()
     @State var isConfirmingPayment = false
-    
+
     var body: some View {
         VStack {
             if let paymentIntentParams = model.paymentIntentParams {
@@ -21,8 +21,6 @@ struct WeChatPay: View {
                         print("Can't open WeChat App. Please install from the App Store and try again.")
                     }
                     isConfirmingPayment = true
-                    /// TODO remove once GA
-                    STPAPIClient.shared.betas = [.weChatPayBetaV1]
                     /// Note: This flag is only intended for development, and only impacts payments made with testmode keys.
                     /// Setting this to `true` with a livemode key will fail.
                     STPPaymentHandler.shared().simulateAppToAppRedirect = true

@@ -120,6 +120,9 @@
 				2D14305625C801DE002B1294 /* Card.swift */,
 				2DF025D4268440D90058941A /* WeChatPay.swift */,
 				2D2FB56F26859CF600D349B3 /* ApplePay.swift */,
+				2D1430A625C814CB002B1294 /* PaymentMethodRow.swift */,
+				2D4F230425C83C13001F1EFF /* PaymentMethodList.swift */,
+				2DF025D4268440D90058941A /* WeChatPay.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
