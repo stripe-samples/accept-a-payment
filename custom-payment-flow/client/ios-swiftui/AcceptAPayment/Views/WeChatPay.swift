@@ -16,6 +16,11 @@ struct WeChatPay: View {
         VStack {
             if let paymentIntentParams = model.paymentIntentParams {
                 Button("Pay with WeChat Pay") {
+                    // Check if WeChat app is installed
+                    if (!UIApplication.shared.canOpenURL(URL(string: "weixin://")!)) {
+                        print("Can't open WeChat App. Please install from the App Store and try again.")
+                        return
+                    }
                     isConfirmingPayment = true
                     // TODO remove once GA
                     STPAPIClient.shared.betas = [.weChatPayBetaV1]
