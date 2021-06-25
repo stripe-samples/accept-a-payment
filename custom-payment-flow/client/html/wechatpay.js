@@ -41,29 +41,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     addMessage(`Client secret returned.`);
 
-    const nameInput = document.querySelector('#name');
     // Confirm the payment given the clientSecret from the payment intent that
     // was just created on the server.
-    const {
-      error: stripeError,
-      paymentIntent,
-    } = await stripe.confirmWechatPayPayment(
-      clientSecret,
-      {
-        payment_method: {
-          wechat_pay: {},
-          billing_details: {
-            name: nameInput.value,
+    const {error: stripeError, paymentIntent} =
+      await stripe.confirmWechatPayPayment(
+        clientSecret,
+        {
+          payment_method_options: {
+            wechat_pay: {
+              client: 'web',
+            },
           }
         },
-        payment_method_options: {
-          wechat_pay: {
-            client: 'web',
-          },
-        },
-      },
-      {handleActions: false}
-    );
+      );
 
     if (stripeError) {
       addMessage(stripeError.message);
