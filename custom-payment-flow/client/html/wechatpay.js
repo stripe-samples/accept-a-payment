@@ -41,7 +41,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     addMessage(`Client secret returned.`);
 
-    const nameInput = document.querySelector('#name');
     // Confirm the payment given the clientSecret from the payment intent that
     // was just created on the server.
     const {error: stripeError, paymentIntent} =
