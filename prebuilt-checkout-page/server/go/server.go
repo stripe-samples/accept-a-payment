@@ -12,10 +12,10 @@ import (
 	"strings"
 
 	"github.com/joho/godotenv"
-	"github.com/stripe/stripe-go/v71"
-	"github.com/stripe/stripe-go/v71/checkout/session"
-	"github.com/stripe/stripe-go/v71/price"
-	"github.com/stripe/stripe-go/v71/webhook"
+	"github.com/stripe/stripe-go/v72"
+	"github.com/stripe/stripe-go/v72/checkout/session"
+	"github.com/stripe/stripe-go/v72/price"
+	"github.com/stripe/stripe-go/v72/webhook"
 )
 
 func main() {
@@ -35,7 +35,6 @@ func main() {
 	})
 
 	http.Handle("/", http.FileServer(http.Dir(os.Getenv("STATIC_DIR"))))
-	http.HandleFunc("/config", handleConfig)
 	http.HandleFunc("/checkout-session", handleCheckoutSession)
 	http.HandleFunc("/create-checkout-session", handleCreateCheckoutSession)
 	http.HandleFunc("/webhook", handleWebhook)
@@ -54,27 +53,6 @@ type ErrorResponseMessage struct {
 // in failed responses.
 type ErrorResponse struct {
 	Error *ErrorResponseMessage `json:"error"`
-}
-
-func handleConfig(w http.ResponseWriter, r *http.Request) {
-	if r.Method != "GET" {
-		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
-		return
-	}
-	// Fetch a price, use it's unit amount and currency
-	p, _ := price.Get(
-		os.Getenv("PRICE"),
-		nil,
-	)
-	writeJSON(w, struct {
-		PublishableKey string `json:"publishableKey"`
-		UnitAmount     int64  `json:"unitAmount"`
-		Currency       string `json:"currency"`
-	}{
-		PublishableKey: os.Getenv("STRIPE_PUBLISHABLE_KEY"),
-		UnitAmount:     p.UnitAmount,
-		Currency:       string(p.Currency),
-	})
 }
 
 func handleCheckoutSession(w http.ResponseWriter, r *http.Request) {
@@ -122,11 +100,7 @@ func handleCreateCheckoutSession(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	writeJSON(w, struct {
-		SessionID string `json:"sessionId"`
-	}{
-		SessionID: s.ID,
-	})
+	http.Redirect(w, r, s.URL, http.StatusSeeOther)
 }
 
 func handleWebhook(w http.ResponseWriter, r *http.Request) {

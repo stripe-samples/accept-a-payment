@@ -3,7 +3,7 @@ require_once 'shared.php';
 // Retrieve the Checkout Session for the successful payment flow that just
 // completed. This will be displayed in a `pre` tag as json in this file.
 $checkout_session = $stripe->checkout->sessions->retrieve(
-  $_GET['session_id']
+$_GET['session_id']
 );
 ?>
 
@@ -20,44 +20,41 @@ $checkout_session = $stripe->checkout->sessions->retrieve(
   <body>
     <div class="sr-root">
       <div class="sr-main">
-        <header class="sr-header">
-          <div class="sr-header__logo"></div>
-        </header>
         <div class="sr-payment-summary completed-view">
-            <h1>Your payment succeeded</h1>
-            <h4>
-              View CheckoutSession response:</a>
-            </h4>
-          </div>
-          <div class="sr-section completed-view">
-            <div class="sr-callout">
-              <pre><?= json_encode($checkout_session, JSON_PRETTY_PRINT); ?></pre>
-            </div>
-            <button onclick="window.location.href = '/';">Restart demo</button>
-          </div>
+          <h1>Your payment succeeded</h1>
+          <h4>
+            View CheckoutSession response:</a>
+          </h4>
         </div>
-        <div class="sr-content">
+        <div class="sr-section completed-view">
+          <div class="sr-callout">
+            <pre><?= json_encode($checkout_session, JSON_PRETTY_PRINT); ?></pre>
+          </div>
+          <button onclick="window.location.href = '/';">Restart demo</button>
+        </div>
+      </div>
+      <div class="sr-content">
         <div class="pasha-image-stack">
           <img
             src="https://picsum.photos/280/320?random=1"
             width="140"
             height="160"
-          />
+            />
           <img
             src="https://picsum.photos/280/320?random=2"
             width="140"
             height="160"
-          />
+            />
           <img
             src="https://picsum.photos/280/320?random=3"
             width="140"
             height="160"
-          />
+            />
           <img
             src="https://picsum.photos/280/320?random=4"
             width="140"
             height="160"
-          />
+            />
         </div>
       </div>
     </div>
