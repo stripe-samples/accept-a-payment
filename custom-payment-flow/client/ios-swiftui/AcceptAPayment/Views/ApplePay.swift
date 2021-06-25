@@ -11,8 +11,6 @@ import PassKit
 
 let applePayButtonVCInstance = ApplePayButtonViewController()
 var backendModel: BackendModel?
-var clientSecret: String?
-var status: STPPaymentStatus?
 
 struct ApplePay: View {
     @ObservedObject var model = BackendModel()
@@ -37,7 +35,7 @@ struct ApplePay: View {
                     Text("Unknown status")
                 }
             }
-            if let paymentIntentParams = model.paymentIntentParams {
+            if model.paymentIntentParams != nil {
                 ApplePayButtonViewControllerRepresentable()
                 ApplePayButton()
                     .frame(minWidth: 100, maxWidth: 400)
@@ -45,7 +43,6 @@ struct ApplePay: View {
                     .frame(maxWidth: .infinity)
                     .onAppear {
                         backendModel = model
-                        clientSecret = paymentIntentParams.clientSecret
                     }
             } else {
                 Text("Loading...")
