@@ -48,37 +48,18 @@ document.addEventListener('DOMContentLoaded', async () => {
       await stripe.confirmWechatPayPayment(
         clientSecret,
         {
-          payment_method: {
-            wechat_pay: {},
-          },
           payment_method_options: {
             wechat_pay: {
               client: 'web',
             },
-          },
+          }
         },
-        {handleActions: false}
       );
 
     if (stripeError) {
       addMessage(stripeError.message);
       return;
-    } else if (paymentIntent.status === 'requires_action') {
-      if (paymentIntent.next_action.type === 'wechat_pay_display_qr_code') {
-        document.getElementById('qr-code').src =
-          paymentIntent.next_action.wechat_pay_display_qr_code.image_data_url;
-      }
     }
-
     addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
-
-    // We set an interval to check the status of the PaymentIntent.
-    const i = setInterval(async () => {
-      const {paymentIntent} = await stripe.retrievePaymentIntent(clientSecret);
-      if (paymentIntent.status !== 'requires_action') {
-        addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
-        clearInterval(i);
-      }
-    }, 1000);
   });
 });
