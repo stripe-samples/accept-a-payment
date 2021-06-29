@@ -41,7 +41,7 @@ struct ApplePay: View {
             }
         }.onAppear {
             if (!StripeAPI.deviceSupportsApplePay()) {
-                print("Either Apple Pay is not set up on this device or your configuration is incomplete.")
+                print("Apple Pay is not supported on this device.")
             } else {
                 backendModel.preparePaymentIntent(paymentMethodType: "card", currency: "usd")
             }
