@@ -174,13 +174,15 @@ RSpec.describe 'Custom payment flow', type: :system do
     expect(page).to have_content('Payment succeeded')
   end
 
-  example 'Boleto' do
-    click_on 'Boleto'
-
-    click_on 'Pay'
-    expect(page).to have_no_content('succeeded')
-    expect(page).to have_content('The payment method type "boleto" is invalid.') # Boleto is not available without an invitation yet
-  end
+  # TODO(cjavilla): Removing this test at the request of the boleto team until
+  # we have separate keys. This was raising some alarms internally.
+  # example 'Boleto' do
+  #   click_on 'Boleto'
+  #
+  #   click_on 'Pay'
+  #   expect(page).to have_no_content('succeeded')
+  #   expect(page).to have_content('The payment method type "boleto" is invalid.') # Boleto is not available without an invitation yet
+  # end
 
   example 'OXXO' do
     click_on 'OXXO'
