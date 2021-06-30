@@ -17,6 +17,9 @@
 		2D14308E25C81324002B1294 /* PaymentMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D14308D25C81324002B1294 /* PaymentMethods.swift */; };
 		2D1430A725C814CB002B1294 /* PaymentMethodRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1430A625C814CB002B1294 /* PaymentMethodRow.swift */; };
 		2D1430AC25C815A9002B1294 /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D1430AB25C815A9002B1294 /* ModelData.swift */; };
+		2D2FB57026859CF600D349B3 /* ApplePay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2FB56F26859CF600D349B3 /* ApplePay.swift */; };
+		2D2FB5742689C63000D349B3 /* PaymentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2FB5732689C63000D349B3 /* PaymentButton.swift */; };
+		2D2FB5762689C69600D349B3 /* ApplePayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2FB5752689C69600D349B3 /* ApplePayModel.swift */; };
 		2D4F230525C83C13001F1EFF /* PaymentMethodList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4F230425C83C13001F1EFF /* PaymentMethodList.swift */; };
 		2D4F233925DFAB5C001F1EFF /* BackendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4F233825DFAB5C001F1EFF /* BackendModel.swift */; };
 		2DF025D5268440D90058941A /* WeChatPay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF025D4268440D90058941A /* WeChatPay.swift */; };
@@ -36,6 +39,10 @@
 		2D14308D25C81324002B1294 /* PaymentMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethods.swift; sourceTree = "<group>"; };
 		2D1430A625C814CB002B1294 /* PaymentMethodRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodRow.swift; sourceTree = "<group>"; };
 		2D1430AB25C815A9002B1294 /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
+		2D2FB56F26859CF600D349B3 /* ApplePay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePay.swift; sourceTree = "<group>"; };
+		2D2FB57126859DCC00D349B3 /* AcceptAPayment.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AcceptAPayment.entitlements; sourceTree = "<group>"; };
+		2D2FB5732689C63000D349B3 /* PaymentButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentButton.swift; sourceTree = "<group>"; };
+		2D2FB5752689C69600D349B3 /* ApplePayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePayModel.swift; sourceTree = "<group>"; };
 		2D4F230425C83C13001F1EFF /* PaymentMethodList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodList.swift; sourceTree = "<group>"; };
 		2D4F233825DFAB5C001F1EFF /* BackendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendModel.swift; sourceTree = "<group>"; };
 		2DF025D4268440D90058941A /* WeChatPay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeChatPay.swift; sourceTree = "<group>"; };
@@ -85,6 +92,8 @@
 		2D14302225C7FEFF002B1294 /* AcceptAPayment */ = {
 			isa = PBXGroup;
 			children = (
+				2D2FB57126859DCC00D349B3 /* AcceptAPayment.entitlements */,
+				2D2FB5722689C5D300D349B3 /* HelperViews */,
 				2D14309525C8141E002B1294 /* Views */,
 				2D14302325C7FEFF002B1294 /* AcceptAPaymentApp.swift */,
 				2D14302725C7FF02002B1294 /* Assets.xcassets */,
@@ -107,12 +116,10 @@
 		2D14309525C8141E002B1294 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				2D14302525C7FEFF002B1294 /* ContentView.swift */,
 				2D14305125C80152002B1294 /* Alipay.swift */,
 				2D14305625C801DE002B1294 /* Card.swift */,
-				2D1430A625C814CB002B1294 /* PaymentMethodRow.swift */,
-				2D4F230425C83C13001F1EFF /* PaymentMethodList.swift */,
 				2DF025D4268440D90058941A /* WeChatPay.swift */,
+				2D2FB56F26859CF600D349B3 /* ApplePay.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -131,8 +138,20 @@
 				2D14308D25C81324002B1294 /* PaymentMethods.swift */,
 				2D1430AB25C815A9002B1294 /* ModelData.swift */,
 				2D4F233825DFAB5C001F1EFF /* BackendModel.swift */,
+				2D2FB5752689C69600D349B3 /* ApplePayModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		2D2FB5722689C5D300D349B3 /* HelperViews */ = {
+			isa = PBXGroup;
+			children = (
+				2D14302525C7FEFF002B1294 /* ContentView.swift */,
+				2D4F230425C83C13001F1EFF /* PaymentMethodList.swift */,
+				2D1430A625C814CB002B1294 /* PaymentMethodRow.swift */,
+				2D2FB5732689C63000D349B3 /* PaymentButton.swift */,
+			);
+			path = HelperViews;
 			sourceTree = "<group>";
 		};
 		602CEC56B1016E178249C764 /* Pods */ = {
@@ -260,6 +279,7 @@
 			files = (
 				2D1430A725C814CB002B1294 /* PaymentMethodRow.swift in Sources */,
 				2D14308E25C81324002B1294 /* PaymentMethods.swift in Sources */,
+				2D2FB5742689C63000D349B3 /* PaymentButton.swift in Sources */,
 				2D14305225C80152002B1294 /* Alipay.swift in Sources */,
 				2D14302625C7FEFF002B1294 /* ContentView.swift in Sources */,
 				2DF025D5268440D90058941A /* WeChatPay.swift in Sources */,
@@ -268,6 +288,8 @@
 				2D4F230525C83C13001F1EFF /* PaymentMethodList.swift in Sources */,
 				2D14305725C801DE002B1294 /* Card.swift in Sources */,
 				2D1430AC25C815A9002B1294 /* ModelData.swift in Sources */,
+				2D2FB57026859CF600D349B3 /* ApplePay.swift in Sources */,
+				2D2FB5762689C69600D349B3 /* ApplePayModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -396,6 +418,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AcceptAPayment/AcceptAPayment.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"AcceptAPayment/Preview Content\"";
 				DEVELOPMENT_TEAM = Y28TH9SHX7;
@@ -406,7 +429,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = stripe.example.AcceptAPayment;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.stripe-samples.accept-a-payment";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -419,6 +442,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AcceptAPayment/AcceptAPayment.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"AcceptAPayment/Preview Content\"";
 				DEVELOPMENT_TEAM = Y28TH9SHX7;
@@ -429,7 +453,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = stripe.example.AcceptAPayment;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.stripe-samples.accept-a-payment";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
