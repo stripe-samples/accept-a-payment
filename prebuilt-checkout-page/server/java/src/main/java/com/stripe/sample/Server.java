@@ -51,17 +51,6 @@ public class Server {
         staticFiles.externalLocation(
                 Paths.get(Paths.get("").toAbsolutePath().toString(), dotenv.get("STATIC_DIR")).normalize().toString());
 
-        get("/config", (request, response) -> {
-            response.type("application/json");
-            Price price = Price.retrieve(dotenv.get("PRICE"));
-
-            Map<String, Object> responseData = new HashMap<>();
-            responseData.put("publishableKey", dotenv.get("STRIPE_PUBLISHABLE_KEY"));
-            responseData.put("unitAmount", price.getUnitAmount());
-            responseData.put("currency", price.getCurrency());
-            return gson.toJson(responseData);
-        });
-
         // Fetch the Checkout Session to display the JSON result on the success page
         get("/checkout-session", (request, response) -> {
             response.type("application/json");

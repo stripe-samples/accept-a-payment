@@ -28,18 +28,6 @@ get '/' do
   send_file File.join(settings.public_folder, 'index.html')
 end
 
-# Serve the publishable key.
-get '/config' do
-  content_type 'application/json'
-  price = Stripe::Price.retrieve(ENV['PRICE'])
-
-  {
-    publishableKey: ENV['STRIPE_PUBLISHABLE_KEY'],
-    unitAmount: price['unit_amount'],
-    currency: price['currency']
-  }.to_json
-end
-
 # Fetch the Checkout Session to display the JSON result on the success page
 get '/checkout-session' do
   content_type 'application/json'
@@ -49,15 +37,8 @@ get '/checkout-session' do
   session.to_json
 end
 
-# Create a Checkout Session and return its ID to the front end so that the
-# client can redirect to Checkout with:
-#
-#   stripe.redirectToCheckout({ sessionId: # "cs_test_...id_of_the_session" })
-#
+# Creates a Checkout Session then redirects to its `url`.
 post '/create-checkout-session' do
-  content_type 'application/json'
-  data = JSON.parse request.body.read
-
   # The list of payment method types to allow your customers to pay.  This is
   # an array of strings. For this sample, the list of supported payment method
   # types are fetched from the environment variables `.env` file by default.
@@ -81,7 +62,7 @@ post '/create-checkout-session' do
     }]
   )
 
-  { sessionId: session.id }.to_json
+  redirect session.url, 303
 end
 
 post '/webhook' do
@@ -90,7 +71,8 @@ post '/webhook' do
   webhook_secret = ENV['STRIPE_WEBHOOK_SECRET']
   payload = request.body.read
   if !webhook_secret.empty?
-    # Retrieve the event by verifying the signature using the raw body and secret if webhook signing is configured.
+    # Retrieve the event by verifying the signature using the raw body and
+    # secret if webhook signing is configured.
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
     event = nil
 

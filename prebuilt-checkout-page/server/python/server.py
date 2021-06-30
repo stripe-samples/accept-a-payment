@@ -10,7 +10,7 @@ import stripe
 import json
 import os
 
-from flask import Flask, render_template, jsonify, request, send_from_directory
+from flask import Flask, render_template, jsonify, request, send_from_directory, redirect
 from dotenv import load_dotenv, find_dotenv
 
 # Setup Stripe python client library.
@@ -42,15 +42,6 @@ def get_example():
     return render_template('index.html')
 
 
-@app.route('/config', methods=['GET'])
-def get_publishable_key():
-    price = stripe.Price.retrieve(os.getenv('PRICE'))
-    return jsonify({
-        'publishableKey': os.getenv('STRIPE_PUBLISHABLE_KEY'),
-        'unitAmount': price['unit_amount'],
-        'currency': price['currency']
-    })
-
 # Fetch the Checkout Session to display the JSON result on the success page
 @app.route('/checkout-session', methods=['GET'])
 def get_checkout_session():
@@ -61,7 +52,6 @@ def get_checkout_session():
 
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
-    data = json.loads(request.data)
     domain_url = os.getenv('DOMAIN')
 
     try:
@@ -73,14 +63,14 @@ def create_checkout_session():
         checkout_session = stripe.checkout.Session.create(
             success_url=domain_url + '/success.html?session_id={CHECKOUT_SESSION_ID}',
             cancel_url=domain_url + '/canceled.html',
-            payment_method_types= (os.getenv('PAYMENT_METHOD_TYPES') or 'card').split(','),
+            payment_method_types=(os.getenv('PAYMENT_METHOD_TYPES') or 'card').split(','),
             mode='payment',
             line_items=[{
                 'price': os.getenv('PRICE'),
                 'quantity': 1,
             }]
         )
-        return jsonify({'sessionId': checkout_session['id']})
+        return redirect(checkout_session.url, code=303)
     except Exception as e:
         return jsonify(error=str(e)), 403
 

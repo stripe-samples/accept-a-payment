@@ -20,22 +20,6 @@ namespace server.Controllers
             this.client = new StripeClient(this.options.Value.SecretKey);
         }
 
-        [HttpGet("config")]
-        public async Task<ConfigResponse> GetConfig()
-        {
-            // Fetch price from the API
-            var service = new PriceService(this.client);
-            var price = await service.GetAsync(this.options.Value.Price);
-
-            // return json: publishableKey (`./.env`), unitAmount, currency
-            return new ConfigResponse
-            {
-                PublishableKey = this.options.Value.PublishableKey,
-                UnitAmount = price.UnitAmount,
-                Currency = price.Currency,
-            };
-        }
-
         [HttpGet("checkout-session")]
         public async Task<Session> GetCheckoutSession(string sessionId)
         {
@@ -45,7 +29,7 @@ namespace server.Controllers
         }
 
         [HttpPost("create-checkout-session")]
-        public async Task<CreateCheckoutSessionResponse> CreateCheckoutSession()
+        public async Task<IActionResult> CreateCheckoutSession()
         {
             // Pulled from environment variables in the `.env` file. In practice,
             // users often hard code this list of strings representing the types of
@@ -78,11 +62,8 @@ namespace server.Controllers
 
             var service = new SessionService(this.client);
             var session = await service.CreateAsync(options);
-
-            return new CreateCheckoutSessionResponse
-            {
-                SessionId = session.Id,
-            };
+            Response.Headers.Add("Location", session.Url);
+            return new StatusCodeResult(303);
         }
 
         [HttpPost("webhook")]

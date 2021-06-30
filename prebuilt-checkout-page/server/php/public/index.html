@@ -6,11 +6,9 @@
 
     <title>Stripe Checkout Sample</title>
 
-    <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="css/normalize.css" />
     <link rel="stylesheet" href="css/global.css" />
     <script src="https://js.stripe.com/v3/"></script>
-    <script src="./index.js" defer></script>
   </head>
 
   <body>
@@ -20,22 +18,15 @@
           <div>
             <h1>Single photo</h1>
             <h4>Purchase a Pasha original photo</h4>
-
             <div class="pasha-image">
-              <img
-                src="https://picsum.photos/280/320?random=4"
-                width="140"
-                height="160"
-                />
+              <img src="https://picsum.photos/280/320?random=4" width="140" height="160" />
             </div>
           </div>
 
-          <form action="/create-checkout-session" method="POST">
+          <form action="/create-checkout-session.php" method="POST">
             <button id="submit">Buy</button>
           </form>
         </section>
-
-        <div id="error-message"></div>
       </div>
     </div>
   </body>

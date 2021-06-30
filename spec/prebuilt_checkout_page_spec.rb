@@ -7,18 +7,31 @@ RSpec.describe "prebuilt-checkout-page integration" do
     expect(response).not_to be_nil
   end
 
-  it "served config as expected" do
-    resp = get_json("/config")
-    expect(resp).to have_key("publishableKey")
-    expect(resp['publishableKey']).to start_with("pk_test")
-  end
-
   describe '/create-checkout-session' do
     it 'creates a checkout session' do
-      resp, status = post_json('/create-checkout-session', {})
-      expect(status).to eq(200)
-      expect(resp).to have_key('sessionId')
-      expect(resp['sessionId']).to start_with('cs_test_')
+      response = RestClient.post(
+        "#{SERVER_URL}/create-checkout-session",
+        {quantity: 7},
+        {max_redirects: 0}
+      )
+      # RestClient will follow the redirect, but we can get the first response
+      # from the server from the `history`.
+      redirect_response = response.history.first
+
+      # Asserts the right HTTP status code for the redirect
+      expect(redirect_response.code).to eq(303)
+
+      # Pull's the Checkout session ID out of the Location header
+      # to assert the right configuration on the created session.
+      redirect_url = redirect_response.headers[:location]
+      expect(redirect_url).to start_with("https://checkout.stripe.com/pay/cs_test")
+      match = redirect_url.match(".*(?<session_id>cs_test.*)#.*")
+      session_id = match[:session_id]
+      session = Stripe::Checkout::Session.retrieve({
+        id: session_id,
+        expand: ['line_items'],
+      })
+      expect(session.payment_method_types).to include('card')
     end
   end
 end
