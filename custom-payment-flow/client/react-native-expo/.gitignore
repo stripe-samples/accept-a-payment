@@ -1,3 +1,4 @@
+.node-version
 node_modules/
 .expo/
 npm-debug.*
