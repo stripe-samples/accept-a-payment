@@ -97,9 +97,8 @@ public class Server {
             SessionCreateParams createParams = builder.build();
             Session session = Session.create(createParams);
 
-            Map<String, Object> responseData = new HashMap<>();
-            responseData.put("sessionId", session.getId());
-            return gson.toJson(responseData);
+            response.redirect(session.getUrl(), 303);
+            return "";
         });
 
         post("/webhook", (request, response) -> {
