@@ -19,11 +19,13 @@ struct WeChatPay: View {
                     // Check if WeChat app is installed
                     if (!UIApplication.shared.canOpenURL(URL(string: "weixin://")!)) {
                         print("Can't open WeChat App. Please install from the App Store and try again.")
-                        return
                     }
                     isConfirmingPayment = true
-                    // TODO remove once GA
+                    /// TODO remove once GA
                     STPAPIClient.shared.betas = [.weChatPayBetaV1]
+                    /// Note: This flag is only intended for development, and only impacts payments made with testmode keys.
+                    /// Setting this to `true` with a livemode key will fail.
+                    STPPaymentHandler.shared().simulateAppToAppRedirect = true
                     // Set the PaymentMethodParams
                     paymentIntentParams.paymentMethodParams = STPPaymentMethodParams(weChatPay: STPPaymentMethodWeChatPayParams(), billingDetails: nil, metadata: nil)
                     // Set the PaymentMethodOptions
