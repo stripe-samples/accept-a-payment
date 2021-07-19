@@ -125,18 +125,16 @@ const SepaDebitForm = () => {
         <div id="error-message" role="alert"></div>
 
         <div id="mandate-acceptance">
-          By providing your bank account details and confirming this payment,
-          you agree to this Direct Debit Request and the
-          <a href="https://stripe.com/au-becs-dd-service-agreement/legal">
-            Direct Debit Request service agreement
-          </a>
-          , and authorise Stripe Payments Australia Pty Ltd ACN 160 180 343
-          Direct Debit User ID number 507156 (“Stripe”) to debit your account
-          through the Bulk Electronic Clearing System (BECS) on behalf of
-          <strong>INSERT YOUR BUSINESS NAME HERE</strong> (the "Merchant") for
-          any amounts separately communicated to you by the Merchant. You
-          certify that you are either an account holder or an authorised
-          signatory on the account listed above.
+          By providing your payment information and confirming this payment, you authorise
+          (A) <strong>INSERT YOUR BUSINESS NAME HERE</strong> and Stripe,
+          our payment service provider and/or PPRO, its local service provider, to send
+          instructions to your bank to debit your account and (B) your bank to debit your
+          account in accordance with those instructions. As part of your rights, you are
+          entitled to a refund from your bank under the terms and conditions of your agreement
+          with your bank. A refund must be claimed within 8 weeks starting from the date on
+          which your account was debited. Your rights are explained in a statement that you
+          can obtain from your bank. You agree to receive notifications for future debits up
+          to 2 days before they occur.
         </div>
       </form>
 
