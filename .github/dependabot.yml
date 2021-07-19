@@ -9,73 +9,73 @@ updates:
   - package-ecosystem: "bundler"
     directory: "/custom-payment-flow/server/ruby/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
   - package-ecosystem: "bundler"
     directory: "/prebuilt-checkout-page/server/ruby/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
 
   # python dependencies
   - package-ecosystem: "pip"
     directory: "/custom-payment-flow/server/python/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
   - package-ecosystem: "pip"
     directory: "/prebuilt-checkout-page/server/python/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
 
   # php dependencies
   - package-ecosystem: "composer"
     directory: "/custom-payment-flow/server/php/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
   - package-ecosystem: "composer"
     directory: "/prebuilt-checkout-page/server/php/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
 
 
   # node dependencies
   - package-ecosystem: "npm"
     directory: "/custom-payment-flow/server/node/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
   - package-ecosystem: "npm"
     directory: "/custom-payment-flow/server/node-typescript/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
   - package-ecosystem: "npm"
     directory: "/prebuilt-checkout-page/server/node/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
 
   # go dependencies
   - package-ecosystem: "gomod"
     directory: "/custom-payment-flow/server/go/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
   - package-ecosystem: "gomod"
     directory: "/prebuilt-checkout-page/server/go/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
 
   # java dependencies
   - package-ecosystem: "maven"
     directory: "/custom-payment-flow/server/java/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
   - package-ecosystem: "maven"
     directory: "/prebuilt-checkout-page/server/java/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
 
   # dotnet dependencies
   - package-ecosystem: "nuget"
     directory: "/custom-payment-flow/server/dotnet/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
   - package-ecosystem: "nuget"
     directory: "/prebuilt-checkout-page/server/dotnet/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
