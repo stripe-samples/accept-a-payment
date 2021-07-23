@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import 'react-native-gesture-handler';
 import {StatusBar, StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import {StripeProvider} from '@stripe/stripe-react-native';
+import {StripeProvider, useStripe} from '@stripe/stripe-react-native';
+import * as Linking from 'expo-linking';
 import HomeScreen from './HomeScreen';
 import Card from './Card';
 import {colors} from './colors';
@@ -12,7 +13,9 @@ import {fetchPublishableKey} from './helpers';
 const Stack = createStackNavigator();
 
 export default function App() {
+  const {handleURLCallback} = useStripe();
   const [publishableKey, setPublishableKey] = useState('');
+
   useEffect(() => {
     async function initialize() {
       const publishableKey = await fetchPublishableKey();
@@ -24,11 +27,38 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleDeepLink = useCallback(
+    async (url: string | null) => {
+      if (url && url.includes('safepay')) {
+        await handleURLCallback(url);
+      }
+    },
+    [handleURLCallback]
+  );
+
+  useEffect(() => {
+    const getUrlAsync = async () => {
+      const initialUrl = await Linking.getInitialURL();
+      handleDeepLink(initialUrl);
+    };
+
+    const urlCallback = (event: {url: string}) => {
+      handleDeepLink(event.url);
+    };
+
+    getUrlAsync();
+
+    Linking.addEventListener('url', urlCallback);
+
+    return () => Linking.removeEventListener('url', urlCallback);
+  }, [handleDeepLink]);
+
   return (
     <StripeProvider
       publishableKey={publishableKey}
       merchantIdentifier="merchant.com.stripe.react.native"
-      urlScheme="exp://127.0.0.1:19000/--/"
+      urlScheme={Linking.createURL('') + '/--/'}
+      setUrlSchemeOnAndroid={true}
     >
       <StatusBar
         backgroundColor={colors.blurple_dark}

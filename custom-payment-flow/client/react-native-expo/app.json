@@ -13,9 +13,8 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
+    "scheme": "accept-a-payment",
     "ios": {
       "supportsTablet": true
     },
