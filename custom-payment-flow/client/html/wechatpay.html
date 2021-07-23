@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WeChat Pay</title>
+    <link rel="stylesheet" href="css/base.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script src="/utils.js" defer></script>
+    <script src="/wechatpay.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <a href="/">home</a>
+      <h1>WeChat Pay</h1>
+
+      <form id="payment-form">
+        <button id="submit">Pay</button>
+      </form>
+
+      <div id="messages" role="alert"></div>
+    </main>
+  </body>
+</html>

@@ -5,6 +5,6 @@ target 'AcceptAPayment' do
   use_frameworks!
 
   # Pods for AcceptAPayment
-  pod 'Stripe'
+  pod 'Stripe', :git => 'https://github.com/thorsten-stripe/stripe-ios.git', :branch => 'davidme/pm-wechatpay-progress'
 
 end

@@ -1,8 +1,8 @@
 const express = require('express');
 const app = express();
-const { resolve } = require('path');
+const {resolve} = require('path');
 // Replace if using a different env file or config
-const env = require('dotenv').config({ path: './.env' });
+const env = require('dotenv').config({path: './.env'});
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2020-08-27',
@@ -18,11 +18,11 @@ app.use(
   express.json({
     // We need the raw body to verify webhook signatures.
     // Let's compute it only when hitting the Stripe webhook endpoint.
-    verify: function(req, res, buf) {
+    verify: function (req, res, buf) {
       if (req.originalUrl.startsWith('/webhook')) {
         req.rawBody = buf.toString();
       }
-    }
+    },
   })
 );
 
@@ -38,7 +38,7 @@ app.get('/config', (req, res) => {
 });
 
 app.post('/create-payment-intent', async (req, res) => {
-  const { paymentMethodType, currency } = req.body;
+  const {paymentMethodType, currency} = req.body;
 
   // Each payment method type has support for different currencies. In order to
   // support many payment method types and several currencies, this server
@@ -75,14 +75,13 @@ app.post('/create-payment-intent', async (req, res) => {
 
     // Send publishable key and PaymentIntent details to client
     res.send({
-      clientSecret: paymentIntent.client_secret
+      clientSecret: paymentIntent.client_secret,
     });
-
-  } catch(e) {
+  } catch (e) {
     return res.status(400).send({
       error: {
-        message: e.message
-      }
+        message: e.message,
+      },
     });
   }
 });
@@ -128,4 +127,6 @@ app.post('/webhook', async (req, res) => {
   res.sendStatus(200);
 });
 
-app.listen(4242, () => console.log(`Node server listening at http://localhost:4242`));
+app.listen(4242, () =>
+  console.log(`Node server listening at http://localhost:4242`)
+);
