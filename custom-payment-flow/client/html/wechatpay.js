@@ -10,8 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     alert('Please set your Stripe publishable API key in the .env file');
   }
   const stripe = Stripe(publishableKey, {
-    betas: ['wechat_pay_pm_beta_2'],
-    apiVersion: '2020-03-02;wechat_pay_beta=v1',
+    apiVersion: '2020-03-02',
   });
 
   // When the form is submitted...
