@@ -23,6 +23,7 @@ import Oxxo from './Oxxo';
 import P24 from './P24';
 import SepaDebit from './SepaDebit';
 import Sofort from './Sofort';
+import WeChatPay from './WeChatPay';
 
 import './App.css';
 
@@ -87,6 +88,9 @@ function App(props) {
         </Route>
         <Route path="/sofort">
           <Sofort />
+        </Route>
+        <Route path="/wechat-pay">
+          <WeChatPay />
         </Route>
       </Switch>
     </>
