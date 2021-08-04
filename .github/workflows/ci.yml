@@ -4,11 +4,56 @@ on: [push, pull_request]
 env:
   STRIPE_PUBLISHABLE_KEY: ${{ secrets.TEST_STRIPE_PUBLISHABLE_KEY }}
   STRIPE_SECRET_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
-  PRICE: ${{ secrets.TEST_PRICE }}
 
 jobs:
   server_test:
     runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        runtime:
+          - server_type: ruby
+            server_image: ruby:3.0
+          - server_type: ruby
+            server_image: ruby:2.6
+          - server_type: node
+            server_image: node:14.17
+          - server_type: node
+            server_image: node:12.22
+          - server_type: python
+            server_image: python:3.9
+          - server_type: python
+            server_image: python:3.6
+          - server_type: java
+            server_image: maven:3.8-openjdk-16
+          - server_type: java
+            server_image: maven:3.8-openjdk-8
+          - server_type: go
+            server_image: golang:1.16
+          - server_type: go
+            server_image: golang:1.15
+          - server_type: dotnet
+            server_image: mcr.microsoft.com/dotnet/sdk:5.0
+          - server_type: dotnet
+            server_image: mcr.microsoft.com/dotnet/sdk:3.1
+        target:
+          - sample: custom-payment-flow
+            tests: custom_payment_flow_server_spec.rb
+          - sample: prebuilt-checkout-page
+            tests: prebuilt_checkout_page_spec.rb
+        include:
+          - runtime:
+              server_type: node-typescript
+              server_image: node:14.17
+            target:
+              sample: custom-payment-flow
+              tests: custom_payment_flow_server_spec.rb
+          - runtime:
+              server_type: node-typescript
+              server_image: node:12.22
+            target:
+              sample: custom-payment-flow
+              tests: custom_payment_flow_server_spec.rb
     steps:
       - uses: actions/checkout@v2
 
@@ -16,6 +61,7 @@ jobs:
         with:
           repository: 'stripe-samples/sample-ci'
           path: 'sample-ci'
+          ref: 'multiple-runtimes'
 
       - name: Setup dependencies
         run: |
@@ -29,40 +75,43 @@ jobs:
           install_docker_compose_settings
           export STRIPE_WEBHOOK_SECRET=$(retrieve_webhook_secret)
           cat <<EOF >> .env
-          DOMAIN=http://web:4242
-          PRICE=${PRICE}
-          PAYMENT_METHOD_TYPES="card"
+            DOMAIN=http://web:4242
+            PRICE=${{ secrets.TEST_PRICE }}
+            PAYMENT_METHOD_TYPES="card"
           EOF
 
-          for lang in $(cat .cli.json | server_langs_for_integration custom-payment-flow)
-          do
-            [ "$lang" = "php" ] && continue
+          configure_docker_compose_for_integration "${{ matrix.target.sample }}" "${{ matrix.runtime.server_type }}" ../../client/html "${{ matrix.runtime.server_image }}"
 
-            configure_docker_compose_for_integration custom-payment-flow "$lang" ../../client/html
-
-            docker-compose up -d && wait_web_server
-            docker-compose exec -T runner bundle exec rspec spec/custom_payment_flow_server_spec.rb
-          done
-
-          for lang in $(cat .cli.json | server_langs_for_integration prebuilt-checkout-page)
-          do
-            [ "$lang" = "php" ] && continue
-
-            configure_docker_compose_for_integration prebuilt-checkout-page "$lang" ../../client/html
-
-            docker-compose up -d && wait_web_server
-            docker-compose exec -T runner bundle exec rspec spec/prebuilt_checkout_page_spec.rb
-          done
+          docker-compose up -d && wait_web_server
+          docker-compose exec -T runner bundle exec rspec spec/${{ matrix.target.tests }}
 
       - name: Collect debug information
         if: ${{ failure() }}
         run: |
+          cat .env
           cat docker-compose.yml
           docker-compose ps -a
           docker-compose logs web
 
   e2e_test:
     runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        implementation:
+          - client_type: html
+            server_url: http://web:4242
+            profile: e2e
+          - client_type: react-cra
+            server_url: http://frontend:3000
+            profile: frontend
+        target:
+          - sample: custom-payment-flow
+            tests: custom_payment_flow_e2e_spec.rb
+          - sample: prebuilt-checkout-page
+            tests: prebuilt_checkout_page_e2e_spec.rb
+    env:
+      SERVER_URL: ${{ matrix.implementation.server_url }}
     steps:
       - uses: actions/checkout@v2
 
@@ -70,70 +119,32 @@ jobs:
         with:
           repository: 'stripe-samples/sample-ci'
           path: 'sample-ci'
+          ref: 'multiple-runtimes'
 
       - name: Setup dependencies
         run: |
           source sample-ci/helpers.sh
-
           setup_dependencies
 
       - name: Prepare tests
         run: |
-          echo "$(cat custom-payment-flow/client/react-cra/package.json | jq '.proxy = "http://web:4242"')" > custom-payment-flow/client/react-cra/package.json
-          echo "$(cat prebuilt-checkout-page/client/react-cra/package.json | jq '.proxy = "http://web:4242"')" > prebuilt-checkout-page/client/react-cra/package.json
+          echo "$(cat ${{ matrix.target.sample }}/client/react-cra/package.json | jq '.proxy = "http://web:4242"')" > ${{ matrix.target.sample }}/client/react-cra/package.json
 
-      - name: Run tests for client/html
-        if: ${{ always() }}
-        env:
-          SERVER_URL: http://web:4242
+      - name: Run tests
         run: |
           source sample-ci/helpers.sh
 
           install_docker_compose_settings
           export STRIPE_WEBHOOK_SECRET=$(retrieve_webhook_secret)
           cat <<EOF >> .env
-          DOMAIN=${SERVER_URL}
-          PRICE=${PRICE}
+          DOMAIN=${{ matrix.implementation.server_url }}
+          PRICE=${{ secrets.TEST_PRICE }}
+          PAYMENT_METHOD_TYPES="card"
           EOF
 
-          configure_docker_compose_for_integration custom-payment-flow node ../../client/html
-          docker-compose --profile=e2e up -d && wait_web_server
-          command="docker-compose exec -T runner bundle exec rspec spec/custom_payment_flow_e2e_spec.rb"
-          $command \
-            || $command --only-failures \
-            || $command --only-failures --format RSpec::Github::Formatter --format progress
-
-          configure_docker_compose_for_integration prebuilt-checkout-page node ../../client/html
-          docker-compose --profile=e2e up -d && wait_web_server
-          command="docker-compose exec -T runner bundle exec rspec spec/prebuilt_checkout_page_e2e_spec.rb"
-          $command \
-            || $command --only-failures \
-            || $command --only-failures --format RSpec::Github::Formatter --format progress
-
-      - name: Run tests for client/react-cra
-        if: ${{ always() }}
-        env:
-          SERVER_URL: http://frontend:3000
-        run: |
-          source sample-ci/helpers.sh
-
-          install_docker_compose_settings
-          export STRIPE_WEBHOOK_SECRET=$(retrieve_webhook_secret)
-          cat <<EOF >> .env
-          DOMAIN=${SERVER_URL}
-          PRICE=${PRICE}
-          EOF
-
-          configure_docker_compose_for_integration custom-payment-flow node ../../client/react-cra
-          docker-compose --profile=frontend up -d && wait_web_server
-          command="docker-compose exec -T runner bundle exec rspec spec/custom_payment_flow_e2e_spec.rb"
-          $command \
-            || $command --only-failures \
-            || $command --only-failures --format RSpec::Github::Formatter --format progress
-
-          configure_docker_compose_for_integration prebuilt-checkout-page node ../../client/react-cra
-          docker-compose --profile=frontend up -d && wait_web_server
-          command="docker-compose exec -T runner bundle exec rspec spec/prebuilt_checkout_page_e2e_spec.rb"
+          configure_docker_compose_for_integration "${{ matrix.target.sample }}" node ../../client/${{ matrix.implementation.client_type }} node:14.17
+          docker-compose --profile="${{ matrix.implementation.profile }}" up -d && wait_web_server
+          command="docker-compose exec -T runner bundle exec rspec spec/${{ matrix.target.tests }}"
           $command \
             || $command --only-failures \
             || $command --only-failures --format RSpec::Github::Formatter --format progress
@@ -141,9 +152,10 @@ jobs:
       - name: Collect debug information
         if: ${{ failure() }}
         run: |
+          cat .env
           cat docker-compose.yml
           docker-compose ps -a
-          docker-compose --profile=frontend logs web
+          docker-compose --profile="${{ matrix.implementation.profile }}" logs web
 
           docker cp $(docker-compose ps -qa runner | head -1):/work/tmp .
 
