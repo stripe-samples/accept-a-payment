@@ -35,10 +35,10 @@ DOMAIN=http://localhost:4242
 composer install
 ```
 
-3. Copy config.ini.sample to config.ini and replace with your Stripe API keys
+3. Copy .env.example from root to .env and replace with your Stripe API keys
 
 ```
-cp config.ini.sample config.ini
+cp ../../.env.example .env
 ```
 
 4. Run the server locally
