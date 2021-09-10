@@ -3,11 +3,13 @@ package com.example.app
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.stripe.android.PaymentConfiguration
 import com.stripe.android.model.ConfirmPaymentIntentParams
 import com.stripe.android.payments.paymentlauncher.PaymentLauncher
 import com.stripe.android.payments.paymentlauncher.PaymentResult
 import kotlinx.android.synthetic.main.card_activity.*
+import kotlinx.coroutines.launch
 
 class CardActivity : AppCompatActivity() {
 
@@ -79,7 +81,9 @@ class CardActivity : AppCompatActivity() {
             cardInputWidget.paymentMethodCreateParams?.let { params ->
                 val confirmParams = ConfirmPaymentIntentParams
                     .createWithPaymentMethodCreateParams(params, paymentIntentClientSecret)
-                paymentLauncher.confirm(confirmParams)
+                lifecycleScope.launch {
+                    paymentLauncher.confirm(confirmParams)
+                }
             }
         }
     }
