@@ -1,18 +1,13 @@
 package com.example.app
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import com.google.gson.GsonBuilder
 import com.stripe.android.PaymentConfiguration
-import com.stripe.android.Stripe
-import com.stripe.android.getPaymentIntentResult
 import com.stripe.android.model.ConfirmPaymentIntentParams
-import com.stripe.android.model.StripeIntent
+import com.stripe.android.payments.paymentlauncher.PaymentLauncher
+import com.stripe.android.payments.paymentlauncher.PaymentResult
 import kotlinx.android.synthetic.main.card_activity.*
-import kotlinx.coroutines.launch
 
 class CardActivity : AppCompatActivity() {
 
@@ -22,13 +17,19 @@ class CardActivity : AppCompatActivity() {
      * To run this app, follow the steps here: https://github.com/stripe-samples/accept-a-payment#how-to-run-locally
      */
     private lateinit var paymentIntentClientSecret: String
-    private lateinit var stripe: Stripe
+    private lateinit var paymentLauncher: PaymentLauncher
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.card_activity)
 
-        stripe = Stripe(this, PaymentConfiguration.getInstance(applicationContext).publishableKey)
+        val paymentConfiguration = PaymentConfiguration.getInstance(applicationContext)
+        paymentLauncher = PaymentLauncher.Companion.create(
+            this,
+            paymentConfiguration.publishableKey,
+            paymentConfiguration.stripeAccountId,
+            ::onPaymentResult
+        )
         startCheckout()
     }
 
@@ -78,44 +79,29 @@ class CardActivity : AppCompatActivity() {
             cardInputWidget.paymentMethodCreateParams?.let { params ->
                 val confirmParams = ConfirmPaymentIntentParams
                     .createWithPaymentMethodCreateParams(params, paymentIntentClientSecret)
-                stripe.confirmPayment(this, confirmParams)
+                paymentLauncher.confirm(confirmParams)
             }
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        // Handle the result of stripe.confirmPayment
-        if (stripe.isPaymentResult(requestCode, data)) {
-            lifecycleScope.launch {
-                runCatching {
-                    stripe.getPaymentIntentResult(requestCode, data!!)
-                }.fold(
-                    onSuccess = { result ->
-                        val paymentIntent = result.intent
-                        if (paymentIntent.status == StripeIntent.Status.Succeeded) {
-                            val gson = GsonBuilder().setPrettyPrinting().create()
-                            displayAlert(
-                                "Payment succeeded",
-                                gson.toJson(paymentIntent),
-                                restartDemo = true
-                            )
-                        } else if (paymentIntent.status == StripeIntent.Status.RequiresPaymentMethod) {
-                            displayAlert(
-                                "Payment failed",
-                                paymentIntent.lastPaymentError?.message.orEmpty()
-                            )
-                        }
-                    },
-                    onFailure = {
-                        displayAlert(
-                            "Error",
-                            it.toString()
-                        )
-                    }
-                )
+    private fun onPaymentResult(paymentResult: PaymentResult) {
+        val message = when (paymentResult) {
+            is PaymentResult.Completed -> {
+                "Completed!"
+            }
+            is PaymentResult.Canceled -> {
+                "Canceled!"
+            }
+            is PaymentResult.Failed -> {
+                // This string comes from the PaymentIntent's error message.
+                // See here: https://stripe.com/docs/api/payment_intents/object#payment_intent_object-last_payment_error-message
+                "Failed: " + paymentResult.throwable.message
             }
         }
+        displayAlert(
+            "Payment Result:",
+            message,
+            restartDemo = true
+        )
     }
 }
