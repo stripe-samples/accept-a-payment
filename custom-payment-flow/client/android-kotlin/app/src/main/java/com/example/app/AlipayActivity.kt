@@ -17,7 +17,6 @@ class AlipayActivity : AppCompatActivity() {
 
     /**
      * This example collects Alipay payments, implementing the guide here: https://stripe.com/docs/payments/alipay/accept-a-payment
-     * To run this app, follow the steps here: https://github.com/stripe-samples/accept-a-card-payment#how-to-run-locally
      */
 
     private lateinit var paymentIntentClientSecret: String
