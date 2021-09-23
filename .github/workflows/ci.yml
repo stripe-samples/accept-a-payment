@@ -167,17 +167,27 @@ jobs:
           path: |
             tmp/capybara
 
-  android_build:
-    runs-on: ubuntu-20.04
+  e2e_android:
+    runs-on: macos-11
+    env:
+      STRIPE_API_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
+      PRICE: ${{ secrets.TEST_PRICE }}
     steps:
       - uses: actions/checkout@v2
-      - name: Build
+
+      - name: Setup dependencies
         run: |
-          cd custom-payment-flow/client/android-kotlin
-          ./gradlew build
+          curl -o- -L https://github.com/stripe/stripe-cli/releases/download/v1.7.0/stripe_1.7.0_mac-os_x86_64.tar.gz | sudo tar fxz - -C /usr/local/bin
+
+      - name: Run tests
+        timeout-minutes: 10
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: .github/workflows/android_e2e.sh
 
   ios_build:
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
       - uses: actions/checkout@v2
       - name: Build

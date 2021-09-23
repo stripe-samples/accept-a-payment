@@ -79,6 +79,7 @@ class CardActivity : AppCompatActivity() {
         // Confirm the PaymentIntent with the card widget
         payButton.setOnClickListener {
             cardInputWidget.paymentMethodCreateParams?.let { params ->
+                BackgroundTaskTracker.onStart()
                 val confirmParams = ConfirmPaymentIntentParams
                     .createWithPaymentMethodCreateParams(params, paymentIntentClientSecret)
                 lifecycleScope.launch {
@@ -107,5 +108,7 @@ class CardActivity : AppCompatActivity() {
             message,
             restartDemo = true
         )
+
+        BackgroundTaskTracker.onStop()
     }
 }
