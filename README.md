@@ -14,6 +14,7 @@ This repository includes examples of 2 types of integration types.
 | Small refactor to collect recurring payments. | Large refactor to collect recurring payments. |
 | Input validation and error handling built in. | Implement your own input validation and error handling. |
 | Localized in 25+ languages. | Implement your own localization. |
+| Automate calculation and collection of sales tax, VAT and GST with one line of code. | Implement your own logic to automate taxes on your transactions. |
 
 
 ### Payment Method Type Support

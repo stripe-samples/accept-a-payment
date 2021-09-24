@@ -56,6 +56,7 @@ post '/create-checkout-session' do
     cancel_url: ENV['DOMAIN'] + '/canceled.html',
     payment_method_types: pm_types,
     mode: 'payment',
+    # automatic_tax: { enabled: true },
     line_items: [{
       quantity: 1,
       price: ENV['PRICE'],

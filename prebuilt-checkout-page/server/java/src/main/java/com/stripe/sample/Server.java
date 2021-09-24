@@ -89,6 +89,7 @@ public class Server {
                 .setCancelUrl(domainUrl + "/canceled.html")
                 .addAllPaymentMethodType(paymentMethodTypes)
                 .setMode(SessionCreateParams.Mode.PAYMENT)
+                // .setAutomaticTax(SessionCreateParams.AutomaticTax.builder().setEnabled(true).build()).
                 .addLineItem(SessionCreateParams.LineItem.builder()
                         .setQuantity(1L)
                         .setPrice(price)

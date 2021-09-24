@@ -20,6 +20,7 @@ $checkout_session = $stripe->checkout->sessions->create([
     // 'giropay',
   ],
   'mode' => 'payment',
+  // 'automatic_tax' => ['enabled' => true],
   'line_items' => [[
     'price' => $_ENV['PRICE'],
     'quantity' => 1,

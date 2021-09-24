@@ -77,6 +77,7 @@ func handleCreateCheckoutSession(w http.ResponseWriter, r *http.Request) {
 	// [customer] - if you have an existing Stripe Customer ID
 	// [payment_intent_data] - lets capture the payment later
 	// [customer_email] - lets you prefill the email input in the form
+	// [automatic_tax] - to automatically calculate sales tax, VAT and GST in the checkout page
 	// For full details see https://stripe.com/docs/api/checkout/sessions/create
 
 	// ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID
@@ -92,6 +93,7 @@ func handleCreateCheckoutSession(w http.ResponseWriter, r *http.Request) {
 				Price:    stripe.String(os.Getenv("PRICE")),
 			},
 		},
+		// AutomaticTax: &stripe.CheckoutSessionAutomaticTaxParams{Enabled: stripe.Bool(true)},
 	}
 	s, err := session.New(params)
 	if err != nil {
