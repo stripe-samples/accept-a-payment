@@ -65,6 +65,7 @@ def create_checkout_session():
             cancel_url=domain_url + '/canceled.html',
             payment_method_types=(os.getenv('PAYMENT_METHOD_TYPES') or 'card').split(','),
             mode='payment',
+            # automatic_tax={'enabled': True},
             line_items=[{
                 'price': os.getenv('PRICE'),
                 'quantity': 1,
