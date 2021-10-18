@@ -11,6 +11,10 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // 10.0.2.2 is the Android emulator's alias to localhost
+        String backendUrl = System.getenv('SERVER_URL')
+        buildConfigField 'String', 'BACKEND_URL', "\"${backendUrl ?: 'http://10.0.2.2:4242/'}/\""
     }
     buildTypes {
         release {
@@ -52,4 +56,10 @@ dependencies {
     // Alipay SDK
     implementation(name:"alipaySdk-15.7.4-20200228192259", ext:"aar")
 
+    androidTestImplementation('androidx.test:core:1.4.0')
+    androidTestImplementation('androidx.test:runner:1.4.0')
+    androidTestImplementation('androidx.test:rules:1.4.0')
+    androidTestImplementation('androidx.test.ext:junit:1.1.3')
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.4.0')
+    androidTestImplementation('androidx.test.espresso:espresso-web:3.4.0')
 }
