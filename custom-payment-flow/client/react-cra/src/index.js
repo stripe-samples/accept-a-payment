@@ -6,7 +6,9 @@ import {loadStripe} from '@stripe/stripe-js';
 
 document.addEventListener('DOMContentLoaded', async () => {
   const {publishableKey} = await fetch('/config').then((r) => r.json());
-  const stripePromise = loadStripe(publishableKey);
+  const stripePromise = loadStripe(publishableKey, {
+    betas: ['klarna_pm_beta_1'],
+  });
 
   ReactDOM.render(
     <React.StrictMode>
