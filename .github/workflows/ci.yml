@@ -1,12 +1,12 @@
 name: CI for stripe-samples/accept-a-payment
-on: [push, pull_request]
+on: [push]
 
 env:
   STRIPE_PUBLISHABLE_KEY: ${{ secrets.TEST_STRIPE_PUBLISHABLE_KEY }}
   STRIPE_SECRET_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
 
 concurrency:
-  group: ci-${{ github.head_ref }}
+  group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
