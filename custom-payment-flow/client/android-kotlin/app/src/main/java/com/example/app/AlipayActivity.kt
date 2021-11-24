@@ -65,6 +65,9 @@ class AlipayActivity : AppCompatActivity() {
                     restartDemo = true
                 )
             }
+            StripeIntent.Status.RequiresAction -> {
+                stripe.handleNextActionForPayment(this@AlipayActivity, paymentIntentClientSecret)
+            }
             else -> {
                 // Payment failed/cancelled
                 displayAlert(
