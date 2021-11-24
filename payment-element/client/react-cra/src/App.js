@@ -28,14 +28,14 @@ function App() {
   }
 
   return (
-    <>
+    <main>
       <h1>Payment</h1>
       {clientSecret && (
         <Elements stripe={stripePromise} options={options}>
           <CheckoutForm />
         </Elements>
       )}
-    </>
+    </main>
   );
 }
 
