@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Confirm the card payment given the clientSecret
     // from the payment intent that was just created on
     // the server.
-    const {error: stripeError, paymentIntent} = await stripe.confirmPayment({
+    const {error: stripeError} = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: `${window.location.origin}/return.html`,
@@ -62,7 +62,5 @@ document.addEventListener('DOMContentLoaded', async () => {
       form.querySelector('button').disabled = false;
       return;
     }
-
-    addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
   });
 });
