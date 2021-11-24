@@ -1,19 +1,12 @@
-# Accept a payment with a custom form
+# Accept a payment with a payment element
 
 Stripe Elements is a set of prebuilt UI components, like inputs and buttons,
 for building your checkout flow. It’s available as a feature of Stripe.js.
 Stripe.js tokenizes the sensitive information within an Element without ever
 having it touch your server.
 
-Elements includes features like:
-
- - Formatting card information automatically as it’s entered
- - Translating placeholders into your customer’s preferred language
- - Using responsive design to fit the width of your customer’s screen or mobile device
- - Customizing the styling to match the look and feel of your checkout flow
-
-This integration shows you how to accept payments with Stripe
-[Elements](https://stripe.com/docs/stripe-js).
+This integration shows you how to accept payments with the
+[Stripe Payment Element](https://stripe.com/docs/payments/payment-element).
 
 ## How to run locally
 
@@ -26,7 +19,7 @@ stripe samples create accept-a-payment
 Then pick:
 
 ```sh
-custom-payment-flow
+payment-element
 ```
 
 This sample includes several different server implementations and several
@@ -43,12 +36,10 @@ Pick a server:
 - [php](./server/php)
 - [python](./server/python)
 - [ruby](./server/ruby)
-- [php-slim](./server/php-slim)
 
 Pick a client:
 
 - [html](./client/html)
-- [react-cra](./client/react-cra) (React with create-react-app)
 
 
 **Installing and cloning manually**
@@ -73,7 +64,6 @@ Example `.env` file:
 STRIPE_PUBLISHABLE_KEY=<replace-with-your-publishable-key>
 STRIPE_SECRET_KEY=<replace-with-your-secret-key>
 STATIC_DIR=../../client/html
-DOMAIN=http://localhost:4242
 ```
 
 You will need a Stripe account in order to run the demo. Once you set up
