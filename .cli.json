@@ -3,6 +3,20 @@
   "configureDotEnv": true,
   "integrations": [
     {
+      "name": "payment-element",
+      "clients": ["html", "react-cra"],
+      "servers": [
+        "ruby",
+        "node",
+        "python",
+        "php",
+        "java",
+        "go",
+        "dotnet",
+        "node-typescript"
+      ]
+    },
+    {
       "name": "prebuilt-checkout-page",
       "clients": ["html", "react-cra"],
       "servers": [

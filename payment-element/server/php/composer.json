@@ -1,0 +1,9 @@
+{
+  "require": {
+    "stripe/stripe-php": "^7.75",
+    "vlucas/phpdotenv": "^5.3"
+  },
+  "scripts": {
+    "start": "cd public && php -S 0.0.0.0:4242"
+  }
+}
