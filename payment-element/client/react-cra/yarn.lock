@@ -1490,6 +1490,18 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@stripe/react-stripe-js@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@stripe/react-stripe-js/-/react-stripe-js-1.6.0.tgz#e3adf6a6ea6d839193164fa3cfe73cf52db3a080"
+  integrity sha512-tMmsPD+wkpiiVJZgQ1E06tklG5MZHG462s6OWja9abpxq76kerAxMFN+KdhUg0LIEY79THbzvH3s/WGHasnV3w==
+  dependencies:
+    prop-types "^15.7.2"
+
+"@stripe/stripe-js@^1.21.1":
+  version "1.22.0"
+  resolved "https://registry.yarnpkg.com/@stripe/stripe-js/-/stripe-js-1.22.0.tgz#9d3d2f0a1ce81f185ec477fd7cc67544b2b2a00c"
+  integrity sha512-fm8TR8r4LwbXgBIYdPmeMjJJkxxFC66tvoliNnmXOpUgZSgQKoNPW3ON0ZphZIiif1oqWNhAaSrr7tOvGu+AFg==
+
 "@surma/rollup-plugin-off-main-thread@^1.1.1":
   version "1.4.2"
   resolved "https://registry.yarnpkg.com/@surma/rollup-plugin-off-main-thread/-/rollup-plugin-off-main-thread-1.4.2.tgz#e6786b6af5799f82f7ab3a82e53f6182d2b91a58"
@@ -10493,9 +10505,9 @@ timsort@^0.3.0:
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
 
 tmpl@1.0.x:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/tmpl/-/tmpl-1.0.4.tgz#23640dd7b42d00433911140820e5cf440e521dd1"
-  integrity sha1-I2QN17QtAEM5ERQIIOXPRA5SHdE=
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/tmpl/-/tmpl-1.0.5.tgz#8683e0b902bb9c20c4f726e3c0b69f36518c07cc"
+  integrity sha512-3f0uOEAQwIqGuWW2MVzYg8fV/QNnc/IpuJNG837rLuczAaLVHslWHZQj4IGiEl5Hs3kkbhwL9Ab7Hrsmuj+Smw==
 
 to-arraybuffer@^1.0.0:
   version "1.0.1"
