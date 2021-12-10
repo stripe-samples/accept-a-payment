@@ -33,7 +33,7 @@ DOMAIN=http://localhost:4242
 2. Run the application
 
 ```
-dotnet run Program.cs
+dotnet run Program.cs --framework=net5.0
 ```
 
 4. If you're using the html client, go to `localhost:4242` to see the demo. For
