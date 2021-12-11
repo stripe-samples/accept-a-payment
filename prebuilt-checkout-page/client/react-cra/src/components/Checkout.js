@@ -19,7 +19,7 @@ const Checkout = () => {
           </div>
 
           <form action="/create-checkout-session" method="POST">
-            <button role="link">Buy</button>
+            <button id="submit" role="link">Buy</button>
           </form>
         </section>
       </div>

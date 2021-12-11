@@ -54,7 +54,6 @@ post '/create-checkout-session' do
     # session ID set as a query param when redirecting back to the success page.
     success_url: ENV['DOMAIN'] + '/success.html?session_id={CHECKOUT_SESSION_ID}',
     cancel_url: ENV['DOMAIN'] + '/canceled.html',
-    payment_method_types: pm_types,
     mode: 'payment',
     # automatic_tax: { enabled: true },
     line_items: [{

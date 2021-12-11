@@ -2,30 +2,19 @@ package com.stripe.sample;
 
 import java.nio.file.Paths;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
-import java.util.Arrays;
-import java.util.stream.Stream;
-import java.util.stream.Collectors;
-
 import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.port;
 import static spark.Spark.staticFiles;
 
 import com.google.gson.Gson;
-import com.google.gson.annotations.SerializedName;
 
 import com.stripe.Stripe;
 import com.stripe.model.Event;
 import com.stripe.model.checkout.Session;
-import com.stripe.model.Price;
 import com.stripe.exception.*;
 import com.stripe.net.Webhook;
 import com.stripe.param.checkout.SessionCreateParams;
-import com.stripe.param.checkout.SessionCreateParams.LineItem;
-import com.stripe.param.checkout.SessionCreateParams.PaymentMethodType;
 
 import io.github.cdimascio.dotenv.Dotenv;
 
@@ -67,19 +56,6 @@ public class Server {
             String domainUrl = dotenv.get("DOMAIN");
             String price = dotenv.get("PRICE");
 
-            // Pull the comma separated list of payment method types from the
-            // environment variables stored in `.env`.  Then map to uppercase
-            // strings so that we can lookup the PaymentMethodType enum values.
-            //
-            // In practice, you could hard code the list of strings representing
-            // the payment method types you accept.
-            String[] pmTypes = dotenv.get("PAYMENT_METHOD_TYPES", "card").split(",", 0);
-            List<PaymentMethodType> paymentMethodTypes = Stream
-                .of(pmTypes)
-                .map(String::toUpperCase)
-                .map(PaymentMethodType::valueOf)
-                .collect(Collectors.toList());
-
             // Create new Checkout Session for the payment
             // For full details see https://stripe.com/docs/api/checkout/sessions/create
             // ?session_id={CHECKOUT_SESSION_ID} means the redirect will have the session ID
@@ -87,7 +63,6 @@ public class Server {
             SessionCreateParams.Builder builder = new SessionCreateParams.Builder()
                 .setSuccessUrl(domainUrl + "/success.html?session_id={CHECKOUT_SESSION_ID}")
                 .setCancelUrl(domainUrl + "/canceled.html")
-                .addAllPaymentMethodType(paymentMethodTypes)
                 .setMode(SessionCreateParams.Mode.PAYMENT)
                 // .setAutomaticTax(SessionCreateParams.AutomaticTax.builder().setEnabled(true).build()).
                 .addLineItem(SessionCreateParams.LineItem.builder()
