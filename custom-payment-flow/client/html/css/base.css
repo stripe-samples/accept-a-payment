@@ -9,8 +9,9 @@
 
 body {
   padding: 20px;
-  font-family: 'Raleway';
+  font-family: 'Calibri';
   display: flex;
+  text-align: center
   justify-content: center;
   font-size: 1.2em;
   color: var(--dark-terminal-color);
@@ -22,6 +23,7 @@ main {
 
 form > * {
   margin: 10px 0;
+  width: 480px;
 }
 
 button {
@@ -34,11 +36,10 @@ button {
   color: white;
   border: 0;
   padding: 12px 16px;
-  margin-top: 16px;
+  margin-top: 24px;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
-  display: block;
 }
 button:hover {
   filter: contrast(115%);
@@ -50,6 +51,7 @@ button:active {
 button:disabled {
   opacity: 0.5;
   cursor: none;
+  background: var(--accent-color);
 }
 
 input, select {
@@ -57,15 +59,18 @@ input, select {
   font-size: 1.1em;
   width: 100%;
   margin-bottom: 10px;
+  background: var(--accent-color);
 }
 
 label {
   display: block;
+  background: var(--accent-color);
 }
 
 a {
   color: var(--accent-color);
   font-weight: 900;
+  
 }
 
 small {
@@ -78,6 +83,7 @@ fieldset, input, select {
 
 #payment-form {
   border: #F6F9FC solid 1px;
+  background: var(--accent-color);
   border-radius: var(--radius);
   padding: 20px;
   margin: 20px 0;
