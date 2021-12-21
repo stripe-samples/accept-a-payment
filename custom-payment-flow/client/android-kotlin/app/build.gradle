@@ -14,7 +14,7 @@ android {
 
         // 10.0.2.2 is the Android emulator's alias to localhost
         String backendUrl = System.getenv('SERVER_URL')
-        buildConfigField 'String', 'BACKEND_URL', "\"${backendUrl ?: 'http://10.0.2.2:4242/'}/\""
+        buildConfigField 'String', 'BACKEND_URL', "\"${backendUrl ?: 'http://10.0.2.2:4242'}/\""
     }
     buildTypes {
         release {

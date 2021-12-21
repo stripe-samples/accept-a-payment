@@ -48,7 +48,7 @@ class CardActivityTest {
 
     @Test
     fun paymentWithCardFailure() {
-        onView(withId(R.id.card_number_edit_text)).perform(typeText("4000000000000101"))
+        onView(withId(R.id.card_number_edit_text)).perform(typeText("4000000000000002"))
         onView(withId(R.id.expiry_date_edit_text)).perform(typeText("11/29"))
         onView(withId(R.id.cvc_edit_text)).perform(typeText("123"))
         onView(withId(R.id.postal_code_edit_text)).perform(typeText("10000"))
