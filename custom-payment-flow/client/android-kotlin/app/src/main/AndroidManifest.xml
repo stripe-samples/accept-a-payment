@@ -35,6 +35,9 @@
         <activity
             android:name=".AlipayActivity"
             android:label="@string/alipay_activity" />
+        <activity
+            android:name=".AfterpayClearpayActivity"
+            android:label="@string/afterpay_clearpay_activity" />
     </application>
 
 </manifest>
