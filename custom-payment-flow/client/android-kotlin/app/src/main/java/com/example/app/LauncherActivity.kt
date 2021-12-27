@@ -89,7 +89,8 @@ class LauncherActivity : AppCompatActivity() {
         private val items = listOf(
             PaymentMethodItem(activity.getString(R.string.card_item), CardActivity::class.java),
             PaymentMethodItem(activity.getString(R.string.alipay_item), AlipayActivity::class.java),
-            PaymentMethodItem(activity.getString(R.string.afterpay_clearpay_item), AfterpayClearpayActivity::class.java)
+            PaymentMethodItem(activity.getString(R.string.afterpay_clearpay_item), AfterpayClearpayActivity::class.java),
+            PaymentMethodItem(activity.getString(R.string.klarna_item), KlarnaActivity::class.java)
         )
 
         private data class PaymentMethodItem constructor(val text: String, val activityClass: Class<*>)
