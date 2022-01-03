@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const stripe = Stripe(publishableKey, {
     apiVersion: '2020-08-27',
-    betas: ['klarna_pm_beta_1'],
   });
 
   // When the form is submitted...
