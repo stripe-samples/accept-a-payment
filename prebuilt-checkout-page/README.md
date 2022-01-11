@@ -48,6 +48,7 @@ Pick a client:
 
 - [html](./client/html)
 - [react-cra](./client/react-cra) (React with create-react-app)
+- [vue-cva](./client/vue-cva)  (React with Create Vite App)
 
 
 **Installing and cloning manually**
