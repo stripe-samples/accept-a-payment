@@ -12,7 +12,7 @@
   "author": "stripe-samples",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^10.0.0",
+    "dotenv": "^13.0.1",
     "express": "^4.17.2",
     "path": "^0.12.7",
     "stripe": "^8.195.0"
