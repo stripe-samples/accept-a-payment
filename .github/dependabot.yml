@@ -49,6 +49,23 @@ updates:
     directory: "/prebuilt-checkout-page/server/node/"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/custom-payment-flow/client/react-cra/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/payment-element/client/react-cra/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/prebuilt-checkout-page/client/react-cra/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/prebuilt-checkout-page/client/vue-cva/"
+    schedule:
+      interval: "weekly"
+
 
   # go dependencies
   - package-ecosystem: "gomod"
