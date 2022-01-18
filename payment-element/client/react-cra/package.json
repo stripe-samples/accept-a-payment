@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@stripe/react-stripe-js": "^1.7.0",
-    "@stripe/stripe-js": "^1.21.1",
+    "@stripe/stripe-js": "^1.22.0",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^13.5.0",
