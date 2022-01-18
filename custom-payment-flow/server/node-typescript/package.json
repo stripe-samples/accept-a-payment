@@ -15,7 +15,7 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "path": "^0.12.7",
-    "stripe": "^8.195.0"
+    "stripe": "^8.197.0"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
