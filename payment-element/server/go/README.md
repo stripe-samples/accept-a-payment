@@ -32,14 +32,18 @@ DOMAIN=http://localhost:4242
 
 2. Install dependencies
 
-```
+From the server directory (the one with `server.go`) run:
+
+```sh
 go mod tidy
 go mod vendor
 ```
 
 3. Run the application
 
-```
+Again from the server directory run:
+
+```sh
 go run server.go
 ```
 
