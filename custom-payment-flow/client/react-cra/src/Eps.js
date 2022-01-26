@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {withRouter, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import {EpsBankElement, useStripe, useElements} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
@@ -130,4 +130,4 @@ const Eps = () => {
   }
 };
 
-export default withRouter(Eps);
+export default Eps;

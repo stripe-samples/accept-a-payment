@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {withRouter} from 'react-router-dom';
 import {
   useStripe,
   useElements,
@@ -120,4 +119,4 @@ const AcssDebitForm = () => {
   );
 };
 
-export default withRouter(AcssDebitForm);
+export default AcssDebitForm;

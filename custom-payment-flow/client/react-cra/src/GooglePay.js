@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {withRouter} from 'react-router-dom';
 import {PaymentRequestButtonElement, useStripe, useElements} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
@@ -97,4 +96,4 @@ const GooglePay = () => {
   );
 };
 
-export default withRouter(GooglePay);
+export default GooglePay;

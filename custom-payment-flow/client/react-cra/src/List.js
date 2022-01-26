@@ -1,6 +1,4 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom';
-
 // List of payment method types with links to each implementation.
 const List = () => {
   const CARDS = 'Cards';
@@ -234,4 +232,4 @@ const List = () => {
   );
 };
 
-export default withRouter(List);
+export default List;

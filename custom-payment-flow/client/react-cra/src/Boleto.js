@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {withRouter} from 'react-router-dom';
 import {useStripe, useElements} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
@@ -60,7 +59,7 @@ const Boleto = () => {
               state,
               city,
               postal_code: postalCode,
-              line1, 
+              line1,
             },
             name,
             email,
@@ -181,4 +180,4 @@ const Boleto = () => {
   );
 };
 
-export default withRouter(Boleto);
+export default Boleto;

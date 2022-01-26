@@ -1,5 +1,4 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom';
 import StatusMessages, {useMessages} from './StatusMessages';
 import {useStripe} from '@stripe/react-stripe-js';
 
@@ -68,4 +67,4 @@ const WeChatPay = () => {
   )
 }
 
-export default withRouter(WeChatPay);
+export default WeChatPay;

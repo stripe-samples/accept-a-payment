@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {withRouter} from 'react-router-dom';
 import {useStripe, useElements} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
@@ -118,4 +117,4 @@ const OxxoForm = () => {
   );
 };
 
-export default withRouter(OxxoForm);
+export default OxxoForm;

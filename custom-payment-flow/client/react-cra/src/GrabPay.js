@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {withRouter, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import {useStripe, useElements} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
-const GrabpayForm = () => {
+const GrabPayForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [name, setName] = useState('Jenny Rosen');
@@ -91,7 +91,7 @@ const GrabpayForm = () => {
 
 // Component for displaying results after returning from
 // bancontact redirect flow.
-const GrabpayReturn = () => {
+const GrabPayReturn = () => {
   const stripe = useStripe();
   const [messages, addMessage] = useMessages();
 
@@ -124,13 +124,13 @@ const GrabpayReturn = () => {
   );
 };
 
-const Grabpay = () => {
+const GrabPay = () => {
   const query = new URLSearchParams(useLocation().search);
   if (query.get('return')) {
-    return <GrabpayReturn />;
+    return <GrabPayReturn />;
   } else {
-    return <GrabpayForm />;
+    return <GrabPayForm />;
   }
 };
 
-export default withRouter(Grabpay);
+export default GrabPay;

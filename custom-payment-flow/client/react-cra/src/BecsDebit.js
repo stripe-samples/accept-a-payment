@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {withRouter} from 'react-router-dom';
 import {
   AuBankAccountElement,
   useStripe,
@@ -140,4 +139,4 @@ const BecsDebitForm = () => {
   );
 };
 
-export default withRouter(BecsDebitForm);
+export default BecsDebitForm;

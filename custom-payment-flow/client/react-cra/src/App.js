@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter as Switch, Route} from 'react-router-dom';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
 // Index page with list of payment methods.
 import List from './List';
@@ -32,71 +32,31 @@ function App(props) {
   return (
     <>
       <a href="/">home</a>
-      <Switch>
-        <Route exact path="/">
-          <List />
-        </Route>
-        <Route path="/alipay">
-          <Alipay />
-        </Route>
-        <Route path="/acss-debit">
-          <AcssDebit />
-        </Route>
-        <Route path="/apple-pay">
-          <ApplePay />
-        </Route>
-        <Route path="/afterpay-clearpay">
-          <AfterpayClearpay />
-        </Route>
-        <Route path="/bancontact">
-          <Bancontact />
-        </Route>
-        <Route path="/becs-debit">
-          <BecsDebit />
-        </Route>
-        <Route path="/boleto">
-          <Boleto />
-        </Route>
-        <Route path="/card">
-          <Card />
-        </Route>
-        <Route path="/eps">
-          <Eps />
-        </Route>
-        <Route path="/fpx">
-          <Fpx />
-        </Route>
-        <Route path="/giropay">
-          <Giropay />
-        </Route>
-        <Route path="/grabpay">
-          <GrabPay />
-        </Route>
-        <Route path="/google-pay">
-          <GooglePay />
-        </Route>
-        <Route path="/ideal">
-          <Ideal />
-        </Route>
-        <Route path="/klarna">
-          <Klarna />
-        </Route>
-        <Route path="/oxxo">
-          <Oxxo />
-        </Route>
-        <Route path="/p24">
-          <P24 />
-        </Route>
-        <Route path="/sepa-debit">
-          <SepaDebit />
-        </Route>
-        <Route path="/sofort">
-          <Sofort />
-        </Route>
-        <Route path="/wechat-pay">
-          <WeChatPay />
-        </Route>
-      </Switch>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<List />} />
+          <Route path="/alipay" element={<Alipay />} />
+          <Route path="/acss-debit" element={<AcssDebit />} />
+          <Route path="/apple-pay" element={<ApplePay />} />
+          <Route path="/afterpay-clearpay" element={<AfterpayClearpay />} />
+          <Route path="/bancontact" element={<Bancontact />} />
+          <Route path="/becs-debit" element={<BecsDebit />} />
+          <Route path="/boleto" element={<Boleto />} />
+          <Route path="/card" element={<Card />} />
+          <Route path="/eps" element={<Eps />} />
+          <Route path="/fpx" element={<Fpx />} />
+          <Route path="/giropay" element={<Giropay />} />
+          <Route path="/grabpay" element={<GrabPay />} />
+          <Route path="/google-pay" element={<GooglePay />} />
+          <Route path="/ideal" element={<Ideal />} />
+          <Route path="/klarna" element={<Klarna />} />
+          <Route path="/oxxo" element={<Oxxo />} />
+          <Route path="/p24" element={<P24 />} />
+          <Route path="/sepa-debit" element={<SepaDebit />} />
+          <Route path="/sofort" element={<Sofort />} />
+          <Route path="/wechat-pay" element={<WeChatPay />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
