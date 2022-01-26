@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {withRouter, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import {P24BankElement, useStripe, useElements} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
@@ -152,4 +152,4 @@ const P24 = () => {
   }
 };
 
-export default withRouter(P24);
+export default P24;

@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {withRouter, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import {useStripe} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
@@ -230,4 +230,4 @@ const AfterpayClearpay = () => {
   }
 }
 
-export default withRouter(AfterpayClearpay)
+export default AfterpayClearpay

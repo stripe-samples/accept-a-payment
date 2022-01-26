@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {withRouter} from 'react-router-dom';
 import {IbanElement, useStripe, useElements} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
@@ -143,4 +142,4 @@ const SepaDebitForm = () => {
   );
 };
 
-export default withRouter(SepaDebitForm);
+export default SepaDebitForm;

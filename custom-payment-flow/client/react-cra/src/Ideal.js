@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {withRouter, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import {
   IdealBankElement,
   useStripe,
@@ -129,4 +129,4 @@ const Ideal = () => {
   }
 };
 
-export default withRouter(Ideal);
+export default Ideal;

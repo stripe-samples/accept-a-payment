@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {withRouter} from 'react-router-dom';
 import {PaymentRequestButtonElement, useStripe, useElements} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
@@ -100,4 +99,4 @@ const ApplePay = () => {
   );
 };
 
-export default withRouter(ApplePay);
+export default ApplePay;

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {withRouter, useLocation} from 'react-router-dom';
+import {useLocation} from 'react-router-dom';
 import {FpxBankElement, useStripe, useElements} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
@@ -121,4 +121,4 @@ const Fpx = () => {
   }
 };
 
-export default withRouter(Fpx);
+export default Fpx;
