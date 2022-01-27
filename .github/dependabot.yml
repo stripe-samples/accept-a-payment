@@ -1,0 +1,98 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  # ruby dependencies
+  - package-ecosystem: "bundler"
+    directory: "/custom-payment-flow/server/ruby/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "bundler"
+    directory: "/prebuilt-checkout-page/server/ruby/"
+    schedule:
+      interval: "weekly"
+
+  # python dependencies
+  - package-ecosystem: "pip"
+    directory: "/custom-payment-flow/server/python/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "pip"
+    directory: "/prebuilt-checkout-page/server/python/"
+    schedule:
+      interval: "weekly"
+
+  # php dependencies
+  - package-ecosystem: "composer"
+    directory: "/custom-payment-flow/server/php/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "composer"
+    directory: "/prebuilt-checkout-page/server/php/"
+    schedule:
+      interval: "weekly"
+
+
+  # node dependencies
+  - package-ecosystem: "npm"
+    directory: "/custom-payment-flow/server/node/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/custom-payment-flow/server/node-typescript/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/prebuilt-checkout-page/server/node/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/custom-payment-flow/client/react-cra/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/payment-element/client/react-cra/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/prebuilt-checkout-page/client/react-cra/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "npm"
+    directory: "/prebuilt-checkout-page/client/vue-cva/"
+    schedule:
+      interval: "weekly"
+
+
+  # go dependencies
+  - package-ecosystem: "gomod"
+    directory: "/custom-payment-flow/server/go/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "gomod"
+    directory: "/prebuilt-checkout-page/server/go/"
+    schedule:
+      interval: "weekly"
+
+  # java dependencies
+  - package-ecosystem: "maven"
+    directory: "/custom-payment-flow/server/java/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "maven"
+    directory: "/prebuilt-checkout-page/server/java/"
+    schedule:
+      interval: "weekly"
+
+  # dotnet dependencies
+  - package-ecosystem: "nuget"
+    directory: "/custom-payment-flow/server/dotnet/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "nuget"
+    directory: "/prebuilt-checkout-page/server/dotnet/"
+    schedule:
+      interval: "weekly"

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Card</title>
+
+    <link rel="stylesheet" href="/css/base.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script src="/utils.js" defer></script>
+    <script src="/card.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <a href="/">home</a>
+      <h1>Card</h1>
+
+      <p>
+        <h4>Try a <a href="https://stripe.com/docs/testing#cards" target="_blank">test card</a>:</h4>
+        <div>
+          <code>4242424242424242</code> (Visa)
+        </div>
+        <div>
+          <code>5555555555554444</code> (Mastercard)
+        </div>
+        <div>
+          <code>4000002500003155</code> (Requires <a href="https://www.youtube.com/watch?v=2kc-FjU2-mY" target="_blank">3DSecure</a>)
+        </div>
+      </p>
+
+      <p>
+        Use any future expiration, any 3 digit CVC, and any postal code.
+      </p>
+
+      <form id="payment-form">
+        <label for="name">
+          Name
+        </label>
+        <input id="name" placeholder="Jenny Rosen" value="Jenny Rosen" required />
+
+        <label for="card-element">
+          Card
+        </label>
+        <div id="card-element">
+          <!-- Elements will create input elements here -->
+        </div>
+
+        <!-- We'll put the error messages in this element -->
+        <div id="card-errors" role="alert"></div>
+
+        <button id="submit">Pay</button>
+      </form>
+
+      <div id="messages" role="alert" style="display: none;"></div>
+
+      <p> <a href="https://youtu.be/0oHjwz-WHcc" target="_blank">Watch a demo walkthrough</a> </p>
+    </main>
+  </body>
+</html>

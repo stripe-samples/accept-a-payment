@@ -1,0 +1,7 @@
+source 'https://rubygems.org/'
+
+gem 'dotenv'
+gem 'sinatra'
+gem 'stripe'
+gem 'toml-rb'
+gem 'webrick'

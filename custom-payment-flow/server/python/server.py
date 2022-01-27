@@ -7,6 +7,14 @@ from flask import Flask, render_template, jsonify, request, send_from_directory
 from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
+
+# For sample support and debugging, not required for production:
+stripe.set_app_info(
+    'stripe-samples/accept-a-payment/custom-payment-flow',
+    version='0.0.2',
+    url='https://github.com/stripe-samples')
+
+stripe.api_version = '2020-08-27'
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
 static_dir = str(os.path.abspath(os.path.join(__file__ , "..", os.getenv("STATIC_DIR"))))
@@ -33,20 +41,35 @@ def create_payment():
     #
     # Some example payment method types include `card`, `ideal`, and `alipay`.
     payment_method_type = data['paymentMethodType']
-
     currency = data['currency']
 
+    # Create a PaymentIntent with the amount, currency, and a payment method type.
+    #
+    # See the documentation [0] for the full list of supported parameters.
+    #
+    # [0] https://stripe.com/docs/api/payment_intents/create
+    params = {
+        'payment_method_types': [payment_method_type],
+        'amount': 1999,
+        'currency': currency
+    }
+
+    # If this is for an ACSS payment, we add payment_method_options
+    # to create the Mandate. This is not required if you're not accepting
+    # ACSS (Pre-authorized debit in Canada).
+    if payment_method_type == 'acss_debit':
+        params['payment_method_options'] = {
+            'acss_debit': {
+                'mandate_options': {
+                    'payment_schedule': 'sporadic',
+                    'transaction_type': 'personal'
+                }
+            }
+        }
+
+
     try:
-        # Create a PaymentIntent with the amount, currency, and a payment method type.
-        #
-        # See the documentation [0] for the full list of supported parameters.
-        #
-        # [0] https://stripe.com/docs/api/payment_intents/create
-        intent = stripe.PaymentIntent.create(
-            payment_method_types=[payment_method_type],
-            amount=1999,
-            currency=currency
-        )
+        intent = stripe.PaymentIntent.create(**params)
 
         # Send PaymentIntent details to the front end.
         return jsonify({'clientSecret': intent.client_secret})

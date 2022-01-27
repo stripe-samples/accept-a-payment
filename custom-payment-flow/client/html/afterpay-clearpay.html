@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Afterpay / Clearpay</title>
+
+    <link rel="stylesheet" href="css/base.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script src="/utils.js" defer></script>
+    <script src="/afterpay-clearpay.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <a href="/">home</a>
+      <h1>Afterpay / Clearpay</h1>
+
+      <form id="payment-form">
+        <fieldset>
+          <legend>Billing</legend>
+
+          <label for="name">
+            Name
+          </label>
+          <input id="name" value="Jenny Rosen" required />
+          <label for="email">
+            Email
+          </label>
+          <input type="email" id="email" value="jenny.rosen@example.com" required />
+
+          <label for="line1">
+            Line 1
+          </label>
+          <input id="line1" value="123 Main St." required />
+
+          <label for="line2">
+            Line 2
+          </label>
+          <input id="line2" value="" />
+
+          <label for="city">
+            City
+          </label>
+          <input id="city" value="San Francisco" />
+
+          <label for="state">
+            State
+          </label>
+          <input id="state" value="CA" />
+
+          <label for="postal_code">
+            Postal code
+          </label>
+          <input id="postal_code" value="94111" />
+
+          <label for="country">
+            Country
+          </label>
+          <select id="country">
+            <option value="AU">Australia</option>
+            <option value="CA">Canada</option>
+            <option value="NZ">New Zealand</option>
+            <option value="UK">United Kingdom</option>
+            <option value="US">United States</option>
+          </select>
+        </fieldset>
+
+        <fieldset>
+          <legend>Shipping</legend>
+
+          <label for="name">
+            Name
+          </label>
+          <input id="shipping_name" value="Jenny Rosen" required />
+
+          <label for="shipping_line1">
+            Line 1
+          </label>
+          <input id="shipping_line1" value="123 Main St." required />
+
+          <label for="shipping_line2">
+            Line 2
+          </label>
+          <input id="shipping_line2" value="" />
+
+          <label for="shipping_city">
+            City
+          </label>
+          <input id="shipping_city" value="San Francisco" />
+
+          <label for="shipping_state">
+            State
+          </label>
+          <input id="shipping_state" value="CA" />
+
+          <label for="shipping_postal_code">
+            Postal code
+          </label>
+          <input id="shipping_postal_code" value="94111" />
+
+          <label for="shipping_country">
+            Country
+          </label>
+          <select id="shipping_country">
+            <option value="AU">Australia</option>
+            <option value="CA">Canada</option>
+            <option value="NZ">New Zealand</option>
+            <option value="UK">United Kingdom</option>
+            <option value="US">United States</option>
+          </select>
+        </fieldset>
+
+        <button id="submit">Pay</button>
+      </form>
+
+      <div id="messages" role="alert" style="display: none;"></div>
+    </main>
+  </body>
+</html>

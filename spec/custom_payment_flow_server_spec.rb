@@ -1,4 +1,6 @@
-RSpec.describe "full integration path" do
+require_relative './spec_helper.rb'
+
+RSpec.describe "custom-payment-flow integration" do
   it "fetches the index route" do
     # Get the index html page
     response = get("/")
@@ -12,7 +14,7 @@ RSpec.describe "full integration path" do
   end
 
   describe '/create-payment-intent' do
-    {card: ['USD']}.each do |pm_type, currencies|
+    {card: ['USD'], acss_debit: ['CAD']}.each do |pm_type, currencies|
       currencies.each do |currency|
         it "Creates a payment intent for #{pm_type} with #{currency} currency" do
           resp, status = post_json('/create-payment-intent', {
@@ -27,6 +29,18 @@ RSpec.describe "full integration path" do
           expect(payment_intent.currency.upcase).to eq(currency.upcase)
         end
       end
+    end
+
+    it 'sets the payment method options for ACSS' do
+      resp, status = post_json('/create-payment-intent', {
+        currency: 'cad',
+        paymentMethodType: 'acss_debit',
+     })
+      expect(status).to eq(200), resp.to_s
+      pi_id = resp['clientSecret'].split('_secret').first
+      payment_intent = Stripe::PaymentIntent.retrieve(pi_id)
+      expect(payment_intent.payment_method_options.acss_debit.mandate_options.payment_schedule).not_to be_nil
+      expect(payment_intent.payment_method_options.acss_debit.mandate_options.transaction_type).not_to be_nil
     end
 
     it 'fails gracefully if missmatched currency and payment method type' do

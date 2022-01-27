@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>OXXO</title>
+
+    <link rel="stylesheet" href="css/base.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script src="/utils.js" defer></script>
+    <script src="/oxxo.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <a href="/">home</a>
+      <h1>OXXO</h1>
+
+      <p>
+        Note: OXXO requires a Stripe account in Mexico.
+      </p>
+
+      <form id="payment-form">
+        <label for="name">
+          Name
+        </label>
+        <input id="name" value="Jenny Rosen" required>
+
+        <label for="email">
+          Email
+        </label>
+        <input id="email" value="jr.succeed_immediately@example.com" required>
+
+        <!-- Used to display form errors. -->
+        <div id="error-message" role="alert"></div>
+
+        <button type="submit">Pay</button>
+      </form>
+
+      <div id="messages" role="alert"></div>
+
+      <p> <a href="https://youtu.be/8ezSzH8jnY4" target="_blank">Watch a demo walkthrough</a> </p>
+    </main>
+  </body>
+</html>

@@ -1,6 +1,7 @@
 .env
 .DS_Store
 .vscode
+.secrets
 
 # Node files
 node_modules/
@@ -11,6 +12,7 @@ dist
 # Ruby files
 Gemfile.lock
 vendor
+.byebug_history
 
 # Python files
 __pycache__
@@ -121,3 +123,5 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+spec/examples.txt

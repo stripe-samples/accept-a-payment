@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>FPX</title>
+
+    <link rel="stylesheet" href="css/base.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script src="/utils.js" defer></script>
+    <script src="/fpx.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <a href="/">home</a>
+
+      <h1>FPX</h1>
+
+      <p>
+        Note: FPX is only available to Stripe accounts in MY.
+      </p>
+
+      <form id="payment-form">
+        <label for="fpx-bank-element">
+          FPX Bank
+        </label>
+        <div id="fpx-bank-element">
+          <!-- A Stripe Element will be inserted here. -->
+        </div>
+
+        <button type="submit">Pay</button>
+
+        <!-- Used to display form errors. -->
+        <div id="error-message" role="alert"></div>
+      </form>
+      <div id="messages" role="alert"></div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Klarna</title>
+
+    <link rel="stylesheet" href="/css/base.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script src="/utils.js" defer></script>
+    <script src="/klarna.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <a href="/">home</a>
+      <h1>Klarna</h1>
+
+      <p>
+        <h4>Try a <a href="https://stripe.com/docs/payments/klarna/accept-a-payment?platform=web#testmode-guide" target="_blank">test values</a>:</h4>
+        <table>
+          <thead><tr><th><div ><div></div></div></th><th><div><div><div>Approved</div></div></div></th><th><div class="Box-root" style="pointer-events: none;"><div class="Box-root Flex-flex Flex-alignItems--center Flex-direction--row Flex-justifyContent--flexStart Flex-wrap--nowrap"><div class="Box-root Box-hideIfEmpty" style="pointer-events: auto;">Denied</div></div></div></th></tr></thead>
+          <tbody>
+            <tr><td>Email</td><td>user-us@example.com</td><td>user-us+denied@example.com</td></tr>
+            <tr><td>Street</td><td>Lombard St 10</td><td>Lombard St 10</td></tr>
+            <tr><td>Apartment</td><td>Apt 214</td><td>Apt 214</td></tr>
+            <tr><td>City</td><td>Beverly Hills</td><td>Beverly Hills</td></tr>
+            <tr><td>State</td><td>CA</td><td>CA</td></tr>
+            <tr><td>Postal code</td><td>90210</td><td>90210</td></tr>
+            <tr><td>Phone</td><td>3106143666</td><td>3106143888</td></tr>
+          </tbody>
+        </table>
+      </p>
+
+      <form id="payment-form">
+        <label for="email">
+          Name
+        </label>
+        <input type="email" id="email" placeholder="jenny.rosen@example.com" value="user-us@example.com" required />
+
+        <label for="country">
+          Country
+        </label>
+        <select id="country">
+          <option>AT</option>
+          <option>BE</option>
+          <option>DK</option>
+          <option>FI</option>
+          <option>DE</option>
+          <option>IT</option>
+          <option>NL</option>
+          <option>NO</option>
+          <option>ES</option>
+          <option>SE</option>
+          <option>UK</option>
+          <option>US</option>
+        </select>
+
+        <button id="submit">Pay</button>
+      </form>
+
+      <div id="messages" role="alert" style="display: none;"></div>
+    </main>
+  </body>
+</html>

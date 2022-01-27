@@ -11,9 +11,9 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	"github.com/stripe/stripe-go/v71"
-	"github.com/stripe/stripe-go/v71/paymentintent"
-	"github.com/stripe/stripe-go/v71/webhook"
+	"github.com/stripe/stripe-go/v72"
+	"github.com/stripe/stripe-go/v72/paymentintent"
+	"github.com/stripe/stripe-go/v72/webhook"
 )
 
 func main() {
@@ -23,6 +23,13 @@ func main() {
 	}
 
 	stripe.Key = os.Getenv("STRIPE_SECRET_KEY")
+
+	// For sample support and debugging, not required for production:
+	stripe.SetAppInfo(&stripe.AppInfo{
+		Name:    "stripe-samples/accept-a-payment/custom-payment-flow",
+		Version: "0.0.1",
+		URL:     "https://github.com/stripe-samples",
+	})
 
 	http.Handle("/", http.FileServer(http.Dir(os.Getenv("STATIC_DIR"))))
 	http.HandleFunc("/config", handleConfig)
@@ -72,16 +79,30 @@ func handleCreatePaymentIntent(w http.ResponseWriter, r *http.Request) {
 		PaymentMethodTypes: stripe.StringSlice([]string{req.PaymentMethodType}),
 	}
 
+
+  // If this is for an ACSS payment, we add payment_method_options to create
+  // the Mandate.
+  if(req.PaymentMethodType == "acss_debit") {
+    params.PaymentMethodOptions = &stripe.PaymentIntentPaymentMethodOptionsParams{
+      ACSSDebit: &stripe.PaymentIntentPaymentMethodOptionsACSSDebitParams{
+          MandateOptions: &stripe.PaymentIntentPaymentMethodOptionsACSSDebitMandateOptionsParams{
+              PaymentSchedule: stripe.String("sporadic"),
+              TransactionType: stripe.String("personal"),
+          },
+      },
+    }
+  }
+
 	pi, err := paymentintent.New(params)
 	if err != nil {
 		// Try to safely cast a generic error to a stripe.Error so that we can get at
 		// some additional Stripe-specific information about what went wrong.
 		if stripeErr, ok := err.(*stripe.Error); ok {
 			fmt.Printf("Other Stripe error occurred: %v\n", stripeErr.Error())
-		  writeJSONErrorMessage(w, stripeErr.Error(), 400)
+			writeJSONErrorMessage(w, stripeErr.Error(), 400)
 		} else {
 			fmt.Printf("Other error occurred: %v\n", err.Error())
-		  writeJSONErrorMessage(w, "Unknown server error", 500)
+			writeJSONErrorMessage(w, "Unknown server error", 500)
 		}
 
 		return

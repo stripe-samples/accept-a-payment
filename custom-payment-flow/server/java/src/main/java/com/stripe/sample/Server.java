@@ -72,6 +72,13 @@ public class Server {
 
         Stripe.apiKey = dotenv.get("STRIPE_SECRET_KEY");
 
+        // For sample support and debugging, not required for production:
+        Stripe.setAppInfo(
+            "stripe-samples/accept-a-payment/custom-payment-flow",
+            "0.0.1",
+            "https://github.com/stripe-samples"
+        );
+
         staticFiles.externalLocation(
           Paths.get(
             Paths.get("").toAbsolutePath().toString(),
@@ -88,12 +95,37 @@ public class Server {
             response.type("application/json");
 
             CreatePaymentRequest postBody = gson.fromJson(request.body(), CreatePaymentRequest.class);
-            PaymentIntentCreateParams createParams = new PaymentIntentCreateParams
+
+            PaymentIntentCreateParams.Builder paramsBuilder = new PaymentIntentCreateParams
               .Builder()
               .addPaymentMethodType(postBody.getPaymentMethodType())
               .setCurrency(postBody.getCurrency())
-              .setAmount(1999L)
-              .build();
+              .setAmount(1999L);
+
+            // If this is for an ACSS payment, we add payment_method_options to create
+            // the Mandate.
+            System.out.println(postBody.getPaymentMethodType());
+            if(postBody.getPaymentMethodType().equals("acss_debit")) {
+                paramsBuilder.setPaymentMethodOptions(
+                    PaymentIntentCreateParams.PaymentMethodOptions
+                      .builder()
+                      .setAcssDebit(PaymentIntentCreateParams
+                        .PaymentMethodOptions
+                        .AcssDebit
+                        .builder()
+                        .setMandateOptions(PaymentIntentCreateParams
+                            .PaymentMethodOptions
+                            .AcssDebit
+                            .MandateOptions
+                            .builder()
+                            .setPaymentSchedule(PaymentIntentCreateParams.PaymentMethodOptions.AcssDebit.MandateOptions.PaymentSchedule.SPORADIC)
+                            .setTransactionType(PaymentIntentCreateParams.PaymentMethodOptions.AcssDebit.MandateOptions.TransactionType.PERSONAL)
+                            .build())
+                        .build())
+                      .build());
+            }
+
+            PaymentIntentCreateParams createParams = paramsBuilder.build();
 
             try {
               // Create a PaymentIntent with the order amount and currency

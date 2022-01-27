@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Google Pay</title>
+
+    <link rel="stylesheet" href="css/base.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script src="/utils.js" defer></script>
+    <script src="/google-pay.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <a href="/">home</a>
+      <h1>Google Pay</h1>
+
+      <p>
+        Before you start, you need to:
+        <ul>
+          <li><a href="https://stripe.com/docs/stripe-js/elements/payment-request-button#html-js-testing" target="_blank">Add a payment method to your browser.</a> For example, you can <a href="chrome://settings/payments" target="_blank">save a card</a> in Chrome.</li>
+          <li>Serve your application over HTTPS. This is a requirement both in development and in production. One way to get up and running is to use a service like <a href="https://ngrok.com/" target="_blank">ngrok</a>.</li>
+        </ul>
+      </p>
+
+      <a href="https://stripe.com/docs/stripe-js/elements/payment-request-button" target="_blank">Stripe Documentation</a>
+
+      <div id="payment-request-button">
+        <!-- A Stripe Element will be inserted here if the browser supports this type of payment method. -->
+      </div>
+
+      <div id="messages" role="alert"></div>
+
+      <p> <a href="https://youtu.be/GERlC3PxKgY" target="_blank">Watch a demo walkthrough</a> </p>
+    </main>
+  </body>
+</html>
