@@ -8,7 +8,7 @@ import express from "express";
 
 import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2020-08-27",
+  apiVersion: "2020-08-27;konbini_beta=v3" as "2020-08-27",
   appInfo: { // For sample support and debugging, not required for production:
     name: "stripe-samples/accept-a-payment",
     url: "https://github.com/stripe-samples",
@@ -51,7 +51,7 @@ app.get("/config", (_: express.Request, res: express.Response): void => {
 app.post(
   "/create-payment-intent",
   async (req: express.Request, res: express.Response): Promise<void> => {
-    const { currency, paymentMethodType }: { currency: string, paymentMethodType: string } = req.body;
+    const { currency, paymentMethodType, paymentMethodOptions }: { currency: string, paymentMethodType: string, paymentMethodOptions?: object } = req.body;
     // Create a PaymentIntent with the order amount and currency.
     const params: Stripe.PaymentIntentCreateParams = {
       amount: 1999,
@@ -70,8 +70,9 @@ app.post(
           },
         },
       };
+    } else if (paymentMethodOptions) {
+      params.payment_method_options = paymentMethodOptions
     }
-
     try {
       const paymentIntent: Stripe.PaymentIntent = await stripe.paymentIntents.create(
         params
