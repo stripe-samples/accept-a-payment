@@ -25,6 +25,7 @@ import P24 from './P24';
 import SepaDebit from './SepaDebit';
 import Sofort from './Sofort';
 import WeChatPay from './WeChatPay';
+import Konbini from './Konbini'
 
 import './App.css';
 
@@ -55,6 +56,7 @@ function App(props) {
           <Route path="/sepa-debit" element={<SepaDebit />} />
           <Route path="/sofort" element={<Sofort />} />
           <Route path="/wechat-pay" element={<WeChatPay />} />
+          <Route path="/konbini" element={<Konbini />} />
         </Routes>
       </BrowserRouter>
     </>

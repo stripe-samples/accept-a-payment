@@ -146,6 +146,13 @@ const List = () => {
       category: BUY_NOW_PAY_LATER,
     },
     {
+      path: 'konbini',
+      name: 'Konbini',
+      docs: 'https://stripe.com/docs/payments/konbini',
+      fact_sheet: 'https://stripe.com/payments/payment-methods-guide',
+      category: VOUCHERS,
+    },
+    {
       path: 'boleto',
       name: 'Boleto',
       docs: 'https://stripe.com/docs/payments/boleto',
