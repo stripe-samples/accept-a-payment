@@ -64,6 +64,14 @@ app.post('/create-payment-intent', async (req, res) => {
       },
     }
   }
+  if (paymentMethodType === 'konbini'){
+    params.payment_method_options = {
+      konbini: {
+        product_description: 'Tシャツ',
+        expires_after_days: 3,
+      },
+    }
+  }
 
   // Create a PaymentIntent with the amount, currency, and a payment method type.
   //
