@@ -1,19 +1,17 @@
 <script setup>
-import {reactive, ref, computed, onMounted} from 'vue';
+import { reactive, computed, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 
-let sessionId = ref("");
 let session = reactive({});
 
 const currentRoute = computed(() => {
   return useRoute().query;
 });
 
-
 onMounted(async () => {
-  sessionId.value = currentRoute.value?.session_id;
+  const sessionId = currentRoute.value?.session_id;
 
-  const response = await fetch("/api/checkout-session?sessionId=" + sessionId.value);
+  const response = await fetch("/api/checkout-session?sessionId=" + sessionId);
   session.value = await response.json();
 });
 </script>
