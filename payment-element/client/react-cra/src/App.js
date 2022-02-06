@@ -1,40 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
+import Payment from './Payment'
+import Completion from './Completion'
 
 import {useEffect, useState} from 'react';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
 
 import {loadStripe} from '@stripe/stripe-js';
-import {Elements} from '@stripe/react-stripe-js';
-import CheckoutForm from './CheckoutForm'
-
-let stripePromise;
-(async () => {
-  const {publishableKey} = await fetch("/config").then(r => r.json());
-  stripePromise = loadStripe(publishableKey)
-})()
 
 function App() {
-  const [clientSecret, setClientSecret] = useState('');
+  const [ stripePromise, setStripePromise ] = useState(null);
 
   useEffect(() => {
-    // Create PaymentIntent as soon as the page loads
-    fetch("/create-payment-intent")
-      .then((res) => res.json())
-      .then(({clientSecret}) => setClientSecret(clientSecret));
-  }, [])
-
-  const options = {
-    clientSecret,
-  }
+    fetch("/config").then(async (r) => {
+      const { publishableKey } = await r.json();
+      setStripePromise(loadStripe(publishableKey));
+    });
+  }, []);
 
   return (
     <main>
-      <h1>Payment</h1>
-      {clientSecret && (
-        <Elements stripe={stripePromise} options={options}>
-          <CheckoutForm />
-        </Elements>
-      )}
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Payment stripePromise={stripePromise} />} />
+          <Route path="/completion" element={<Completion stripePromise={stripePromise} />} />
+        </Routes>
+      </BrowserRouter>
     </main>
   );
 }
