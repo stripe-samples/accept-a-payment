@@ -37,7 +37,7 @@ if($event->type == 'checkout.session.completed') {
   error_log('🔔  Checkout Session was completed!');
   //
 } else {
-  error_log('🔔  Other webhook received! ' . $type);
+  error_log('🔔  Other webhook received! ' . $event->type);
 }
 
 echo json_encode(['status' => 'success']);
