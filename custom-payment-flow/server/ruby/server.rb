@@ -13,7 +13,7 @@ Stripe.set_app_info(
   version: '0.0.2',
   url: 'https://github.com/stripe-samples'
 )
-Stripe.api_version = '2020-08-27'
+Stripe.api_version = '2020-08-27;us_bank_account_beta=v2'
 Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 
 set :static, true
