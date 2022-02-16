@@ -1,8 +1,8 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 public class CreatePaymentIntentResponse
 {
-  [JsonProperty("clientSecret")]
-  public string ClientSecret { get; set; }
+    [JsonPropertyName("clientSecret")]
+    public string ClientSecret { get; set; }
 }
 

@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 public class ConfigResponse
 {
-    [JsonProperty("publishableKey")]
+    [JsonPropertyName("publishableKey")]
     public string PublishableKey { get; set; }
 }

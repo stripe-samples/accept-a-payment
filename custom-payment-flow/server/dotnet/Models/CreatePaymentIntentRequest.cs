@@ -1,10 +1,10 @@
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 public class CreatePaymentIntentRequest
 {
-  [JsonProperty("paymentMethodType")]
-  public string PaymentMethodType { get; set; }
+    [JsonPropertyName("paymentMethodType")]
+    public string PaymentMethodType { get; set; }
 
-  [JsonProperty("currency")]
-  public string Currency { get; set; }
+    [JsonPropertyName("currency")]
+    public string Currency { get; set; }
 }
