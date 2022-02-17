@@ -79,15 +79,15 @@ app.MapPost("/webhook", async (HttpRequest request, IOptions<StripeOptions> opti
     }
     catch (Exception e)
     {
-        app.Logger.LogInformation(($"Something failed {e}");
+        app.Logger.LogInformation($"Something failed {e}");
         return Results.BadRequest();
     }
 
     if (stripeEvent.Type == Events.PaymentIntentSucceeded)
     {
         var paymentIntent = stripeEvent.Data.Object as Stripe.PaymentIntent;
-        app.Logger.LogInformation($"Session ID: {paymentIntent.Id}");
-        // Take some action based on session.
+        app.Logger.LogInformation($"PaymentIntent ID: {paymentIntent.Id}");
+        // Take some action based on the payment intent.
     }
 
     return Results.Ok();
