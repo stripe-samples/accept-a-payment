@@ -79,19 +79,18 @@ app.MapPost("/webhook", async (HttpRequest request, IOptions<StripeOptions> opti
     }
     catch (Exception e)
     {
-        Console.WriteLine($"Something failed {e}");
+        app.Logger.LogInformation(($"Something failed {e}");
         return Results.BadRequest();
     }
 
-    if (stripeEvent.Type == "checkout.session.completed")
+    if (stripeEvent.Type == Events.PaymentIntentSucceeded)
     {
-        var session = stripeEvent.Data.Object as Stripe.Checkout.Session;
-        app.Logger.LogInformation($"Session ID: {session.Id}");
+        var paymentIntent = stripeEvent.Data.Object as Stripe.PaymentIntent;
+        app.Logger.LogInformation($"Session ID: {paymentIntent.Id}");
         // Take some action based on session.
     }
 
     return Results.Ok();
-
 });
 
 app.Run();
