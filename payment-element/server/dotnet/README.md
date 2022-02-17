@@ -33,8 +33,8 @@ DOMAIN=http://localhost:4242
 2. Run the application
 
 ```
-dotnet run Program.cs --framework=net5.0
+dotnet run 
 ```
 
 4. If you're using the html client, go to `localhost:4242` to see the demo. For
-   react, visit `localhost:3000`.
+   the client, visit `localhost:3000`.
