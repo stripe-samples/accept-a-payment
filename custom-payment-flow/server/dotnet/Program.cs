@@ -71,7 +71,7 @@ app.MapPost("/create-payment-intent", async (CreatePaymentIntentRequest req) =>
     {
         var paymentIntent = await service.CreateAsync(options);
 
-        return Results.Ok(new CreatePaymentIntentResponse
+        return Results.Ok(new
         {
             ClientSecret = paymentIntent.ClientSecret,
         });
