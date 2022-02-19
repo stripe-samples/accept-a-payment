@@ -2,8 +2,10 @@
 import { ref, onMounted } from "vue";
 import { loadStripe } from "@stripe/stripe-js";
 
-const isLoading = ref(true);
-const message = ref(null);
+import SrMessages from "./SrMessages.vue";
+
+const isLoading = ref(false);
+const messages = ref([]);
 
 let stripe;
 let elements; 
@@ -12,7 +14,12 @@ onMounted(async () => {
   const { publishableKey } = await fetch("/api/config").then((res) => res.json());   
   stripe = await loadStripe(publishableKey);
 
-  const { clientSecret } = await fetch("/api/create-payment-intent").then((res) => res.json());
+  const { clientSecret, error: backendError } = await fetch("/api/create-payment-intent").then((res) => res.json());
+
+  if (backendError) {
+    messages.value.push(backendError.message);
+  }
+  messages.value.push(`Client secret returned.`);
 
   elements = stripe.elements({clientSecret}); 
   const paymentElement = elements.create('payment'); 
@@ -31,14 +38,14 @@ const handleSubmit = async () => {
   const { error } = await stripe.confirmPayment({
     elements, 
     confirmParams: {
-      return_url: `http://localhost:3000/`
+      return_url: `http://localhost:3000/return`
     }
   }); 
 
   if (error.type === "card_error" || error.type === "validation_error") {
-    message.value = error.message;
+    messages.value.push(error.message);
   } else {
-    message.value = "An unexpected error occured.";
+    messages.value.push("An unexpected error occured.");
   }
   
   isLoading.value = false; 
@@ -65,28 +72,9 @@ const handleSubmit = async () => {
         id="submit"
         :disabled="isLoading"
       >
-        <span id="button-text">
-          <div
-            v-if="isLoading"
-            id="spinner"
-            className="spinner"
-          />
-          <span v-else>"Pay now"</span>
-        </span>
+        Submit
       </button>
-      <!--Show any error or success messages -->
-      <div
-        v-if="message"
-        id="payment-message"
-      >
-        {{ message }}
-      </div>
+      <sr-messages :messages="messages" />
     </form>
-
-    <div
-      id="messages"
-      role="alert"
-      style="display: none"
-    />
   </main>
 </template>

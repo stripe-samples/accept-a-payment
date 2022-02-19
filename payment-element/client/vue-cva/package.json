@@ -8,7 +8,8 @@
   },
   "dependencies": {
     "@stripe/stripe-js": "^1.22.0",
-    "vue": "^3.2.29"
+    "vue": "^3.2.29",
+    "vue-router": "4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^2.1.0",

@@ -1,9 +1,5 @@
-<script setup>
-import SrCheckoutForm from './components/SrCheckoutForm.vue';
-</script>
-
 <template>
-  <sr-checkout-form />
+  <router-view />
 </template>
 
 <style>
@@ -95,7 +91,6 @@ fieldset, input, select {
 
 #messages {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New';
-  display: none; /* hide initially, then show once the first message arrives */
   background-color: #0A253C;
   color: #00D924;
   padding: 20px;
@@ -103,4 +98,6 @@ fieldset, input, select {
   border-radius: var(--radius);
   font-size:0.7em;
 }
+
+
 </style>
