@@ -102,10 +102,10 @@ app.MapPost("/webhook", async (HttpRequest request, IOptions<StripeOptions> opti
         return Results.BadRequest();
     }
 
-    if (stripeEvent.Type == "checkout.session.completed")
+    if (stripeEvent.Type == "payment_intent.succeeded")
     {
-        var session = stripeEvent.Data.Object as Stripe.Checkout.Session;
-        app.Logger.LogInformation($"Session ID: {session.Id}");
+        var paymentIntent = stripeEvent.Data.Object as Stripe.PaymentIntent;
+        app.Logger.LogInformation($"PaymentIntent ID: {paymentIntent.Id}");
         // Take some action based on session.
     }
 
