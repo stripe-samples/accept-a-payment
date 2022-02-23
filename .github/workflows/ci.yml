@@ -131,6 +131,8 @@ jobs:
             tests: custom_payment_flow_e2e_spec.rb
           - sample: prebuilt-checkout-page
             tests: prebuilt_checkout_page_e2e_spec.rb
+          - sample: payment-element
+            tests: payment_element_e2e_spec.rb
     env:
       SERVER_URL: ${{ matrix.implementation.server_url }}
     steps:
