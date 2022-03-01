@@ -44,6 +44,12 @@ cp ../../.env.example .env
 4. Run the server locally
 
 ```
+composer start
+```
+
+or
+
+```
 cd public
 php -S 127.0.0.1:4242
 ```
