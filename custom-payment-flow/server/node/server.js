@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const {resolve} = require('path');
 // Replace if using a different env file or config
@@ -25,6 +26,9 @@ app.use(
     },
   })
 );
+app.use(cors({
+  origin: 'http://localhost:3000'
+}));
 
 app.get('/', (req, res) => {
   const path = resolve(process.env.STATIC_DIR + '/index.html');
