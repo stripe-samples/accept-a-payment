@@ -47,6 +47,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   
       const nameInput = document.querySelector('#name');
       const emailInput = document.querySelector('#email');
+      const phonelInput = document.querySelector('#phone');
   
       // Confirm the payment given the clientSecret from the payment intent that
       // was just created on the server.
@@ -58,6 +59,11 @@ document.addEventListener('DOMContentLoaded', async () => {
               name: nameInput.value,
               email: emailInput.value,
             },
+          },
+          payment_method_options: {
+              konbini: {
+                  confirmation_number: phonelInput.value.replace(/\D/g,''),
+              },
           },
         }
       );
@@ -74,9 +80,14 @@ document.addEventListener('DOMContentLoaded', async () => {
       // intent will succeed after 3 seconds. We set this timeout
       // to refetch the payment intent.
       const i = setInterval(async () => {
-        let { error, paymentIntent } = await stripe.retrievePaymentIntent(
+        const { error, paymentIntent } = await stripe.retrievePaymentIntent(
           resp.clientSecret
         );
+        if (error) {
+          addMessage(`Error: ${JSON.stringify(error, null, 2)}`);
+          clearInterval(i);
+          return;
+        }
         addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
         if (paymentIntent.status === 'succeeded') {
           clearInterval(i);
