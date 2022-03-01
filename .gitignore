@@ -125,3 +125,12 @@ fastlane/screenshots/**/*.png
 fastlane/test_output
 
 spec/examples.txt
+
+# Yarn files (we recommended to use npm)
+yarn*
+
+# E2E test
+#
+# We can run the E2E testing script, but sometime it remain several files.
+docker-compose*
+sample-ci/
