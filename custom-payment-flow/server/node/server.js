@@ -38,7 +38,7 @@ app.get('/config', (req, res) => {
 });
 
 app.post('/create-payment-intent', async (req, res) => {
-  const {paymentMethodType, currency} = req.body;
+  const {paymentMethodType, currency,paymentMethodOptions} = req.body;
 
   // Each payment method type has support for different currencies. In order to
   // support many payment method types and several currencies, this server
@@ -63,6 +63,23 @@ app.post('/create-payment-intent', async (req, res) => {
         },
       },
     }
+  } else if (paymentMethodType === 'konbini') {
+    /**
+     * Default value of the payment_method_options
+     */
+    params.payment_method_options = {
+      konbini: {
+        product_description: 'Tシャツ',
+        expires_after_days: 3,
+      },
+    }
+  }
+
+  /**
+   * If API given this data, we can overwride it
+   */
+  if (paymentMethodOptions) {
+    params.payment_method_options = paymentMethodOptions
   }
 
   // Create a PaymentIntent with the amount, currency, and a payment method type.

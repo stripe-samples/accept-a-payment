@@ -160,6 +160,13 @@ const List = () => {
       category: VOUCHERS,
     },
     {
+      path: 'konbini',
+      name: 'Konbini',
+      docs: 'https://stripe.com/docs/payments/konbini',
+      fact_sheet: 'https://stripe.com/payments/payment-methods-guide',
+      category: VOUCHERS,
+    },
+    {
       path: 'alipay',
       name: 'Alipay',
       docs: 'https://stripe.com/docs/payments/alipay',
