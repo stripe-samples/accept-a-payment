@@ -5,25 +5,6 @@ using Stripe.Checkout;
 
 DotNetEnv.Env.Load();
 
-StripeConfiguration.ApiKey = Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY");
-
-StripeConfiguration.AppInfo = new AppInfo
-{
-    Name = "stripe-samples/prebuilt-checkout-page",
-    Url = "https://github.com/stripe-samples",
-    Version = "0.1.0",
-};
-
-
-StripeConfiguration.ApiKey = Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY");
-
-var price = Environment.GetEnvironmentVariable("PRICE");
-if (price == "price_12345" || price == "" || price == null)
-{
-    Console.WriteLine("You must set a Price ID in .env. Please see the README.");
-    Environment.Exit(0);
-}
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.Configure<StripeOptions>(options =>
@@ -34,8 +15,25 @@ builder.Services.Configure<StripeOptions>(options =>
     options.Price = Environment.GetEnvironmentVariable("PRICE");
     options.Domain = Environment.GetEnvironmentVariable("DOMAIN");
 });
-
 var app = builder.Build();
+
+StripeConfiguration.ApiKey = Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY");
+
+StripeConfiguration.AppInfo = new AppInfo
+{
+    Name = "stripe-samples/prebuilt-checkout-page",
+    Url = "https://github.com/stripe-samples",
+    Version = "0.1.0",
+};
+
+StripeConfiguration.ApiKey = Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY");
+
+var price = Environment.GetEnvironmentVariable("PRICE");
+if (price == "price_12345" || price == "" || price == null)
+{
+    app.Logger.LogError("You must set a Price ID in .env. Please see the README.");
+    Environment.Exit(1);
+}
 
 if (app.Environment.IsDevelopment())
 {
@@ -108,7 +106,7 @@ app.MapPost("webhook", async (HttpRequest req, IOptions<StripeOptions> options) 
         app.Logger.LogError(e, $"Something failed => {e.Message}");
         return Results.BadRequest();
     }
-    
+
     if (stripeEvent.Type == Events.CheckoutSessionCompleted)
     {
         var session = stripeEvent.Data.Object as Stripe.Checkout.Session;
