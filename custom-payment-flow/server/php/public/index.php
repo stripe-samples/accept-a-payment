@@ -58,6 +58,7 @@
       <ul>
         <li><a href="/boleto.php">Boleto</a></li>
         <li><a href="/oxxo.php">OXXO</a></li>
+        <li><a href="/konbini.php">Konbini(コンビニ決済)</a></li>
       </ul>
 
       <h3>Wallets</h3>

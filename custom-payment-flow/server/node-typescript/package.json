@@ -12,12 +12,14 @@
   "author": "stripe-samples",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "path": "^0.12.7",
     "stripe": "^8.205.0"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.12",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.21",
