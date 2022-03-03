@@ -99,7 +99,7 @@ You can create Products and Prices in the Dashboard or with the API. This
 sample requires a Price to run. Once you've created a Price, and add its ID to
 your `.env`.
 
-`PRICE` is the ID of a [Price](https://stripe.com/docs/api/prices/create) for
+`PRICE` is the ID of a [Price](https://stripe.com/docs/products-prices/manage-prices?dashboard-or-api=dashboard#create-price) for
 your product. A Price has a unit amount and currency.
 
 You can quickly create a Price with the Stripe CLI like so:
