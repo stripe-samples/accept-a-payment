@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   var confirmationForm = document.getElementById('confirmation-form');
   confirmationForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const {paymentIntent, error} = await stripe.confirmUsBankAccountPayment(clientSecret)
+    const {paymentIntent, error} = await stripe.confirmUsBankAccountPayment(paymentIntentClientSecret);
     if (error) {
       // The payment failed for some reason.
       addMessage(error);
@@ -98,35 +98,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       // Display a message to consumer with next steps (consumer waits for
       // microdeposits, then enters an amount on a page sent to them via email).
       console.log(paymentIntent.next_action)
-      addMessage(`Account verification required. Once receiving micro deposits visit to complete setup`)
-    }
-  });
-
-  const acceptBtn = document.getElementById('accept');
-  acceptBtn.addEventListener('click', async (e) => {
-    e.preventDefault();
-
-    const {paymentIntent, error} = await stripe.confirmUsBankAccountPayment(
-      paymentIntentClientSecret
-    )
-
-    if (error) {
-      // The payment failed for some reason.
-      console.error(error.message);
-      addMessage(error.message);
-    } else if (paymentIntent.status === "requires_payment_method") {
-      confirmationForm.style.display = 'none';
-      addMessage(`Confirmation failed. Attempt again with a different payment method.`);
-    } else if (paymentIntent.status === "processing") {
-      // Confirmation succeeded! The account will be debited.
-      // Display a message to customer.
-      addMessage(`Confirmation succeeded, the payment is processing and the account will be debited.`);
-    } else if (paymentIntent.next_action?.type === "verify_with_microdeposits") {
-      // The account needs to be verified via microdeposits.
-      // Display a message to consumer with next steps (consumer waits for
-      // microdeposits, then enters an amount on a page sent to them via email).
       addMessage(`Microdeposit verification required. Please follow the instructions in the email you'll receive.`)
       addMessage(`<a href="${paymentIntent.next_action?.verify_with_microdeposits?.hosted_verification_url}">verify micro deposits</a>`)
     }
-  })
+  });
+
 });
