@@ -9,12 +9,12 @@ setting up a Checkout integration.
 
 ## How to run
 
-1. Confirm `config.ini` configuration
+1. Confirm `.env` configuration
 
-Copy `config.ini.sample` to `config.ini`, replace with your Stripe API keys:
+Copy `.env.example` from the root to `.env` in this server directory, replace with your Stripe API keys:
 
 ```sh
-cp config.ini.sample config.ini
+cp .env.example .env
 ```
 
 This sample requires a Price ID in the `price` config variable.
@@ -23,7 +23,7 @@ Confirm `price` is set equal to the ID of a Price from your
 Stripe account. It should look something like:
 
 ```
-price = price_1Hh1ZeCZ6qsJgndJaX9fauRl
+PRICE=price_12345
 ```
 
 Note that `price_12345` is a placeholder and the sample will not work with that
