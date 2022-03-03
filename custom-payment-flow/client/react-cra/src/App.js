@@ -24,6 +24,7 @@ import Oxxo from './Oxxo';
 import P24 from './P24';
 import SepaDebit from './SepaDebit';
 import Sofort from './Sofort';
+import UsBankAccountDebit from './UsBankAccountDebit';
 import WeChatPay from './WeChatPay';
 
 import './App.css';
@@ -38,6 +39,7 @@ function App(props) {
           <Route path="/" element={<List />} />
           <Route path="/alipay" element={<Alipay />} />
           <Route path="/acss-debit" element={<AcssDebit />} />
+          <Route path="/us-bank-account-debit" element={<UsBankAccountDebit />} />
           <Route path="/apple-pay" element={<ApplePay />} />
           <Route path="/afterpay-clearpay" element={<AfterpayClearpay />} />
           <Route path="/bancontact" element={<Bancontact />} />
