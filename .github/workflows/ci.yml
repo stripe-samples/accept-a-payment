@@ -47,6 +47,8 @@ jobs:
             tests: custom_payment_flow_server_spec.rb
           - sample: prebuilt-checkout-page
             tests: prebuilt_checkout_page_spec.rb
+          - sample: payment-element
+            tests: payment_element_server_spec.rb
         include:
           - runtime:
               server_type: node-typescript
