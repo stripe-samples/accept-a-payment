@@ -49,6 +49,8 @@ app.UseStaticFiles(new StaticFileOptions()
     RequestPath = new PathString("")
 });
 
+app.MapGet("/", () => Results.Redirect("index.html"));
+
 app.MapGet("checkout-session", async (string sessionId) =>
 {
     var service = new SessionService();
@@ -56,7 +58,7 @@ app.MapGet("checkout-session", async (string sessionId) =>
     return Results.Ok(session);
 });
 
-app.MapPost("create-checkout-session", async (IOptions<StripeOptions> options) =>
+app.MapPost("create-checkout-session", async (IOptions<StripeOptions> options, HttpContext context) =>
 {
     // Create new Checkout Session for the order
     // Other optional params include:
@@ -85,7 +87,8 @@ app.MapPost("create-checkout-session", async (IOptions<StripeOptions> options) =
 
     var service = new SessionService();
     var session = await service.CreateAsync(sessionOptions);
-    return Results.Redirect(session.Url);
+    context.Response.Headers.Add("Location", session.Url);
+    return Results.StatusCode(303);
 });
 
 app.MapPost("webhook", async (HttpRequest req, IOptions<StripeOptions> options) =>

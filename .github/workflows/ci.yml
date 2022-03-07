@@ -40,6 +40,8 @@ jobs:
             server_image: golang:1.16
           - server_type: go
             server_image: golang:1.15
+          - server_type: dotnet
+            server_image: mcr.microsoft.com/dotnet/sdk:6.0
         target:
           - sample: custom-payment-flow
             tests: custom_payment_flow_server_spec.rb
@@ -58,24 +60,6 @@ jobs:
             target:
               sample: custom-payment-flow
               tests: custom_payment_flow_server_spec.rb
-          - runtime:
-              server_type: dotnet
-              server_image: mcr.microsoft.com/dotnet/sdk:6.0
-            target:
-              sample: custom-payment-flow
-              tests: custom_payment_flow_server_spec.rb
-          - runtime:
-              server_type: dotnet
-              server_image: mcr.microsoft.com/dotnet/sdk:5.0
-            target:
-              sample: prebuilt-checkout-page
-              tests: prebuilt_checkout_page_spec.rb
-          - runtime:
-              server_type: dotnet
-              server_image: mcr.microsoft.com/dotnet/sdk:3.1
-            target:
-              sample: prebuilt-checkout-page
-              tests: prebuilt_checkout_page_spec.rb
     steps:
       - uses: actions/checkout@v2
 
