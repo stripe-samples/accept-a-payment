@@ -86,6 +86,12 @@ If you have questions, comments, or need help with code, we're here to help:
 
 Sign up to [stay updated with developer news](https://go.stripe.global/dev-digest).
 
+## Contributing
+
+### E2E testing
+
+[Readme](./spec/README.md)
+
 ## Authors
 
 - [@cjav_dev](https://twitter.com/cjav_dev)
