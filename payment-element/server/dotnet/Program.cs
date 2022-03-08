@@ -39,9 +39,10 @@ app.UseStaticFiles(new StaticFileOptions()
     RequestPath = new PathString("")
 });
 
+app.MapGet("/", () => Results.Redirect("index.html"));
 app.MapGet("/config", (IOptions<StripeOptions> options) => new { options.Value.PublishableKey });
 
-app.MapPost("/create-payment-intent", async () =>
+app.MapGet("/create-payment-intent", async () =>
 {
     try
     {
