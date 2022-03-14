@@ -50,15 +50,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Confirm the payment given the clientSecret from the payment intent that
     // was just created on the server.
-    let {error: stripeError, paymentIntent} = await stripe.collectUsBankAccountForPayment(
+    let {error: stripeError, paymentIntent} = await stripe.collectBankAccountForPayment({
       clientSecret,
-      {
-        billing_details: {
-          name: nameInput.value,
-          email: emailInput.value,
+      params: {
+        payment_method_type: 'us_bank_account',
+        payment_method_data: {
+          billing_details: {
+            name: nameInput.value,
+            email: emailInput.value,
+          },
         },
-      }
-    );
+      },
+    });
 
     if (stripeError) {
       addMessage(stripeError.message);

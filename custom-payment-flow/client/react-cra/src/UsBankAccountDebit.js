@@ -52,15 +52,19 @@ const UsBankAccountDebitForm = () => {
     setPaymentIntentClientSecret(clientSecret);
     addMessage('Client secret returned');
 
-    const {
-      error: stripeError,
-      paymentIntent,
-    } = await stripe.collectUsBankAccountForPayment(clientSecret, {
-      billing_details: {
-        name,
-        email,
+    let {error: stripeError, paymentIntent} = await stripe.collectBankAccountForPayment({
+      clientSecret,
+      params: {
+        payment_method_type: 'us_bank_account',
+        payment_method_data: {
+          billing_details: {
+            name,
+            email,
+          },
+        },
       },
     });
+
 
     if (stripeError) {
       // Show error to your customer (e.g., insufficient funds)
