@@ -20,10 +20,10 @@ Capybara.enable_aria_label = true
 Capybara.save_path = 'tmp/capybara'
 
 module CapybaraHelpers
-  SERVER_URL = ENV.fetch('SERVER_URL', 'http://web:4242')
+  APP_URL = ENV.fetch('DOMAIN', 'http://frontend:3000')
 
-  def server_url(path)
-    url = URI(SERVER_URL)
+  def app_url(path)
+    url = URI(APP_URL)
     url.path = path
     url
   end

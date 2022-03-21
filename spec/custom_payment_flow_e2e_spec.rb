@@ -2,7 +2,7 @@ require 'capybara_support'
 
 RSpec.describe 'Custom payment flow', type: :system do
   before do
-    visit server_url('/')
+    visit app_url('/')
   end
 
   example 'Card: happy path' do
