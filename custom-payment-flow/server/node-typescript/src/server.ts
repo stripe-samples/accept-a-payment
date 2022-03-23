@@ -9,7 +9,7 @@ import express from "express";
 
 import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2020-08-27",
+  apiVersion: "2020-08-27;customer_balance_payment_method_beta=v3" as any,
   appInfo: { // For sample support and debugging, not required for production:
     name: "stripe-samples/accept-a-payment",
     url: "https://github.com/stripe-samples",
@@ -74,6 +74,12 @@ app.post(
           },
         },
       };
+    } else if (paymentMethodType === 'customer_balance') {
+      params.payment_method_data = {
+        type: 'customer_balance',
+      } as any
+      params.confirm = true
+      params.customer = req.body.customerId || await stripe.customers.create().then(data => data.id)
     }
   
     /**
@@ -91,6 +97,7 @@ app.post(
       // Send publishable key and PaymentIntent client_secret to client.
       res.send({
         clientSecret: paymentIntent.client_secret,
+        nextAction: paymentIntent.next_action,
       });
     } catch (e) {
       res.status(400).send({

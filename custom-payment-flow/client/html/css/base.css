@@ -93,4 +93,5 @@ fieldset, input, select {
   margin: 20px 0;
   border-radius: var(--radius);
   font-size:0.7em;
+  overflow: scroll;
 }
