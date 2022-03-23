@@ -6,7 +6,7 @@ const {resolve} = require('path');
 const env = require('dotenv').config({path: './.env'});
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2020-08-27',
+  apiVersion: '2020-08-27;customer_balance_payment_method_beta=v3',
   appInfo: { // For sample support and debugging, not required for production:
     name: "stripe-samples/accept-a-payment/custom-payment-flow",
     version: "0.0.2",
@@ -77,6 +77,12 @@ app.post('/create-payment-intent', async (req, res) => {
         expires_after_days: 3,
       },
     }
+  } else if (paymentMethodType === 'customer_balance') {
+    params.payment_method_data = {
+      type: 'customer_balance',
+    }
+    params.confirm = true
+    params.customer = req.body.customerId || await stripe.customers.create().then(data => data.id)
   }
 
   /**
@@ -97,6 +103,7 @@ app.post('/create-payment-intent', async (req, res) => {
     // Send publishable key and PaymentIntent details to client
     res.send({
       clientSecret: paymentIntent.client_secret,
+      nextAction: paymentIntent.next_action,
     });
   } catch (e) {
     return res.status(400).send({
