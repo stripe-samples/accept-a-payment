@@ -2,7 +2,7 @@ require 'capybara_support'
 
 RSpec.describe 'Payment elements', type: :system do
   before do
-    visit server_url('/')
+    visit app_url('/')
   end
 
   example 'happy path' do

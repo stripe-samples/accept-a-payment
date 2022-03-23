@@ -113,23 +113,25 @@ Stripe.api_key = ENV['STRIPE_SECRET_KEY']
 Stripe.max_network_retries = 2
 Stripe.api_version = "2020-08-27"
 
-def server_url
-  SERVER_URL
+def server_url(path)
+  url = URI(SERVER_URL)
+  url.path = path
+  url.to_s
 end
 
 def get(path, *args, **kwargs)
-  RestClient.get("#{SERVER_URL}#{path}", *args, **kwargs)
+  RestClient.get(server_url(path), *args, **kwargs)
 end
 
 def get_json(path, *args, **kwargs)
-  response = RestClient.get("#{SERVER_URL}#{path}", *args, **kwargs)
+  response = RestClient.get(server_url(path), *args, **kwargs)
   JSON.parse(response.body)
 end
 
 def post_json(path, payload, **kwargs)
   defaults = {content_type: :json}
   response = RestClient.post(
-    "#{SERVER_URL}#{path}",
+    server_url(path),
     payload.to_json,
     defaults.merge(**kwargs)
   )

@@ -10,7 +10,7 @@ RSpec.describe "prebuilt-checkout-page integration" do
   describe '/create-checkout-session' do
     it 'creates a checkout session' do
       response = RestClient.post(
-        "#{SERVER_URL}/create-checkout-session",
+        server_url("/create-checkout-session"),
         {quantity: 7},
         {max_redirects: 0}
       )
