@@ -134,7 +134,6 @@ jobs:
         with:
           repository: 'stripe-samples/sample-ci'
           path: 'sample-ci'
-          ref: 'vue-cva'
 
       - name: Setup dependencies
         run: |
