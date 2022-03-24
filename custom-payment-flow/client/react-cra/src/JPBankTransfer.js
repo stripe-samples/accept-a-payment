@@ -78,7 +78,7 @@ export const JPBankTransfer = () =>{
                             customer_balance: {
                                 funding_type: 'bank_transfer',
                                 bank_transfer: {
-                                    type: 'jp_bank_account',
+                                    type: 'jp_bank_transfer',
                                 },
                             },
                         },

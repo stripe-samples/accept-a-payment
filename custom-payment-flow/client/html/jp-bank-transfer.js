@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const customerIdInput = document.querySelector('#customer-id');
       // Make a call to the server to create a new
       // payment intent and store its client_secret.
-      const resp = await fetch('http://localhost:4242/create-payment-intent', {
+      const response = await fetch('http://localhost:4242/create-payment-intent', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 customer_balance: {
                     funding_type: 'bank_transfer',
                     bank_transfer: {
-                        type: 'jp_bank_account',
+                        type: 'jp_bank_transfer',
                     },
                 },
             },
@@ -27,14 +27,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         }),
       }).then((r) => r.json());
   
-      if (resp.error) {
-        addMessage(resp.error.message);
+      if (response.error) {
+        addMessage(response.error.message);
         return;
       }
   
       addMessage(`Bank account information returned.`);
-      if (resp.nextAction && resp.nextAction.display_bank_transfer_instructions) {
-        const displayBankTransferInstructions = resp.nextAction.display_bank_transfer_instructions;
+      if (response.nextAction && response.nextAction.display_bank_transfer_instructions) {
+        const displayBankTransferInstructions = response.nextAction.display_bank_transfer_instructions;
         const messageElement = document.getElementById('bank-transfer-instructions');
         messageElement.innerHTML = `<p>振込先情報</p>
         <dl>
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         </dl>`;
       }
 
-      addMessage(`Payment ${JSON.stringify(resp)}`);
+      addMessage(`Payment ${JSON.stringify(response)}`);
   
     });
   });
