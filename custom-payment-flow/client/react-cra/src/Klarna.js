@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation} from 'react-router-dom';
-import {KlarnaElement, useStripe, useElements} from '@stripe/react-stripe-js';
+import {useStripe} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
 const COUNTRY_CURRENCY = {
@@ -163,4 +163,4 @@ const Klarna = () => {
   }
 }
 
-export default KlarnaForm;
+export default Klarna;

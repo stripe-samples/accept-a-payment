@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>US bank account debit payments - (ACH)</title>
+
+    <link rel="stylesheet" href="css/base.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script src="/utils.js" defer></script>
+    <script src="/ach.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <a href="/">home</a>
+      <h1>US bank account debit payments - ACH</h1>
+
+      <form id="payment-form">
+        <label for="name">
+          Name
+        </label>
+        <input id="name" value="Jenny Rosen" required />
+        <label for="email">
+          Email
+        </label>
+        <input id="email" value="jenny.rosen@example.com" required />
+
+        <button id="submit">Submit</button>
+      </form>
+
+      <form id="confirmation-form" style="display: none;">
+        <p>
+          By clicking Accept, you authorize {TODO: YOUR BUSINESS NAME HERE} to
+          debit the bank account specified above for any amount owed for
+          charges arising from your use of {TODO} services and/or
+          purchase of products from {TODO}, pursuant to {TODO}s’
+          website and terms, until this authorization is revoked. You may amend
+          or cancel this authorization at any time by providing notice to
+          {TODO} with 30 (thirty) days notice.
+
+          If you use {TODO} services or purchase additional products
+          periodically pursuant to {TODO} terms, you authorize {TODO}
+          to debit your bank account periodically. Payments that fall
+          outside of the regular debits authorized above will only be debited
+          after your authorization is obtained.
+        </p>
+        <button id="accept">Accept</button>
+
+      </form>
+
+      <div id="messages" role="alert" style="display: none;"></div>
+    </main>
+  </body>
+</html>
