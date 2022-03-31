@@ -1,8 +1,5 @@
 import React, {useState} from 'react';
-import {
-  useStripe,
-  useElements,
-} from '@stripe/react-stripe-js';
+import { useStripe } from '@stripe/react-stripe-js';
 import StatusMessages from './StatusMessages';
 
 const UsBankAccountDebitForm = () => {

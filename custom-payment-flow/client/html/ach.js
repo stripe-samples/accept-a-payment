@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const stripe = Stripe(publishableKey, {
     apiVersion: '2020-08-27',
-    betas: ['us_bank_account_beta_2']
   });
   let paymentIntentClientSecret;
 

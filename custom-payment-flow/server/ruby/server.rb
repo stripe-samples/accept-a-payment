@@ -1,5 +1,6 @@
 require 'stripe'
 require 'sinatra'
+require 'sinatra/reloader'
 require 'dotenv'
 require './config_helper.rb'
 
