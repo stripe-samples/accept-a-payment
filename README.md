@@ -22,12 +22,12 @@ This repository includes examples of 2 types of integration types.
 |Payment Method Type | [Prebuilt Checkout page](./prebuilt-checkout-page) ([docs](https://stripe.com/docs/payments/accept-a-payment?ui=checkout))| [Payment Element](./payment-element) ([docs](https://stripe.com/docs/payments/accept-a-payment?platform=web&ui=elements)) | [Custom payment flow](./custom-payment-flow) ([docs](https://stripe.com/docs/payments/accept-card-payments?platform=web&ui=elements)) |
 |---|---|---|---|
 |ACH Credit Transfer|  |  | |
-|ACH Debit|  |  |  |
+|ACH Debit| ✅ | ✅ | ✅ |
 |Afterpay/Clearpay| ✅ | ✅ | ✅ |
 |Alipay| ✅ | ✅ | ✅ |
 |Apple Pay| ✅ | ✅ | ✅ |
 |Bacs Direct Debit| ✅ |  |  |
-|Bancontact| ✅ | ✅ | ✅ | 
+|Bancontact| ✅ | ✅ | ✅ |
 |BECS Direct Debit| ✅ | ✅ | ✅ |
 |Boleto| ✅ | ✅ | ✅ |
 |Cards| ✅ | ✅ | ✅ |
@@ -38,7 +38,7 @@ This repository includes examples of 2 types of integration types.
 |GrabPay| ✅ | ✅ | ✅ |
 |iDEAL| ✅ | ✅ | ✅ |
 |Klarna| ✅ | ✅ | ✅ |
-|Multibanco| ✅ | ✅ |  | 
+|Multibanco| ✅ | ✅ |  |
 |OXXO| ✅ | ✅ | ✅ |
 |Przelewy24 (P24)| ✅ | ✅ | ✅ |
 |SEPA Direct Debit| ✅ | ✅ | ✅ |

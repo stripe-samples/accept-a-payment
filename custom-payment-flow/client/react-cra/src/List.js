@@ -27,8 +27,8 @@ const List = () => {
       category: CARDS,
     },
     {
-      path: 'ach',
-      name: 'ACH debits',
+      path: 'us-bank-account-debit',
+      name: 'US bank account - ACH debits',
       docs: 'https://stripe.com/docs/ach',
       fact_sheet:
         'https://stripe.com/payments/payment-methods-guide#ach-debits',

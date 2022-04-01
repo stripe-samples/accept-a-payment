@@ -2,7 +2,7 @@ require 'capybara_support'
 
 RSpec.describe 'Custom payment flow', type: :system do
   before do
-    visit server_url('/')
+    visit app_url('/')
   end
 
   example 'happy path' do
@@ -23,7 +23,7 @@ RSpec.describe 'Custom payment flow', type: :system do
   end
 
   example 'Cancel a payment' do
-    visit server_url('/')
+    visit app_url('/')
 
     click_on 'Buy'
     click_on 'Previous page'
