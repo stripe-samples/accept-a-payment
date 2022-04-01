@@ -1,0 +1,49 @@
+name: React Native Android e2e tests
+on: workflow_dispatch
+
+env:
+  STRIPE_PUBLISHABLE_KEY: ${{ secrets.TEST_STRIPE_PUBLISHABLE_KEY }}
+  STRIPE_SECRET_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e_react_native_android:
+    runs-on: macos-11
+    env:
+      STRIPE_API_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
+      PRICE: ${{ secrets.TEST_PRICE }}
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup dependencies
+        run: |
+          curl -o- -L https://github.com/stripe/stripe-cli/releases/download/v1.7.0/stripe_1.7.0_mac-os_x86_64.tar.gz | sudo tar fxz - -C /usr/local/bin
+
+      - name: Run tests (1st attempt)
+        timeout-minutes: 15
+        continue-on-error: true
+        id: attempt1
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: .github/workflows/react_native_android_e2e.sh
+
+      - name: Run tests (2nd attempt)
+        timeout-minutes: 15
+        id: attempt2
+        if: steps.attempt1.outcome=='failure'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: .github/workflows/react_native_android_e2e.sh
+
+      - name: Upload screenshots
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: react-native-android-screenshots
+          path: |
+            custom-payment-flow/client/react-native-expo/tmp/screenshots
