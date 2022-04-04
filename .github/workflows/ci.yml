@@ -127,6 +127,13 @@ jobs:
             target:
               sample: prebuilt-checkout-page
               tests: prebuilt_checkout_page_e2e_spec.rb
+          - implementation:
+              client_type: vue-cva
+              domain: http://frontend:3000
+              profile: frontend
+            target:
+              sample: payment-element
+              tests: payment_element_e2e_spec.rb
     steps:
       - uses: actions/checkout@v2
 

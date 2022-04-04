@@ -8,10 +8,10 @@ const isLoading = ref(false);
 const messages = ref([]);
 
 let stripe;
-let elements; 
+let elements;
 
 onMounted(async () => {
-  const { publishableKey } = await fetch("/api/config").then((res) => res.json());   
+  const { publishableKey } = await fetch("/api/config").then((res) => res.json());
   stripe = await loadStripe(publishableKey);
 
   const { clientSecret, error: backendError } = await fetch("/api/create-payment-intent").then((res) => res.json());
@@ -21,8 +21,8 @@ onMounted(async () => {
   }
   messages.value.push(`Client secret returned.`);
 
-  elements = stripe.elements({clientSecret}); 
-  const paymentElement = elements.create('payment'); 
+  elements = stripe.elements({clientSecret});
+  const paymentElement = elements.create('payment');
   paymentElement.mount("#payment-element");
   isLoading.value = false;
 
@@ -30,25 +30,25 @@ onMounted(async () => {
 
 const handleSubmit = async () => {
   if (isLoading.value) {
-    return; 
+    return;
   }
 
-  isLoading.value = true; 
+  isLoading.value = true;
 
   const { error } = await stripe.confirmPayment({
-    elements, 
+    elements,
     confirmParams: {
-      return_url: `http://localhost:3000/return`
+      return_url: `${window.location.origin}/return`
     }
-  }); 
+  });
 
   if (error.type === "card_error" || error.type === "validation_error") {
     messages.value.push(error.message);
   } else {
     messages.value.push("An unexpected error occured.");
   }
-  
-  isLoading.value = false; 
+
+  isLoading.value = false;
 }
 </script>
 <template>
@@ -72,7 +72,7 @@ const handleSubmit = async () => {
         id="submit"
         :disabled="isLoading"
       >
-        Submit
+        Pay now
       </button>
       <sr-messages :messages="messages" />
     </form>
