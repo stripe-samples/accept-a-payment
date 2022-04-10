@@ -2,7 +2,7 @@
 
 _Learn how to securely accept payments online._
 
-This repository includes examples of 2 types of integration types.
+This repository includes examples of 3 types of integration.
 
 |[Prebuilt Checkout page](./prebuilt-checkout-page) ([docs](https://stripe.com/docs/payments/accept-a-payment?ui=checkout))| [Payment Element](./payment-element) ([docs](https://stripe.com/docs/payments/accept-a-payment?platform=web&ui=elements)) | [Custom payment flow](./custom-payment-flow) ([docs](https://stripe.com/docs/payments/accept-card-payments?platform=web&ui=elements)) |
 |---|---|---|
