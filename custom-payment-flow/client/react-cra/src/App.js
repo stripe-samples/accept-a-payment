@@ -29,6 +29,7 @@ import WeChatPay from './WeChatPay';
 
 import './App.css';
 import Konbini from './Konbini';
+import { JPBankTransfer } from './JPBankTransfer';
 
 function App(props) {
   return (
@@ -59,6 +60,7 @@ function App(props) {
           <Route path="/sofort" element={<Sofort />} />
           <Route path="/wechat-pay" element={<WeChatPay />} />
           <Route path="/konbini" element={<Konbini />} />
+          <Route path="/jp-bank-transfer" element={<JPBankTransfer />} />
         </Routes>
       </BrowserRouter>
     </>

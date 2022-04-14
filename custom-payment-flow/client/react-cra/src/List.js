@@ -132,6 +132,12 @@ const List = () => {
       category: BANK_TRANSFERS,
     },
     {
+      path: 'jp-bank-transfer',
+      name: 'JP Bank transfer(銀行振込)',
+      docs: 'https://stripe.com/docs/payments/bank-transfers',
+      category: BANK_TRANSFERS,
+    },
+    {
       path: 'afterpay-clearpay',
       name: 'Afterpay / Clearpay',
       docs: 'https://stripe.com/docs/payments/afterpay-clearpay',

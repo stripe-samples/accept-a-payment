@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Bank Transfer (Japan | 銀行振込)</title>
+
+    <link rel="stylesheet" href="css/base.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script src="/utils.js" defer></script>
+    <script src="/jp-bank-transfer.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <a href="/">home</a>
+      <h1>Bank Transfer (Japan | 銀行振込)</h1>
+      <section>
+          <b>テスト環境での、現金残高の追加方法</b>
+          <ul>
+              <li>Dashboardで顧客ページを開く</li>
+              <li>[支払い方法]の[追加]ボタンから、[現金残高に資金を追加(テスト環境のみ)]を選択</li>
+              <li>金額を指定し、追加する</li>
+          </ul>
+          <p>
+              <a
+                  href="https://stripe.com/docs/payments/bank-transfers/accept-a-payment#test-your-integration"
+                  target='_blank'
+                  rel='noopener noreferrer'
+              >
+                  Stripe CLI / APIを利用する方法
+              </a>
+          </p>
+      </section>
+
+
+      <form id="payment-form">
+        <label for="customer-id"> Customer ID(optional) </label>
+        <input id="customer-id" placeholder="cus_xxx" />
+
+        <!-- Used to display form errors. -->
+        <div id="error-message" role="alert"></div>
+
+        <button type="submit">Pay</button>
+      </form>
+
+      <div id="messages" role="alert"></div>
+      <div id="bank-transfer-instructions"></div>
+    </main>
+  </body>
+</html>

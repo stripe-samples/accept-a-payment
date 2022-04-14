@@ -77,6 +77,12 @@ app.post('/create-payment-intent', async (req, res) => {
         expires_after_days: 3,
       },
     }
+  } else if (paymentMethodType === 'customer_balance') {
+    params.payment_method_data = {
+      type: 'customer_balance',
+    }
+    params.confirm = true
+    params.customer = req.body.customerId || await stripe.customers.create().then(data => data.id)
   }
 
   /**
@@ -97,6 +103,7 @@ app.post('/create-payment-intent', async (req, res) => {
     // Send publishable key and PaymentIntent details to client
     res.send({
       clientSecret: paymentIntent.client_secret,
+      nextAction: paymentIntent.next_action,
     });
   } catch (e) {
     return res.status(400).send({

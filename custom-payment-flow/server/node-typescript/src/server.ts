@@ -74,6 +74,12 @@ app.post(
           },
         },
       };
+    } else if (paymentMethodType === 'customer_balance') {
+      params.payment_method_data = {
+        type: 'customer_balance',
+      } as any
+      params.confirm = true
+      params.customer = req.body.customerId || await stripe.customers.create().then(data => data.id)
     }
   
     /**
@@ -91,6 +97,7 @@ app.post(
       // Send publishable key and PaymentIntent client_secret to client.
       res.send({
         clientSecret: paymentIntent.client_secret,
+        nextAction: paymentIntent.next_action,
       });
     } catch (e) {
       res.status(400).send({
