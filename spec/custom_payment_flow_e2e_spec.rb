@@ -188,8 +188,12 @@ RSpec.describe 'Custom payment flow', type: :system do
     click_on 'OXXO'
 
     click_on 'Pay'
-    expect(page).to have_no_content('succeeded')
-    expect(page).to have_content('The payment method type provided: oxxo is invalid') # This payment method is available to Stripe accounts in MX and your Stripe account is in US.
+
+    within_frame find('iframe[name*=__privateStripeFrame]') do
+      within_frame find('iframe[title*="OXXO Voucher"]') do
+        expect(page).to have_content('Instructions to pay your OXXO')
+      end
+    end
   end
 
   example 'Alipay' do
