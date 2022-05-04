@@ -38,7 +38,6 @@ Pick a server:
 - [go](./server/go)
 - [java](./server/java)
 - [node](./server/node)
-- [node-typescript](./server/node-typescript)
 - [php](./server/php)
 - [python](./server/python)
 - [ruby](./server/ruby)
