@@ -4,8 +4,8 @@
   "description": "Stripe payment sample.",
   "main": "dist/server.js",
   "scripts": {
-    "build": "node_modules/typescript/bin/tsc",
-    "prestart": "npm run build",
+    "build": "tsc",
+    "prestart": "tsc",
     "start": "node .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
