@@ -86,7 +86,7 @@ RSpec.describe 'Custom payment flow', type: :system do
     end
 
     click_on 'Pay'
-    expect(page).to have_content('EPS test payment page')
+    expect(page).to have_content('eps test payment page')
 
     click_on 'Authorize Test Payment'
     expect(page).to have_content('Payment succeeded')
