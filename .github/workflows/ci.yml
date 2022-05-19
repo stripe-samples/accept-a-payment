@@ -23,7 +23,7 @@ jobs:
           - server_type: ruby
             server_image: ruby:latest
           - server_type: ruby
-            server_image: ruby:2.6
+            server_image: ruby:2.7
           - server_type: node
             server_image: node:latest
           - server_type: node
@@ -39,7 +39,7 @@ jobs:
           - server_type: go
             server_image: golang:latest
           - server_type: go
-            server_image: golang:1.15
+            server_image: golang:1.17
           - server_type: dotnet
             server_image: mcr.microsoft.com/dotnet/sdk:6.0
         target:
