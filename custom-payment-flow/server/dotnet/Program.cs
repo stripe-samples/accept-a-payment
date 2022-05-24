@@ -44,7 +44,7 @@ app.MapPost("/create-payment-intent", async (CreatePaymentIntentRequest req) =>
 {
     var options = new PaymentIntentCreateOptions
     {
-        Amount = 1999,
+        Amount = 5999,
         Currency = req.Currency,
         PaymentMethodTypes = new List<string> { req.PaymentMethodType }
     };
