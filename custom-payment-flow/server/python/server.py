@@ -50,7 +50,7 @@ def create_payment():
     # [0] https://stripe.com/docs/api/payment_intents/create
     params = {
         'payment_method_types': [payment_method_type],
-        'amount': 1999,
+        'amount': 5999,
         'currency': currency
     }
 

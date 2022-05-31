@@ -52,7 +52,7 @@ app.post('/create-payment-intent', async (req, res) => {
   // Some example payment method types include `card`, `ideal`, and `alipay`.
   const params = {
     payment_method_types: [paymentMethodType],
-    amount: 1999,
+    amount: 5999,
     currency: currency,
   }
 

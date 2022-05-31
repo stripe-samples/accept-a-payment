@@ -74,7 +74,7 @@ func handleCreatePaymentIntent(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&req)
 
 	params := &stripe.PaymentIntentParams{
-		Amount:             stripe.Int64(1999),
+		Amount:             stripe.Int64(5999),
 		Currency:           stripe.String(req.Currency),
 		PaymentMethodTypes: stripe.StringSlice([]string{req.PaymentMethodType}),
 	}

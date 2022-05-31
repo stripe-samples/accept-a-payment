@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Affirm</title>
+
+    <link rel="stylesheet" href="/css/base.css" />
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script src="/utils.js" defer></script>
+    <script src="/affirm.js" defer></script>
+  </head>
+  <body>
+    <main>
+      <a href="/">home</a>
+      <h1>Affirm</h1>
+
+      <form id="payment-form">
+        <fieldset>
+          <legend>Billing</legend>
+
+          <label for="name">Name</label>
+          <input type="text" id="name" value="Jenny Rosen" />
+
+          <label for="email">Email</label>
+          <input type="email" id="email" value="jenny.rosen@example.com" />
+
+          <label for="line1">Address</label>
+          <input type="text" id="line1" value="510 Townsend" />
+
+          <label for="city">City</label>
+          <input type="text" id="city" value="San Francisco" />
+
+          <label for="state">State</label>
+          <input type="text" id="state" value="California" />
+
+          <label for="postal-code">Postal code</label>
+          <input type="text" id="postal-code" value="94111" />
+
+          <label for="country">Country</label>
+          <select id="country">
+            <option selected>US</option>
+          </select>
+        </fieldset>
+
+        <fieldset>
+          <legend>Shipping</legend>
+
+          <label for="shipping-name">Name</label>
+          <input type="text" id="shipping-name" value="Kevin Rosen" />
+
+          <label for="shipping-line1">Address</label>
+          <input type="text" id="shipping-line1" value="510 Townsend" />
+
+          <label for="shipping-city">City</label>
+          <input type="text" id="shipping-city" value="San Francisco" />
+
+          <label for="shipping-state">State</label>
+          <input type="text" id="shipping-state" value="California" />
+
+          <label for="shipping-postal-code">Postal code</label>
+          <input type="text" id="shipping-postal-code" value="94111" />
+
+          <label for="shipping-country">Country</label>
+          <select id="shipping-country">
+            <option selected>US</option>
+          </select>
+        </fieldset>
+
+        <button type="submit">Pay</button>
+      </form>
+
+      <div id="messages" role="alert" style="display: none;"></div>
+    </main>
+  </body>
+</html>

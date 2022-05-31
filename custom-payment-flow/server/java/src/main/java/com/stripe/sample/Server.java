@@ -100,7 +100,7 @@ public class Server {
               .Builder()
               .addPaymentMethodType(postBody.getPaymentMethodType())
               .setCurrency(postBody.getCurrency())
-              .setAmount(1999L);
+              .setAmount(5999L);
 
             // If this is for an ACSS payment, we add payment_method_options to create
             // the Mandate.

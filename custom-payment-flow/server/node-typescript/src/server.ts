@@ -58,7 +58,7 @@ app.post(
     const { currency, paymentMethodType, paymentMethodOptions }: { currency: string, paymentMethodType: string, paymentMethodOptions?: object  } = req.body;
     // Create a PaymentIntent with the order amount and currency.
     const params: Stripe.PaymentIntentCreateParams = {
-      amount: 1999,
+      amount: 5999,
       currency,
       payment_method_types: [paymentMethodType],
     };
@@ -81,7 +81,7 @@ app.post(
       params.confirm = true
       params.customer = req.body.customerId || await stripe.customers.create().then(data => data.id)
     }
-  
+
     /**
      * If API given this data, we can overwride it
      */
