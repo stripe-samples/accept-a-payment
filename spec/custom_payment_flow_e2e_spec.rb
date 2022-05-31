@@ -29,7 +29,7 @@ RSpec.describe 'Custom payment flow', type: :system do
       within_frame first('iframe') do
         click_on 'Agree'
         find('span', text: 'Simulate successful verification').click
-        click_on 'Pay CA$19.99'
+        click_on 'Pay CA$59.99'
       end
     end
 

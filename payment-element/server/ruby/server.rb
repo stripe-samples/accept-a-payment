@@ -40,7 +40,7 @@ get '/create-payment-intent' do
   # [0] https://stripe.com/docs/api/payment_intents/create
   begin
     payment_intent = Stripe::PaymentIntent.create({
-      amount: 1999, # Charge the customer 19.99 EUR
+      amount: 5999, # Charge the customer 59.99 EUR
       automatic_payment_methods: { enabled: true }, # Configure payment methods in the dashboard.
       currency: 'eur',
     })
