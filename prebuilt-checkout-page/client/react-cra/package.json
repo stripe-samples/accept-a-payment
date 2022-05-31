@@ -5,7 +5,7 @@
   "dependencies": {
     "@stripe/stripe-js": "^1.31.0",
     "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.2.0",
+    "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^14.2.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
