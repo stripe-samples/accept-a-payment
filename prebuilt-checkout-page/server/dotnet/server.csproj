@@ -7,6 +7,6 @@
  
   <ItemGroup>    
     <PackageReference Include="DotNetEnv" Version="2.3.0" />
-    <PackageReference Include="Stripe.net" Version="39.119.0" />
+    <PackageReference Include="Stripe.net" Version="39.120.0" />
   </ItemGroup>
 </Project>
