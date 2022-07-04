@@ -4,7 +4,7 @@ go 1.17
 
 require (
 	github.com/joho/godotenv v1.4.0
-	github.com/stripe/stripe-go/v72 v72.116.0
+	github.com/stripe/stripe-go/v72 v72.117.0
 )
 
 require (
