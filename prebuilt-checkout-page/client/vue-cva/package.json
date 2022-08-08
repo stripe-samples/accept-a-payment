@@ -15,7 +15,7 @@
     "eslint": "^8.19.0",
     "eslint-plugin-vue": "^9.1.1",
     "vite": "^2.9.13",
-    "vite-plugin-rewrite-all": "^0.1.2"
+    "vite-plugin-rewrite-all": "^1.0.0"
   },
   "eslintConfig": {
     "extends": [
