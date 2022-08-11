@@ -1,9 +1,6 @@
 name: CI for stripe-samples/accept-a-payment
 on:
-  push:
-    branches:
-      - '**'
-      - '!dependabot/**'
+  - push
 
 env:
   STRIPE_PUBLISHABLE_KEY: ${{ secrets.TEST_STRIPE_PUBLISHABLE_KEY }}
