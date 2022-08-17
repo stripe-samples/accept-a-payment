@@ -6,93 +6,108 @@
 version: 2
 updates:
   # ruby dependencies
-  - package-ecosystem: "bundler"
-    directory: "/custom-payment-flow/server/ruby/"
+  - package-ecosystem: 'bundler'
+    directory: '/custom-payment-flow/server/ruby/'
     schedule:
-      interval: "weekly"
-  - package-ecosystem: "bundler"
-    directory: "/prebuilt-checkout-page/server/ruby/"
+      interval: 'weekly'
+      day: 'thursday'
+  - package-ecosystem: 'bundler'
+    directory: '/prebuilt-checkout-page/server/ruby/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
+      day: 'thursday'
 
   # python dependencies
-  - package-ecosystem: "pip"
-    directory: "/custom-payment-flow/server/python/"
+  - package-ecosystem: 'pip'
+    directory: '/custom-payment-flow/server/python/'
     schedule:
-      interval: "weekly"
-  - package-ecosystem: "pip"
-    directory: "/prebuilt-checkout-page/server/python/"
+      interval: 'weekly'
+      day: 'thursday'
+  - package-ecosystem: 'pip'
+    directory: '/prebuilt-checkout-page/server/python/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
+      day: 'thursday'
 
   # php dependencies
-  - package-ecosystem: "composer"
-    directory: "/custom-payment-flow/server/php/"
+  - package-ecosystem: 'composer'
+    directory: '/custom-payment-flow/server/php/'
     schedule:
-      interval: "weekly"
-  - package-ecosystem: "composer"
-    directory: "/prebuilt-checkout-page/server/php/"
+      interval: 'weekly'
+      day: 'thursday'
+  - package-ecosystem: 'composer'
+    directory: '/prebuilt-checkout-page/server/php/'
     schedule:
-      interval: "weekly"
-
+      interval: 'weekly'
+      day: 'thursday'
 
   # node dependencies
-  - package-ecosystem: "npm"
-    directory: "/custom-payment-flow/server/node/"
+  - package-ecosystem: 'npm'
+    directory: '/custom-payment-flow/server/node/'
     schedule:
-      interval: "weekly"
-  - package-ecosystem: "npm"
-    directory: "/custom-payment-flow/server/node-typescript/"
+      interval: 'weekly'
+      day: 'thursday'
+  - package-ecosystem: 'npm'
+    directory: '/custom-payment-flow/server/node-typescript/'
     schedule:
-      interval: "weekly"
-  - package-ecosystem: "npm"
-    directory: "/prebuilt-checkout-page/server/node/"
+      interval: 'weekly'
+      day: 'thursday'
+  - package-ecosystem: 'npm'
+    directory: '/prebuilt-checkout-page/server/node/'
     schedule:
-      interval: "weekly"
-  - package-ecosystem: "npm"
-    directory: "/custom-payment-flow/client/react-cra/"
+      interval: 'weekly'
+      day: 'thursday'
+  - package-ecosystem: 'npm'
+    directory: '/custom-payment-flow/client/react-cra/'
     schedule:
-      interval: "weekly"
-  - package-ecosystem: "npm"
-    directory: "/payment-element/client/react-cra/"
+      interval: 'weekly'
+      day: 'thursday'
+  - package-ecosystem: 'npm'
+    directory: '/payment-element/client/react-cra/'
     schedule:
-      interval: "weekly"
-  - package-ecosystem: "npm"
-    directory: "/prebuilt-checkout-page/client/react-cra/"
+      interval: 'weekly'
+      day: 'thursday'
+  - package-ecosystem: 'npm'
+    directory: '/prebuilt-checkout-page/client/react-cra/'
     schedule:
-      interval: "weekly"
-  - package-ecosystem: "npm"
-    directory: "/prebuilt-checkout-page/client/vue-cva/"
+      interval: 'weekly'
+      day: 'thursday'
+  - package-ecosystem: 'npm'
+    directory: '/prebuilt-checkout-page/client/vue-cva/'
     schedule:
-      interval: "weekly"
-
+      interval: 'weekly'
+      day: 'thursday'
 
   # go dependencies
-  - package-ecosystem: "gomod"
-    directory: "/custom-payment-flow/server/go/"
+  - package-ecosystem: 'gomod'
+    directory: '/custom-payment-flow/server/go/'
     schedule:
-      interval: "weekly"
-  - package-ecosystem: "gomod"
-    directory: "/prebuilt-checkout-page/server/go/"
+      interval: 'weekly'
+  - package-ecosystem: 'gomod'
+    directory: '/prebuilt-checkout-page/server/go/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
 
   # java dependencies
-  - package-ecosystem: "maven"
-    directory: "/custom-payment-flow/server/java/"
+  - package-ecosystem: 'maven'
+    directory: '/custom-payment-flow/server/java/'
     schedule:
-      interval: "weekly"
-  - package-ecosystem: "maven"
-    directory: "/prebuilt-checkout-page/server/java/"
+      interval: 'weekly'
+      day: 'thursday'
+  - package-ecosystem: 'maven'
+    directory: '/prebuilt-checkout-page/server/java/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
+      day: 'thursday'
 
   # dotnet dependencies
-  - package-ecosystem: "nuget"
-    directory: "/custom-payment-flow/server/dotnet/"
+  - package-ecosystem: 'nuget'
+    directory: '/custom-payment-flow/server/dotnet/'
     schedule:
-      interval: "weekly"
-  - package-ecosystem: "nuget"
-    directory: "/prebuilt-checkout-page/server/dotnet/"
+      interval: 'weekly'
+      day: 'thursday'
+  - package-ecosystem: 'nuget'
+    directory: '/prebuilt-checkout-page/server/dotnet/'
     schedule:
-      interval: "weekly"
+      interval: 'weekly'
+      day: 'thursday'
