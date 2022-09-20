@@ -68,7 +68,6 @@ RSpec.describe 'Custom payment flow', type: :system do
     click_on 'Bancontact'
 
     click_on 'Pay'
-    expect(page).to have_content(/Bancontact test payment page/i)
 
     click_on 'Authorize Test Payment'
     expect(page).to have_content('Payment succeeded')
@@ -86,7 +85,6 @@ RSpec.describe 'Custom payment flow', type: :system do
     end
 
     click_on 'Pay'
-    expect(page).to have_content(/eps test payment page/i)
 
     click_on 'Authorize Test Payment'
     expect(page).to have_content('Payment succeeded')
@@ -112,7 +110,6 @@ RSpec.describe 'Custom payment flow', type: :system do
     click_on 'giropay'
 
     click_on 'Pay'
-    expect(page).to have_content(/giropay test payment page/i)
 
     click_on 'Authorize Test Payment'
     expect(page).to have_content('Payment succeeded')
@@ -130,7 +127,6 @@ RSpec.describe 'Custom payment flow', type: :system do
     end
 
     click_on 'Pay'
-    expect(page).to have_content(/iDEAL test payment page/i)
 
     click_on 'Authorize Test Payment'
     expect(page).to have_content('Payment succeeded')
@@ -148,7 +144,6 @@ RSpec.describe 'Custom payment flow', type: :system do
     end
 
     click_on 'Pay'
-    expect(page).to have_content(/24 test payment page/i)
 
     click_on 'Authorize Test Payment'
     expect(page).to have_content('Payment succeeded')
@@ -158,7 +153,6 @@ RSpec.describe 'Custom payment flow', type: :system do
     click_on 'Sofort'
 
     click_on 'Pay'
-    expect(page).to have_content(/Sofort test payment page/i)
 
     click_on 'Authorize Test Payment'
     expect(page).to have_content('Payment processing')
@@ -168,7 +162,6 @@ RSpec.describe 'Custom payment flow', type: :system do
     click_on 'Afterpay / Clearpay'
 
     click_on 'Pay'
-    expect(page).to have_content(/Afterpay Clearpay test payment page/i)
 
     click_on 'Authorize Test Payment'
     expect(page).to have_content('Payment succeeded')
@@ -197,7 +190,6 @@ RSpec.describe 'Custom payment flow', type: :system do
     click_on 'Alipay'
 
     click_on 'Pay'
-    expect(page).to have_content(/Alipay test payment page/i)
 
     click_on 'Authorize Test Payment'
     expect(page).to have_content('Payment succeeded')
