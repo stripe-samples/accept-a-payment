@@ -13,7 +13,7 @@
     "@react-navigation/native": "^6.0.7",
     "@react-navigation/stack": "^5.14.5",
     "@stripe/stripe-react-native": "0.1.4",
-    "expo": "^42.0.0",
+    "expo": "^46.0.10",
     "expo-linking": "~2.3.1",
     "expo-status-bar": "~1.0.4",
     "react": "17.0.2",
@@ -22,7 +22,7 @@
     "react-native-config": "^1.4.2",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-screens": "~3.10.2",
-    "react-native-web": "~0.13.12"
+    "react-native-web": "~0.18.9"
   },
   "devDependencies": {
     "@babel/core": "~7.12.9",
