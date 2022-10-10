@@ -1,4 +1,4 @@
-name: CI for stripe-samples/accept-a-payment
+name: CI
 on:
   - push
 

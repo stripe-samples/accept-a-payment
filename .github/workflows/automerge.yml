@@ -1,5 +1,14 @@
 name: Dependabot auto-merge
-on: pull_request
+on:
+  workflow_run:
+    workflows: [CI]
+    types:
+      - completed
+    branches:
+      - 'dependabot/**'
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 permissions:
   contents: write
@@ -8,22 +17,16 @@ permissions:
 jobs:
   dependabot:
     runs-on: ubuntu-latest
-    if: ${{ github.actor == 'dependabot[bot]' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - name: Dependabot metadata
-        id: metadata
-        uses: dependabot/fetch-metadata@v1.1.1
+      - uses: actions/checkout@v1
+
+      - uses: jwalton/gh-find-current-pr@v1
+        id: findPr
         with:
-          github-token: '${{ secrets.GITHUB_TOKEN }}'
-      - name: Enable auto-merge for Stripe SDKs
-        if: |
-          (contains(steps.metadata.outputs.dependency-names, 'github.com/stripe/stripe-go/v72') ||
-           contains(steps.metadata.outputs.dependency-names, 'Stripe.net') ||
-           contains(steps.metadata.outputs.dependency-names, 'com.stripe:stripe-java') ||
-           contains(steps.metadata.outputs.dependency-names, 'stripe/stripe-php') ||
-           contains(steps.metadata.outputs.dependency-names, 'stripe')) && 
-           steps.metadata.outputs.update-type == 'version-update:semver-minor'
-        run: gh pr merge --auto --merge "$PR_URL"
-        env:
-          PR_URL: ${{github.event.pull_request.html_url}}
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          state: open
+          sha: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Enable auto-merge
+        if: success() && steps.findPr.outputs.number
+        run: gh pr merge --auto --merge "${{ steps.findPr.outputs.pr }}"
