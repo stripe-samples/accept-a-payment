@@ -1,6 +1,6 @@
-name: CI for stripe-samples/accept-a-payment
+name: CI
 on:
-  - push
+  push:
 
 env:
   STRIPE_PUBLISHABLE_KEY: ${{ secrets.TEST_STRIPE_PUBLISHABLE_KEY }}
@@ -350,3 +350,34 @@ jobs:
                      CODE_SIGNING_REQUIRED="NO" \
                      CODE_SIGN_ENTITLEMENTS="" \
                      CODE_SIGNING_ALLOWED="NO"
+
+  auto-merge-dependabot-prs:
+    if: ${{ github.actor == 'dependabot[bot]' }}
+    needs:
+      - server_test
+      - e2e_test
+      - snapshot_test
+      - android_build
+      - ios_build
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v1.1.1
+        with:
+          github-token: '${{ secrets.GITHUB_TOKEN }}'
+      - name: Enable auto-merge for Stripe SDKs
+        if: |
+          (contains(steps.metadata.outputs.dependency-names, 'github.com/stripe/stripe-go/v72') ||
+           contains(steps.metadata.outputs.dependency-names, 'Stripe.net') ||
+           contains(steps.metadata.outputs.dependency-names, 'com.stripe:stripe-java') ||
+           contains(steps.metadata.outputs.dependency-names, 'stripe/stripe-php') ||
+           contains(steps.metadata.outputs.dependency-names, 'stripe')) &&
+           steps.metadata.outputs.update-type == 'version-update:semver-minor'
+        run: gh pr merge --auto --merge "$PR_URL"
+        env:
+          PR_URL: ${{github.event.pull_request.html_url}}
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
