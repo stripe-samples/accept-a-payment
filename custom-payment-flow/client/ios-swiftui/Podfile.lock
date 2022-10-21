@@ -1,24 +1,44 @@
 PODS:
-  - Stripe (21.5.1):
-    - Stripe/Stripe3DS2 (= 21.5.1)
-  - Stripe/Stripe3DS2 (21.5.1)
+  - Stripe (22.8.4):
+    - Stripe/Stripe3DS2 (= 22.8.4)
+    - StripeApplePay (= 22.8.4)
+    - StripeCore (= 22.8.4)
+    - StripeUICore (= 22.8.4)
+  - Stripe/Stripe3DS2 (22.8.4):
+    - StripeApplePay (= 22.8.4)
+    - StripeCore (= 22.8.4)
+    - StripeUICore (= 22.8.4)
+  - StripeApplePay (22.8.4):
+    - StripeCore (= 22.8.4)
+  - StripeCore (22.8.4)
+  - StripeUICore (22.8.4):
+    - StripeCore (= 22.8.4)
 
 DEPENDENCIES:
-  - Stripe (from `https://github.com/thorsten-stripe/stripe-ios.git`, branch `davidme/pm-wechatpay-progress`)
+  - Stripe (from `https://github.com/stripe/stripe-ios.git`, branch `master`)
+
+SPEC REPOS:
+  trunk:
+    - StripeApplePay
+    - StripeCore
+    - StripeUICore
 
 EXTERNAL SOURCES:
   Stripe:
-    :branch: davidme/pm-wechatpay-progress
-    :git: https://github.com/thorsten-stripe/stripe-ios.git
+    :branch: master
+    :git: https://github.com/stripe/stripe-ios.git
 
 CHECKOUT OPTIONS:
   Stripe:
-    :commit: 30dd509f78c1de03979058dd36d65a2e94ec2204
-    :git: https://github.com/thorsten-stripe/stripe-ios.git
+    :commit: e242f59ce90914e93c8308e0c3ceba7368575b77
+    :git: https://github.com/stripe/stripe-ios.git
 
 SPEC CHECKSUMS:
-  Stripe: 515db5536fd659b5d79a0898ce1b882b61ab597e
+  Stripe: 59f6659e8ea413def19c97c57e23f5ec6ea48cf8
+  StripeApplePay: 6e9aebd3d248464836e9fbdaef6e5fb1817d56a6
+  StripeCore: 193f27552fb98108ebfe0df11651fe5f38948305
+  StripeUICore: 6a5bbea0164d63bd91000f001903e7901859e1a4
 
-PODFILE CHECKSUM: 9ccb38f6896835d766125f7cc46c29bdd99285a7
+PODFILE CHECKSUM: 0f4fddcd7238f926520e47c52c7791b5051c36f8
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.3

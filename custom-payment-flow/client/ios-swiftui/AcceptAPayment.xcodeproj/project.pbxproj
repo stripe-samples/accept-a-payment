@@ -22,7 +22,6 @@
 		2D2FB5762689C69600D349B3 /* ApplePayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D2FB5752689C69600D349B3 /* ApplePayModel.swift */; };
 		2D4F230525C83C13001F1EFF /* PaymentMethodList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4F230425C83C13001F1EFF /* PaymentMethodList.swift */; };
 		2D4F233925DFAB5C001F1EFF /* BackendModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D4F233825DFAB5C001F1EFF /* BackendModel.swift */; };
-		2DF025D5268440D90058941A /* WeChatPay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DF025D4268440D90058941A /* WeChatPay.swift */; };
 		90E6C88D79DED1807A2922E2 /* Pods_AcceptAPayment.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B4A1920BC6C5413F3F42489 /* Pods_AcceptAPayment.framework */; };
 /* End PBXBuildFile section */
 
@@ -45,7 +44,6 @@
 		2D2FB5752689C69600D349B3 /* ApplePayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplePayModel.swift; sourceTree = "<group>"; };
 		2D4F230425C83C13001F1EFF /* PaymentMethodList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodList.swift; sourceTree = "<group>"; };
 		2D4F233825DFAB5C001F1EFF /* BackendModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackendModel.swift; sourceTree = "<group>"; };
-		2DF025D4268440D90058941A /* WeChatPay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeChatPay.swift; sourceTree = "<group>"; };
 		6B4A1920BC6C5413F3F42489 /* Pods_AcceptAPayment.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AcceptAPayment.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		941D142755BF6CA19A7BEC6F /* Pods-AcceptAPayment.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AcceptAPayment.debug.xcconfig"; path = "Target Support Files/Pods-AcceptAPayment/Pods-AcceptAPayment.debug.xcconfig"; sourceTree = "<group>"; };
 		F96C1F8E08C2DF9127C2A81B /* Pods-AcceptAPayment.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AcceptAPayment.release.xcconfig"; path = "Target Support Files/Pods-AcceptAPayment/Pods-AcceptAPayment.release.xcconfig"; sourceTree = "<group>"; };
@@ -118,7 +116,6 @@
 			children = (
 				2D14305125C80152002B1294 /* Alipay.swift */,
 				2D14305625C801DE002B1294 /* Card.swift */,
-				2DF025D4268440D90058941A /* WeChatPay.swift */,
 				2D2FB56F26859CF600D349B3 /* ApplePay.swift */,
 			);
 			path = Views;
@@ -282,7 +279,6 @@
 				2D2FB5742689C63000D349B3 /* PaymentButton.swift in Sources */,
 				2D14305225C80152002B1294 /* Alipay.swift in Sources */,
 				2D14302625C7FEFF002B1294 /* ContentView.swift in Sources */,
-				2DF025D5268440D90058941A /* WeChatPay.swift in Sources */,
 				2D4F233925DFAB5C001F1EFF /* BackendModel.swift in Sources */,
 				2D14302425C7FEFF002B1294 /* AcceptAPaymentApp.swift in Sources */,
 				2D4F230525C83C13001F1EFF /* PaymentMethodList.swift in Sources */,
