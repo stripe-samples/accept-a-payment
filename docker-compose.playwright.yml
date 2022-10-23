@@ -1,0 +1,8 @@
+services:
+  playwright:
+    image: mcr.microsoft.com/playwright:v1.27.0-focal
+    command: ['tail', '-f', '/dev/null']
+    working_dir: /work/playwright
+    env_file: .env
+    volumes:
+      - work:/work
