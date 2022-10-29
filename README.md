@@ -86,9 +86,9 @@ If you have questions, comments, or need help with code, we're here to help:
 Sign up to [stay updated with developer news](https://go.stripe.global/dev-digest).
 
 
-### E2E testing
+### Testing
 
-[Readme](./spec/README.md)
+See [TESTING.md](./TESTING.md).
 
 ## Authors
 
