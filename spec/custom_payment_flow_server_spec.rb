@@ -51,7 +51,7 @@ RSpec.describe "custom-payment-flow integration" do
       expect(status).to eq(400)
       expect(resp).to have_key('error')
       expect(resp['error']).to have_key('message')
-      expect(resp['error']['message']).to include('The currency provided (usd) is invalid. Payments with au_becs_debit support the following currencies: aud.')
+      expect(resp['error']['message']).to match(/This payment method is available to Stripe accounts in AU/i)
     end
   end
 end
