@@ -1,0 +1,14 @@
+{
+  "name": "accept-a-payment-playwright-testing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "author": "hibariya",
+  "license": "MIT",
+  "dependencies": {
+    "@playwright/test": "^1.27.1"
+  }
+}
