@@ -87,7 +87,7 @@ jobs:
         run: |
           prefix="${{ matrix.target.sample }}/server/${{ matrix.runtime.server_type }}"
 
-          if [ "${{ github.ref }}" = "ref/heads/main" ] || \
+          if [ "${{ github.ref }}" = "refs/heads/main" ] || \
             [ $(echo "${{ needs.changed_files.outputs.files }}" | grep -E "^${prefix}") ]
           then echo '::set-output name=running::true'
           fi
@@ -168,7 +168,7 @@ jobs:
         run: |
           prefix="${{ matrix.target.sample }}/client/${{ matrix.implementation.client_type }}"
 
-          if [ "${{ github.ref }}" = "ref/heads/main" ] || \
+          if [ "${{ github.ref }}" = "refs/heads/main" ] || \
             [ $(echo "${{ needs.changed_files.outputs.files }}" | grep -E "^${prefix}") ]
           then echo '::set-output name=running::true'
           fi
@@ -245,7 +245,7 @@ jobs:
         run: |
           prefix="${{ matrix.target.sample }}/client/${{ matrix.implementation.client_type }}"
 
-          if [ "${{ github.ref }}" = "ref/heads/main" ] || \
+          if [ "${{ github.ref }}" = "refs/heads/main" ] || \
             [ $(echo "${{ needs.changed_files.outputs.files }}" | grep -E "^${prefix}") ]
           then echo '::set-output name=running::true'
           fi
@@ -308,7 +308,7 @@ jobs:
         run: |
           prefix="custom-payment-flow/client/android-kotlin"
 
-          if [ "${{ github.ref }}" = "ref/heads/main" ] && \
+          if [ "${{ github.ref }}" = "refs/heads/main" ] && \
             [ $(echo "${{ needs.changed_files.outputs.files }}" | grep -E "^${prefix}") ]
           then echo '::set-output name=running::true'
           fi
@@ -330,7 +330,7 @@ jobs:
         run: |
           prefix="custom-payment-flow/client/ios-swiftui"
 
-          if [ "${{ github.ref }}" = "ref/heads/main" ] && \
+          if [ "${{ github.ref }}" = "refs/heads/main" ] && \
             [ $(echo "${{ needs.changed_files.outputs.files }}" | grep -E "^${prefix}") ]
           then echo '::set-output name=running::true'
           fi
