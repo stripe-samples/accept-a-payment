@@ -49,7 +49,7 @@ RSpec.describe 'Custom payment flow', type: :system do
 
     click_on 'Pay'
     expect(page).to have_no_content('succeeded')
-    expect(page).to have_content('we currently require your account to have a bank account in one of the following currencies: aud')
+    expect(page).to have_content(/This payment method is available to Stripe accounts in AU/i)
   end
 
   example 'SEPA Direct Debit: happy path' do
