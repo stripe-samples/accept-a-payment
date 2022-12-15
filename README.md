@@ -96,3 +96,11 @@ See [TESTING.md](./TESTING.md).
 - [@thorwebdev](https://twitter.com/thorwebdev)
 - [@aliriaz](https://github.com/aliriaz-stripe)
 - [@charlesw](https://twitter.com/charlesw_dev)
+
+## Contributors
+
+<a href="https://github.com/stripe-samples/accept-a-payment/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=stripe-samples/accept-a-payment" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
