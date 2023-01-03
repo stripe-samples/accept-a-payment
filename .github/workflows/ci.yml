@@ -31,14 +31,9 @@ jobs:
       - name: 'Collect changed files'
         id: diff
         run: |
-          files=$(git diff --name-only --merge-base origin/main)
-
-          # NOTE: Use %-encoding to save the multiline string
-          files="${files//'%'/'%25'}"
-          files="${files//$'\n'/'%0A'}"
-          files="${files//$'\r'/'%0D'}"
-
-          echo "::set-output name=files::$files"
+          echo 'files<<EOF' >> $GITHUB_OUTPUT
+          git diff --name-only --merge-base origin/main >> $GITHUB_OUTPUT
+          echo 'EOF' >> $GITHUB_OUTPUT
 
   server_test:
     needs: changed_files
@@ -96,7 +91,7 @@ jobs:
 
           if [ "${{ github.ref }}" = "refs/heads/main" ] || \
             [ $(echo "${{ needs.changed_files.outputs.files }}" | grep -E "^${prefix}") ]
-          then echo '::set-output name=running::true'
+          then echo 'running=true' >> $GITHUB_OUTPUT
           fi
 
       - uses: actions/checkout@v3
@@ -177,7 +172,7 @@ jobs:
 
           if [ "${{ github.ref }}" = "refs/heads/main" ] || \
             [ $(echo "${{ needs.changed_files.outputs.files }}" | grep -E "^${prefix}") ]
-          then echo '::set-output name=running::true'
+          then echo 'running=true' >> $GITHUB_OUTPUT
           fi
 
       - uses: actions/checkout@v3
@@ -254,7 +249,7 @@ jobs:
 
           if [ "${{ github.ref }}" = "refs/heads/main" ] || \
             [ $(echo "${{ needs.changed_files.outputs.files }}" | grep -E "^${prefix}") ]
-          then echo '::set-output name=running::true'
+          then echo 'running=true' >> $GITHUB_OUTPUT
           fi
 
       - uses: actions/checkout@v3
@@ -317,7 +312,7 @@ jobs:
 
           if [ "${{ github.ref }}" = "refs/heads/main" ] && \
             [ $(echo "${{ needs.changed_files.outputs.files }}" | grep -E "^${prefix}") ]
-          then echo '::set-output name=running::true'
+          then echo 'running=true' >> $GITHUB_OUTPUT
           fi
 
       - uses: actions/checkout@v3
@@ -339,7 +334,7 @@ jobs:
 
           if [ "${{ github.ref }}" = "refs/heads/main" ] && \
             [ $(echo "${{ needs.changed_files.outputs.files }}" | grep -E "^${prefix}") ]
-          then echo '::set-output name=running::true'
+          then echo 'running=true' >> $GITHUB_OUTPUT
           fi
 
       - uses: actions/checkout@v3
