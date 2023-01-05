@@ -47,6 +47,10 @@ updates:
     schedule:
       interval: 'weekly'
       day: 'thursday'
+    ignore:
+      # ignore all patch updates except security updates
+      - dependency-name: "*"
+        update-types: ["version-update:semver-patch"]
   - package-ecosystem: 'npm'
     directory: '/custom-payment-flow/server/node-typescript/'
     schedule:
