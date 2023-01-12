@@ -377,8 +377,7 @@ jobs:
            contains(steps.metadata.outputs.dependency-names, 'Stripe.net') ||
            contains(steps.metadata.outputs.dependency-names, 'com.stripe:stripe-java') ||
            contains(steps.metadata.outputs.dependency-names, 'stripe/stripe-php') ||
-           contains(steps.metadata.outputs.dependency-names, 'stripe')) &&
-           steps.metadata.outputs.update-type == 'version-update:semver-minor'
+           contains(steps.metadata.outputs.dependency-names, 'stripe'))
         run: gh pr merge --auto --merge "$PR_URL"
         env:
           PR_URL: ${{github.event.pull_request.html_url}}
