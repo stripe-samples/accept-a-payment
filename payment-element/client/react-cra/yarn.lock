@@ -2171,10 +2171,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@stripe/react-stripe-js@^1.16.0":
-  version "1.16.0"
-  resolved "https://registry.yarnpkg.com/@stripe/react-stripe-js/-/react-stripe-js-1.16.0.tgz#eb9e6cec5e9fd45f9d016c7ae66c40c0e8fa5757"
-  integrity sha512-HCgaZjo2tGn7ZxMul6NAiBNYgPBIX5Bxx0lsE8DxFakp1v/JA0KZezs0HXj37Ua0clK1Ip4kVCBG0TIJsqf/Aw==
+"@stripe/react-stripe-js@^1.16.3":
+  version "1.16.3"
+  resolved "https://registry.yarnpkg.com/@stripe/react-stripe-js/-/react-stripe-js-1.16.3.tgz#25bbc2f2ef1fdaf01298e0ca4a9a9bd85a7d635a"
+  integrity sha512-gS6UDGEuM92K50pFB3o//EqqPxmaqpC8IrsBda4P4LxeULoO0pBFSHXJ5Ab6uA7G2lyO2bluvSLereh0OH9GrQ==
   dependencies:
     prop-types "^15.7.2"
 
