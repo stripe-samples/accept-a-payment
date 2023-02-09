@@ -16,7 +16,7 @@
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "path": "^0.12.7",
-    "stripe": "^11.8.0"
+    "stripe": "^11.9.1"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",
