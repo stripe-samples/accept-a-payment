@@ -5,7 +5,8 @@ require 'capybara-screenshot/rspec'
 Capybara.server_host = Socket.ip_address_list.detect(&:ipv4_private?).ip_address
 
 Capybara.register_driver :chrome do |app|
-  opts = {browser: :chrome, url: ENV.fetch('SELENIUM_URL', 'http://selenium:4444/wd/hub')}
+  browser_options = Selenium::WebDriver::Chrome::Options.new
+  opts = {browser: :remote, options: browser_options, url: ENV.fetch('SELENIUM_URL', 'http://selenium:4444/wd/hub')}
   Capybara::Selenium::Driver.new(app, **opts)
 end
 
