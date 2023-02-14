@@ -38,6 +38,7 @@ This repository includes examples of 3 types of integration.
 |GrabPay| ✅ | ✅ | ✅ |
 |iDEAL| ✅ | ✅ | ✅ |
 |Klarna| ✅ | ✅ | ✅ |
+|Link| ✅ | ✅ |  |
 |Multibanco| ✅ | ✅ |  |
 |OXXO| ✅ | ✅ | ✅ |
 |Przelewy24 (P24)| ✅ | ✅ | ✅ |
