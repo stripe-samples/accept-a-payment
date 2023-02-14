@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.12",
-    "postcss-cli": "^10.0.0"
+    "postcss-cli": "^10.1.0"
   },
   "proxy": "http://localhost:4242"
 }
