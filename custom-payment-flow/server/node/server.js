@@ -47,9 +47,11 @@ app.post('/create-payment-intent', async (req, res) => {
   // Each payment method type has support for different currencies. In order to
   // support many payment method types and several currencies, this server
   // endpoint accepts both the payment method type and the currency as
-  // parameters.
+  // parameters. To get compatible payment method types, pass 
+  // `automatic_payment_methods[enabled]=true` and enable types in your dashboard 
+  // at https://dashboard.stripe.com/settings/payment_methods.
   //
-  // Some example payment method types include `card`, `ideal`, and `alipay`.
+  // Some example payment method types include `card`, `ideal`, and `link`.
   const params = {
     payment_method_types: [paymentMethodType],
     amount: 5999,

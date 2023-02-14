@@ -39,12 +39,6 @@ end
 
 # Creates a Checkout Session then redirects to its `url`.
 post '/create-checkout-session' do
-  # The list of payment method types to allow your customers to pay.  This is
-  # an array of strings. For this sample, the list of supported payment method
-  # types are fetched from the environment variables `.env` file by default.
-  # In practice, users often hard code a list of strings.
-  pm_types = ENV.fetch('PAYMENT_METHOD_TYPES', 'card').split(',').map(&:strip)
-
   # Create new Checkout Session
   #
   # Other optional params include:

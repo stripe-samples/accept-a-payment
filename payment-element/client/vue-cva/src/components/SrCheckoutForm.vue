@@ -24,8 +24,9 @@ onMounted(async () => {
   elements = stripe.elements({clientSecret});
   const paymentElement = elements.create('payment');
   paymentElement.mount("#payment-element");
+  const linkAuthenticationElement = elements.create("linkAuthentication");
+  linkAuthenticationElement.mount("#link-authentication-element");
   isLoading.value = false;
-
 });
 
 const handleSubmit = async () => {
@@ -67,6 +68,7 @@ const handleSubmit = async () => {
       id="payment-form"
       @submit.prevent="handleSubmit"
     >
+      <div id="link-authentication-element" />
       <div id="payment-element" />
       <button
         id="submit"
