@@ -40,9 +40,11 @@ post '/create-payment-intent' do
   # Each payment method type has support for different currencies. In order to
   # support many payment method types and several currencies, this server
   # endpoint accepts both the payment method type and the currency as
-  # parameters.
-  #
-  # Some example payment method types include `card`, `ideal`, and `alipay`.
+  # parameters. To get compatible payment method types, pass
+  # `automatic_payment_methods[enabled]=true` and enable types in your dashboard
+  # at https://dashboard.stripe.com/settings/payment_methods.
+
+  # Some example payment method types include `card`, `ideal`, and `link`.
   payment_method_type = data['paymentMethodType']
   currency = data['currency']
   params = {
@@ -58,9 +60,9 @@ post '/create-payment-intent' do
       acss_debit: {
         mandate_options: {
           payment_schedule: 'sporadic',
-          transaction_type: 'personal',
-        },
-      },
+          transaction_type: 'personal'
+        }
+      }
     }
   end
 
@@ -73,19 +75,19 @@ post '/create-payment-intent' do
     payment_intent = Stripe::PaymentIntent.create(params)
   rescue Stripe::StripeError => e
     halt 400,
-      { 'Content-Type' => 'application/json' },
-      { error: { message: e.error.message }}.to_json
-  rescue => e
+         { 'Content-Type' => 'application/json' },
+         { error: { message: e.error.message } }.to_json
+  rescue StandardError => e
     halt 500,
-      { 'Content-Type' => 'application/json' },
-      { error: { message: e.error.message }}.to_json
+         { 'Content-Type' => 'application/json' },
+         { error: { message: e.error.message } }.to_json
   end
 
   # This API endpoint renders back JSON with the client_secret for the payment
   # intent so that the payment can be confirmed on the front end. Once payment
   # is successful, fulfillment is done in the /webhook handler below.
   {
-    clientSecret: payment_intent.client_secret,
+    clientSecret: payment_intent.client_secret
   }.to_json
 end
 
