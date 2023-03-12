@@ -21,7 +21,7 @@ env:
     thorsten-stripe
 
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ci-${{ github.event.pull_request.head.ref || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -111,7 +111,7 @@ jobs:
         run: |
           prefix="${{ matrix.target.sample }}/server/${{ matrix.runtime.server_type }}"
 
-          if [[ "${{ github.ref }}" = "refs/heads/main" ]] || \
+          if [[ "${{ github.event.pull_request.head.ref || github.ref }}" = "refs/heads/main" ]] || \
             [[ $(echo "${{ needs.changed_files.outputs.files }}" | grep -E "^${prefix}") ]]
           then echo 'running=true' >> $GITHUB_OUTPUT
           fi
@@ -194,7 +194,7 @@ jobs:
         run: |
           prefix="${{ matrix.target.sample }}/client/${{ matrix.implementation.client_type }}"
 
-          if [[ "${{ github.ref }}" = "refs/heads/main" ]] || \
+          if [[ "${{ github.event.pull_request.head.ref || github.ref }}" = "refs/heads/main" ]] || \
             [[ $(echo "${{ needs.changed_files.outputs.files }}" | grep -E "^${prefix}") ]]
           then echo 'running=true' >> $GITHUB_OUTPUT
           fi
@@ -273,7 +273,7 @@ jobs:
         run: |
           prefix="${{ matrix.target.sample }}/client/${{ matrix.implementation.client_type }}"
 
-          if [[ "${{ github.ref }}" = "refs/heads/main" ]] || \
+          if [[ "${{ github.event.pull_request.head.ref || github.ref }}" = "refs/heads/main" ]] || \
             [[ $(echo "${{ needs.changed_files.outputs.files }}" | grep -E "^${prefix}") ]]
           then echo 'running=true' >> $GITHUB_OUTPUT
           fi
@@ -338,7 +338,7 @@ jobs:
         run: |
           prefix="custom-payment-flow/client/android-kotlin"
 
-          if [[ "${{ github.ref }}" = "refs/heads/main" ]] || \
+          if [[ "${{ github.event.pull_request.head.ref || github.ref }}" = "refs/heads/main" ]] || \
             [[ $(echo "${{ needs.changed_files.outputs.files }}" | grep -E "^${prefix}") ]]
           then echo 'running=true' >> $GITHUB_OUTPUT
           fi
@@ -362,7 +362,7 @@ jobs:
         run: |
           prefix="custom-payment-flow/client/ios-swiftui"
 
-          if [[ "${{ github.ref }}" = "refs/heads/main" ]] || \
+          if [[ "${{ github.event.pull_request.head.ref || github.ref }}" = "refs/heads/main" ]] || \
             [[ $(echo "${{ needs.changed_files.outputs.files }}" | grep -E "^${prefix}") ]]
           then echo 'running=true' >> $GITHUB_OUTPUT
           fi
