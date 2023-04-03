@@ -51,7 +51,9 @@ app.post('/create-payment-intent', async (req, res) => {
   //
   // Some example payment method types include `card`, `ideal`, and `alipay`.
   const params = {
-    payment_method_types: [paymentMethodType],
+    payment_method_types: paymentMethodType
+      ? [paymentMethodType]
+      : ['link', 'card'],
     amount: 5999,
     currency: currency,
   }
@@ -112,6 +114,22 @@ app.post('/create-payment-intent', async (req, res) => {
       },
     });
   }
+});
+
+app.get('/payment/next', async (req, res) => {
+  const intent = await stripe.paymentIntents.retrieve(
+    req.query.payment_intent,
+    {
+      expand: ['payment_method'],
+    }
+  );
+
+  res.redirect(`/success?payment_intent_client_secret=${intent.client_secret}`);
+});
+
+app.get('/success', async (req, res) => {
+  const path = resolve(process.env.STATIC_DIR + '/success.html');
+  res.sendFile(path);
 });
 
 // Expose a endpoint as a webhook handler for asynchronous events.
