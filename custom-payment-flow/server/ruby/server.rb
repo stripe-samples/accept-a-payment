@@ -89,6 +89,18 @@ post '/create-payment-intent' do
   }.to_json
 end
 
+get '/payment/next' do
+  content_type 'application/json'
+  payment_intent = params[:payment_intent]
+  intent = Stripe::PaymentIntent.retrieve(payment_intent)
+  redirect "/success?payment_intent_client_secret=#{intent.client_secret}"
+end
+
+get '/success' do
+  content_type 'text/html'
+  send_file File.join(settings.public_folder, 'success.html')
+end
+
 post '/webhook' do
   # Use webhooks to receive information about asynchronous payment events.
   # For more about our webhook events check out https://stripe.com/docs/webhooks.
