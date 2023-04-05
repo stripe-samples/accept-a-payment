@@ -42,11 +42,12 @@ app.MapGet("/config", (IOptions<StripeOptions> options) => new { options.Value.P
 
 app.MapPost("/create-payment-intent", async (CreatePaymentIntentRequest req) =>
 {
+    var formattedPaymentMethodType = req.PaymentMethodType == "link" ? new List<string> { "link", "card" } : new List<string> { req.PaymentMethodType };
     var options = new PaymentIntentCreateOptions
     {
         Amount = 5999,
         Currency = req.Currency,
-        PaymentMethodTypes = new List<string> { req.PaymentMethodType }
+        PaymentMethodTypes = formattedPaymentMethodType
     };
 
     // If this is for an ACSS payment, we add payment_method_options to create
@@ -82,6 +83,17 @@ app.MapPost("/create-payment-intent", async (CreatePaymentIntentRequest req) =>
         return Results.BadRequest(new { error = new { message = e.StripeError.Message } });
     }
 });
+
+app.MapGet("/payment/next", (HttpRequest request, HttpResponse response) => 
+{
+    var paymentIntent = request.Query["payment_intent"];
+    var service = new PaymentIntentService();
+    var intent = service.Get(paymentIntent);
+    
+    response.Redirect("/success?payment_intent_client_secret={intent.ClientSecret}");
+});
+
+app.MapGet("/success", () => Results.Redirect("success.html"));
 
 app.MapPost("/webhook", async (HttpRequest request, IOptions<StripeOptions> options) =>
 {
