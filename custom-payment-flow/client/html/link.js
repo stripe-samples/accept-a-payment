@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     },
     body: JSON.stringify({
       currency: 'usd',
-      paymentMethodType: ['link', 'card'],
+      paymentMethodType: 'link',
     }),
   }).then((r) => r.json());
 

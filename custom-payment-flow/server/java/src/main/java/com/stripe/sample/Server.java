@@ -102,6 +102,10 @@ public class Server {
               .setCurrency(postBody.getCurrency())
               .setAmount(5999L);
 
+             if(postBody.getPaymentMethodType().equals("link")){
+                paramsBuilder.addPaymentMethodType("card");
+             }
+
             // If this is for an ACSS payment, we add payment_method_options to create
             // the Mandate.
             System.out.println(postBody.getPaymentMethodType());
@@ -140,6 +144,17 @@ public class Server {
               response.status(500);
               return gson.toJson(e);
             }
+        });
+
+        get("/payment/next", (request, response) -> {
+            PaymentIntent intent =PaymentIntent.retrieve(request.queryParams("payment_intent"));
+            response.redirect("/success?payment_intent_client_secret=" + intent.getClientSecret());
+            return "";
+        });
+
+        get("/success", (request, response) -> {
+            response.redirect("/success.html");
+            return "";
         });
 
         post("/webhook", (request, response) -> {

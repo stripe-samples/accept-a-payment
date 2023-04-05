@@ -48,8 +48,9 @@ def create_payment():
     # See the documentation [0] for the full list of supported parameters.
     #
     # [0] https://stripe.com/docs/api/payment_intents/create
+    formatted_payment_method_type = ['link', 'card'] if payment_method_type == 'link' else [payment_method_type]
     params = {
-        'payment_method_types': payment_method_type if type(payment_method_type) is list else [payment_method_type],
+        'payment_method_types': formatted_payment_method_type,
         'amount': 5999,
         'currency': currency
     }
