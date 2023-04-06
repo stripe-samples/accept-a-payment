@@ -41,7 +41,6 @@ app = Flask(__name__, static_folder=static_dir,
 def get_example():
     return render_template('index.html')
 
-
 # Fetch the Checkout Session to display the JSON result on the success page
 @app.route('/checkout-session', methods=['GET'])
 def get_checkout_session():
