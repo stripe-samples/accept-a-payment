@@ -38,6 +38,7 @@ This repository includes examples of 3 types of integration.
 |GrabPay| ✅ | ✅ | ✅ |
 |iDEAL| ✅ | ✅ | ✅ |
 |Klarna| ✅ | ✅ | ✅ |
+|Link| ✅ | ✅ |  |
 |Multibanco| ✅ | ✅ |  |
 |OXXO| ✅ | ✅ | ✅ |
 |Przelewy24 (P24)| ✅ | ✅ | ✅ |
@@ -96,3 +97,11 @@ See [TESTING.md](./TESTING.md).
 - [@thorwebdev](https://twitter.com/thorwebdev)
 - [@aliriaz](https://github.com/aliriaz-stripe)
 - [@charlesw](https://twitter.com/charlesw_dev)
+
+## Contributors
+
+<a href="https://github.com/stripe-samples/accept-a-payment/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=stripe-samples/accept-a-payment" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).

@@ -14,6 +14,10 @@ RSpec.describe 'Payment elements', type: :system do
       fill_in 'postalCode', with: '10000'
     end
 
+    within_frame first('form iframe[title*="Secure email input frame"]') do
+      fill_in 'email', with: "test#{SecureRandom.hex(4)}@example.com"
+    end
+
     click_on 'Pay now'
 
     expect(page).to have_no_content('Pay now')

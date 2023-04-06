@@ -191,7 +191,7 @@ class ConfigHelper
       DOC
     end
 
-    if !File.exists?(File.join(static_dir_path, 'index.html'))
+    if !File.exist?(File.join(static_dir_path, 'index.html'))
       if static_dir == ''
         puts <<~DOC
           No value set for STATIC_DIR. If this sample was installed with the
@@ -310,7 +310,7 @@ class ConfigHelper
 
   def dotenv_exists?
     puts "Checking that `.env` exists..."
-    return if File.exists?("./.env")
+    return if File.exist?("./.env")
 
     env_file_path = File.join(File.dirname(__FILE__), '.env')
     if !ENV['STRIPE_SECRET_KEY'] && !File.exist?("./.env")

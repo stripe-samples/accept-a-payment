@@ -9,6 +9,6 @@ require (
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	golang.org/x/text v0.3.2 // indirect
+	golang.org/x/text v0.3.8 // indirect
 	gopkg.in/yaml.v2 v2.2.8 // indirect
 )

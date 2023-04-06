@@ -1,5 +1,6 @@
 import {
-  PaymentElement
+  PaymentElement,
+  LinkAuthenticationElement
 } from '@stripe/react-stripe-js'
 import {useState} from 'react'
 import {useStripe, useElements} from '@stripe/react-stripe-js';
@@ -45,6 +46,15 @@ export default function CheckoutForm() {
 
   return (
     <form id="payment-form" onSubmit={handleSubmit}>
+      <LinkAuthenticationElement id="link-authentication-element"
+        // Access the email value like so:
+        // onChange={(event) => {
+        //  setEmail(event.value.email);
+        // }}
+        //
+        // Prefill the email field like so:
+        // options={{defaultValues: {email: 'foo@bar.com'}}}
+        />
       <PaymentElement id="payment-element" />
       <button disabled={isLoading || !stripe || !elements} id="submit">
         <span id="button-text">
