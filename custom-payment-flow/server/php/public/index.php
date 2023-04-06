@@ -19,6 +19,13 @@
         </li>
       </ul>
 
+      <h3>Link</h3>
+      <ul>
+        <li>
+          <a href="/link.php">Link</a>
+        </li>
+      </ul>
+
       <h3>Bank debits</h3>
       <ul>
         <li>ACH Direct Debit</li>
