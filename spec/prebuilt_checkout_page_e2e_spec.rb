@@ -16,6 +16,9 @@ RSpec.describe 'Custom payment flow', type: :system do
     select 'United States', from: 'billingCountry'
     fill_in 'billingPostalCode', with: '10000'
 
+    # in case it checked by default
+    uncheck 'enableStripePass', allow_label_click: true
+
     click_on 'Pay'
 
     expect(page).to have_content 'Your payment succeeded'
