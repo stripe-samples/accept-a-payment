@@ -104,6 +104,7 @@ public class Server {
 
              if(postBody.getPaymentMethodType().equals("link")){
                 paramsBuilder.addPaymentMethodType("card");
+                paramsBuilder.addPaymentMethodType("link");
              }
 
             // If this is for an ACSS payment, we add payment_method_options to create

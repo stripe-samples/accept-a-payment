@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', async () => {
   // Load the publishable key from the server. The publishable key
   // is set in your .env file.
-  const {publishableKey} = await fetch('/config').then((r) => r.json());
+  const { publishableKey } = await fetch('/config').then((r) => r.json());
   if (!publishableKey) {
     addMessage(
       'No publishable key returned from the server. Please check `.env` and try again'
@@ -10,10 +10,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   const stripe = Stripe(publishableKey, {
-    apiVersion: '2020-08-27',
+    apiVersion: '2022-11-15',
   });
 
-  const {clientSecret} = await fetch('/create-payment-intent', {
+  const { clientSecret } = await fetch('/create-payment-intent', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const loader = 'auto';
 
   // Create an elements group from the Stripe instance passing in the clientSecret and enabling the loader UI.
-  const elements = stripe.elements({clientSecret, loader});
+  const elements = stripe.elements({ clientSecret, loader });
 
   const linkAuthenticationElement = elements.create('linkAuthentication');
 
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     submitted = true;
     form.querySelector('button').disabled = true;
 
-    const {error} = await stripe.confirmPayment({
+    const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
         return_url: 'http://localhost:4242/payment/next',
