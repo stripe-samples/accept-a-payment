@@ -3,7 +3,7 @@ import stripe
 import json
 import os
 
-from flask import Flask, render_template, jsonify, request, send_from_directory
+from flask import Flask, render_template, jsonify, request, send_from_directory, redirect
 from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
@@ -50,8 +50,9 @@ def create_payment():
     # See the documentation [0] for the full list of supported parameters.
     #
     # [0] https://stripe.com/docs/api/payment_intents/create
+    formatted_payment_method_type = ['link', 'card'] if payment_method_type == 'link' else [payment_method_type]
     params = {
-        'payment_method_types': [payment_method_type],
+        'payment_method_types': formatted_payment_method_type,
         'amount': 5999,
         'currency': currency
     }
@@ -80,6 +81,15 @@ def create_payment():
     except Exception as e:
         return jsonify({'error': {'message': str(e)}}), 400
 
+@app.route('/payment/next', methods=['GET'])
+def get_payment_next():
+    payment_intent = request.args.get("payment_intent")
+    intent = stripe.PaymentIntent.retrieve(payment_intent)
+    return redirect('/success?payment_intent_client_secret={intent.client_secret}')
+
+@app.route('/success', methods=['GET'])
+def get_success():    
+    return render_template('success.html')
 
 @app.route('/webhook', methods=['POST'])
 def webhook_received():

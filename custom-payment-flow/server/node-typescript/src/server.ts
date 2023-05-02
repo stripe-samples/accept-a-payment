@@ -68,7 +68,7 @@ app.post(
       // at https://dashboard.stripe.com/settings/payment_methods.
       //
       // Some example payment method types include `card`, `ideal`, and `link`.
-      payment_method_types: [paymentMethodType],
+      payment_method_types: paymentMethodType === 'link' ? ['link', 'card'] : [paymentMethodType],
     };
 
     // If this is for an ACSS payment, we add payment_method_options to create
@@ -116,6 +116,23 @@ app.post(
     }
   }
 );
+
+app.get('/payment/next', async (req, res) => {
+  const paymentIntent : any = req.query.payment_intent; 
+  const intent  = await stripe.paymentIntents.retrieve(
+    paymentIntent,
+    {
+      expand: ['payment_method'],
+    }
+  );
+  
+  res.redirect(`/success?payment_intent_client_secret=${intent.client_secret}`);
+});
+
+app.get('/success', async (req, res) => {
+  const path = resolve(process.env.STATIC_DIR + '/success.html');
+  res.sendFile(path);
+});
 
 // Expose a endpoint as a webhook handler for asynchronous events.
 // Configure your webhook in the stripe developer dashboard:

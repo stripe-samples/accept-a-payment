@@ -48,7 +48,7 @@ post '/create-payment-intent' do
   payment_method_type = data['paymentMethodType']
   currency = data['currency']
   params = {
-    payment_method_types: [payment_method_type],
+    payment_method_types: payment_method_type == "link" ? ["link", "card"] : [payment_method_type],
     amount: 5999, # Charge the customer 59.99 in the given currency.
     currency: currency
   }
@@ -89,6 +89,18 @@ post '/create-payment-intent' do
   {
     clientSecret: payment_intent.client_secret,
   }.to_json
+end
+
+get '/payment/next' do
+  content_type 'application/json'
+  payment_intent = params[:payment_intent]
+  intent = Stripe::PaymentIntent.retrieve(payment_intent)
+  redirect "/success?payment_intent_client_secret=#{intent.client_secret}"
+end
+
+get '/success' do
+  content_type 'text/html'
+  send_file File.join(settings.public_folder, 'success.html')
 end
 
 post '/webhook' do

@@ -34,6 +34,8 @@ func main() {
 	http.Handle("/", http.FileServer(http.Dir(os.Getenv("STATIC_DIR"))))
 	http.HandleFunc("/config", handleConfig)
 	http.HandleFunc("/create-payment-intent", handleCreatePaymentIntent)
+	http.HandleFunc("/success", handleSuccess)
+	http.HandleFunc("/payment/next", handlePaymentNext)
 	http.HandleFunc("/webhook", handleWebhook)
 
 	log.Println("server running at 0.0.0.0:4242")
@@ -73,12 +75,19 @@ func handleCreatePaymentIntent(w http.ResponseWriter, r *http.Request) {
 	req := paymentIntentCreateReq{}
 	json.NewDecoder(r.Body).Decode(&req)
 
+	var formattedPaymentMethodType []*string 
+	
+	if req.PaymentMethodType == "link" {
+		formattedPaymentMethodType = append(formattedPaymentMethodType, stripe.String("link"), stripe.String("card"))
+	} else {
+		formattedPaymentMethodType = append(formattedPaymentMethodType, stripe.String(req.PaymentMethodType))
+	}
+
 	params := &stripe.PaymentIntentParams{
 		Amount:             stripe.Int64(5999),
 		Currency:           stripe.String(req.Currency),
-		PaymentMethodTypes: stripe.StringSlice([]string{req.PaymentMethodType}),
+		PaymentMethodTypes: formattedPaymentMethodType,
 	}
-
 
   // If this is for an ACSS payment, we add payment_method_options to create
   // the Mandate.
@@ -113,6 +122,32 @@ func handleCreatePaymentIntent(w http.ResponseWriter, r *http.Request) {
 	}{
 		ClientSecret: pi.ClientSecret,
 	})
+}
+
+func handleSuccess(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET" {
+		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+		return
+	}
+	http.Redirect(w, r, "/success.html", http.StatusSeeOther)
+	return
+}
+
+func handlePaymentNext(w http.ResponseWriter, r *http.Request){
+	if r.Method != "GET" {
+		http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+		return
+	}
+
+	payment_intent := r.URL.Query().Get("payment_intent")
+
+	pi, _ := paymentintent.Get(
+		payment_intent,
+		nil,
+	  )
+
+    http.Redirect(w, r, fmt.Sprintf("/success?payment_intent_client_secret=%s", pi.ClientSecret), http.StatusSeeOther)
+	return
 }
 
 func handleWebhook(w http.ResponseWriter, r *http.Request) {
