@@ -12,13 +12,11 @@ env:
   MAINTAINERS: |
     cecilphillip-stripe
     charliegerard-stripe
-    cjavilla-stripe
     dependabot[bot]
     erinkavanaugh-stripe
     hideokamoto-stripe
     kevinpeters-stripe
     paulasjes-stripe
-    thorsten-stripe
 
 concurrency:
   group: ci-${{ github.event.pull_request.head.ref || github.ref }}
