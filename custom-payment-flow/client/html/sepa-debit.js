@@ -79,10 +79,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         `Payment processing: ${paymentIntent.id} check webhook events for fulfillment.`
       );
       addMessage('Refetching payment intent in 5s.');
-      setTimeout(async () => {
+
+      let retry = 3;
+      const interval = setInterval(async () => {
+        if (retry-- < 1) clearInterval(interval);
+
         const {paymentIntent: pi} = await stripe.retrievePaymentIntent(clientSecret);
         addMessage(`Payment (${pi.id}): ${pi.status}`);
-      }, 5000)
+      }, 5000);
     } else {
       addMessage(`Payment (${paymentIntent.id}): ${paymentIntent.status}`);
     }
