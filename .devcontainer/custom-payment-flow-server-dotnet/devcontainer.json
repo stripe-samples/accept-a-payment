@@ -1,0 +1,24 @@
+{
+  "name": "custom-payment-flow/server/dotnet",
+  "dockerComposeFile": [
+    "docker-compose.yml",
+    "docker-compose.override.yml"
+  ],
+  "service": "web",
+  "workspaceFolder": "/work/custom-payment-flow/server/dotnet",
+  "hostRequirements": {
+    "cpus": 1,
+    "memory": "1gb"
+  },
+  "forwardPorts": [4242],
+  "portsAttributes": {
+    "4242": {
+      "label": "web",
+      "onAutoForward": "notify"
+    }
+  },
+  "otherPortsAttributes": {
+    "onAutoForward": "silent"
+  }
+}
+

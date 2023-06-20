@@ -87,9 +87,37 @@ If you have questions, comments, or need help with code, we're here to help:
 Sign up to [stay updated with developer news](https://go.stripe.global/dev-digest).
 
 
-### Testing
+## Testing
 
 See [TESTING.md](./TESTING.md).
+
+## Running samples with Dev Containers or Codespaces
+
+We provide [Dev Container](https://containers.dev/) configurations for most of the server-side sample apps. For the Visual Studio Code example, by hitting `Reopen in Containers` in the Command Pallete and choosing a sample from the options prompted, dedicated Docker containers for the sample will be automatically created.
+
+You can also try these samples even without installing Docker on your machine by using [GitHub Codespaces](https://github.com/features/codespaces). A sample app codespace can be created by clicking "New with options..." below and choosing a sample app from the Dev container configuration select box. **Note that in this case, you would be charged for usage of GitHub Codespaces.**
+
+![](https://github.com/stripe-samples/accept-a-payment/assets/43346/9db4688c-a71d-4624-80f1-4b79c5cae44d)
+
+After launching the environment, a couple of setup steps would be needed to launch the web app. For the NodeJS example:
+
+1. Export the following environment variables
+    1. `STRIPE_PUBLISHABLE_KEY`
+    2. `STRIPE_SECRET_KEY`
+    3. `PRICE`
+2. Install the dependencies and run the web server. For NodeJS example, `npm install && npm run start`
+
+You can also run some tests for the server app by the following steps. This example is a little hacky as we need to use SSH to run a test command in another container (`runner`).
+
+1. Run `ssh-keygen` and `chmod 600 ~/.ssh/*`
+2. Login to the test runner service with `ssh runner`
+3. Move to the working dir with `cd /work`
+4. Export required environment variables
+    1. `export $(cat .devcontainer/.env | xargs)`
+    2. `export STRIPE_PUBLISHABLE_KEY=XXXX`
+    3. `export STRIPE_SECRET_KEY=XXXX`
+    4. `export PRICE=XXXX`
+5. Run tests like `bundle exec rspec spec/custom_payment_flow_server_spec.rb `
 
 ## Authors
 
