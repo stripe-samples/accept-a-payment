@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       );
       addMessage('Refetching payment intent in 5s.');
 
-      let retry = 3;
+      let retry = 5;
       const interval = setInterval(async () => {
         if (retry-- < 1) clearInterval(interval);
 
