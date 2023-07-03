@@ -14,7 +14,7 @@ This repository includes examples of 3 types of integration.
 | Small refactor to collect recurring payments. | Large refactor to collect recurring payments. | Large refactor to collect recurring payments. |
 | Input validation and error handling built in. | Input validation built-in but you must implement error handling. | Implement your own input validation and error handling. |
 | Localized in 25+ languages. | Localized in 25+ languages. |Implement your own localization. |
-| Automate calculation and collection of sales tax, VAT and GST with one line of code. | Implement your own logic to automate taxes on your transactions. | Implement your own logic to automate taxes on your transactions. |
+| Automate calculation and collection of sales tax, VAT and GST with one line of code. | Calculate tax using the [Tax API](https://stripe.com/docs/tax/custom) | Calculate tax using the [Tax API](https://stripe.com/docs/tax/custom) |
 
 
 ### Payment Method Type Support
