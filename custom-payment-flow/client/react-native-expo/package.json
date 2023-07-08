@@ -36,7 +36,7 @@
     "@wdio/mocha-framework": "^7.16.3",
     "@wdio/spec-reporter": "^7.16.3",
     "@wdio/sync": "^7.16.7",
-    "appium": "^1.22.0",
+    "appium": "^2.0.0",
     "chromedriver": "^95.0.0",
     "expect-webdriverio": "^3.1.4",
     "mocha": "^9.1.3",
