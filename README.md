@@ -99,7 +99,7 @@ You can also try these samples even without installing Docker on your machine by
 
 ![](https://github.com/stripe-samples/accept-a-payment/assets/43346/9db4688c-a71d-4624-80f1-4b79c5cae44d)
 
-After launching the environment, a couple of setup steps would be needed to launch the web app. For the NodeJS example:
+After launching the environment, a couple of setup steps would be needed to launch the web app. For the NodeJS (`custom-payment-flow-server-node`) example:
 
 1. Export the required environment variables
     1. `export STRIPE_PUBLISHABLE_KEY=XXXX`
