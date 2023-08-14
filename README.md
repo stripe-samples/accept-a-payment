@@ -101,10 +101,10 @@ You can also try these samples even without installing Docker on your machine by
 
 After launching the environment, a couple of setup steps would be needed to launch the web app. For the NodeJS example:
 
-1. Export the following environment variables
-    1. `STRIPE_PUBLISHABLE_KEY`
-    2. `STRIPE_SECRET_KEY`
-    3. `PRICE`
+1. Export the required environment variables
+    1. `export STRIPE_PUBLISHABLE_KEY=XXXX`
+    2. `export STRIPE_SECRET_KEY=XXXX`
+    3. `export PRICE=XXXX`
 2. Install the dependencies and run the web server. For NodeJS example, `npm install && npm run start`
 
 You can also run some tests for the server app by the following steps. This example is a little hacky as we need to use SSH to run a test command in another container (`runner`).
@@ -112,7 +112,7 @@ You can also run some tests for the server app by the following steps. This exam
 1. Run `ssh-keygen` and `chmod 600 ~/.ssh/*`
 2. Login to the test runner service with `ssh runner`
 3. Move to the working dir with `cd /work`
-4. Export required environment variables
+4. Export the required environment variables
     1. `export $(cat .devcontainer/.env | xargs)`
     2. `export STRIPE_PUBLISHABLE_KEY=XXXX`
     3. `export STRIPE_SECRET_KEY=XXXX`
