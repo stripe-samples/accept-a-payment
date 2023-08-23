@@ -2,7 +2,9 @@
 
 An implementation with Flask.
 
-You can [🎥 watch a video](https://youtu.be/Tgjwx-38Dic) to see how this server was implemented and [read the transcripts](./TRANSCRIPTS.md).
+You can [🎥 watch a video](https://youtu.be/3s4Dwox7oTQ) to see how this server was implemented and [read the transcripts](./TRANSCRIPTS.md).
+
+
 
 ## Requirements
 
