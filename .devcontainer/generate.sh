@@ -4,9 +4,18 @@ source ../sample-ci/helpers.sh
 
 export SAMPLE=${1}
 export SERVER_TYPE=${2}
-export STATIC_DIR=${3}
+export STATIC_DIR=${3:-../../client/html}
 export SERVER_IMAGE=${4}
-export WORKING_DIR="${SAMPLE}/server/${SERVER_TYPE}"
+
+if [ "$STATIC_DIR" = "../../client/html" ]
+then
+  export WORKING_DIR="${SAMPLE}/server/${SERVER_TYPE}"
+else
+  export SERVER_TYPE="node"
+  export SERVER_IMAGE="node:lts"
+  export WORKING_DIR="${SAMPLE}/client/$(basename "$STATIC_DIR")"
+fi
+
 
 CONFIG_DIR=$(echo "$WORKING_DIR" | tr / -)
 mkdir -p "$CONFIG_DIR"
