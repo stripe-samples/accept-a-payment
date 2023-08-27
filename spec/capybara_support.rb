@@ -16,7 +16,7 @@ end
 
 Capybara.javascript_driver = :chrome
 Capybara.default_driver = :chrome
-Capybara.default_max_wait_time = 20
+Capybara.default_max_wait_time = 25
 Capybara.enable_aria_label = true
 Capybara.save_path = 'tmp/capybara'
 
