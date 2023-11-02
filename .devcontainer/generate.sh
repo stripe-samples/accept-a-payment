@@ -26,6 +26,6 @@ pushd "$CONFIG_DIR"
 ln -sF ../../sample-ci .
 install_docker_compose_settings_for_integration ${SAMPLE} ${SERVER_TYPE} ${STATIC_DIR} ${SERVER_IMAGE}
 rm -f sample-ci
-ln -sF ../.env .
+ln -sf ../.env .
 popd
 
