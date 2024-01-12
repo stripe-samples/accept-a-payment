@@ -12,9 +12,9 @@
   "dependencies": {
     "@react-navigation/native": "^6.0.7",
     "@react-navigation/stack": "^5.14.5",
-    "@stripe/stripe-react-native": "0.1.4",
-    "expo": "^42.0.0",
-    "expo-linking": "~2.3.1",
+    "@stripe/stripe-react-native": "0.35.0",
+    "expo": "^49.0.21",
+    "expo-linking": "~6.0.0",
     "expo-status-bar": "~1.0.4",
     "react": "17.0.2",
     "react-dom": "16.13.1",
