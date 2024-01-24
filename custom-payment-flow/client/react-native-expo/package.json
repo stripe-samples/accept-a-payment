@@ -18,7 +18,7 @@
     "expo-status-bar": "~1.0.4",
     "react": "17.0.2",
     "react-dom": "16.13.1",
-    "react-native": "0.70.1",
+    "react-native": "0.72.6",
     "react-native-config": "^1.4.2",
     "react-native-gesture-handler": "~1.10.2",
     "react-native-screens": "~3.10.2",
