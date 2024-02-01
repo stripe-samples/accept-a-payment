@@ -437,17 +437,17 @@ escape-string-regexp@^4.0.0:
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz#14ba83a5d373e3d311e5afca29cf5bfad965bf34"
   integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
 
-eslint-plugin-vue@^9.20.1:
-  version "9.20.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-9.20.1.tgz#7ed78846898574b2cd26939f28b0b87798a7b528"
-  integrity sha512-GyCs8K3lkEvoyC1VV97GJhP1SvqsKCiWGHnbn0gVUYiUhaH2+nB+Dv1uekv1THFMPbBfYxukrzQdltw950k+LQ==
+eslint-plugin-vue@^9.21.0:
+  version "9.21.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-9.21.0.tgz#5f2325279e0ce1e47105664dd6a6dd3ece84aa10"
+  integrity sha512-B3NgZRtbi9kSl7M0x/PqhSMk7ULJUwWxQpTvM8b2Z6gNTORK0YSt5v1vzwY84oMs/2+3BWH5XmTepaQebcJwfA==
   dependencies:
     "@eslint-community/eslint-utils" "^4.4.0"
     natural-compare "^1.4.0"
     nth-check "^2.1.1"
     postcss-selector-parser "^6.0.13"
     semver "^7.5.4"
-    vue-eslint-parser "^9.4.0"
+    vue-eslint-parser "^9.4.2"
     xml-name-validator "^4.0.0"
 
 eslint-scope@^7.1.1:
@@ -1052,7 +1052,7 @@ vite@^2.9.17:
   optionalDependencies:
     fsevents "~2.3.2"
 
-vue-eslint-parser@^9.4.0:
+vue-eslint-parser@^9.4.2:
   version "9.4.2"
   resolved "https://registry.yarnpkg.com/vue-eslint-parser/-/vue-eslint-parser-9.4.2.tgz#02ffcce82042b082292f2d1672514615f0d95b6d"
   integrity sha512-Ry9oiGmCAK91HrKMtCrKFWmSFWvYkpGglCeFAIqDdr9zdXmMMpJOmUJS7WWsW7fX81h6mwHmUZCQQ1E0PkSwYQ==
