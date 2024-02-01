@@ -13,18 +13,6 @@ services:
     entrypoint: ['/work/.devcontainer/web-entrypoint.sh']
     command: ['tail', '-f', '/dev/null']
     env_file: ../.env
-    environment:
-      - STATIC_DIR=$STATIC_DIR
-    volumes:
-      - ../..:/work
-      - ../.ssh:/root/.ssh
-
-  frontend:
-    entrypoint: ['/work/.devcontainer/web-entrypoint.sh']
-    command: ['tail', '-f', '/dev/null']
-    env_file: ../.env
-    environment:
-      - STATIC_DIR=$STATIC_DIR
     volumes:
       - ../..:/work
       - ../.ssh:/root/.ssh

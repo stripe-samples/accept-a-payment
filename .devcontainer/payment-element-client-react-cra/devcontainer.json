@@ -1,11 +1,11 @@
 {
-  "name": "${WORKING_DIR}",
+  "name": "payment-element/client/react-cra",
   "dockerComposeFile": [
     "docker-compose.yml",
     "docker-compose.override.yml"
   ],
   "service": "web",
-  "workspaceFolder": "/work/${WORKING_DIR}",
+  "workspaceFolder": "/work/payment-element/client/react-cra",
   "hostRequirements": {
     "cpus": 1,
     "memory": "1gb"
