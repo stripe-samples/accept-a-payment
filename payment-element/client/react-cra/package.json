@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@stripe/react-stripe-js": "^2.1.1",
+    "@stripe/react-stripe-js": "^2.5.1",
     "@stripe/stripe-js": "^1.54.1",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^12.1.5",
