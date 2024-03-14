@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-     <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
- 
-  <ItemGroup>    
+
+  <ItemGroup>
     <PackageReference Include="DotNetEnv" Version="3.0.0" />
-    <PackageReference Include="Stripe.net" Version="43.17.0" />
+    <PackageReference Include="Stripe.net" Version="43.18.0" />
   </ItemGroup>
 </Project>
