@@ -51,13 +51,13 @@ app.MapGet("/create-payment-intent", async (IConfiguration configuration) =>
     try
     {
         long orderAmount = 1400;
-        var taxCalculation = CalculateTax(orderAmount, "usd");
-
+        
         var service = new PaymentIntentService();
         PaymentIntent paymentIntent = default;
         
         if (calcuateTax)
         {
+            var taxCalculation = CalculateTax(orderAmount, "usd");
             paymentIntent = await service.CreateAsync(new PaymentIntentCreateOptions
             {
                 Amount = orderAmount + taxCalculation.TaxAmountExclusive,

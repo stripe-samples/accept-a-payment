@@ -31,7 +31,7 @@ DOMAIN=http://localhost:4242
 
 
 <details>
-<summary>With Stripe Tax</summary>
+<summary>Optionally - Add Stripe Tax</summary>
 Stripe Tax lets you calculate and collect sales tax, VAT and GST with one line of code.
 To enable Stripe Tax set up in the dashboard: [Docs - Set up Stripe Tax](https://stripe.com/docs/tax/set-up).
 

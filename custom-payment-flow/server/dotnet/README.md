@@ -6,7 +6,7 @@ You can [🎥 watch a video](https://www.youtube.com/watch?v=mqEjRgoZWdo) to see
 
 ## Requirements
 
-* .NET Core
+* .NET SDK
 * [Configured .env file](../../README.md)
 
 ## How to run
@@ -28,7 +28,20 @@ STRIPE_WEBHOOK_SECRET=whsec_...
 STATIC_DIR=../../client/html
 DOMAIN=http://localhost:4242
 ```
+<details>
+<summary>Optionally - Add Stripe Tax</summary>
+Stripe Tax lets you calculate and collect sales tax, VAT and GST with one line of code.
+To enable Stripe Tax set up in the dashboard: [Docs - Set up Stripe Tax](https://stripe.com/docs/tax/set-up).
 
+In ["appsettings.json"](./appsettings.json), set CalculateTax to true if you want Stripe to calculate tax for the transactions in this application.
+
+```json
+"Stripe": {
+   "CalculateTax": true
+}
+```
+
+</details>
 
 2. Run the application
 
@@ -36,5 +49,4 @@ DOMAIN=http://localhost:4242
 dotnet run 
 ```
 
-4. If you're using the html client, go to `localhost:4242` to see the demo. For the
-   client , visit `localhost:3000`.
+4. If you're using the html client, go to `localhost:4242` to see the demo.
