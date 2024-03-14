@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Stripe;
@@ -43,8 +44,9 @@ app.UseStaticFiles(new StaticFileOptions()
 app.MapGet("/", () => Results.Redirect("index.html"));
 app.MapGet("/config", (IOptions<StripeOptions> options) => new { options.Value.PublishableKey });
 
-app.MapGet("/create-payment-intent", async () =>
+app.MapGet("/create-payment-intent", async (IConfiguration configuration) =>
 {
+    var calcuateTax = configuration.GetSection("Stripe").GetValue<bool>("CalculateTax");
 
     try
     {
@@ -52,21 +54,31 @@ app.MapGet("/create-payment-intent", async () =>
         var taxCalculation = CalculateTax(orderAmount, "usd");
 
         var service = new PaymentIntentService();
-        var paymentIntent = await service.CreateAsync(new PaymentIntentCreateOptions
+        PaymentIntent paymentIntent = default;
+        
+        if (calcuateTax)
         {
-            Amount = orderAmount + taxCalculation.TaxAmountExclusive,
-            Currency = "USD",
-            AutomaticPaymentMethods = new PaymentIntentAutomaticPaymentMethodsOptions
+            paymentIntent = await service.CreateAsync(new PaymentIntentCreateOptions
             {
-                Enabled = true,
-            },
-            Metadata = new Dictionary<string, string>
-        {
-          { "tax_calculation", taxCalculation.Id },
+                Amount = orderAmount + taxCalculation.TaxAmountExclusive,
+                Currency = "USD",
+                AutomaticPaymentMethods = new() { Enabled = true }, 
+                Metadata = new Dictionary<string, string>  {
+                    { "tax_calculation", taxCalculation.Id }
+                }
+            });
         }
-        });
-        Console.WriteLine(paymentIntent.Amount);
-        return Results.Ok(new { ClientSecret = paymentIntent.ClientSecret });
+        else 
+        {
+            paymentIntent = await service.CreateAsync(new PaymentIntentCreateOptions
+            {
+                Amount = orderAmount,
+                Currency = "USD",
+                AutomaticPaymentMethods = new() { Enabled = true }
+            });
+        }
+
+        return Results.Ok(new { paymentIntent.ClientSecret });
     }
     catch (StripeException e)
     {
@@ -76,7 +88,6 @@ app.MapGet("/create-payment-intent", async () =>
 
 static Calculation CalculateTax(long orderAmount, string currency)
 {
-
     var calculationCreateOptions = new CalculationCreateOptions
     {
         Currency = currency,
@@ -99,7 +110,9 @@ static Calculation CalculateTax(long orderAmount, string currency)
                     TaxBehavior ="exclusive",
                     TaxCode = "txcd_30011000"
                 }
-            }
+            },
+         ShippingCost = new CalculationShippingCostOptions { Amount = 300, TaxBehavior = "exclusive" },
+
     };
 
     var calculationService = new CalculationService();
