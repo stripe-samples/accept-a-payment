@@ -8,7 +8,7 @@ require('dotenv').config({ path: './.env' });
 checkEnv();
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2020-08-27',
+  apiVersion: '2023-10-16',
   appInfo: { // For sample support and debugging, not required for production:
     name: "stripe-samples/accept-a-payment/prebuilt-checkout-page",
     version: "0.0.1",

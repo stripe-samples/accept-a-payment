@@ -6,7 +6,7 @@ You can [🎥 watch a video](https://youtu.be/WG4ehXSEpz4) to see how this serve
 
 ## Requirements
 
-- Node v10+
+- Node v20+
 - [Configured .env file](../README.md)
 
 ## How to run
