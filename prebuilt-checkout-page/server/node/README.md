@@ -2,7 +2,7 @@
 An [Express server](http://expressjs.com) implementation
 
 ## Requirements
-* Node v10+
+* Node v20+
 * [Configured .env file](../../README.md)
 
 ## How to run
@@ -47,5 +47,4 @@ npm install
 npm start
 ```
 
-4. If you're using the html client, go to `localhost:4242` to see the demo. For
-   react, visit `localhost:3000`.
+4. If you're using the html client, go to `localhost:4242` to see the demo.
