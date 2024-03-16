@@ -60,7 +60,7 @@ app.MapGet("/create-payment-intent", async (IConfiguration configuration) =>
             var taxCalculation = CalculateTax(orderAmount, "usd");
             paymentIntent = await service.CreateAsync(new PaymentIntentCreateOptions
             {
-                Amount = orderAmount + taxCalculation.TaxAmountExclusive,
+                Amount = taxCalculation.AmountTotal,
                 Currency = "USD",
                 AutomaticPaymentMethods = new() { Enabled = true }, 
                 Metadata = new Dictionary<string, string>  {
