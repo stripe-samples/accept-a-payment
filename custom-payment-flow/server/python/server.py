@@ -7,6 +7,7 @@ from flask import Flask, render_template, jsonify, request, send_from_directory,
 from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
+calcuateTax = False
 
 # For sample support and debugging, not required for production:
 stripe.set_app_info(
@@ -14,7 +15,7 @@ stripe.set_app_info(
     version='0.0.2',
     url='https://github.com/stripe-samples')
 
-stripe.api_version = '2020-08-27'
+stripe.api_version = '2023-10-16'
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
 static_dir = str(os.path.abspath(os.path.join(__file__ , "..", os.getenv("STATIC_DIR"))))
@@ -29,6 +30,31 @@ def get_root():
 def get_config():
     return jsonify({'publishableKey': os.getenv('STRIPE_PUBLISHABLE_KEY')})
 
+def calculate_tax(orderAmount: int, currency: str):
+    tax_calculation = stripe.tax.Calculation.create(
+        currency= currency,
+        customer_details={
+            "address": {
+                "line1": "10709 Cleary Blvd",
+                "city": "Plantation",
+                "state": "FL",
+                "postal_code": "33324",
+                "country": "US",
+            },
+            "address_source": "shipping",
+        },
+        line_items=[
+            {
+                "amount": orderAmount,  # Amount in cents
+                "reference": "ProductRef",
+                "tax_behavior": "exclusive",
+                "tax_code": "txcd_30011000"
+            }
+        ],
+        shipping_cost={"amount": 300}
+    )
+
+    return tax_calculation
 
 @app.route('/create-payment-intent', methods=['POST'])
 def create_payment():
@@ -44,18 +70,30 @@ def create_payment():
     # Some example payment method types include `card`, `ideal`, and `link`.
     payment_method_type = data['paymentMethodType']
     currency = data['currency']
-
+    orderAmount = 5999
+    params: dict[str, any]
     # Create a PaymentIntent with the amount, currency, and a payment method type.
     #
     # See the documentation [0] for the full list of supported parameters.
     #
     # [0] https://stripe.com/docs/api/payment_intents/create
     formatted_payment_method_type = ['link', 'card'] if payment_method_type == 'link' else [payment_method_type]
-    params = {
-        'payment_method_types': formatted_payment_method_type,
-        'amount': 5999,
-        'currency': currency
-    }
+    if calcuateTax:
+        taxCalculation = calculate_tax(orderAmount, currency)
+        params = {
+            'payment_method_types': formatted_payment_method_type,
+            'amount': taxCalculation['amount_total'],
+            'currency': currency,
+            "metadata": {
+                'tax_calculation': taxCalculation['id']
+            }
+        } 
+    else:
+        params = {
+            'payment_method_types': formatted_payment_method_type,
+            'amount': orderAmount,
+            'currency': currency
+        }
 
     # If this is for an ACSS payment, we add payment_method_options
     # to create the Mandate. This is not required if you're not accepting

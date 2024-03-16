@@ -6,7 +6,10 @@ import os
 from flask import Flask, render_template, jsonify, request, send_from_directory
 from dotenv import load_dotenv, find_dotenv
 
+from stripe import PaymentIntent
+
 load_dotenv(find_dotenv())
+calcuateTax = False
 
 # For sample support and debugging, not required for production:
 stripe.set_app_info(
@@ -64,17 +67,28 @@ def create_payment():
     # [0] https://stripe.com/docs/api/payment_intents/create
     try:
         orderAmount = 1400
-        taxCalculation = calculate_tax(orderAmount, "usd");
-        intent = stripe.PaymentIntent.create(
-            amount=taxCalculation['amount_total'],
-            currency='usd',
-            automatic_payment_methods={
-                'enabled': True,
-            },
-            metadata={
-              'tax_calculation': taxCalculation['id']
-            }
-        )
+        intent: PaymentIntent
+
+        if calcuateTax:
+            taxCalculation = calculate_tax(orderAmount, "usd")
+            intent: PaymentIntent = stripe.PaymentIntent.create(
+                amount=taxCalculation['amount_total'],
+                currency='usd',
+                automatic_payment_methods={
+                    'enabled': True,
+                },
+                metadata={
+                  'tax_calculation': taxCalculation['id']
+                }
+            )
+        else:
+            intent: PaymentIntent = stripe.PaymentIntent.create(
+                amount=orderAmount,
+                currency='usd',
+                automatic_payment_methods={
+                    'enabled': True,
+                }
+            )
 
         # Send PaymentIntent details to the front end.
         return jsonify({'clientSecret': intent.client_secret})

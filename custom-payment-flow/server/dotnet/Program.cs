@@ -54,7 +54,7 @@ app.MapPost("/create-payment-intent", async (CreatePaymentIntentRequest req, ICo
         var taxCalculation = CalculateTax(orderAmount, req.Currency);
         options = new()
         {
-            Amount = orderAmount + taxCalculation.TaxAmountExclusive,
+            Amount = taxCalculation.AmountTotal,
             Currency = req.Currency,
             PaymentMethodTypes = formattedPaymentMethodType,
             Metadata = new Dictionary<string, string>  {
