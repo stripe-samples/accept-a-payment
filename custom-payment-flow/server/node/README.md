@@ -33,10 +33,10 @@ DOMAIN=http://localhost:4242
 Stripe Tax lets you calculate and collect sales tax, VAT and GST with one line of code.
 To enable Stripe Tax set up in the dashboard: [Docs - Set up Stripe Tax](https://stripe.com/docs/tax/set-up).
 
-In ["server.py"](./server.py), set calcuateTax to true if you want Stripe to calculate tax for the transactions in this application.
+In ["server.js"](./server.js), set calcuateTax to true if you want Stripe to calculate tax for the transactions in this application.
 
-```python
-calcuateTax = False
+```javascript
+calcuateTax = false
 ```
 
 </details>
