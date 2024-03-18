@@ -3,7 +3,7 @@ const app = express();
 const { resolve } = require('path');
 // Replace if using a different env file or config
 const env = require('dotenv').config({ path: './.env' });
-const calculateTax = true;
+const calculateTax = false;
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
   apiVersion: '2023-10-16',
@@ -75,7 +75,7 @@ app.get('/create-payment-intent', async (req, res) => {
 
   try {
     if (calculateTax) {
-      taxCalculation = await calculate_tax(orderAmount, "usd")
+      let taxCalculation = await calculate_tax(orderAmount, "usd")
 
       paymentIntent = await stripe.paymentIntents.create({
         currency: 'usd',
