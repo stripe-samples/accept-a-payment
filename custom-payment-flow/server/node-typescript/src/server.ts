@@ -8,8 +8,10 @@ import bodyParser from "body-parser";
 import express from "express";
 
 import Stripe from "stripe";
+
+const calculateTax = false;
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2022-11-15",
+  apiVersion: "2023-10-16",
   appInfo: { // For sample support and debugging, not required for production:
     name: "stripe-samples/accept-a-payment",
     url: "https://github.com/stripe-samples",
@@ -52,24 +54,66 @@ app.get("/config", (_: express.Request, res: express.Response): void => {
   });
 });
 
+
+const calculate_tax = async (orderAmount: number, currency: string) => {
+  const taxCalculation = await stripe.tax.calculations.create({
+    currency,
+    customer_details: {
+      address: {
+        line1: "10709 Cleary Blvd",
+        city: "Plantation",
+        state: "FL",
+        postal_code: "33322",
+        country: "US",
+      },
+      address_source: "shipping",
+    },
+    line_items: [
+      {
+        amount: orderAmount,
+        reference: "ProductRef",
+        tax_behavior: "exclusive",
+        tax_code: "txcd_30011000"
+      }
+    ],
+  });
+
+  return taxCalculation;
+};
+
 app.post(
   "/create-payment-intent",
   async (req: express.Request, res: express.Response): Promise<void> => {
-    const { currency, paymentMethodType, paymentMethodOptions }: { currency: string, paymentMethodType: string, paymentMethodOptions?: object  } = req.body;
-    // Create a PaymentIntent with the order amount and currency.
-    const params: Stripe.PaymentIntentCreateParams = {
-      amount: 5999,
-      currency,
-      // Each payment method type has support for different currencies. In order to
-      // support many payment method types and several currencies, this server
-      // endpoint accepts both the payment method type and the currency as
-      // parameters. To get compatible payment method types, pass 
-      // `automatic_payment_methods[enabled]=true` and enable types in your dashboard 
-      // at https://dashboard.stripe.com/settings/payment_methods.
-      //
-      // Some example payment method types include `card`, `ideal`, and `link`.
-      payment_method_types: paymentMethodType === 'link' ? ['link', 'card'] : [paymentMethodType],
-    };
+    const { currency, paymentMethodType, paymentMethodOptions }: { currency: string, paymentMethodType: string, paymentMethodOptions?: object } = req.body;
+
+    let orderAmount = 1400;
+    let params: Stripe.PaymentIntentCreateParams;
+
+    // Each payment method type has support for different currencies. In order to
+    // support many payment method types and several currencies, this server
+    // endpoint accepts both the payment method type and the currency as
+    // parameters. To get compatible payment method types, pass 
+    // `automatic_payment_methods[enabled]=true` and enable types in your dashboard 
+    // at https://dashboard.stripe.com/settings/payment_methods.
+    //
+    // Some example payment method types include `card`, `ideal`, and `link`.
+
+    if (calculateTax) {
+      let taxCalculation = await calculate_tax(orderAmount, currency)
+      params = {
+        payment_method_types: paymentMethodType === 'link' ? ['link', 'card'] : [paymentMethodType],
+        amount: taxCalculation.amount_total,
+        currency: currency,
+        metadata: { tax_calculation: taxCalculation.id }
+      }
+    }
+    else {
+      params = {
+        payment_method_types: paymentMethodType === 'link' ? ['link', 'card'] : [paymentMethodType],
+        amount: orderAmount,
+        currency: currency,
+      }
+    }
 
     // If this is for an ACSS payment, we add payment_method_options to create
     // the Mandate.
@@ -118,14 +162,14 @@ app.post(
 );
 
 app.get('/payment/next', async (req, res) => {
-  const paymentIntent : any = req.query.payment_intent; 
-  const intent  = await stripe.paymentIntents.retrieve(
+  const paymentIntent: any = req.query.payment_intent;
+  const intent = await stripe.paymentIntents.retrieve(
     paymentIntent,
     {
       expand: ['payment_method'],
     }
   );
-  
+
   res.redirect(`/success?payment_intent_client_secret=${intent.client_secret}`);
 });
 
