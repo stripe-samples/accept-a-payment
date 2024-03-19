@@ -10,13 +10,11 @@ env:
   STRIPE_SECRET_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
   COMPOSE_FILE: docker-compose.yml:docker-compose.playwright.yml
   MAINTAINERS: |
-    cecilphillip-stripe
-    charliegerard-stripe
+    cecilphillip-stripe    
     dependabot[bot]
     erinkavanaugh-stripe
     hideokamoto-stripe
-    kevinpeters-stripe
-    paulasjes-stripe
+    kevinpeters-stripe    
 
 concurrency:
   group: ci-${{ github.event.pull_request.head.ref || github.ref }}
@@ -83,7 +81,7 @@ jobs:
           - server_type: go
             server_image: golang:1.17
           - server_type: dotnet
-            server_image: mcr.microsoft.com/dotnet/sdk:6.0
+            server_image: mcr.microsoft.com/dotnet/sdk:8.0
         target:
           - sample: custom-payment-flow
             tests: custom_payment_flow_server_spec.rb
