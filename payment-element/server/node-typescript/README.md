@@ -8,9 +8,9 @@ To find out more about usage with TypeScript, see the [stripe-node README](https
 
 You’ll need the following:
 
-- [Node.js](http://nodejs.org) >=10.0.0
+- [Node.js](http://nodejs.org) v20+
 - Stripe account to accept payments ([sign up](https://dashboard.stripe.com/register) for free).
-- [Stripe CLI](https://github.com/stripe/stripe-cli) or [ngrok](https://ngrok.com/) to tunnel webhook events to your local server.
+- [Stripe CLI](https://github.com/stripe/stripe-cli) to tunnel webhook events to your local server.
 
 ### Setup
 
@@ -19,6 +19,20 @@ Copy the environment variables file from the root of the repository:
     cp ../../../.env.example .env
 
 Update `.env` with your own [Stripe API keys](https://dashboard.stripe.com/account/apikeys).
+
+
+<details>
+<summary>Optionally - Add Stripe Tax</summary>
+Stripe Tax lets you calculate and collect sales tax, VAT and GST with one line of code.
+To enable Stripe Tax set up in the dashboard: [Docs - Set up Stripe Tax](https://stripe.com/docs/tax/set-up).
+
+In ["server.ts"](./src/server.ts), set calcuateTax to true if you want Stripe to calculate tax for the transactions in this application.
+
+```typescript
+const calculateTax = true;
+```
+
+</details>
 
 ### Install and run
 

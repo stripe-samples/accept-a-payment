@@ -1,12 +1,13 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const {resolve} = require('path');
+const { resolve } = require('path');
 // Replace if using a different env file or config
-const env = require('dotenv').config({path: './.env'});
+const env = require('dotenv').config({ path: './.env' });
+const calculateTax = false;
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2020-08-27',
+  apiVersion: "2023-10-16",
   appInfo: { // For sample support and debugging, not required for production:
     name: "stripe-samples/accept-a-payment/custom-payment-flow",
     version: "0.0.2",
@@ -41,8 +42,34 @@ app.get('/config', (req, res) => {
   });
 });
 
+const calculate_tax = async (orderAmount, currency) => {
+  const taxCalculation = await stripe.tax.calculations.create({
+    currency,
+    customer_details: {
+      address: {
+        line1: "10709 Cleary Blvd",
+        city: "Plantation",
+        state: "FL",
+        postal_code: "33322",
+        country: "US",
+      },
+      address_source: "shipping",
+    },
+    line_items: [
+      {
+        amount: orderAmount,
+        reference: "ProductRef",
+        tax_behavior: "exclusive",
+        tax_code: "txcd_30011000"
+      }
+    ],
+  });
+
+  return taxCalculation;
+};
+
 app.post('/create-payment-intent', async (req, res) => {
-  const {paymentMethodType, currency,paymentMethodOptions} = req.body;
+  const { paymentMethodType, currency, paymentMethodOptions } = req.body;
 
   // Each payment method type has support for different currencies. In order to
   // support many payment method types and several currencies, this server
@@ -52,15 +79,28 @@ app.post('/create-payment-intent', async (req, res) => {
   // at https://dashboard.stripe.com/settings/payment_methods.
   //
   // Some example payment method types include `card`, `ideal`, and `link`.
-  const params = {
-    payment_method_types: paymentMethodType === 'link' ? ['link', 'card'] : [paymentMethodType],
-    amount: 5999,
-    currency: currency,
-  }
+  let orderAmount = 1400;
+  let params = {};
 
+  if (calculateTax) {
+    let taxCalculation = await calculate_tax(orderAmount, currency)
+    params = {
+      payment_method_types: paymentMethodType === 'link' ? ['link', 'card'] : [paymentMethodType],
+      amount: taxCalculation.amount_total,
+      currency: currency,
+      metadata: { tax_calculation: taxCalculation.id }
+    }
+  }
+  else {
+    params = {
+      payment_method_types: paymentMethodType === 'link' ? ['link', 'card'] : [paymentMethodType],
+      amount: orderAmount,
+      currency: currency,
+    }
+  }
   // If this is for an ACSS payment, we add payment_method_options to create
   // the Mandate.
-  if(paymentMethodType === 'acss_debit') {
+  if (paymentMethodType === 'acss_debit') {
     params.payment_method_options = {
       acss_debit: {
         mandate_options: {

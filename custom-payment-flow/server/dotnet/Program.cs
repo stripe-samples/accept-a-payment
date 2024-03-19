@@ -1,6 +1,7 @@
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Stripe;
+using Stripe.Tax;
 
 DotNetEnv.Env.Load();
 
@@ -40,15 +41,36 @@ app.UseStaticFiles(new StaticFileOptions()
 app.MapGet("/", () => Results.Redirect("index.html"));
 app.MapGet("/config", (IOptions<StripeOptions> options) => new { options.Value.PublishableKey });
 
-app.MapPost("/create-payment-intent", async (CreatePaymentIntentRequest req) =>
+app.MapPost("/create-payment-intent", async (CreatePaymentIntentRequest req, IConfiguration configuration) =>
 {
+    var calcuateTax = configuration.GetSection("Stripe").GetValue<bool>("CalculateTax");
+
+    long orderAmount = 5999;
     var formattedPaymentMethodType = req.PaymentMethodType == "link" ? new List<string> { "link", "card" } : new List<string> { req.PaymentMethodType };
-    var options = new PaymentIntentCreateOptions
+    PaymentIntentCreateOptions options;
+
+    if (calcuateTax)
     {
-        Amount = 5999,
-        Currency = req.Currency,
-        PaymentMethodTypes = formattedPaymentMethodType
-    };
+        var taxCalculation = CalculateTax(orderAmount, req.Currency);
+        options = new()
+        {
+            Amount = taxCalculation.AmountTotal,
+            Currency = req.Currency,
+            PaymentMethodTypes = formattedPaymentMethodType,
+            Metadata = new Dictionary<string, string>  {
+                    { "tax_calculation", taxCalculation.Id }
+                }
+        };
+    }
+    else
+    {
+        options = new()
+        {
+            Amount = orderAmount,
+            Currency = req.Currency,
+            PaymentMethodTypes = formattedPaymentMethodType
+        };
+    }
 
     // If this is for an ACSS payment, we add payment_method_options to create
     // the Mandate.
@@ -67,16 +89,11 @@ app.MapPost("/create-payment-intent", async (CreatePaymentIntentRequest req) =>
         };
     }
 
-    var service = new PaymentIntentService();
-
     try
     {
+        var service = new PaymentIntentService();
         var paymentIntent = await service.CreateAsync(options);
-
-        return Results.Ok(new
-        {
-            ClientSecret = paymentIntent.ClientSecret,
-        });
+        return Results.Ok(new { paymentIntent.ClientSecret });
     }
     catch (StripeException e)
     {
@@ -84,12 +101,47 @@ app.MapPost("/create-payment-intent", async (CreatePaymentIntentRequest req) =>
     }
 });
 
-app.MapGet("/payment/next", (HttpRequest request, HttpResponse response) => 
+
+static Calculation CalculateTax(long orderAmount, string currency)
+{
+    var calculationCreateOptions = new CalculationCreateOptions
+    {
+        Currency = currency,
+        CustomerDetails = new CalculationCustomerDetailsOptions
+        {
+            Address = new AddressOptions
+            {
+                Line1 = "920 5th Ave",
+                City = "Seattle",
+                State = "WA",
+                PostalCode = "98104",
+                Country = "US",
+            },
+            AddressSource = "shipping",
+        },
+        LineItems = new List<CalculationLineItemOptions> {
+                 new() {
+                    Amount = orderAmount,
+                    Reference = "ProductRef",
+                    TaxBehavior ="exclusive",
+                    TaxCode = "txcd_30011000"
+                }
+            },
+        ShippingCost = new CalculationShippingCostOptions { Amount = 300, TaxBehavior = "exclusive" },
+    };
+
+    var calculationService = new CalculationService();
+    var calculation = calculationService.Create(calculationCreateOptions);
+
+    return calculation;
+}
+
+app.MapGet("/payment/next", (HttpRequest request, HttpResponse response) =>
 {
     var paymentIntent = request.Query["payment_intent"];
     var service = new PaymentIntentService();
     var intent = service.Get(paymentIntent);
-    
+
     response.Redirect("/success?payment_intent_client_secret={intent.ClientSecret}");
 });
 

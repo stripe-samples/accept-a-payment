@@ -6,7 +6,10 @@ import os
 from flask import Flask, render_template, jsonify, request, send_from_directory
 from dotenv import load_dotenv, find_dotenv
 
+from stripe import PaymentIntent
+
 load_dotenv(find_dotenv())
+calcuateTax = False
 
 # For sample support and debugging, not required for production:
 stripe.set_app_info(
@@ -14,7 +17,7 @@ stripe.set_app_info(
     version='0.0.2',
     url='https://github.com/stripe-samples')
 
-stripe.api_version = '2020-08-27'
+stripe.api_version = '2023-10-16'
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
 static_dir = str(os.path.abspath(os.path.join(__file__ , "..", os.getenv("STATIC_DIR"))))
@@ -29,6 +32,31 @@ def get_root():
 def get_config():
     return jsonify({'publishableKey': os.getenv('STRIPE_PUBLISHABLE_KEY')})
 
+def calculate_tax(orderAmount: int, currency: str):
+    tax_calculation = stripe.tax.Calculation.create(
+        currency= currency,
+        customer_details={
+            "address": {
+                "line1": "10709 Cleary Blvd",
+                "city": "Plantation",
+                "state": "FL",
+                "postal_code": "33324",
+                "country": "US",
+            },
+            "address_source": "shipping",
+        },
+        line_items=[
+            {
+                "amount": orderAmount,  # Amount in cents
+                "reference": "ProductRef",
+                "tax_behavior": "exclusive",
+                "tax_code": "txcd_30011000"
+            }
+        ],
+        shipping_cost={"amount": 300}
+    )
+
+    return tax_calculation
 
 @app.route('/create-payment-intent', methods=['GET'])
 def create_payment():
@@ -38,13 +66,29 @@ def create_payment():
     #
     # [0] https://stripe.com/docs/api/payment_intents/create
     try:
-        intent = stripe.PaymentIntent.create(
-            amount=1999,
-            currency='EUR',
-            automatic_payment_methods={
-                'enabled': True,
-            }
-        )
+        orderAmount = 1400
+        intent: PaymentIntent
+
+        if calcuateTax:
+            taxCalculation = calculate_tax(orderAmount, "usd")
+            intent: PaymentIntent = stripe.PaymentIntent.create(
+                amount=taxCalculation['amount_total'],
+                currency='usd',
+                automatic_payment_methods={
+                    'enabled': True,
+                },
+                metadata={
+                  'tax_calculation': taxCalculation['id']
+                }
+            )
+        else:
+            intent: PaymentIntent = stripe.PaymentIntent.create(
+                amount=orderAmount,
+                currency='usd',
+                automatic_payment_methods={
+                    'enabled': True,
+                }
+            )
 
         # Send PaymentIntent details to the front end.
         return jsonify({'clientSecret': intent.client_secret})

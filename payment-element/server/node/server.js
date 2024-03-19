@@ -1,11 +1,12 @@
 const express = require('express');
 const app = express();
-const {resolve} = require('path');
+const { resolve } = require('path');
 // Replace if using a different env file or config
-const env = require('dotenv').config({path: './.env'});
+const env = require('dotenv').config({ path: './.env' });
+const calculateTax = false;
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2020-08-27',
+  apiVersion: '2023-10-16',
   appInfo: { // For sample support and debugging, not required for production:
     name: "stripe-samples/accept-a-payment/payment-element",
     version: "0.0.2",
@@ -37,18 +38,59 @@ app.get('/config', (req, res) => {
   });
 });
 
+const calculate_tax = async (orderAmount, currency) => {
+  const taxCalculation = await stripe.tax.calculations.create({
+    currency,
+    customer_details: {
+      address: {
+        line1: "10709 Cleary Blvd",
+        city: "Plantation",
+        state: "FL",
+        postal_code: "33322",
+        country: "US",
+      },
+      address_source: "shipping",
+    },
+    line_items: [
+      {
+        amount: orderAmount,
+        reference: "ProductRef",
+        tax_behavior: "exclusive",
+        tax_code: "txcd_30011000"
+      }
+    ],
+  });
+
+  return taxCalculation;
+};
+
 app.get('/create-payment-intent', async (req, res) => {
   // Create a PaymentIntent with the amount, currency, and a payment method type.
   //
   // See the documentation [0] for the full list of supported parameters.
   //
   // [0] https://stripe.com/docs/api/payment_intents/create
+  let orderAmount = 1400;
+  let paymentIntent;
+
   try {
-    const paymentIntent = await stripe.paymentIntents.create({
-      currency: 'EUR',
-      amount: 1999,
-      automatic_payment_methods: { enabled: true }
-    });
+    if (calculateTax) {
+      let taxCalculation = await calculate_tax(orderAmount, "usd")
+
+      paymentIntent = await stripe.paymentIntents.create({
+        currency: 'usd',
+        amount: taxCalculation.amount_total,
+        automatic_payment_methods: { enabled: true },
+        metadata: { tax_calculation: taxCalculation.id }
+      });
+    }
+    else {
+      paymentIntent = await stripe.paymentIntents.create({
+        currency: 'usd',
+        amount: orderAmount,
+        automatic_payment_methods: { enabled: true }
+      });
+    }
 
     // Send publishable key and PaymentIntent details to client
     res.send({

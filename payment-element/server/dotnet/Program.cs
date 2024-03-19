@@ -1,6 +1,8 @@
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Options;
 using Stripe;
+using Stripe.Tax;
 
 DotNetEnv.Env.Load();
 StripeConfiguration.ApiKey = Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY");
@@ -42,28 +44,82 @@ app.UseStaticFiles(new StaticFileOptions()
 app.MapGet("/", () => Results.Redirect("index.html"));
 app.MapGet("/config", (IOptions<StripeOptions> options) => new { options.Value.PublishableKey });
 
-app.MapGet("/create-payment-intent", async () =>
+app.MapGet("/create-payment-intent", async (IConfiguration configuration) =>
 {
+    var calcuateTax = configuration.GetSection("Stripe").GetValue<bool>("CalculateTax");
+
     try
     {
+        long orderAmount = 1400;
+        
         var service = new PaymentIntentService();
-        var paymentIntent = await service.CreateAsync(new PaymentIntentCreateOptions
+        PaymentIntent paymentIntent = default;
+        
+        if (calcuateTax)
         {
-            Amount = 1999,
-            Currency = "EUR",
-            AutomaticPaymentMethods = new PaymentIntentAutomaticPaymentMethodsOptions
+            var taxCalculation = CalculateTax(orderAmount, "usd");
+            paymentIntent = await service.CreateAsync(new PaymentIntentCreateOptions
             {
-                Enabled = true,
-            },
-        });
+                Amount = taxCalculation.AmountTotal,
+                Currency = "USD",
+                AutomaticPaymentMethods = new() { Enabled = true }, 
+                Metadata = new Dictionary<string, string>  {
+                    { "tax_calculation", taxCalculation.Id }
+                }
+            });
+        }
+        else 
+        {
+            paymentIntent = await service.CreateAsync(new PaymentIntentCreateOptions
+            {
+                Amount = orderAmount,
+                Currency = "USD",
+                AutomaticPaymentMethods = new() { Enabled = true }
+            });
+        }
 
-        return Results.Ok(new { ClientSecret = paymentIntent.ClientSecret });
+        return Results.Ok(new { paymentIntent.ClientSecret });
     }
     catch (StripeException e)
     {
         return Results.BadRequest(new { error = new { message = e.StripeError.Message } });
     }
 });
+
+static Calculation CalculateTax(long orderAmount, string currency)
+{
+    var calculationCreateOptions = new CalculationCreateOptions
+    {
+        Currency = currency,
+        CustomerDetails = new CalculationCustomerDetailsOptions
+        {
+            Address = new AddressOptions
+            {
+                Line1 = "920 5th Ave",
+                City = "Seattle",
+                State = "WA",
+                PostalCode = "98104",
+                Country = "US",
+            },
+            AddressSource = "shipping",
+        },
+        LineItems = new List<CalculationLineItemOptions> {
+                 new() {
+                    Amount = orderAmount,
+                    Reference = "ProductRef",
+                    TaxBehavior ="exclusive",
+                    TaxCode = "txcd_30011000"
+                }
+            },
+         ShippingCost = new CalculationShippingCostOptions { Amount = 300, TaxBehavior = "exclusive" },
+
+    };
+
+    var calculationService = new CalculationService();
+    var calculation = calculationService.Create(calculationCreateOptions);
+
+    return calculation;
+}
 
 app.MapPost("/webhook", async (HttpRequest request, IOptions<StripeOptions> options) =>
 {

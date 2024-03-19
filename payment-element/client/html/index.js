@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Initialize Stripe Elements with the PaymentIntent's clientSecret,
   // then mount the payment element.
-  const elements = stripe.elements({ clientSecret });
+  const loader = 'auto'
+  const elements = stripe.elements({ clientSecret, loader });
   const paymentElement = elements.create('payment');
   paymentElement.mount('#payment-element');
   // Create and mount the linkAuthentication Element to enable autofilling customer payment details

@@ -26,6 +26,19 @@ Install dependencies using npm:
 
     npm install
 
+<details>
+<summary>Optionally - Add Stripe Tax</summary>
+Stripe Tax lets you calculate and collect sales tax, VAT and GST with one line of code.
+To enable Stripe Tax set up in the dashboard: [Docs - Set up Stripe Tax](https://stripe.com/docs/tax/set-up).
+
+In ["server.ts"](./src/server.ts), set calcuateTax to true if you want Stripe to calculate tax for the transactions in this application.
+
+```typescript
+const calculateTax = true;
+```
+
+</details>
+
 Next, follow [these installation steps](https://github.com/stripe/stripe-cli#installation) to install the Stripe CLI which we'll use for webhook forwarding.
 
 After the installation has finished, authenticate the CLI with your Stripe account:

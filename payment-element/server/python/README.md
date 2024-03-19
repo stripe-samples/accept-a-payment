@@ -52,6 +52,19 @@ python3 -m venv env
 pip install -r requirements.txt
 ```
 
+<details>
+<summary>Optionally - Add Stripe Tax</summary>
+Stripe Tax lets you calculate and collect sales tax, VAT and GST with one line of code.
+To enable Stripe Tax set up in the dashboard: [Docs - Set up Stripe Tax](https://stripe.com/docs/tax/set-up).
+
+In ["server.py"](./server.py), set calcuateTax to true if you want Stripe to calculate tax for the transactions in this application.
+
+```python
+calcuateTax = False
+```
+
+</details>
+
 4. Export and run the application
 
 **MacOS / Unix**
