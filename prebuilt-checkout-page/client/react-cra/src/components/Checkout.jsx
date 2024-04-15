@@ -18,7 +18,7 @@ const Checkout = () => {
             </div>
           </div>
 
-          <form action="/create-checkout-session" method="POST">
+          <form action="/api/create-checkout-session" method="POST">
             <button id="submit" role="link">Buy</button>
           </form>
         </section>

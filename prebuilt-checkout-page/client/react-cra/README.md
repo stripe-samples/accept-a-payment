@@ -24,5 +24,5 @@ npm start
 
 ## Credits
 
-- Author: [@thorsten-stripe](https://twitter.com/thorwebdev)
-- This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- Author: [@thorsten-stripe](https://twitter.com/thorwebdev), [@hideokamoto-stripe](https://twitter.com/hidetaka_dev)
+- This project was bootstrapped with [Vite](https://.vitejs.dev/).
