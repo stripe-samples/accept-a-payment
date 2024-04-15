@@ -20,7 +20,7 @@ const CardForm = () => {
     }
 
     const {error: backendError, clientSecret} = await fetch(
-      '/create-payment-intent',
+      '/api/create-payment-intent',
       {
         method: 'POST',
         headers: {

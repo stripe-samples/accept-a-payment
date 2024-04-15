@@ -5,7 +5,7 @@ import {Elements} from '@stripe/react-stripe-js';
 import {loadStripe} from '@stripe/stripe-js';
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const {publishableKey} = await fetch('/config').then((r) => r.json());
+  const {publishableKey} = await fetch('/api/config').then((r) => r.json());
   const stripePromise = loadStripe(publishableKey);
 
   ReactDOM.render(

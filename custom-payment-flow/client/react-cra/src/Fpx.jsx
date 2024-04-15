@@ -1,13 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useLocation} from 'react-router-dom';
-import {useStripe, useElements} from '@stripe/react-stripe-js';
+import {FpxBankElement, useStripe, useElements} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
-const SofortForm = () => {
+const FpxForm = () => {
   const stripe = useStripe();
   const elements = useElements();
-  const [name, setName] = useState('Jenny Rosen');
-  const [email, setEmail] = useState('jenny.rosen@example.com');
   const [messages, addMessage] = useMessages();
 
   const handleSubmit = async (e) => {
@@ -22,16 +20,16 @@ const SofortForm = () => {
       return;
     }
 
-    const {error: backendError, clientSecret} = await fetch(
-      '/create-payment-intent',
+    let {error: backendError, clientSecret} = await fetch(
+      '/api/create-payment-intent',
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          paymentMethodType: 'sofort',
-          currency: 'eur',
+          paymentMethodType: 'fpx',
+          currency: 'myr',
         }),
       }
     ).then((r) => r.json());
@@ -43,21 +41,15 @@ const SofortForm = () => {
 
     addMessage('Client secret returned');
 
-    const {
-      error: stripeError,
-      paymentIntent,
-    } = await stripe.confirmSofortPayment(clientSecret, {
-      payment_method: {
-        sofort: {
-          country: 'DE',
+    let {error: stripeError, paymentIntent} = await stripe.confirmFpxPayment(
+      clientSecret,
+      {
+        payment_method: {
+          fpx: elements.getElement(FpxBankElement),
         },
-        billing_details: {
-          name,
-          email,
-        },
-      },
-      return_url: `${window.location.origin}/sofort?return=true`,
-    });
+        return_url: `${window.location.origin}/fpx?return=true`,
+      }
+    );
 
     if (stripeError) {
       // Show error to your customer (e.g., insufficient funds)
@@ -75,26 +67,10 @@ const SofortForm = () => {
 
   return (
     <>
-      <h1>Sofort</h1>
+      <h1>FPX</h1>
 
       <form id="payment-form" onSubmit={handleSubmit}>
-        <label htmlFor="name">Name</label>
-        <input
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-
+        <FpxBankElement options={{accountHolderType: 'individual'}} />
         <button type="submit">Pay</button>
       </form>
 
@@ -105,11 +81,10 @@ const SofortForm = () => {
 
 // Component for displaying results after returning from
 // bancontact redirect flow.
-const SofortReturn = () => {
+const FpxReturn = () => {
   const stripe = useStripe();
   const [messages, addMessage] = useMessages();
 
-  // Extract the client secret from the query string params.
   const query = new URLSearchParams(useLocation().search);
   const clientSecret = query.get('payment_intent_client_secret');
 
@@ -118,12 +93,11 @@ const SofortReturn = () => {
       return;
     }
     const fetchPaymentIntent = async () => {
-      const {
-        error: stripeError,
-        paymentIntent,
-      } = await stripe.retrievePaymentIntent(clientSecret);
-      if (stripeError) {
-        addMessage(stripeError.message);
+      const {error, paymentIntent} = await stripe.retrievePaymentIntent(
+        clientSecret
+      );
+      if (error) {
+        addMessage(error.message);
       }
       addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
     };
@@ -132,19 +106,19 @@ const SofortReturn = () => {
 
   return (
     <>
-      <h1>Sofort Return</h1>
+      <h1>FPX Return</h1>
       <StatusMessages messages={messages} />
     </>
   );
 };
 
-const Sofort = () => {
+const Fpx = () => {
   const query = new URLSearchParams(useLocation().search);
   if (query.get('return')) {
-    return <SofortReturn />;
+    return <FpxReturn />;
   } else {
-    return <SofortForm />;
+    return <FpxForm />;
   }
 };
 
-export default Sofort;
+export default Fpx;

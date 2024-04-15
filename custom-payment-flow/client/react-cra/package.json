@@ -5,22 +5,13 @@
   "dependencies": {
     "@stripe/react-stripe-js": "^2.6.2",
     "@stripe/stripe-js": "^2.4.0",
-    "@testing-library/jest-dom": "^5.16.5",
-    "@testing-library/react": "^12.1.5",
-    "@testing-library/user-event": "^14.4.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-router-dom": "^6.21.2",
-    "react-scripts": "5.0.1"
+    "react-router-dom": "^6.21.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "start": "vite",
+    "build": "vite build"
   },
   "browserslist": {
     "production": [
@@ -36,7 +27,8 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.14",
-    "postcss-cli": "^10.1.0"
-  },
-  "proxy": "http://localhost:4242"
+    "postcss-cli": "^10.1.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "vite": "^5.2.8"
+  }
 }

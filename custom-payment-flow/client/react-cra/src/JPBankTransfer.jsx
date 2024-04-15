@@ -65,7 +65,7 @@ export const JPBankTransfer = () =>{
             <form id='payment-form' onSubmit={async e => {
                 e.preventDefault()
                 addMessage('fetching...')
-                const paymentIntent = await fetch('/create-payment-intent',{
+                const paymentIntent = await fetch('/api/create-payment-intent',{
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

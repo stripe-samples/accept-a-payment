@@ -1,13 +1,20 @@
 import React, {useState} from 'react';
-import {useStripe, useElements} from '@stripe/react-stripe-js';
-import StatusMessages, {useMessages} from './StatusMessages';
+import {
+  useStripe,
+  useElements,
+} from '@stripe/react-stripe-js';
+import StatusMessages from './StatusMessages';
 
-const OxxoForm = () => {
+const AcssDebitForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [name, setName] = useState('Jenny Rosen');
-  const [email, setEmail] = useState('jr.succeed_immediately@example.com');
-  const [messages, addMessage] = useMessages();
+  const [email, setEmail] = useState('jenny+skip_waiting@example.com');
+  // helper for displaying status messages.
+  const [messages, setMessages] = useState([]);
+  const addMessage = (message) => {
+    setMessages((messages) => [...messages, message]);
+  };
 
   const handleSubmit = async (e) => {
     // We don't want to let default form submission happen here,
@@ -22,15 +29,15 @@ const OxxoForm = () => {
     }
 
     const {error: backendError, clientSecret} = await fetch(
-      '/create-payment-intent',
+      '/api/create-payment-intent',
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          paymentMethodType: 'oxxo',
-          currency: 'mxn',
+          paymentMethodType: 'acss_debit',
+          currency: 'cad',
         }),
       }
     ).then((r) => r.json());
@@ -42,17 +49,17 @@ const OxxoForm = () => {
 
     addMessage('Client secret returned');
 
-    const {error: stripeError, paymentIntent} = await stripe.confirmOxxoPayment(
-      clientSecret,
-      {
-        payment_method: {
-          billing_details: {
-            name,
-            email,
-          },
+    const {
+      error: stripeError,
+      paymentIntent,
+    } = await stripe.confirmAcssDebitPayment(clientSecret, {
+      payment_method: {
+        billing_details: {
+          name,
+          email,
         },
-      }
-    );
+      },
+    });
 
     if (stripeError) {
       // Show error to your customer (e.g., insufficient funds)
@@ -66,28 +73,21 @@ const OxxoForm = () => {
     // payment_intent.succeeded event that handles any business critical
     // post-payment actions.
     addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
-
-    // When passing {any_prefix}succeed_immediately@{any_suffix}
-    // as the email address in the billing details, the payment
-    // intent will succeed after 3 seconds. We set this timeout
-    // to refetch the payment intent.
-    const i = setInterval(async () => {
-      const {error: e, paymentIntent} = await stripe.retrievePaymentIntent(
-        clientSecret
-      );
-      addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
-      if (paymentIntent.status === 'succeeded') {
-        clearInterval(i);
-      }
-      if (e) {
-        addMessage(e.message);
-      }
-    }, 500);
   };
 
   return (
     <>
-      <h1>OXXO</h1>
+      <h1>Pre-authorized debit in Canada (ACSS)</h1>
+
+      <p>
+        <h4>Try these test email addresses:</h4>
+        <dl>
+          <dt><strong>Immediately attempt</strong></dt>
+          <dd><code>{`{any_prefix}+skip_waiting@{any_domain}`}</code></dd>
+          <dt><strong>Skip the mandate delay and receive the micro-deposit verification</strong></dt>
+          <dd><code>{`{any_prefix}+skip_waiting+test_email@{any_domain}`}</code></dd>
+        </dl>
+      </p>
 
       <form id="payment-form" onSubmit={handleSubmit}>
         <label htmlFor="name">Name</label>
@@ -98,7 +98,7 @@ const OxxoForm = () => {
           required
         />
 
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email">Email Address</label>
         <input
           id="email"
           type="email"
@@ -108,13 +108,15 @@ const OxxoForm = () => {
         />
 
         <button type="submit">Pay</button>
+
+        <div id="error-message" role="alert"></div>
       </form>
 
       <StatusMessages messages={messages} />
 
-      <p> <a href="https://youtu.be/zmNMMBbYFf0" target="_blank">Watch a demo walkthrough</a> </p>
+      <p> <a href="https://youtu.be/EwH4B3M0-bk" target="_blank">Watch a demo walkthrough</a> </p>
     </>
   );
 };
 
-export default OxxoForm;
+export default AcssDebitForm;

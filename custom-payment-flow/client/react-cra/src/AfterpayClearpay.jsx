@@ -31,7 +31,7 @@ const AfterpayClearpayForm = () => {
     e.preventDefault();
 
     // create payment intent on the server
-    const {error: backendError, clientSecret} = await fetch('/create-payment-intent', {
+    const {error: backendError, clientSecret} = await fetch('/api/create-payment-intent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

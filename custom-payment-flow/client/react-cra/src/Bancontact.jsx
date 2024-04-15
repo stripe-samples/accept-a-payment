@@ -1,13 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation} from 'react-router-dom';
-import {P24BankElement, useStripe, useElements} from '@stripe/react-stripe-js';
+import {useStripe, useElements} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
-const P24Form = () => {
+const BancontactForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [name, setName] = useState('Jenny Rosen');
-  const [email, setEmail] = useState('jenny.rosen@example.com');
   const [messages, addMessage] = useMessages();
 
   const handleSubmit = async (e) => {
@@ -22,16 +21,19 @@ const P24Form = () => {
       return;
     }
 
-    const {error: backendError, clientSecret} = await fetch('/create-payment-intent', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        paymentMethodType: 'p24',
-        currency: 'eur',
-      }),
-    }).then((r) => r.json());
+    const {error: backendError, clientSecret} = await fetch(
+      '/api/create-payment-intent',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          paymentMethodType: 'bancontact',
+          currency: 'eur',
+        }),
+      }
+    ).then((r) => r.json());
 
     if (backendError) {
       addMessage(backendError.message);
@@ -40,29 +42,17 @@ const P24Form = () => {
 
     addMessage('Client secret returned');
 
-    const {error: stripeError, paymentIntent} = await stripe.confirmP24Payment(
-      clientSecret,
-      {
-        payment_method: {
-          p24: elements.getElement(P24BankElement),
-          billing_details: {
-            name,
-            email,
-          },
+    const {
+      error: stripeError,
+      paymentIntent,
+    } = await stripe.confirmBancontactPayment(clientSecret, {
+      payment_method: {
+        billing_details: {
+          name,
         },
-        payment_method_options: {
-          p24: {
-            // In order to be able to pass the `tos_shown_and_accepted` parameter, you must
-            // ensure that the P24 regulations and information obligation consent
-            // text is clearly in the view of the customer. See
-            // stripe.com/docs/payments/p24/accept-a-payment#requirements
-            // for directions.
-            tos_shown_and_accepted: true,
-          }
-        },
-        return_url: `${window.location.origin}/p24?return=true`,
-      }
-    );
+      },
+      return_url: `${window.location.origin}/bancontact?return=true`,
+    });
 
     if (stripeError) {
       // Show error to your customer (e.g., insufficient funds)
@@ -80,27 +70,17 @@ const P24Form = () => {
 
   return (
     <>
-      <h1>P24</h1>
+      <h1>Bancontact</h1>
 
       <form id="payment-form" onSubmit={handleSubmit}>
         <label htmlFor="name">Name</label>
         <input
           id="name"
-          type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
         />
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
 
-        <P24BankElement />
         <button type="submit">Pay</button>
       </form>
 
@@ -111,10 +91,11 @@ const P24Form = () => {
 
 // Component for displaying results after returning from
 // bancontact redirect flow.
-const P24Return = () => {
+const BancontactReturn = () => {
   const stripe = useStripe();
   const [messages, addMessage] = useMessages();
 
+  // Extract the client secret from the query string params.
   const query = new URLSearchParams(useLocation().search);
   const clientSecret = query.get('payment_intent_client_secret');
 
@@ -137,19 +118,19 @@ const P24Return = () => {
 
   return (
     <>
-      <h1>P24 Return</h1>
+      <h1>Bancontact Return</h1>
       <StatusMessages messages={messages} />
     </>
   );
 };
 
-const P24 = () => {
+const Bancontact = () => {
   const query = new URLSearchParams(useLocation().search);
   if (query.get('return')) {
-    return <P24Return />;
+    return <BancontactReturn />;
   } else {
-    return <P24Form />;
+    return <BancontactForm />;
   }
 };
 
-export default P24;
+export default Bancontact;

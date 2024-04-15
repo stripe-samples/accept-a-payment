@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation} from 'react-router-dom';
-import {useStripe, useElements} from '@stripe/react-stripe-js';
+import {P24BankElement, useStripe, useElements} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
-const AlipayForm = () => {
+const P24Form = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [name, setName] = useState('Jenny Rosen');
+  const [email, setEmail] = useState('jenny.rosen@example.com');
   const [messages, addMessage] = useMessages();
 
   const handleSubmit = async (e) => {
@@ -21,19 +22,16 @@ const AlipayForm = () => {
       return;
     }
 
-    const {error: backendError, clientSecret} = await fetch(
-      '/create-payment-intent',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          paymentMethodType: 'alipay',
-          currency: 'cny',
-        }),
-      }
-    ).then((r) => r.json());
+    const {error: backendError, clientSecret} = await fetch('/api/create-payment-intent', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        paymentMethodType: 'p24',
+        currency: 'eur',
+      }),
+    }).then((r) => r.json());
 
     if (backendError) {
       addMessage(backendError.message);
@@ -42,17 +40,29 @@ const AlipayForm = () => {
 
     addMessage('Client secret returned');
 
-    const {
-      error: stripeError,
-      paymentIntent,
-    } = await stripe.confirmAlipayPayment(clientSecret, {
-      payment_method: {
-        billing_details: {
-          name,
+    const {error: stripeError, paymentIntent} = await stripe.confirmP24Payment(
+      clientSecret,
+      {
+        payment_method: {
+          p24: elements.getElement(P24BankElement),
+          billing_details: {
+            name,
+            email,
+          },
         },
-      },
-      return_url: `${window.location.origin}/alipay?return=true`,
-    });
+        payment_method_options: {
+          p24: {
+            // In order to be able to pass the `tos_shown_and_accepted` parameter, you must
+            // ensure that the P24 regulations and information obligation consent
+            // text is clearly in the view of the customer. See
+            // stripe.com/docs/payments/p24/accept-a-payment#requirements
+            // for directions.
+            tos_shown_and_accepted: true,
+          }
+        },
+        return_url: `${window.location.origin}/p24?return=true`,
+      }
+    );
 
     if (stripeError) {
       // Show error to your customer (e.g., insufficient funds)
@@ -70,17 +80,27 @@ const AlipayForm = () => {
 
   return (
     <>
-      <h1>Alipay</h1>
+      <h1>P24</h1>
 
       <form id="payment-form" onSubmit={handleSubmit}>
         <label htmlFor="name">Name</label>
         <input
           id="name"
+          type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
         />
+        <label htmlFor="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
 
+        <P24BankElement />
         <button type="submit">Pay</button>
       </form>
 
@@ -91,11 +111,10 @@ const AlipayForm = () => {
 
 // Component for displaying results after returning from
 // bancontact redirect flow.
-const AlipayReturn = () => {
+const P24Return = () => {
   const stripe = useStripe();
   const [messages, addMessage] = useMessages();
 
-  // Extract the client secret from the query string params.
   const query = new URLSearchParams(useLocation().search);
   const clientSecret = query.get('payment_intent_client_secret');
 
@@ -104,11 +123,12 @@ const AlipayReturn = () => {
       return;
     }
     const fetchPaymentIntent = async () => {
-      const {error, paymentIntent} = await stripe.retrievePaymentIntent(
-        clientSecret
-      );
-      if (error) {
-        addMessage(error.message);
+      const {
+        error: stripeError,
+        paymentIntent,
+      } = await stripe.retrievePaymentIntent(clientSecret);
+      if (stripeError) {
+        addMessage(stripeError.message);
       }
       addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
     };
@@ -117,19 +137,19 @@ const AlipayReturn = () => {
 
   return (
     <>
-      <h1>Alipay Return</h1>
+      <h1>P24 Return</h1>
       <StatusMessages messages={messages} />
     </>
   );
 };
 
-const Alipay = () => {
+const P24 = () => {
   const query = new URLSearchParams(useLocation().search);
   if (query.get('return')) {
-    return <AlipayReturn />;
+    return <P24Return />;
   } else {
-    return <AlipayForm />;
+    return <P24Form />;
   }
 };
 
-export default Alipay;
+export default P24;

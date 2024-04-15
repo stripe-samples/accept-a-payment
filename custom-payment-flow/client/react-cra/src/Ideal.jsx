@@ -1,12 +1,15 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useLocation} from 'react-router-dom';
-import {EpsBankElement, useStripe, useElements} from '@stripe/react-stripe-js';
+import {
+  IdealBankElement,
+  useStripe,
+  useElements,
+} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
-const EpsForm = () => {
+const IdealForm = () => {
   const stripe = useStripe();
   const elements = useElements();
-  const [name, setName] = useState('Jenny Rosen');
   const [messages, addMessage] = useMessages();
 
   const handleSubmit = async (e) => {
@@ -21,16 +24,19 @@ const EpsForm = () => {
       return;
     }
 
-    const {error: backendError, clientSecret} = await fetch('/create-payment-intent', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        paymentMethodType: 'eps',
-        currency: 'eur',
-      }),
-    }).then((r) => r.json());
+    const {error: backendError, clientSecret} = await fetch(
+      '/api/create-payment-intent',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          paymentMethodType: 'ideal',
+          currency: 'eur',
+        }),
+      }
+    ).then((r) => r.json());
 
     if (backendError) {
       addMessage(backendError.message);
@@ -39,18 +45,18 @@ const EpsForm = () => {
 
     addMessage('Client secret returned');
 
-    const {error: stripeError, paymentIntent} = await stripe.confirmEpsPayment(
-      clientSecret,
-      {
-        payment_method: {
-          eps: elements.getElement(EpsBankElement),
-          billing_details: {
-            name,
-          },
+    const {
+      error: stripeError,
+      paymentIntent,
+    } = await stripe.confirmIdealPayment(clientSecret, {
+      payment_method: {
+        ideal: elements.getElement(IdealBankElement),
+        billing_details: {
+          name: 'Jenny Rosen',
         },
-        return_url: `${window.location.origin}/eps?return=true`,
-      }
-    );
+      },
+      return_url: `${window.location.origin}/ideal?return=true`,
+    });
 
     if (stripeError) {
       // Show error to your customer (e.g., insufficient funds)
@@ -68,28 +74,21 @@ const EpsForm = () => {
 
   return (
     <>
-      <h1>EPS</h1>
-
+      <h1>iDEAL</h1>
       <form id="payment-form" onSubmit={handleSubmit}>
-        <label htmlFor="name">Name</label>
-        <input
-          id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
+        <label htmlFor="ideal-bank-element">iDEAL Bank</label>
+        <IdealBankElement id="ideal-bank-element" />
 
-        <EpsBankElement />
         <button type="submit">Pay</button>
       </form>
-
       <StatusMessages messages={messages} />
     </>
   );
 };
 
-// Component for displaying results after returning from the redirect flow.
-const EpsReturn = () => {
+// Component for displaying results after returning from
+// iDEAL redirect flow.
+const IdealReturn = () => {
   const stripe = useStripe();
   const [messages, addMessage] = useMessages();
 
@@ -102,11 +101,11 @@ const EpsReturn = () => {
     }
     const fetchPaymentIntent = async () => {
       const {
-        error: stripeError,
+        error,
         paymentIntent,
       } = await stripe.retrievePaymentIntent(clientSecret);
-      if (stripeError) {
-        addMessage(stripeError.message);
+      if (error) {
+        addMessage(error.message);
       }
       addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
     };
@@ -115,19 +114,19 @@ const EpsReturn = () => {
 
   return (
     <>
-      <h1>EPS Return</h1>
+      <h1>Ideal Return</h1>
       <StatusMessages messages={messages} />
     </>
   );
 };
 
-const Eps = () => {
+const Ideal = () => {
   const query = new URLSearchParams(useLocation().search);
   if (query.get('return')) {
-    return <EpsReturn />;
+    return <IdealReturn />;
   } else {
-    return <EpsForm />;
+    return <IdealForm />;
   }
 };
 
-export default Eps;
+export default Ideal;

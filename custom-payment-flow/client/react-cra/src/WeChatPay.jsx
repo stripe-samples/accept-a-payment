@@ -17,7 +17,7 @@ const WeChatPay = () => {
     const {
       error: backendError,
       clientSecret
-    } = await fetch('/create-payment-intent', {
+    } = await fetch('/api/create-payment-intent', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

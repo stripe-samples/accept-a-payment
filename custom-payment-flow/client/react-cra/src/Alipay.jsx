@@ -1,20 +1,13 @@
-import React, {useState} from 'react';
-import {
-  useStripe,
-  useElements,
-} from '@stripe/react-stripe-js';
-import StatusMessages from './StatusMessages';
+import React, {useEffect, useState} from 'react';
+import {useLocation} from 'react-router-dom';
+import {useStripe, useElements} from '@stripe/react-stripe-js';
+import StatusMessages, {useMessages} from './StatusMessages';
 
-const AcssDebitForm = () => {
+const AlipayForm = () => {
   const stripe = useStripe();
   const elements = useElements();
   const [name, setName] = useState('Jenny Rosen');
-  const [email, setEmail] = useState('jenny+skip_waiting@example.com');
-  // helper for displaying status messages.
-  const [messages, setMessages] = useState([]);
-  const addMessage = (message) => {
-    setMessages((messages) => [...messages, message]);
-  };
+  const [messages, addMessage] = useMessages();
 
   const handleSubmit = async (e) => {
     // We don't want to let default form submission happen here,
@@ -29,15 +22,15 @@ const AcssDebitForm = () => {
     }
 
     const {error: backendError, clientSecret} = await fetch(
-      '/create-payment-intent',
+      '/api/create-payment-intent',
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          paymentMethodType: 'acss_debit',
-          currency: 'cad',
+          paymentMethodType: 'alipay',
+          currency: 'cny',
         }),
       }
     ).then((r) => r.json());
@@ -52,13 +45,13 @@ const AcssDebitForm = () => {
     const {
       error: stripeError,
       paymentIntent,
-    } = await stripe.confirmAcssDebitPayment(clientSecret, {
+    } = await stripe.confirmAlipayPayment(clientSecret, {
       payment_method: {
         billing_details: {
           name,
-          email,
         },
       },
+      return_url: `${window.location.origin}/alipay?return=true`,
     });
 
     if (stripeError) {
@@ -77,17 +70,7 @@ const AcssDebitForm = () => {
 
   return (
     <>
-      <h1>Pre-authorized debit in Canada (ACSS)</h1>
-
-      <p>
-        <h4>Try these test email addresses:</h4>
-        <dl>
-          <dt><strong>Immediately attempt</strong></dt>
-          <dd><code>{`{any_prefix}+skip_waiting@{any_domain}`}</code></dd>
-          <dt><strong>Skip the mandate delay and receive the micro-deposit verification</strong></dt>
-          <dd><code>{`{any_prefix}+skip_waiting+test_email@{any_domain}`}</code></dd>
-        </dl>
-      </p>
+      <h1>Alipay</h1>
 
       <form id="payment-form" onSubmit={handleSubmit}>
         <label htmlFor="name">Name</label>
@@ -98,25 +81,55 @@ const AcssDebitForm = () => {
           required
         />
 
-        <label htmlFor="email">Email Address</label>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-
         <button type="submit">Pay</button>
-
-        <div id="error-message" role="alert"></div>
       </form>
 
       <StatusMessages messages={messages} />
-
-      <p> <a href="https://youtu.be/EwH4B3M0-bk" target="_blank">Watch a demo walkthrough</a> </p>
     </>
   );
 };
 
-export default AcssDebitForm;
+// Component for displaying results after returning from
+// bancontact redirect flow.
+const AlipayReturn = () => {
+  const stripe = useStripe();
+  const [messages, addMessage] = useMessages();
+
+  // Extract the client secret from the query string params.
+  const query = new URLSearchParams(useLocation().search);
+  const clientSecret = query.get('payment_intent_client_secret');
+
+  useEffect(() => {
+    if (!stripe) {
+      return;
+    }
+    const fetchPaymentIntent = async () => {
+      const {error, paymentIntent} = await stripe.retrievePaymentIntent(
+        clientSecret
+      );
+      if (error) {
+        addMessage(error.message);
+      }
+      addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
+    };
+    fetchPaymentIntent();
+  }, [clientSecret, stripe, addMessage]);
+
+  return (
+    <>
+      <h1>Alipay Return</h1>
+      <StatusMessages messages={messages} />
+    </>
+  );
+};
+
+const Alipay = () => {
+  const query = new URLSearchParams(useLocation().search);
+  if (query.get('return')) {
+    return <AlipayReturn />;
+  } else {
+    return <AlipayForm />;
+  }
+};
+
+export default Alipay;
