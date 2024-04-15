@@ -12,10 +12,6 @@
     "start": "vite",
     "build": "vite build"
   },
-  "proxy": "http://0.0.0.0:4242",
-  "eslintConfig": {
-    "extends": "react-app"
-  },
   "browserslist": {
     "production": [
       ">0.2%",
