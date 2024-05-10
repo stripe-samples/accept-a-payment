@@ -12,7 +12,7 @@
   "dependencies": {
     "@react-navigation/native": "^6.0.7",
     "@react-navigation/stack": "^5.14.5",
-    "@stripe/stripe-react-native": "0.1.4",
+    "@stripe/stripe-react-native": "0.37.3",
     "expo": "^42.0.0",
     "expo-linking": "~2.3.1",
     "expo-status-bar": "~1.0.4",
@@ -36,7 +36,7 @@
     "@wdio/mocha-framework": "^7.16.3",
     "@wdio/spec-reporter": "^7.16.3",
     "@wdio/sync": "^7.16.7",
-    "appium": "^1.22.0",
+    "appium": "^2.5.4",
     "chromedriver": "^119.0.1",
     "expect-webdriverio": "^3.1.4",
     "mocha": "^9.1.3",
