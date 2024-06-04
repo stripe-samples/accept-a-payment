@@ -2,6 +2,7 @@ source 'https://rubygems.org/'
 
 gem 'dotenv'
 gem 'json'
+gem 'rackup'
 gem 'sinatra'
 gem 'stripe'
 gem 'toml-rb'
