@@ -35,6 +35,10 @@ jobs:
           path: 'sample-ci'
 
       - name: Run tests
+        env:
+          STRIPE_PUBLISHABLE_KEY: ${{ secrets.TEST_STRIPE_PUBLISHABLE_KEY }}
+          STRIPE_SECRET_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
+          PRICE: ${{ secrets.TEST_PRICE }}
         run: |
           source sample-ci/helpers.sh
           setup_dependencies
