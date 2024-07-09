@@ -12,6 +12,7 @@ on:
       - 'custom-payment-flow/client/**'
       - 'prebuilt-checkout-page/client/**'
       - 'payment-element/client/**'
+      - '!**/client/vue-cva/**'
       - '!**.css'
       - '!**.md'
 
