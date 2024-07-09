@@ -56,8 +56,7 @@ jobs:
 
       - name: Run tests
         run: |
-          sed -i -E 's/http:\/\/localhost:4242/http:\/\/web:4242/' ${{ matrix.target.sample }}/client/react/vite.config.mjs
-          ln -s react-cra sample-ci/docker/react
+          sed -i -E 's/http:\/\/localhost:4242/http:\/\/web:4242/' ${{ matrix.target.sample }}/client/react-cra/vite.config.mjs
 
           source sample-ci/helpers.sh
           setup_dependencies
@@ -65,17 +64,19 @@ jobs:
           install_docker_compose_settings
           export STRIPE_WEBHOOK_SECRET=$(retrieve_webhook_secret)
           cat <<EOF >> .env
-          DOMAIN=${{ matrix.implementation.server_url }}
-          BASIC=${{ secrets.TEST_BASIC_PRICE }}
-          PREMIUM=${{ secrets.TEST_PREMIUM_PRICE }}
+          DOMAIN=${{ matrix.implementation.domain }}
+          PRICE=${{ secrets.TEST_PRICE }}
+          PAYMENT_METHOD_TYPES="card"
           EOF
 
-          configure_docker_compose_for_integration "${{ matrix.target.sample }}" node ../../client/${{ matrix.implementation.client_type }} node:lts
-          docker-compose --profile="${{ matrix.implementation.profile }}" up -d && wait_web_server
+          configure_docker_compose_for_integration "${{ matrix.target.sample }}" node ../../client/${{ matrix.implementation.client_type }} node:latest
+          docker-compose --profile="${{ matrix.implementation.profile }}" up -d && wait_web_server && wait_web_server "${{ matrix.implementation.domain }}"
+
           command="docker-compose exec -T runner bundle exec rspec spec/${{ matrix.target.tests }}"
           $command \
             || $command --only-failures \
             || $command --only-failures --format RSpec::Github::Formatter --format progress
+
 
       - name: Collect debug information
         if: ${{ failure() }}
