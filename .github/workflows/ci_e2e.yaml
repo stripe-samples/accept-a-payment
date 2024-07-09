@@ -1,0 +1,98 @@
+name: E2E Tests
+on:
+  push:
+    branches:
+      - main
+      - fix-ci
+  workflow_dispatch:
+  pull_request_target:
+    branches:
+      - main
+    paths:
+      - 'custom-payment-flow/client/**'
+      - 'prebuilt-checkout-page/client/**'
+      - 'payment-element/client/**'
+      - '!**/client/vue-cva/**'
+      - '!**.css'
+      - '!**.md'
+
+env:
+  STRIPE_PUBLISHABLE_KEY: ${{ secrets.TEST_STRIPE_PUBLISHABLE_KEY }}
+  STRIPE_SECRET_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
+  PRICE: ${{ secrets.TEST_PRICE }}
+
+jobs:
+  e2e_test: 
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        implementation:
+          - client_type: html
+            domain: http://web:4242
+            profile: e2e
+          - client_type: react-cra
+            domain: http://frontend:3000
+            profile: frontend
+        target:
+          - sample: custom-payment-flow
+            tests: custom_payment_flow_e2e_spec.rb
+          - sample: prebuilt-checkout-page
+            tests: prebuilt_checkout_page_e2e_spec.rb
+          - sample: payment-element
+            tests: payment_element_e2e_spec.rb
+    env:
+      SERVER_URL: ${{ matrix.implementation.server_url }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.after || github.event.pull_request.head.sha }}
+          
+      - name: Checkout CI runner
+        uses: actions/checkout@v4
+        with:
+          repository: 'stripe-samples/sample-ci'
+          path: 'sample-ci'
+
+      - name: Run tests
+        run: |
+          sed -i -E 's/http:\/\/localhost:4242/http:\/\/web:4242/' ${{ matrix.target.sample }}/client/react-cra/vite.config.mjs
+
+          source sample-ci/helpers.sh
+          setup_dependencies
+
+          install_docker_compose_settings
+          export STRIPE_WEBHOOK_SECRET=$(retrieve_webhook_secret)
+          cat <<EOF >> .env
+          DOMAIN=${{ matrix.implementation.domain }}
+          PRICE=${{ secrets.TEST_PRICE }}
+          PAYMENT_METHOD_TYPES="card"
+          EOF
+
+          configure_docker_compose_for_integration "${{ matrix.target.sample }}" node ../../client/${{ matrix.implementation.client_type }} node:latest
+          docker-compose --profile="${{ matrix.implementation.profile }}" up -d && wait_web_server && wait_web_server "${{ matrix.implementation.domain }}"
+
+          command="docker-compose exec -T runner bundle exec rspec spec/${{ matrix.target.tests }}"
+          $command \
+            || $command --only-failures \
+            || $command --only-failures --format RSpec::Github::Formatter --format progress
+
+
+      - name: Collect debug information
+        if: ${{ failure() }}
+        run: |
+          cat .env
+          cat docker-compose.yml
+          docker-compose ps -a
+          docker-compose --profile="${{ matrix.implementation.profile }}" logs web frontend
+
+          docker cp $(docker-compose ps -qa runner | head -1):/work/tmp .
+
+      - name: Upload capybara screenshots
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: screenshots
+          path: |
+            tmp/capybara
