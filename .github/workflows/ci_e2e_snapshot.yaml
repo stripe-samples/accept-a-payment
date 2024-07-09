@@ -1,0 +1,87 @@
+name: E2E Snapshot Tests
+on:
+  push:
+    branches:
+      - main
+      - fix-ci
+  workflow_dispatch:
+  pull_request_target:
+    branches:
+      - main
+    paths:
+      - 'custom-payment-flow/**'
+      - '!**.css'
+      - '!**.md'
+
+env:
+  STRIPE_PUBLISHABLE_KEY: ${{ secrets.TEST_STRIPE_PUBLISHABLE_KEY }}
+  STRIPE_SECRET_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
+  PRICE: ${{ secrets.TEST_PRICE }}
+
+jobs:
+  snapshot_test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        implementation:
+          - client_type: html
+            domain: http://web:4242
+            profile: e2e
+          - client_type: react-cra
+            domain: http://frontend:3000
+            profile: frontend
+        target:
+          - sample: custom-payment-flow
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.after || github.event.pull_request.head.sha }}
+          
+      - name: Checkout CI runner
+        uses: actions/checkout@v4
+        with:
+          repository: 'stripe-samples/sample-ci'
+          path: 'sample-ci'
+
+      - name: Run snapshot tests
+        run: |
+          sed -i -E 's/http:\/\/localhost:4242/http:\/\/web:4242/' ${{ matrix.target.sample }}/client/react-cra/vite.config.mjs
+
+          source sample-ci/helpers.sh
+          setup_dependencies
+
+          install_docker_compose_settings
+          export STRIPE_WEBHOOK_SECRET=$(retrieve_webhook_secret)
+          cat <<EOF >> .env
+          DOMAIN=${{ matrix.implementation.domain }}
+          PRICE=${{ secrets.TEST_PRICE }}
+          PAYMENT_METHOD_TYPES="card"
+          EOF
+
+          configure_docker_compose_for_integration "${{ matrix.target.sample }}" node ../../client/${{ matrix.implementation.client_type }} node:latest
+          docker-compose --profile="${{ matrix.implementation.profile }}" up -d && wait_web_server && wait_web_server "${{ matrix.implementation.domain }}"
+
+          docker compose run --rm playwright npm ci
+          docker compose exec -T playwright npm run test -- --retries 2 ${{ matrix.target.sample }}-e2e-${{ matrix.implementation.client_type }}.spec.ts
+
+      - name: Collect debug information
+        if: ${{ failure() }}
+        run: |
+          cat .env
+          cat docker-compose.yml
+          docker-compose ps -a
+          docker-compose --profile="${{ matrix.implementation.profile }}" logs web frontend
+
+          docker compose cp playwright:/work/playwright/test-results playwright/
+          docker cp $(docker-compose ps -qa runner | head -1):/work/tmp .
+
+      - name: Upload Playwright screenshots
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: playwright-screenshots
+          path: |
+            playwright/test-results
