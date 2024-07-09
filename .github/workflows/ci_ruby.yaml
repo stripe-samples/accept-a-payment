@@ -1,0 +1,41 @@
+name: Server Tests (Ruby)
+on:
+  push:
+    branches:
+      - main
+      - fix-ci
+  workflow_dispatch:
+  pull_request_target:
+    branches:
+      - main
+    paths:
+      - 'custom-payment-flow/server/ruby/**'
+      - 'prebuilt-checkout-page/server/ruby/**'
+      - 'payment-element/server/ruby/**'
+      - '!**.md'
+
+jobs:
+  server_test:
+    strategy:
+      fail-fast: false
+      matrix:
+        runtime:
+          - server_type: ruby
+            server_image: ruby:latest
+          - server_type: ruby
+            server_image: ruby:2.7
+    uses: ./.github/workflows/wf_server_test.yaml
+    secrets: inherit
+    with:
+      server_type: ${{ matrix.runtime.server_type }}
+      server_image: ${{ matrix.runtime.server_image }}
+
+
+  dependabot-auto-merge:
+    if: ${{ github.event.pull_request && github.actor == 'dependabot[bot]' }}
+    needs: server_test
+    permissions:
+      contents: write
+      pull-requests: write
+    uses: ./.github/workflows/wf_dependabot.yaml
+    secrets: inherit
