@@ -5,8 +5,8 @@
   "dependencies": {
     "@stripe/react-stripe-js": "^2.6.2",
     "@stripe/stripe-js": "^2.4.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-router-dom": "^6.21.2"
   },
   "scripts": {
