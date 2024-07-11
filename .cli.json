@@ -4,7 +4,7 @@
   "integrations": [
     {
       "name": "payment-element",
-      "clients": ["html", "react-cra"],
+      "clients": ["html", "react-cra", "vue-cva"],
       "servers": [
         "ruby",
         "node",
