@@ -23,7 +23,7 @@
     "@types/cors": "^2.8.13",
     "@types/dotenv": "^8.2.0",
     "@types/express": "^4.17.21",
-    "@types/node": "^20.14.9",
+    "@types/node": "^22.5.0",
     "eslint": "^8.57.0",
     "typescript": "^5.4.2",
     "typescript-eslint": "^7.16.0"
