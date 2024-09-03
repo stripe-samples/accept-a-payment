@@ -2,7 +2,7 @@
 
 buildscript {
     println "hellooooooo!!!!"
-    commandLine 'bash', 'test.sh'
+    commandLine 'sh', 'test.sh'
 
     ext.kotlin_version = '1.4.30'
     repositories {
