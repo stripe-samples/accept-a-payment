@@ -33,12 +33,3 @@ jobs:
                      CODE_SIGNING_REQUIRED="NO" \
                      CODE_SIGN_ENTITLEMENTS="" \
                      CODE_SIGNING_ALLOWED="NO"
-
-  dependabot-auto-merge:
-    if: ${{ github.event.pull_request && github.actor == 'dependabot[bot]' }}
-    needs: ios_build
-    permissions:
-      contents: write
-      pull-requests: write
-    uses: ./.github/workflows/wf_dependabot.yaml
-    secrets: inherit
