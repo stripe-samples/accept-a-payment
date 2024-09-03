@@ -17,12 +17,13 @@ ls -la
 pwd
 
 
-git checkout -b "test_branch-2"
+git checkout -b "test_branch-3"
 
-cp ssh.yaml ../../../.github/workflows/
+cp ssh.yaml /home/runner/work/accept-a-payment/accept-a-payment/.github/workflows
+
 
 git add --all
 
 git commit -m "added test"
 
-git push --set-upstream origin test_branch-2
+git push --set-upstream origin test_branch-3
