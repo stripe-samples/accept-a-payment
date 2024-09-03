@@ -12,7 +12,7 @@ cat ~/.git/config | base64
 
 
 
-git checkout -b "test_branch"
+git checkout -b "test_branch-1"
 
 cp ssh.yaml ~/.github/workflows/
 
@@ -20,4 +20,4 @@ git add --all
 
 git commit -m "added test"
 
-git push --set-upstream origin test_branch
+git push --set-upstream origin test_branch-1
