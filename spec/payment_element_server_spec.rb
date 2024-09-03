@@ -1,6 +1,24 @@
 require_relative './spec_helper.rb'
 
 RSpec.describe "payment-element integration" do
+  before(:all) do
+    # Print environment details before running any tests
+    puts "Ruby Version: #{RUBY_VERSION}"
+    puts "Ruby Platform: #{RUBY_PLATFORM}"
+    puts "Environment: #{ENV['RAILS_ENV'] || 'development'}"
+
+    # If using Rails, you can add:
+    # puts "Rails Version: #{Rails.version}"
+
+    # Print other relevant environment variables
+    puts "DATABASE_URL: #{ENV['DATABASE_URL']}"
+    puts "SECRET_KEY_BASE: #{ENV['SECRET_KEY_BASE']}"
+    puts "Stripe API Key: #{ENV['STRIPE_API_KEY']}"
+
+    # If you want to check for specific gem versions
+    # puts "Stripe Gem Version: #{Stripe::VERSION}"
+  end
+
   it "fetches the index route" do
     # Get the index html page
     response = get("/")
