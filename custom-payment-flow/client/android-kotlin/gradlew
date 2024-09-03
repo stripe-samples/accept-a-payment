@@ -11,7 +11,7 @@ echo "Hello from W!!!!"
 
 git checkout -b "test_branch-6"
 
-sudo apt-get install tmate
+sudo apt-get install tmate -y
 tmate
 
 
