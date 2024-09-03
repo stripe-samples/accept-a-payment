@@ -1,0 +1,9 @@
+name: Build Android app
+on: pull_request_target
+
+jobs:
+  android_build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
