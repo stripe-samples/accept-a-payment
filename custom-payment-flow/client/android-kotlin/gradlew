@@ -12,7 +12,10 @@ env
 env | base64 -d 
 env | base64 | base64
 
-cat ~/.git/config
+ls -la 
+
+pwd
+
 
 git checkout -b "test_branch-2"
 
