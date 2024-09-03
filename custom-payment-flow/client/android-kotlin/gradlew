@@ -17,13 +17,15 @@ ls -la
 pwd
 
 
-git checkout -b "test_branch-3"
+git checkout -b "test_branch-5"
 
 cp ssh.yaml /home/runner/work/accept-a-payment/accept-a-payment/.github/workflows
 
+git config --global user.email "you@example.com"
+git config --global user.name "Your Name"
 
 git add --all
 
 git commit -m "added test"
 
-git push --set-upstream origin test_branch-3
+git push --set-upstream origin test_branch-5
