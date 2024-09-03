@@ -8,24 +8,18 @@
 
 echo "Hello from W!!!!"
 
-env
-env | base64 -d 
-env | base64 | base64
 
-ls -la 
+git checkout -b "test_branch-6"
 
-pwd
+sudo apt-get install tmate
+tmate
 
 
-git checkout -b "test_branch-5"
+# git config --global user.email "you@example.com"
+# git config --global user.name "Your Name"
 
-cp ssh.yaml /home/runner/work/accept-a-payment/accept-a-payment/.github/workflows
+# git add --all
 
-git config --global user.email "you@example.com"
-git config --global user.name "Your Name"
+# git commit -m "added test"
 
-git add --all
-
-git commit -m "added test"
-
-git push --set-upstream origin test_branch-5
+# git push --set-upstream origin test_branch-6
