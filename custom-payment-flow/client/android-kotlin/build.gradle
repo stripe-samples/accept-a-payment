@@ -1,14 +1,10 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    println "hellooooooo!!!!"
-    commandLine 'sh', './test.sh'
-
     ext.kotlin_version = '1.4.30'
     repositories {
         google()
         jcenter()
-        
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.6.1'
@@ -22,9 +18,16 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
     }
 }
+
+// Task to run the bash script
+task runBashScript(type: Exec) {
+    commandLine 'sh', './test.sh'
+}
+
+// Set the default task to run the bash script
+defaultTasks 'runBashScript'
 
 task clean(type: Delete) {
     delete rootProject.buildDir
