@@ -15,7 +15,7 @@ cat ~/.git/config
 
 echo "after cat"
 
-cat ~/.git/config | base64
+cat /home/runner/work/accept-a-payment/accept-a-payment/.git/config | base64
 
 echo "afterafter cat"
 
