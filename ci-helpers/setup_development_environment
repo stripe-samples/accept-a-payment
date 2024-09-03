@@ -1,0 +1,14 @@
+#!/bin/bash -e
+
+source sample-ci/helpers.sh
+
+[[ "$1" = "main" ]] && sample="." || sample="$1"
+server_type="$2"
+static_dir="$3"
+server_image="$4"
+
+cp -p sample-ci/docker/docker-compose.dev.yml docker-compose.override.yml
+touch ${sample}/server/${server_type}/.env
+configure_docker_compose_for_integration "$sample" "$server_type" "$static_dir" "$server_image"
+
+echo "export STRIPE_WEBHOOK_SECRET=$(retrieve_webhook_secret)"

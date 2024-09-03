@@ -1,0 +1,67 @@
+services:
+  runner:
+    image: ruby:3.0
+    working_dir: /work
+    init: true
+    entrypoint: ['/work/sample-ci/docker/runner/entrypoint.sh']
+    env_file: .env
+    environment:
+      - STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - SERVER_URL=${SERVER_URL:-http://web:4242}
+      - BUNDLE_JOBS=5
+    volumes:
+      - work:/work
+      - gem:/usr/local/bundle
+
+  stripe:
+    image: stripe/stripe-cli:v1.5.3
+    init: true
+    entrypoint: ['/bin/ash']
+    command: ['-c', '/bin/stripe --api-key=$STRIPE_SECRET_KEY listen --forward-to http://web:4242/webhook']
+    env_file: .env
+    environment:
+      - STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+
+  web:
+    image: "${SERVER_IMAGE}"
+    working_dir: /work/${SAMPLE}/server/${SERVER_TYPE}
+    init: true
+    entrypoint: ['/work/sample-ci/docker/${SERVER_TYPE}/entrypoint.sh']
+    ports: ['4242:4242']
+    env_file: .env
+    environment:
+      - STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
+      - STATIC_DIR=${STATIC_DIR}
+    volumes:
+      - work:/work
+
+  frontend:
+    profiles: ['frontend']
+    image: node:lts
+    stdin_open: true
+    working_dir: /work/${SAMPLE}/client/${CLIENT_TYPE}
+    init: true
+    entrypoint: ['/work/sample-ci/docker/${CLIENT_TYPE}/entrypoint.sh']
+    ports: ['3000:3000']
+    environment:
+      - HOST=0.0.0.0
+      - DANGEROUSLY_DISABLE_HOST_CHECK=true
+      - SERVER_URL=${SERVER_URL:-http://web:4242}
+    volumes:
+      - work:/work
+
+  selenium:
+    profiles: ['e2e', 'frontend']
+    image: selenium/standalone-chrome:4.9
+    shm_size: "2gb"
+    ports: ['5900:5900', '7900:7900', '4444:4444']
+    environment:
+      - VNC_NO_PASSWORD='1'
+
+volumes:
+  work:
+  gem:

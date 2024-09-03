@@ -1,0 +1,12 @@
+services:
+  runner:
+    volumes:
+      - .:/work
+
+  web:
+    volumes:
+      - .:/work
+
+  frontend:
+    volumes:
+      - .:/work
