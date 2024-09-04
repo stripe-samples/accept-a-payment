@@ -26,10 +26,6 @@ def get_root():
     return render_template('index.html')
 
 
-def helper_func():
-    # This func should help us do calculations in the future
-    pass
-
 @app.route('/config', methods=['GET'])
 def get_config():
     return jsonify({'publishableKey': os.getenv('STRIPE_PUBLISHABLE_KEY')})

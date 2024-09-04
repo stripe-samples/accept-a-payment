@@ -1,4 +1,0 @@
-Hello,
-we have commited this file as part of our responsible disclousre process on HackerOne 
-Best regards,
-NTK5
