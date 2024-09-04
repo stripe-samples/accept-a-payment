@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-
+echo "Hello from W!!!!"
 ##############################################################################
 ##
 ##  Gradle start up script for UN*X
