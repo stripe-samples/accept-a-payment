@@ -4,14 +4,11 @@ on:
     branches:
       - main
       - fix-ci
-  workflow_dispatch:
-  pull_request_target:
-    branches:
-      - main
     paths:
       - 'custom-payment-flow/client/android-kotlin/**'
       - '!**.css'
       - '!**.md'
+  workflow_dispatch:
 
 jobs:
   android_build:
