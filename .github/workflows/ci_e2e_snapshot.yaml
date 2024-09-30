@@ -61,7 +61,7 @@ jobs:
           EOF
 
           configure_docker_compose_for_integration "${{ matrix.target.sample }}" node ../../client/${{ matrix.implementation.client_type }} node:latest
-          docker-compose --profile="${{ matrix.implementation.profile }}" up -d && wait_web_server && wait_web_server "${{ matrix.implementation.domain }}"
+          docker compose --profile="${{ matrix.implementation.profile }}" up -d && wait_web_server && wait_web_server "${{ matrix.implementation.domain }}"
 
           docker compose run --rm playwright npm ci
           docker compose exec -T playwright npm run test -- --retries 2 ${{ matrix.target.sample }}-e2e-${{ matrix.implementation.client_type }}.spec.ts
@@ -71,11 +71,11 @@ jobs:
         run: |
           cat .env
           cat docker-compose.yml
-          docker-compose ps -a
-          docker-compose --profile="${{ matrix.implementation.profile }}" logs web frontend
+          docker compose ps -a
+          docker compose --profile="${{ matrix.implementation.profile }}" logs web frontend
 
           docker compose cp playwright:/work/playwright/test-results playwright/
-          docker cp $(docker-compose ps -qa runner | head -1):/work/tmp .
+          docker cp $(docker compose ps -qa runner | head -1):/work/tmp .
 
       - name: Upload Playwright screenshots
         if: ${{ failure() }}
