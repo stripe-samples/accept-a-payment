@@ -4,12 +4,15 @@ on:
     branches:
       - main
       - fix-ci
+  workflow_dispatch:
+  pull_request_target:
+    branches:
+      - main
     paths:
       - 'custom-payment-flow/server/java/**'
       - 'prebuilt-checkout-page/server/java/**'
       - 'payment-element/server/java/**'
       - '!**.md'
-  workflow_dispatch:
 
 jobs:
   server_test:
