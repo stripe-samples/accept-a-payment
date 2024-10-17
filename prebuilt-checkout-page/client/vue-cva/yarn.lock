@@ -543,17 +543,17 @@ escape-string-regexp@^4.0.0:
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz#14ba83a5d373e3d311e5afca29cf5bfad965bf34"
   integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
 
-eslint-plugin-vue@^9.27.0:
-  version "9.27.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-9.27.0.tgz#c22dae704a03d9ecefa81364ff89f60ce0481f94"
-  integrity sha512-5Dw3yxEyuBSXTzT5/Ge1X5kIkRTQ3nvBn/VwPwInNiZBSJOO/timWMUaflONnFBzU6NhB68lxnCda7ULV5N7LA==
+eslint-plugin-vue@^9.29.0:
+  version "9.29.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-vue/-/eslint-plugin-vue-9.29.0.tgz#fa1d62a88c22102be4fb8c275929698a1aee4b04"
+  integrity sha512-hamyjrBhNH6Li6R1h1VF9KHfshJlKgKEg3ARbGTn72CMNDSMhWbgC7NdkRDEh25AFW+4SDATzyNM+3gWuZii8g==
   dependencies:
     "@eslint-community/eslint-utils" "^4.4.0"
     globals "^13.24.0"
     natural-compare "^1.4.0"
     nth-check "^2.1.1"
     postcss-selector-parser "^6.0.15"
-    semver "^7.6.0"
+    semver "^7.6.3"
     vue-eslint-parser "^9.4.3"
     xml-name-validator "^4.0.0"
 
@@ -1006,10 +1006,10 @@ run-parallel@^1.1.9:
   dependencies:
     queue-microtask "^1.2.2"
 
-semver@^7.3.6, semver@^7.6.0:
-  version "7.6.2"
-  resolved "https://registry.yarnpkg.com/semver/-/semver-7.6.2.tgz#1e3b34759f896e8f14d6134732ce798aeb0c6e13"
-  integrity sha512-FNAIBWCx9qcRhoHcgcJ0gvU7SN1lYU2ZXuSfl04bSC5OpvDHFyJCjdNHomPXxjQlCBU67YW64PzY7/VIEH7F2w==
+semver@^7.3.6, semver@^7.6.3:
+  version "7.6.3"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-7.6.3.tgz#980f7b5550bc175fb4dc09403085627f9eb33143"
+  integrity sha512-oVekP1cKtI+CTDvHWYFUcMtsK/00wmAEfyqKfNdARm8u1wNVhSgaX7A8d4UuIlUI5e84iEwOhs7ZPYRmzU9U6A==
 
 shebang-command@^2.0.0:
   version "2.0.0"
