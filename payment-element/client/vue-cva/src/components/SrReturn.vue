@@ -25,7 +25,7 @@ onMounted(async () => {
   );
 
   if (error) {
-    messages.value.append(error.message);
+    messages.value.push(error.message);
   }
   messages.value.push(`Payment ${paymentIntent.status}: ${paymentIntent.id}`)
 });
