@@ -82,7 +82,7 @@ app.post('/create-payment-intent', async (req, res) => {
   // at https://dashboard.stripe.com/settings/payment_methods.
   //
   // Some example payment method types include `card`, `ideal`, and `link`.
-  let orderAmount = 1400;
+  let orderAmount = 5999;
   let params = {};
 
   if (calculateTax) {
@@ -149,47 +149,6 @@ app.post('/create-payment-intent', async (req, res) => {
     res.send({
       clientSecret: paymentIntent.client_secret,
       nextAction: paymentIntent.next_action,
-    });
-  } catch (e) {
-    return res.status(400).send({
-      error: {
-        message: e.message,
-      },
-    });
-  }
-});
-
-app.post('/create-intent', async (req, res) => {
-  const {currency, amount, mode} = req.body;
-
-
-  // Create a PaymentIntent with the amount, currency, and a payment method type.
-  //
-  // See the documentation [0] for the full list of supported parameters.
-  //
-  // [0] https://stripe.com/docs/api/payment_intents/create
-  try {
-    var intent;
-    if (mode === "payment") {
-
-    intent = await stripe.paymentIntents.create({
-      amount: amount,
-      currency: currency,
-      automatic_payment_methods: {
-        enabled: true,
-      },
-    });
-  } else if (mode === "setup") {
-    intent = await stripe.setupIntents.create({
-      automatic_payment_methods: {
-        enabled: true,
-      },
-    });
-  }
-
-    // Send publishable key and PaymentIntent details to client
-    res.send({
-      clientSecret: intent.client_secret
     });
   } catch (e) {
     return res.status(400).send({

@@ -15,15 +15,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     apiVersion: '2024-06-20',
   });
 
-  MODE = 'setup';
-  AMOUNT = 1400;
-  CURRENCY = 'usd';
+  MODE = 'payment';
+  AMOUNT = 5999;
+  CURRENCY = 'eur';
 
-  // 3. Create a PaymentRequestButton element
   const elements = stripe.elements({
     mode: MODE,
-    // amount: AMOUNT,
+    amount: AMOUNT,
     currency: CURRENCY,
+    paymentMethodTypes: ['paypal'],
   });
 
   const expressCheckoutElement = elements.create('expressCheckout');
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const handleError = (error) => {
     const messageContainer = document.querySelector('#error-message');
-    messageContainer.textContent = error.message;
+    messageContainer.textContent = error.message + `Is the amount equal to ${AMOUNT} on the server?`;
   };
 
   expressCheckoutElement.on('confirm', async (event) => {
@@ -48,39 +48,29 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
-    const {error: backendError, clientSecret} = await fetch('/create-intent', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        currency: CURRENCY,
-        amount: AMOUNT,
-        mode: MODE,
-      }),
-    }).then((r) => r.json());
+    const {error: backendError, clientSecret} = await fetch(
+      '/create-payment-intent',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          currency: CURRENCY,
+          paymentMethodType: 'paypal',
+        }),
+      }
+    ).then((r) => r.json());
 
-    if (MODE === 'setup') {
-      const {error} = await stripe.confirmSetup({
-        // `elements` instance used to create the Express Checkout Element
-        elements,
-        // `clientSecret` from the created PaymentIntent
-        clientSecret,
-        confirmParams: {
-          return_url: 'https://example.com/order/123/complete',
-        },
-      });
-    } else if (MODE === 'payment') {
-      const {error} = await stripe.confirmPayment({
-        // `elements` instance used to create the Express Checkout Element
-        elements,
-        // `clientSecret` from the created PaymentIntent
-        clientSecret,
-        confirmParams: {
-          return_url: 'https://example.com/order/123/complete',
-        },
-      });
-    }
+    const {error} = await stripe.confirmPayment({
+      // `elements` instance used to create the Express Checkout Element
+      elements,
+      // `clientSecret` from the created PaymentIntent
+      clientSecret,
+      confirmParams: {
+        return_url: 'https://example.com/order/123/complete',
+      },
+    });
 
     if (error) {
       // This point is only reached if there's an immediate error when
