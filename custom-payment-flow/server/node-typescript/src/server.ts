@@ -86,7 +86,7 @@ app.post(
   async (req: express.Request, res: express.Response): Promise<void> => {
     const { currency, paymentMethodType, paymentMethodOptions }: { currency: string, paymentMethodType: string, paymentMethodOptions?: object } = req.body;
 
-    let orderAmount = 1400;
+    let orderAmount = 5999;
     let params: Stripe.PaymentIntentCreateParams;
 
     // Each payment method type has support for different currencies. In order to

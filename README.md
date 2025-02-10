@@ -41,6 +41,7 @@ This repository includes examples of 3 types of integration.
 |Link| ✅ | ✅ |  |
 |Multibanco| ✅ | ✅ |  |
 |OXXO| ✅ | ✅ | ✅ |
+|PayPal| ✅ | ✅ | ✅ |
 |Przelewy24 (P24)| ✅ | ✅ | ✅ |
 |SEPA Direct Debit| ✅ | ✅ | ✅ |
 |Sofort| ✅ | ✅ | ✅ |

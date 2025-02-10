@@ -1,18 +1,19 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const { resolve } = require('path');
+const {resolve} = require('path');
 // Replace if using a different env file or config
-const env = require('dotenv').config({ path: './.env' });
+const env = require('dotenv').config({path: './.env'});
 const calculateTax = false;
 
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2023-10-16",
-  appInfo: { // For sample support and debugging, not required for production:
-    name: "stripe-samples/accept-a-payment/custom-payment-flow",
-    version: "0.0.2",
-    url: "https://github.com/stripe-samples"
-  }
+  apiVersion: '2023-10-16',
+  appInfo: {
+    // For sample support and debugging, not required for production:
+    name: 'stripe-samples/accept-a-payment/custom-payment-flow',
+    version: '0.0.2',
+    url: 'https://github.com/stripe-samples',
+  },
 });
 
 app.use(express.static(process.env.STATIC_DIR));
@@ -27,9 +28,11 @@ app.use(
     },
   })
 );
-app.use(cors({
-  origin: 'http://localhost:3000'
-}));
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+  })
+);
 
 app.get('/', (req, res) => {
   const path = resolve(process.env.STATIC_DIR + '/index.html');
@@ -79,7 +82,7 @@ app.post('/create-payment-intent', async (req, res) => {
   // at https://dashboard.stripe.com/settings/payment_methods.
   //
   // Some example payment method types include `card`, `ideal`, and `link`.
-  let orderAmount = 1400;
+  let orderAmount = 5999;
   let params = {};
 
   if (calculateTax) {
