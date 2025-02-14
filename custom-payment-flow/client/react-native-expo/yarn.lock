@@ -18,17 +18,17 @@
     "@jridgewell/trace-mapping" "^0.3.9"
 
 "@appium/base-driver@^9.6.0":
-  version "9.11.4"
-  resolved "https://registry.yarnpkg.com/@appium/base-driver/-/base-driver-9.11.4.tgz#b799b3bacbbe15e2b691736193db246ce3654c21"
-  integrity sha512-mUqlA9pCr9AHdCjoABcCEeq2IKUVyYrXyQ6vFF5lZZHyZ4AtTzodUQZNi+3tS3FDuEVy9wRT1Q1RB+xgBZ0Iog==
+  version "9.12.0"
+  resolved "https://registry.yarnpkg.com/@appium/base-driver/-/base-driver-9.12.0.tgz#42ffdb90615245da827f905ecbafcecbf854c1d8"
+  integrity sha512-nnRRVRjC6dtcTZUxnuq80PnfWrObR1x9XsHDPR3eC7kbi6meexgQdezoisDw2rOka744zvYMZxDt9E7Q3mkNUA==
   dependencies:
-    "@appium/support" "^5.1.4"
-    "@appium/types" "^0.21.3"
+    "@appium/support" "^5.1.5"
+    "@appium/types" "^0.22.0"
     "@colors/colors" "1.6.0"
     "@types/async-lock" "1.4.2"
     "@types/bluebird" "3.5.42"
-    "@types/express" "4.17.21"
-    "@types/lodash" "4.17.7"
+    "@types/express" "5.0.0"
+    "@types/lodash" "4.17.10"
     "@types/method-override" "0.0.35"
     "@types/serve-favicon" "2.5.7"
     async-lock "1.4.1"
@@ -36,13 +36,13 @@
     axios "1.7.7"
     bluebird "3.7.2"
     body-parser "1.20.3"
-    express "4.21.0"
+    express "4.21.1"
     http-status-codes "2.3.0"
     lodash "4.17.21"
     lru-cache "10.4.3"
     method-override "3.0.0"
     morgan "1.10.0"
-    path-to-regexp "8.1.0"
+    path-to-regexp "8.2.0"
     serve-favicon "2.5.0"
     source-map-support "0.5.21"
     type-fest "4.26.1"
@@ -103,10 +103,10 @@
     json-schema "0.4.0"
     source-map-support "0.5.21"
 
-"@appium/schema@^0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@appium/schema/-/schema-0.6.1.tgz#cc700fc951786680a042aa4c30f70472347be940"
-  integrity sha512-tk4ytYaQQ94h5pqz97V2yKqZAmGnBd4ld50ZEw4Tt8QL2VBXOuTuizKDH+AMpyyL6hn/+dMFtcSVjy19iKrsUg==
+"@appium/schema@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@appium/schema/-/schema-0.7.0.tgz#dc548864915e82a570edb56c15cca1d968b0dd02"
+  integrity sha512-UhozvcSj8aSeZ0oo8JtT8EoowLpjn7V7xahsIN5bRGeir6+XzqRpjxytKASvnKPoPK0Df7oqCdzJOI0iLa62ZA==
   dependencies:
     "@types/json-schema" "7.0.15"
     json-schema "0.4.0"
@@ -173,14 +173,14 @@
   optionalDependencies:
     sharp "0.33.3"
 
-"@appium/support@^5.1.4":
-  version "5.1.4"
-  resolved "https://registry.yarnpkg.com/@appium/support/-/support-5.1.4.tgz#85a25497c06f68a7a0d4c84cb1ed8b40bb99c578"
-  integrity sha512-0jNhtOfSD3gYkSxcSOP3SuTZVUFouq1fTa4ajb91/pNPkvv32IAXdNI8Lg0hz4fjMohw6R/5c2Y6NYjqWQJRwQ==
+"@appium/support@^5.1.5":
+  version "5.1.5"
+  resolved "https://registry.yarnpkg.com/@appium/support/-/support-5.1.5.tgz#4506a02470cefde1549633176655b7f85caa4f70"
+  integrity sha512-/K0ut+ys4dv49hirH4taMK5FJ3cLkTgUGYdoxTh24pfJyd9CE1TCxCoDdCTrO7fmGBfKIsInceZdFJw2/JBAvw==
   dependencies:
     "@appium/logger" "^1.6.1"
     "@appium/tsconfig" "^0.3.3"
-    "@appium/types" "^0.21.3"
+    "@appium/types" "^0.22.0"
     "@colors/colors" "1.6.0"
     "@types/archiver" "6.0.2"
     "@types/base64-stream" "1.0.5"
@@ -203,7 +203,7 @@
     bluebird "3.7.2"
     bplist-creator "0.1.1"
     bplist-parser "0.3.2"
-    form-data "4.0.0"
+    form-data "4.0.1"
     get-stream "6.0.1"
     glob "10.4.5"
     jsftp "2.1.3"
@@ -252,15 +252,15 @@
     "@types/ws" "8.5.10"
     type-fest "4.10.1"
 
-"@appium/types@^0.21.3":
-  version "0.21.3"
-  resolved "https://registry.yarnpkg.com/@appium/types/-/types-0.21.3.tgz#a874703b25fe28a72552d74cf0a23c89237b4129"
-  integrity sha512-jjAv7uWnS9AzV5u2/m63whNQsPvjuyJGXsl/NPy4CQ7z6/wt+BG7GwXP64hmRpwNvA29va7T0DIPQ0kpAa9Dzw==
+"@appium/types@^0.22.0":
+  version "0.22.0"
+  resolved "https://registry.yarnpkg.com/@appium/types/-/types-0.22.0.tgz#ab31faf315fe102cdffc7040f6fc6b720eaaaeef"
+  integrity sha512-2EWAN9Mnjh0ob0n/gTQSpqcflFivBPF/Bh4MLL2Fz09GoiiPCDeILKzdutGo6ZQH9PMEjDd7W//o8b3GwzNfhg==
   dependencies:
     "@appium/logger" "^1.6.1"
-    "@appium/schema" "^0.6.1"
+    "@appium/schema" "^0.7.0"
     "@appium/tsconfig" "^0.3.3"
-    "@types/express" "4.17.21"
+    "@types/express" "5.0.0"
     "@types/ws" "8.5.12"
     type-fest "4.26.1"
 
@@ -3247,6 +3247,16 @@
     "@types/range-parser" "*"
     "@types/send" "*"
 
+"@types/express-serve-static-core@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-5.0.0.tgz#91f06cda1049e8f17eeab364798ed79c97488a1c"
+  integrity sha512-AbXMTZGt40T+KON9/Fdxx0B2WK5hsgxcfXJLr5bFpZ7b4JCex2WyQPTEKdXqfHiY5nKKBScZ7yCoO6Pvgxfvnw==
+  dependencies:
+    "@types/node" "*"
+    "@types/qs" "*"
+    "@types/range-parser" "*"
+    "@types/send" "*"
+
 "@types/express@*", "@types/express@4.17.21":
   version "4.17.21"
   resolved "https://registry.yarnpkg.com/@types/express/-/express-4.17.21.tgz#c26d4a151e60efe0084b23dc3369ebc631ed192d"
@@ -3254,6 +3264,16 @@
   dependencies:
     "@types/body-parser" "*"
     "@types/express-serve-static-core" "^4.17.33"
+    "@types/qs" "*"
+    "@types/serve-static" "*"
+
+"@types/express@5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@types/express/-/express-5.0.0.tgz#13a7d1f75295e90d19ed6e74cab3678488eaa96c"
+  integrity sha512-DvZriSMehGHL1ZNLzi6MidnsDhUZM/x2pRdDIKdwbUNqqwHxMlRdkxtn6/EPKyqKpHqTl/4nRZsRNLpZxZRpPQ==
+  dependencies:
+    "@types/body-parser" "*"
+    "@types/express-serve-static-core" "^5.0.0"
     "@types/qs" "*"
     "@types/serve-static" "*"
 
@@ -3383,10 +3403,10 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.178.tgz#341f6d2247db528d4a13ddbb374bcdc80406f4f8"
   integrity sha512-0d5Wd09ItQWH1qFbEyQ7oTQ3GZrMfth5JkbN3EvTKLXcHLRDSXeLnlvlOn0wvxVIwK5o2M8JzP/OWz7T3NRsbw==
 
-"@types/lodash@4.17.7":
-  version "4.17.7"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.17.7.tgz#2f776bcb53adc9e13b2c0dfd493dfcbd7de43612"
-  integrity sha512-8wTvZawATi/lsmNu10/j2hk1KEP0IvjubqPE3cu1Xz7xfXXt5oCq3SNUz4fMIP4XGF9Ky+Ue2tBA3hcS7LSBlA==
+"@types/lodash@4.17.10":
+  version "4.17.10"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.17.10.tgz#64f3edf656af2fe59e7278b73d3e62404144a6e6"
+  integrity sha512-YpS0zzoduEhuOWjAotS6A5AVCva7X4lVlYLF0FYHAY9sdraBfnatttHItlWeZdGhuEkf+OzMNg2ZYAx8t+52uQ==
 
 "@types/method-override@0.0.35":
   version "0.0.35"
@@ -5103,10 +5123,10 @@ cookie-signature@1.0.6:
   resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
   integrity sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==
 
-cookie@0.6.0:
-  version "0.6.0"
-  resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.6.0.tgz#2798b04b071b0ecbff0dbb62a505a8efa4e19051"
-  integrity sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==
+cookie@0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.7.1.tgz#2f73c42142d5d5cf71310a74fc4ae61670e5dbc9"
+  integrity sha512-6DnInpx7SJ2AK3+CTUE/ZM0vWTUboZCegxhC2xiIydHR9jNuTAASBrfEpHhiGOZw/nX51bHt6YQl8jsGo4y/0w==
 
 core-js-compat@^3.14.0, core-js-compat@^3.8.0:
   version "3.15.0"
@@ -5795,17 +5815,17 @@ expo@^42.0.0:
     serialize-error "^2.1.0"
     uuid "^3.4.0"
 
-express@4.21.0:
-  version "4.21.0"
-  resolved "https://registry.yarnpkg.com/express/-/express-4.21.0.tgz#d57cb706d49623d4ac27833f1cbc466b668eb915"
-  integrity sha512-VqcNGcj/Id5ZT1LZ/cfihi3ttTn+NJmkli2eZADigjq29qTlWi/hAQ43t/VLPq8+UX06FCEx3ByOYet6ZFblng==
+express@4.21.1:
+  version "4.21.1"
+  resolved "https://registry.yarnpkg.com/express/-/express-4.21.1.tgz#9dae5dda832f16b4eec941a4e44aa89ec481b281"
+  integrity sha512-YSFlK1Ee0/GC8QaO91tHcDxJiE/X4FbpAyQWkxAvG6AXCuR65YzK8ua6D9hvi/TzUfZMpc+BwuM1IPw8fmQBiQ==
   dependencies:
     accepts "~1.3.8"
     array-flatten "1.1.1"
     body-parser "1.20.3"
     content-disposition "0.5.4"
     content-type "~1.0.4"
-    cookie "0.6.0"
+    cookie "0.7.1"
     cookie-signature "1.0.6"
     debug "2.6.9"
     depd "2.0.0"
@@ -6124,6 +6144,15 @@ form-data@4.0.0, form-data@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/form-data/-/form-data-4.0.0.tgz#93919daeaf361ee529584b9b31664dc12c9fa452"
   integrity sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==
+  dependencies:
+    asynckit "^0.4.0"
+    combined-stream "^1.0.8"
+    mime-types "^2.1.12"
+
+form-data@4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/form-data/-/form-data-4.0.1.tgz#ba1076daaaa5bfd7e99c1a6cb02aa0a5cff90d48"
+  integrity sha512-tzN8e4TX8+kkxGPK8D5u0FNmjPUjw3lwC9lSLxxoB/+GtsJG91CO8bSWy73APlgAZzZbXEYZJuxjkHH2w+Ezhw==
   dependencies:
     asynckit "^0.4.0"
     combined-stream "^1.0.8"
@@ -8639,10 +8668,10 @@ path-to-regexp@0.1.10:
   resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-0.1.10.tgz#67e9108c5c0551b9e5326064387de4763c4d5f8b"
   integrity sha512-7lf7qcQidTku0Gu3YDPc8DJ1q7OOucfa/BSsIwjuh56VU7katFvuM8hULfkwB3Fns/rsVF7PwPKVw1sl5KQS9w==
 
-path-to-regexp@8.1.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-8.1.0.tgz#4d687606ed0be8ed512ba802eb94d620cb1a86f0"
-  integrity sha512-Bqn3vc8CMHty6zuD+tG23s6v2kwxslHEhTj4eYaVKGIEB+YX/2wd0/rgXLFD9G9id9KCtbVy/3ZgmvZjpa0UdQ==
+path-to-regexp@8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-8.2.0.tgz#73990cc29e57a3ff2a0d914095156df5db79e8b4"
+  integrity sha512-TdrF7fW9Rphjq4RjrW0Kp2AW0Ahwu9sRGTkS6bvDi0SCwZlEZYmcfDbEsTz8RVk0EHIS/Vd1bv3JhG+1xZuAyQ==
 
 path-type@^1.0.0:
   version "1.1.0"
