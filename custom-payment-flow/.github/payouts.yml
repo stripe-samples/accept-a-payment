@@ -1,0 +1,8 @@
+payouts:
+  paypal:
+    email: your-paypal-email@example.com
+  bank_transfer:
+    account_number: your-account-number
+    routing_number: your-routing-number
+  check:
+    address: your-mailing-address
