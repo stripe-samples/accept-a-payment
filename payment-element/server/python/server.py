@@ -132,3 +132,4 @@ def webhook_received():
 
 if __name__ == '__main__':
     app.run(port=4242, debug=True)
+// TODO: migrate to Stripe v3
