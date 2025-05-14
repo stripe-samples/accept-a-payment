@@ -1,15 +1,12 @@
 import React, {useEffect} from 'react';
 import {useLocation} from 'react-router-dom';
 import {
-  IdealBankElement,
   useStripe,
-  useElements,
 } from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
 const IdealForm = () => {
   const stripe = useStripe();
-  const elements = useElements();
   const [messages, addMessage] = useMessages();
 
   const handleSubmit = async (e) => {
@@ -17,7 +14,7 @@ const IdealForm = () => {
     // which would refresh the page.
     e.preventDefault();
 
-    if (!stripe || !elements) {
+    if (!stripe) {
       // Stripe.js has not yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
       addMessage('Stripe.js has not yet loaded.');
@@ -50,7 +47,6 @@ const IdealForm = () => {
       paymentIntent,
     } = await stripe.confirmIdealPayment(clientSecret, {
       payment_method: {
-        ideal: elements.getElement(IdealBankElement),
         billing_details: {
           name: 'Jenny Rosen',
         },
@@ -76,9 +72,6 @@ const IdealForm = () => {
     <>
       <h1>iDEAL</h1>
       <form id="payment-form" onSubmit={handleSubmit}>
-        <label htmlFor="ideal-bank-element">iDEAL Bank</label>
-        <IdealBankElement id="ideal-bank-element" />
-
         <button type="submit">Pay</button>
       </form>
       <StatusMessages messages={messages} />
