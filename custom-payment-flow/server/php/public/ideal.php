@@ -38,9 +38,6 @@ try {
         const stripe = Stripe('<?= $_ENV["STRIPE_PUBLISHABLE_KEY"]; ?>', {
           apiVersion: '2020-08-27',
         });
-        const elements = stripe.elements();
-        const idealBank = elements.create('idealBank');
-        idealBank.mount('#ideal-bank-element');
 
 
         const paymentForm = document.querySelector('#payment-form');
@@ -54,9 +51,6 @@ try {
           // Confirm the payment that was created server side:
           const {error, paymentIntent} = await stripe.confirmIdealPayment(
             '<?= $paymentIntent->client_secret; ?>', {
-              payment_method: {
-                ideal: idealBank,
-              },
               return_url: `${window.location.origin}/return.php`,
             },
           );
@@ -79,18 +73,6 @@ try {
           Name
         </label>
         <input id="name" value="Jenny Rosen" required>
-
-        <!--
-          Using a label with a for attribute that matches the ID of the
-          Element container enables the Element to automatically gain focus
-          when the customer clicks on the label.
-        -->
-        <label for="ideal-bank-element">
-          iDEAL Bank
-        </label>
-        <div id="ideal-bank-element">
-          <!-- A Stripe Element will be inserted here. -->
-        </div>
 
         <button type="submit">Pay</button>
 
