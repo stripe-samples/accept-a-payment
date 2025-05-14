@@ -1,8 +1,6 @@
 import React, {useEffect} from 'react';
 import {useLocation} from 'react-router-dom';
-import {
-  useStripe,
-} from '@stripe/react-stripe-js';
+import {useStripe} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
 const IdealForm = () => {
@@ -42,17 +40,15 @@ const IdealForm = () => {
 
     addMessage('Client secret returned');
 
-    const {
-      error: stripeError,
-      paymentIntent,
-    } = await stripe.confirmIdealPayment(clientSecret, {
-      payment_method: {
-        billing_details: {
-          name: 'Jenny Rosen',
+    const {error: stripeError, paymentIntent} =
+      await stripe.confirmIdealPayment(clientSecret, {
+        payment_method: {
+          billing_details: {
+            name: 'Jenny Rosen',
+          },
         },
-      },
-      return_url: `${window.location.origin}/ideal?return=true`,
-    });
+        return_url: `${window.location.origin}/ideal?return=true`,
+      });
 
     if (stripeError) {
       // Show error to your customer (e.g., insufficient funds)
@@ -93,10 +89,9 @@ const IdealReturn = () => {
       return;
     }
     const fetchPaymentIntent = async () => {
-      const {
-        error,
-        paymentIntent,
-      } = await stripe.retrievePaymentIntent(clientSecret);
+      const {error, paymentIntent} = await stripe.retrievePaymentIntent(
+        clientSecret
+      );
       if (error) {
         addMessage(error.message);
       }
