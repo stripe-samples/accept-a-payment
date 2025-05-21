@@ -14,10 +14,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     apiVersion: '2020-08-27',
   });
 
-  const elements = stripe.elements();
-  const idealBank = elements.create('idealBank');
-  idealBank.mount('#ideal-bank-element');
-
   // When the form is submitted...
   var form = document.getElementById('payment-form');
   form.addEventListener('submit', async (e) => {
@@ -47,14 +43,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const nameInput = document.querySelector('#name');
 
-    // Confirm the idealBank payment given the clientSecret
-    // from the payment intent that was just created on
-    // the server.
+    // Confirm the payment given the clientSecret from
+    // the payment intent that was just created on the
+    // server.
     let {error: stripeError, paymentIntent} = await stripe.confirmIdealPayment(
       clientSecret,
       {
         payment_method: {
-          ideal: idealBank,
           billing_details: {
             name: nameInput.value,
           },
