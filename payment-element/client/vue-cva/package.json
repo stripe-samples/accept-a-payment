@@ -7,7 +7,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@stripe/stripe-js": "^1.22.0",
+    "@stripe/stripe-js": "^8.6.1",
     "vue": "^3.2.29",
     "vue-router": "4"
   },

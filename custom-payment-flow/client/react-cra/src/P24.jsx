@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation} from 'react-router-dom';
-import {P24BankElement, useStripe, useElements} from '@stripe/react-stripe-js';
+import {useStripe} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
 const P24Form = () => {
   const stripe = useStripe();
-  const elements = useElements();
   const [name, setName] = useState('Jenny Rosen');
   const [email, setEmail] = useState('jenny.rosen@example.com');
   const [messages, addMessage] = useMessages();
@@ -15,7 +14,7 @@ const P24Form = () => {
     // which would refresh the page.
     e.preventDefault();
 
-    if (!stripe || !elements) {
+    if (!stripe) {
       // Stripe.js has not yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
       addMessage('Stripe.js has not yet loaded.');
@@ -40,11 +39,11 @@ const P24Form = () => {
 
     addMessage('Client secret returned');
 
+    // Bank selection happens on the redirect page
     const {error: stripeError, paymentIntent} = await stripe.confirmP24Payment(
       clientSecret,
       {
         payment_method: {
-          p24: elements.getElement(P24BankElement),
           billing_details: {
             name,
             email,
@@ -81,6 +80,7 @@ const P24Form = () => {
   return (
     <>
       <h1>P24</h1>
+      <p>Bank selection happens on the redirect page.</p>
 
       <form id="payment-form" onSubmit={handleSubmit}>
         <label htmlFor="name">Name</label>
@@ -100,7 +100,6 @@ const P24Form = () => {
           required
         />
 
-        <P24BankElement />
         <button type="submit">Pay</button>
       </form>
 

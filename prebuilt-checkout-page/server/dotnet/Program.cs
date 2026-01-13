@@ -110,7 +110,7 @@ app.MapPost("webhook", async (HttpRequest req, IOptions<StripeOptions> options) 
         return Results.BadRequest();
     }
 
-    if (stripeEvent.Type == Events.CheckoutSessionCompleted)
+    if (stripeEvent.Type == "checkout.session.completed")
     {
         var session = stripeEvent.Data.Object as Stripe.Checkout.Session;
         app.Logger.LogInformation($"Session ID: {session.Id}");

@@ -3,6 +3,9 @@ require 'sinatra'
 require 'dotenv'
 require './config_helper.rb'
 
+# Disable Rack::Protection to allow proxied requests
+disable :protection
+
 # Copy the .env.example in the root into a .env file in this folder
 Dotenv.load
 ConfigHelper.check_env!
