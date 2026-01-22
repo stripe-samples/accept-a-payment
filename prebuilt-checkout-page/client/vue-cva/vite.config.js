@@ -9,7 +9,7 @@ export default defineConfig({
     host: "0.0.0.0",
     proxy: {
       "/api": {
-        target: process.env.SERVER_URL || 'http://localhost:4242',
+        target: process.env.SERVER_URL || 'http://127.0.0.1:4242',
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       }

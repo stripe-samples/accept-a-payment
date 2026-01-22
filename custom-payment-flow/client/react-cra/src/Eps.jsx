@@ -1,11 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {useLocation} from 'react-router-dom';
-import {EpsBankElement, useStripe, useElements} from '@stripe/react-stripe-js';
+import {useStripe} from '@stripe/react-stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
 const EpsForm = () => {
   const stripe = useStripe();
-  const elements = useElements();
   const [name, setName] = useState('Jenny Rosen');
   const [messages, addMessage] = useMessages();
 
@@ -14,7 +13,7 @@ const EpsForm = () => {
     // which would refresh the page.
     e.preventDefault();
 
-    if (!stripe || !elements) {
+    if (!stripe) {
       // Stripe.js has not yet loaded.
       // Make sure to disable form submission until Stripe.js has loaded.
       addMessage('Stripe.js has not yet loaded.');
@@ -39,11 +38,11 @@ const EpsForm = () => {
 
     addMessage('Client secret returned');
 
+    // Bank selection happens on the redirect page
     const {error: stripeError, paymentIntent} = await stripe.confirmEpsPayment(
       clientSecret,
       {
         payment_method: {
-          eps: elements.getElement(EpsBankElement),
           billing_details: {
             name,
           },
@@ -69,6 +68,7 @@ const EpsForm = () => {
   return (
     <>
       <h1>EPS</h1>
+      <p>Bank selection happens on the redirect page.</p>
 
       <form id="payment-form" onSubmit={handleSubmit}>
         <label htmlFor="name">Name</label>
@@ -79,7 +79,6 @@ const EpsForm = () => {
           required
         />
 
-        <EpsBankElement />
         <button type="submit">Pay</button>
       </form>
 

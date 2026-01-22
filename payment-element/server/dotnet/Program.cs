@@ -140,7 +140,7 @@ app.MapPost("/webhook", async (HttpRequest request, IOptions<StripeOptions> opti
         return Results.BadRequest();
     }
 
-    if (stripeEvent.Type == Events.PaymentIntentSucceeded)
+    if (stripeEvent.Type == "payment_intent.succeeded")
     {
         var paymentIntent = stripeEvent.Data.Object as Stripe.PaymentIntent;
         app.Logger.LogInformation($"PaymentIntent ID: {paymentIntent.Id}");
