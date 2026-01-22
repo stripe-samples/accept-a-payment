@@ -135,3 +135,7 @@ yarn*
 # We can run the E2E testing script, but sometime it remain several files.
 
 playwright/test-results/
+
+# Terraform files
+.terraform*
+terraform.tfstate*
