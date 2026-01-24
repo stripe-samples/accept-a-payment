@@ -16,6 +16,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       <Elements stripe={stripePromise}>
         <App />
       </Elements>
-    </React.StrictMode>,
+    </React.StrictMode>
   );
 });
