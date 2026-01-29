@@ -1,7 +1,7 @@
 source 'https://rubygems.org/'
 
 gem 'dotenv'
-gem 'sinatra', '~> 3.0'
+gem 'sinatra', '~> 4.2'
 gem 'puma'
 gem 'stripe', '~> 18.2'
 gem 'toml-rb'
