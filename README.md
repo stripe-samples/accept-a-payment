@@ -134,6 +134,15 @@ After launching the environment, a couple of setup steps would be needed to laun
 3. In another terminal, install the dependencies and run the client app by running `npm install && npm start`
   * :memo: You might want to set `server.hmr.port` to `443` in `vite.config.js` ([related issue](https://github.com/vitejs/vite/issues/4259))
 
+## Support Us
+
+If you find this project helpful and would like to support its development, you can make a one-time donation through the following platforms:
+
+- [PayPal](https://www.paypal.com/donate?hosted_button_id=XXXXXXXXXXXX)
+- [Stripe](https://buy.stripe.com/test_XXXXXXXXXXXX)
+
+Your support helps us continue to improve the project and provide valuable resources to the community. Thank you!
+
 ## Authors
 
 - [@cjav_dev](https://twitter.com/cjav_dev)

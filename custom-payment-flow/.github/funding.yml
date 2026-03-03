@@ -1,0 +1,11 @@
+github: your-github-username
+open_collective: your-open-collective-username
+patreon: your-patreon-username
+buy_me_a_coffee: your-buy-me-a-coffee-username
+ko_fi: your-ko-fi-username
+liberapay: your-liberapay-username
+payouts:
+  - method: PayPal
+    details: your-paypal-email@example.com
+  - method: Bank Transfer
+    details: your-bank-account-details
