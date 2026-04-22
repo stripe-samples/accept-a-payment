@@ -18,10 +18,9 @@ namespace server.Controllers
         public static void Main(string[] args)
         {
             DotEnv.Load();
-            var port = Environment.GetEnvironmentVariable("PORT") ?? "4242";
             var staticDir = Environment.GetEnvironmentVariable("STATIC_DIR") ?? "../../client/html/public";
             WebHost.CreateDefaultBuilder(args)
-              .UseUrls($"http://0.0.0.0:{port}")
+              .UseUrls("http://0.0.0.0:4242")
               .UseWebRoot(staticDir)
               .UseStartup<Startup>()
               .Build()
@@ -52,6 +51,17 @@ namespace server.Controllers
           app.UseStaticFiles();
           app.UseEndpoints(endpoints => endpoints.MapControllers());
       }
+    }
+
+    [Route("")]
+    [ApiController]
+    public class HomeController : Controller
+    {
+        [HttpGet]
+        public ActionResult Index()
+        {
+            return Redirect("/checkout.html");
+        }
     }
 
     [Route("complete")]

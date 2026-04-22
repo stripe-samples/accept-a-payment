@@ -15,6 +15,10 @@ const client = require("stripe")(process.env.STRIPE_SECRET_KEY, {
 
 const YOUR_DOMAIN = process.env.DOMAIN || "http://localhost:4242";
 
+app.get("/", (req, res) => {
+  res.redirect("/checkout.html");
+});
+
 app.get("/config", (req, res) => {
   res.send({ publishableKey: process.env.STRIPE_PUBLISHABLE_KEY });
 });
@@ -72,5 +76,4 @@ app.get("/session-status", async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 4242;
-app.listen(PORT, () => console.log(`Running on port ${PORT}`));
+app.listen(4242, () => console.log(`Running on port ${4242}`));

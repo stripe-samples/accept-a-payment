@@ -30,7 +30,14 @@ func main() {
     staticDir = "../../client/html/public"
   }
 
-  http.Handle("/", http.FileServer(http.Dir(staticDir)))
+  fs := http.FileServer(http.Dir(staticDir))
+  http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+    if r.URL.Path == "/" {
+      http.Redirect(w, r, "/checkout.html", http.StatusFound)
+      return
+    }
+    fs.ServeHTTP(w, r)
+  })
   http.HandleFunc("/complete", func(w http.ResponseWriter, r *http.Request) {
     http.ServeFile(w, r, filepath.Join(staticDir, "complete.html"))
   })
@@ -49,11 +56,7 @@ func main() {
     createCheckoutSession(sc, w, r)
   })
   http.HandleFunc("/session-status", func(w http.ResponseWriter, r *http.Request) { retrieveCheckoutSession(sc, w, r) })
-  port := os.Getenv("PORT")
-  if port == "" {
-    port = "4242"
-  }
-  addr := "localhost:" + port
+  addr := "localhost:4242"
   log.Printf("Listening on %s", addr)
   log.Fatal(http.ListenAndServe(addr, nil))
 }

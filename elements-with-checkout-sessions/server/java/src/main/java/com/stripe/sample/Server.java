@@ -32,8 +32,7 @@ public class Server {
   }
 
   public static void main(String[] args) {
-    String portEnv = env("PORT", "4242");
-    port(Integer.parseInt(portEnv));
+    port(4242);
 
     // For sample support and debugging, not required for production:
     Stripe.setAppInfo(
@@ -50,6 +49,11 @@ public class Server {
         Paths.get(staticDir).toAbsolutePath().normalize().toString());
 
     Gson gson = new com.google.gson.GsonBuilder().serializeNulls().create();
+
+    get("/", (request, response) -> {
+        response.redirect("/checkout.html");
+        return null;
+    });
 
     get("/complete", (request, response) -> {
         response.type("text/html");
