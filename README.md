@@ -19,33 +19,33 @@ This repository includes examples of 4 types of integration.
 
 ### Payment Method Type Support
 
-|Payment Method Type | [Prebuilt Checkout page](./prebuilt-checkout-page) ([docs](https://stripe.com/docs/payments/accept-a-payment?ui=checkout))| [Payment Element](./payment-element) ([docs](https://stripe.com/docs/payments/accept-a-payment?platform=web&ui=elements)) | [Custom payment flow](./custom-payment-flow) ([docs](https://stripe.com/docs/payments/accept-card-payments?platform=web&ui=elements)) |
-|---|---|---|---|
-|ACH Credit Transfer|  |  | |
-|ACH Debit| ✅ | ✅ | ✅ |
-|Afterpay/Clearpay| ✅ | ✅ | ✅ |
-|Alipay| ✅ | ✅ | ✅ |
-|Apple Pay| ✅ | ✅ | ✅ |
-|Bacs Direct Debit| ✅ |  |  |
-|Bancontact| ✅ | ✅ | ✅ |
-|BECS Direct Debit| ✅ | ✅ | ✅ |
-|Boleto| ✅ | ✅ | ✅ |
-|Cards| ✅ | ✅ | ✅ |
-|EPS| ✅ | ✅ | ✅ |
-|FPX| ✅ | ✅ | ✅ |
-|giropay| ✅ | ✅ | ✅ |
-|Google Pay| ✅ | ✅ | ✅ |
-|GrabPay| ✅ | ✅ | ✅ |
-|iDEAL| ✅ | ✅ | ✅ |
-|Klarna| ✅ | ✅ | ✅ |
-|Link| ✅ | ✅ |  |
-|Multibanco| ✅ | ✅ |  |
-|OXXO| ✅ | ✅ | ✅ |
-|PayPal| ✅ | ✅ | ✅ |
-|Przelewy24 (P24)| ✅ | ✅ | ✅ |
-|SEPA Direct Debit| ✅ | ✅ | ✅ |
-|Sofort| ✅ | ✅ | ✅ |
-|WeChat Pay| ✅ | ✅ | ✅ |
+|Payment Method Type | [Prebuilt Checkout page](./prebuilt-checkout-page) ([docs](https://stripe.com/docs/payments/accept-a-payment?ui=checkout))| [Payment Element](./payment-element) ([docs](https://stripe.com/docs/payments/accept-a-payment?platform=web&ui=elements)) | [Custom payment flow](./custom-payment-flow) ([docs](https://stripe.com/docs/payments/accept-card-payments?platform=web&ui=elements)) | [Elements with Checkout Sessions](./elements-with-checkout-sessions) ([docs](https://docs.stripe.com/payments/quickstart-checkout-sessions)) |
+|---|---|---|---|---|
+|ACH Credit Transfer|  |  | | |
+|ACH Debit| ✅ | ✅ | ✅ | ✅ |
+|Afterpay/Clearpay| ✅ | ✅ | ✅ | ✅ |
+|Alipay| ✅ | ✅ | ✅ | ✅ |
+|Apple Pay| ✅ | ✅ | ✅ | ✅ |
+|Bacs Direct Debit| ✅ |  |  | ✅ |
+|Bancontact| ✅ | ✅ | ✅ | ✅ |
+|BECS Direct Debit| ✅ | ✅ | ✅ | ✅ |
+|Boleto| ✅ | ✅ | ✅ | ✅ |
+|Cards| ✅ | ✅ | ✅ | ✅ |
+|EPS| ✅ | ✅ | ✅ | ✅ |
+|FPX| ✅ | ✅ | ✅ | ✅ |
+|giropay| ✅ | ✅ | ✅ | ✅ |
+|Google Pay| ✅ | ✅ | ✅ | ✅ |
+|GrabPay| ✅ | ✅ | ✅ | ✅ |
+|iDEAL| ✅ | ✅ | ✅ | ✅ |
+|Klarna| ✅ | ✅ | ✅ | ✅ |
+|Link| ✅ | ✅ |  | ✅ |
+|Multibanco| ✅ | ✅ |  | ✅ |
+|OXXO| ✅ | ✅ | ✅ | ✅ |
+|PayPal| ✅ | ✅ | ✅ | ✅ |
+|Przelewy24 (P24)| ✅ | ✅ | ✅ | ✅ |
+|SEPA Direct Debit| ✅ | ✅ | ✅ | ✅ |
+|Sofort| ✅ | ✅ | ✅ | ✅ |
+|WeChat Pay| ✅ | ✅ | ✅ | ✅ |
 
 
 ## Installation

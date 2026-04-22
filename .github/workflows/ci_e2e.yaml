@@ -29,7 +29,7 @@ env:
   PRICE: ${{ secrets.TEST_PRICE }}
 
 jobs:
-  e2e_test: 
+  e2e_test:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -48,12 +48,19 @@ jobs:
             tests: prebuilt_checkout_page_e2e_spec.rb
           - sample: payment-element
             tests: payment_element_e2e_spec.rb
+          - sample: elements-with-checkout-sessions
+            tests: elements_with_checkout_sessions_e2e_spec.rb
+        exclude:
+          - implementation:
+              client_type: react-cra
+            target:
+              sample: elements-with-checkout-sessions
     env:
       SERVER_URL: ${{ matrix.implementation.server_url }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-          
+
       - name: Checkout CI runner
         uses: actions/checkout@v4
         with:
