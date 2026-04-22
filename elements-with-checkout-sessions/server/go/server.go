@@ -41,7 +41,13 @@ func main() {
       PublishableKey: os.Getenv("STRIPE_PUBLISHABLE_KEY"),
     })
   })
-  http.HandleFunc("/create-checkout-session", func(w http.ResponseWriter, r *http.Request) { createCheckoutSession(sc, w, r) })
+  http.HandleFunc("/create-checkout-session", func(w http.ResponseWriter, r *http.Request) {
+    if r.Method != http.MethodPost {
+      http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+      return
+    }
+    createCheckoutSession(sc, w, r)
+  })
   http.HandleFunc("/session-status", func(w http.ResponseWriter, r *http.Request) { retrieveCheckoutSession(sc, w, r) })
   port := os.Getenv("PORT")
   if port == "" {
@@ -58,7 +64,6 @@ func createCheckoutSession(sc *stripe.Client, w http.ResponseWriter, r *http.Req
     domain = "http://localhost:4242"
   }
   params := &stripe.CheckoutSessionCreateParams{
-
     UIMode: stripe.String("elements"),
     ReturnURL: stripe.String(domain + "/complete?session_id={CHECKOUT_SESSION_ID}"),
     LineItems: []*stripe.CheckoutSessionCreateLineItemParams{
@@ -80,7 +85,7 @@ func createCheckoutSession(sc *stripe.Client, w http.ResponseWriter, r *http.Req
 
   if err != nil {
     log.Printf("sc.V1CheckoutSessions.Create: %v", err)
-    http.Error(w, err.Error(), http.StatusBadRequest)
+    writeJSONError(w, err.Error(), http.StatusBadRequest)
     return
   }
 
@@ -98,7 +103,7 @@ func retrieveCheckoutSession(sc *stripe.Client, w http.ResponseWriter, r *http.R
 
   if err != nil {
     log.Printf("sc.V1CheckoutSessions.Retrieve: %v", err)
-    http.Error(w, err.Error(), http.StatusBadRequest)
+    writeJSONError(w, err.Error(), http.StatusBadRequest)
     return
   }
 
@@ -112,6 +117,20 @@ func retrieveCheckoutSession(sc *stripe.Client, w http.ResponseWriter, r *http.R
     PaymentStatus: string(s.PaymentStatus),
     PaymentIntentId: string(s.PaymentIntent.ID),
     PaymentIntentStatus: string(s.PaymentIntent.Status),
+  })
+}
+
+func writeJSONError(w http.ResponseWriter, message string, status int) {
+  w.Header().Set("Content-Type", "application/json")
+  w.WriteHeader(status)
+  json.NewEncoder(w).Encode(struct {
+    Error struct {
+      Message string `json:"message"`
+    } `json:"error"`
+  }{
+    Error: struct {
+      Message string `json:"message"`
+    }{Message: message},
   })
 }
 

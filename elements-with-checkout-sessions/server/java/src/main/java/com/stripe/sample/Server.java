@@ -13,10 +13,10 @@ import static spark.Spark.staticFiles;
 import com.google.gson.Gson;
 import io.github.cdimascio.dotenv.Dotenv;
 
+import com.stripe.Stripe;
 import com.stripe.StripeClient;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
-import com.stripe.net.RequestOptions;
 import com.stripe.param.checkout.SessionCreateParams;
 import com.stripe.param.checkout.SessionRetrieveParams;
 
@@ -34,6 +34,13 @@ public class Server {
   public static void main(String[] args) {
     String portEnv = env("PORT", "4242");
     port(Integer.parseInt(portEnv));
+
+    // For sample support and debugging, not required for production:
+    Stripe.setAppInfo(
+        "stripe-samples/accept-a-payment/elements-with-checkout-sessions",
+        "0.0.2",
+        "https://github.com/stripe-samples"
+    );
 
     // Don't put any keys in code. See https://docs.stripe.com/keys-best-practices.
     StripeClient client = new StripeClient(env("STRIPE_SECRET_KEY", ""));
@@ -60,7 +67,6 @@ public class Server {
         String YOUR_DOMAIN = env("DOMAIN", "http://localhost:4242");
         SessionCreateParams params =
           SessionCreateParams.builder()
-
             .setUiMode(SessionCreateParams.UiMode.ELEMENTS)
             .setMode(SessionCreateParams.Mode.PAYMENT)
             .setReturnUrl(YOUR_DOMAIN + "/complete?session_id={CHECKOUT_SESSION_ID}")
@@ -82,7 +88,7 @@ public class Server {
         Session session = client.v1().checkout().sessions().create(params);
 
         Map<String, String> map = new HashMap();
-        map.put("clientSecret", session.getRawJsonObject().getAsJsonPrimitive("client_secret").getAsString());
+        map.put("clientSecret", session.getClientSecret());
 
         return map;
       } catch (StripeException e) {
@@ -95,16 +101,15 @@ public class Server {
 
     get("/session-status", (request, response) -> {
       try {
-        RequestOptions options = RequestOptions.builder().build();
         SessionRetrieveParams params =
           SessionRetrieveParams.builder().addExpand("payment_intent").build();
-        Session session = client.v1().checkout().sessions().retrieve(request.queryParams("session_id"), params, options);
+        Session session = client.v1().checkout().sessions().retrieve(request.queryParams("session_id"), params);
 
         Map<String, String> map = new HashMap();
-        map.put("status", session.getRawJsonObject().getAsJsonPrimitive("status").getAsString());
-        map.put("payment_status", session.getRawJsonObject().getAsJsonPrimitive("payment_status").getAsString());
-        map.put("payment_intent_id", session.getRawJsonObject().getAsJsonObject("payment_intent").getAsJsonPrimitive("id").getAsString());
-        map.put("payment_intent_status", session.getRawJsonObject().getAsJsonObject("payment_intent").getAsJsonPrimitive("status").getAsString());
+        map.put("status", session.getStatus());
+        map.put("payment_status", session.getPaymentStatus());
+        map.put("payment_intent_id", session.getPaymentIntentObject().getId());
+        map.put("payment_intent_status", session.getPaymentIntentObject().getStatus());
 
         return map;
       } catch (StripeException e) {

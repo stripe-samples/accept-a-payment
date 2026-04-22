@@ -12,7 +12,6 @@ $YOUR_DOMAIN = getenv('DOMAIN') ?: 'http://localhost:4242';
 
 try {
   $checkout_session = $stripe->checkout->sessions->create([
-
     'ui_mode' => 'elements',
     'line_items' => [[
       'price_data' => [

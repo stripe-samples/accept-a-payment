@@ -11,11 +11,6 @@ using Microsoft.Extensions.Hosting;
 using Stripe;
 using Stripe.Checkout;
 
-public class StripeOptions
-{
-    public string option { get; set; }
-}
-
 namespace server.Controllers
 {
     public class Program
@@ -108,7 +103,6 @@ namespace server.Controllers
                 var domain = Environment.GetEnvironmentVariable("DOMAIN") ?? "http://localhost:4242";
                 var options = new SessionCreateOptions
                 {
-
                     UiMode = "elements",
                     LineItems = new List<SessionLineItemOptions>
                     {

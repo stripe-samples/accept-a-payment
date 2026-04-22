@@ -37,7 +37,10 @@ const Complete = () => {
     }
 
     fetch(`/session-status?session_id=${sessionId}`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error('Failed to fetch session status');
+        return res.json();
+      })
       .then((data) => {
         setStatus(data.status);
         setPaymentIntentId(data.payment_intent_id);

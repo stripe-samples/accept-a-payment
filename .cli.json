@@ -42,6 +42,19 @@
         "dotnet",
         "node-typescript"
       ]
+    },
+    {
+      "name": "elements-with-checkout-sessions",
+      "clients": ["html", "react"],
+      "servers": [
+        "ruby",
+        "node",
+        "python",
+        "php",
+        "java",
+        "go",
+        "dotnet"
+      ]
     }
   ]
 }

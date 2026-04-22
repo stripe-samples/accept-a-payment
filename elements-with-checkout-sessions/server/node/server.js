@@ -1,12 +1,12 @@
-require('dotenv').config();
+require('dotenv').config({path: './.env'});
 const express = require("express");
 const app = express();
 app.use(express.static(process.env.STATIC_DIR || "../../client/html/public"));
+app.use(express.json());
 
 // Don't put any keys in code. See https://docs.stripe.com/keys-best-practices.
-// In the Node SDK (v22), V1 API resources live directly on the client instance
-// (e.g. client.checkout.sessions) — there is no .v1 namespace like other SDKs.
 const client = require("stripe")(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2023-10-16',
   appInfo: { // For sample support and debugging, not required for production:
     name: "stripe-samples/accept-a-payment/elements-with-checkout-sessions",
     version: "0.0.2",
@@ -27,7 +27,6 @@ app.get("/complete", (req, res) => {
 app.post("/create-checkout-session", async (req, res) => {
   try {
     const session = await client.checkout.sessions.create({
-
       ui_mode: "elements",
       line_items: [
         {
