@@ -107,17 +107,30 @@ func retrieveCheckoutSession(sc *stripe.Client, w http.ResponseWriter, r *http.R
     return
   }
 
+  var piID, piStatus string
+  if s.PaymentIntent != nil {
+    piID = string(s.PaymentIntent.ID)
+    piStatus = string(s.PaymentIntent.Status)
+  }
+
   writeJSON(w, struct {
     Status string `json:"status"`
     PaymentStatus string `json:"payment_status"`
-    PaymentIntentId string `json:"payment_intent_id"`
-    PaymentIntentStatus string `json:"payment_intent_status"`
+    PaymentIntentId *string `json:"payment_intent_id"`
+    PaymentIntentStatus *string `json:"payment_intent_status"`
   }{
     Status: string(s.Status),
     PaymentStatus: string(s.PaymentStatus),
-    PaymentIntentId: string(s.PaymentIntent.ID),
-    PaymentIntentStatus: string(s.PaymentIntent.Status),
+    PaymentIntentId: nilIfEmpty(piID),
+    PaymentIntentStatus: nilIfEmpty(piStatus),
   })
+}
+
+func nilIfEmpty(s string) *string {
+  if s == "" {
+    return nil
+  }
+  return &s
 }
 
 func writeJSONError(w http.ResponseWriter, message string, status int) {

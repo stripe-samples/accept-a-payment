@@ -154,7 +154,8 @@ namespace server.Controllers
                 options.AddExpand("payment_intent");
                 Session session = _client.V1.Checkout.Sessions.Get(session_id, options);
 
-                return Json(new {status = session.Status, payment_status = session.PaymentStatus, payment_intent_id = session.PaymentIntent.Id, payment_intent_status = session.PaymentIntent.Status});
+                var pi = session.PaymentIntent;
+                return Json(new {status = session.Status, payment_status = session.PaymentStatus, payment_intent_id = pi?.Id, payment_intent_status = pi?.Status});
             }
             catch (StripeException e)
             {

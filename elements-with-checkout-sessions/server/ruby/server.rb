@@ -59,7 +59,8 @@ get '/session-status' do
   begin
     session = client.v1.checkout.sessions.retrieve(params[:session_id], {expand: ["payment_intent"]})
 
-    { status: session.status, payment_status: session.payment_status, payment_intent_id: session.payment_intent.id, payment_intent_status: session.payment_intent.status }.to_json
+    pi = session.payment_intent
+    { status: session.status, payment_status: session.payment_status, payment_intent_id: pi&.id, payment_intent_status: pi&.status }.to_json
   rescue => e
     status 400
     { error: { message: e.message } }.to_json

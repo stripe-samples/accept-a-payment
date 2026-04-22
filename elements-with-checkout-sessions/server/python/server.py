@@ -72,7 +72,13 @@ def session_status():
     try:
         session = client.v1.checkout.sessions.retrieve(request.args.get('session_id'), params={'expand': ["payment_intent"]})
 
-        return jsonify(status=session.status, payment_status=session.payment_status, payment_intent_id=session.payment_intent.id, payment_intent_status=session.payment_intent.status)
+        pi = session.payment_intent
+        return jsonify(
+            status=session.status,
+            payment_status=session.payment_status,
+            payment_intent_id=pi.id if pi else None,
+            payment_intent_status=pi.status if pi else None
+        )
     except Exception as e:
         return jsonify(error={'message': str(e)}), 400
 
