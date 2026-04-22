@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - fix-ci
+      - chrislim-add-elements-with-checkout-sessions
     paths:
       - 'custom-payment-flow/server/ruby/**'
       - 'prebuilt-checkout-page/server/ruby/**'
