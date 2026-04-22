@@ -6,7 +6,7 @@ Stripe Sample.
 Python 3.6 or newer required.
 """
 import os
-from flask import Flask, jsonify, redirect, request, send_from_directory
+from flask import Flask, jsonify, request, send_from_directory
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -33,10 +33,6 @@ app = Flask(__name__,
             static_folder=static_dir)
 
 YOUR_DOMAIN = os.environ.get('DOMAIN', 'http://localhost:4242')
-
-@app.route('/')
-def index():
-    return redirect('/checkout.html')
 
 @app.route('/config', methods=['GET'])
 def get_config():

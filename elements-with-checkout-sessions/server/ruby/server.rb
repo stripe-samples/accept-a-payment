@@ -17,10 +17,6 @@ set :port, 4242
 
 YOUR_DOMAIN = ENV.fetch('DOMAIN', 'http://localhost:4242')
 
-get '/' do
-  redirect '/checkout.html'
-end
-
 get '/complete' do
   send_file File.join(settings.public_folder, 'complete.html')
 end

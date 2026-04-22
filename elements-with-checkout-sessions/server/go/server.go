@@ -30,14 +30,7 @@ func main() {
     staticDir = "../../client/html/public"
   }
 
-  fs := http.FileServer(http.Dir(staticDir))
-  http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-    if r.URL.Path == "/" {
-      http.Redirect(w, r, "/checkout.html", http.StatusFound)
-      return
-    }
-    fs.ServeHTTP(w, r)
-  })
+  http.Handle("/", http.FileServer(http.Dir(staticDir)))
   http.HandleFunc("/complete", func(w http.ResponseWriter, r *http.Request) {
     http.ServeFile(w, r, filepath.Join(staticDir, "complete.html"))
   })

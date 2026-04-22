@@ -6,7 +6,6 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.HashMap;
 
-import static spark.Spark.before;
 import static spark.Spark.post;
 import static spark.Spark.get;
 import static spark.Spark.port;
@@ -50,10 +49,6 @@ public class Server {
         Paths.get(staticDir).toAbsolutePath().normalize().toString());
 
     Gson gson = new com.google.gson.GsonBuilder().serializeNulls().create();
-
-    before("/", (request, response) -> {
-        response.redirect("/checkout.html");
-    });
 
     get("/complete", (request, response) -> {
         response.type("text/html");
