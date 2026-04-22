@@ -4,6 +4,7 @@ on:
     branches:
       - main
       - fix-ci
+      - chrislim-add-elements-with-checkout-sessions
     paths:
       - 'custom-payment-flow/server/python/**'
       - 'prebuilt-checkout-page/server/python/**'
