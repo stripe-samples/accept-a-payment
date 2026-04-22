@@ -12,6 +12,9 @@ on:
       - '!**.md'
   pull_request:
     paths:
+      - 'custom-payment-flow/server/ruby/**'
+      - 'prebuilt-checkout-page/server/ruby/**'
+      - 'payment-element/server/ruby/**'
       - 'elements-with-checkout-sessions/server/ruby/**'
       - '!**.md'
   workflow_dispatch:

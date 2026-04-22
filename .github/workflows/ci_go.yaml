@@ -12,6 +12,9 @@ on:
       - '!**.md'
   pull_request:
     paths:
+      - 'custom-payment-flow/server/go/**'
+      - 'prebuilt-checkout-page/server/go/**'
+      - 'payment-element/server/go/**'
       - 'elements-with-checkout-sessions/server/go/**'
       - '!**.md'
   workflow_dispatch:
