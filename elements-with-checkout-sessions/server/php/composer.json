@@ -2,5 +2,8 @@
   "require": {
     "stripe/stripe-php": "^20.0",
     "vlucas/phpdotenv": "^5.6"
+  },
+  "scripts": {
+    "start": "php -S 0.0.0.0:4242 router.php"
   }
 }

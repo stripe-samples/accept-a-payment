@@ -53,17 +53,6 @@ namespace server.Controllers
       }
     }
 
-    [Route("")]
-    [ApiController]
-    public class HomeController : Controller
-    {
-        [HttpGet]
-        public ActionResult Index()
-        {
-            return Redirect("/checkout.html");
-        }
-    }
-
     [Route("complete")]
     [ApiController]
     public class CompleteController : Controller
