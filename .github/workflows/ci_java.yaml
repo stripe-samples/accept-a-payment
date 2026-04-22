@@ -8,6 +8,7 @@ on:
       - 'custom-payment-flow/server/java/**'
       - 'prebuilt-checkout-page/server/java/**'
       - 'payment-element/server/java/**'
+      - 'elements-with-checkout-sessions/server/java/**'
       - '!**.md'
   workflow_dispatch:
 

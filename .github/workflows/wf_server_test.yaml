@@ -22,6 +22,8 @@ jobs:
             tests: prebuilt_checkout_page_spec.rb
           - sample: payment-element
             tests: payment_element_server_spec.rb
+          - sample: elements-with-checkout-sessions
+            tests: elements_with_checkout_sessions_server_spec.rb
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

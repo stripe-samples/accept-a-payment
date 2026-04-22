@@ -8,6 +8,7 @@ on:
       - 'custom-payment-flow/client/**'
       - 'prebuilt-checkout-page/client/**'
       - 'payment-element/client/**'
+      - 'elements-with-checkout-sessions/client/**'
       - '!**/client/vue-cva/**'
       - '!**.css'
       - '!**.md'
@@ -38,6 +39,13 @@ jobs:
             tests: prebuilt_checkout_page_e2e_spec.rb
           - sample: payment-element
             tests: payment_element_e2e_spec.rb
+          - sample: elements-with-checkout-sessions
+            tests: elements_with_checkout_sessions_e2e_spec.rb
+        exclude:
+          - implementation:
+              client_type: react-cra
+            target:
+              sample: elements-with-checkout-sessions
     env:
       SERVER_URL: ${{ matrix.implementation.server_url }}
     steps:
