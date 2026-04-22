@@ -6,6 +6,9 @@ RSpec.describe 'Elements with Checkout Sessions', type: :system do
   end
 
   example 'happy path' do
+    # Wait for the payment form to load
+    expect(page).to have_css('#payment-element iframe', wait: 30)
+
     fill_in 'email', with: "test#{SecureRandom.hex(4)}@example.com"
 
     within_frame find('#payment-element iframe') do
