@@ -50,7 +50,7 @@ func main() {
   })
   http.HandleFunc("/session-status", func(w http.ResponseWriter, r *http.Request) { retrieveCheckoutSession(sc, w, r) })
   http.HandleFunc("/webhook", handleWebhook)
-  addr := "localhost:4242"
+  addr := "0.0.0.0:4242"
   log.Printf("Listening on %s", addr)
   log.Fatal(http.ListenAndServe(addr, nil))
 }
