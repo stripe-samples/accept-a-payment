@@ -6,7 +6,6 @@ app.use(express.json());
 
 // Don't put any keys in code. See https://docs.stripe.com/keys-best-practices.
 const client = require("stripe")(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2023-10-16',
   appInfo: { // For sample support and debugging, not required for production:
     name: "stripe-samples/accept-a-payment/elements-with-checkout-sessions",
     version: "0.0.2",
@@ -61,8 +60,8 @@ app.get("/session-status", async (req, res) => {
     res.send({
       status: session.status,
       payment_status: session.payment_status,
-      payment_intent_id: session.payment_intent.id,
-      payment_intent_status: session.payment_intent.status
+      payment_intent_id: session.payment_intent?.id ?? null,
+      payment_intent_status: session.payment_intent?.status ?? null
     });
   } catch (e) {
     return res.status(400).send({

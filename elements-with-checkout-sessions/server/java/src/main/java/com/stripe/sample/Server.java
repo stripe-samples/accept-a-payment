@@ -47,9 +47,9 @@ public class Server {
 
     String staticDir = env("STATIC_DIR", "../../client/html/public");
     staticFiles.externalLocation(
-        Paths.get(staticDir).toAbsolutePath().toString());
+        Paths.get(staticDir).toAbsolutePath().normalize().toString());
 
-    Gson gson = new Gson();
+    Gson gson = new com.google.gson.GsonBuilder().serializeNulls().create();
 
     get("/complete", (request, response) -> {
         response.type("text/html");
@@ -105,11 +105,12 @@ public class Server {
           SessionRetrieveParams.builder().addExpand("payment_intent").build();
         Session session = client.v1().checkout().sessions().retrieve(request.queryParams("session_id"), params);
 
+        var pi = session.getPaymentIntentObject();
         Map<String, String> map = new HashMap();
         map.put("status", session.getStatus());
         map.put("payment_status", session.getPaymentStatus());
-        map.put("payment_intent_id", session.getPaymentIntentObject().getId());
-        map.put("payment_intent_status", session.getPaymentIntentObject().getStatus());
+        map.put("payment_intent_id", pi != null ? pi.getId() : null);
+        map.put("payment_intent_status", pi != null ? pi.getStatus() : null);
 
         return map;
       } catch (StripeException e) {
