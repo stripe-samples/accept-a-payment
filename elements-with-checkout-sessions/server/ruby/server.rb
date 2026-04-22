@@ -13,9 +13,13 @@ client = Stripe::StripeClient.new(ENV['STRIPE_SECRET_KEY'])
 
 set :static, true
 set :public_folder, File.join(File.dirname(__FILE__), ENV.fetch('STATIC_DIR', '../../client/html/public'))
-set :port, (ENV['PORT'] || 4242).to_i
+set :port, 4242
 
 YOUR_DOMAIN = ENV.fetch('DOMAIN', 'http://localhost:4242')
+
+get '/' do
+  redirect '/checkout.html'
+end
 
 get '/complete' do
   send_file File.join(settings.public_folder, 'complete.html')

@@ -37,12 +37,12 @@ the payment form.
 - A [Stripe account](https://dashboard.stripe.com/register)
 - One of the following runtimes:
   - **Node** >= 14
-  - **Python** >= 3.6
-  - **Ruby** >= 2.7
-  - **PHP** >= 7.4 with Composer
+  - **Python** >= 3.8
+  - **Ruby** >= 2.6
+  - **PHP** >= 7.2 with Composer
   - **Java** >= 11 with Maven
   - **Go** >= 1.22
-  - **.NET** >= 8.0
+  - **.NET** >= 9.0
 
 ## Environment variables
 
@@ -52,7 +52,6 @@ the payment form.
 | `STRIPE_PUBLISHABLE_KEY` | Your Stripe publishable key (`pk_test_...`) | *required* |
 | `STATIC_DIR` | Path to the static files directory | `../../client/html/public` |
 | `DOMAIN` | Base URL for return URLs | `http://localhost:4242` |
-| `PORT` | Port the server listens on | `4242` |
 
 ## How to run
 
