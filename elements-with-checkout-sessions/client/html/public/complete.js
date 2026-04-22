@@ -27,7 +27,6 @@ function setSessionDetails(session) {
 
 
   if (!session) {
-    console.log("No session found");
     setErrorState();
     return;
   }
@@ -75,7 +74,6 @@ async function initialize() {
   const urlParams = new URLSearchParams(queryString);
   const sessionId = urlParams.get("session_id");
   if (!sessionId) {
-    console.log("No session ID found");
     setErrorState();
     return;
   }

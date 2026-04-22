@@ -47,6 +47,10 @@ async function initialize() {
     document.querySelector("#button-text").textContent = `Pay ${
       session.total.total.amount
     } now`;
+  } else {
+    showMessage("Failed to initialize payment form. Please refresh.");
+    document.querySelector("#submit").disabled = true;
+    return;
   }
 
   emailInput.addEventListener("input", () => {
