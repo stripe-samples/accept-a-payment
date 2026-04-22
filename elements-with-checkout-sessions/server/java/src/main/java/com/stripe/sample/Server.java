@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.HashMap;
 
+import static spark.Spark.before;
 import static spark.Spark.post;
 import static spark.Spark.get;
 import static spark.Spark.port;
@@ -50,9 +51,8 @@ public class Server {
 
     Gson gson = new com.google.gson.GsonBuilder().serializeNulls().create();
 
-    get("/", (request, response) -> {
+    before("/", (request, response) -> {
         response.redirect("/checkout.html");
-        return null;
     });
 
     get("/complete", (request, response) -> {

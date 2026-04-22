@@ -2,19 +2,19 @@
 
 _Learn how to securely accept payments online._
 
-This repository includes examples of 3 types of integration.
+This repository includes examples of 4 types of integration.
 
-|[Prebuilt Checkout page](./prebuilt-checkout-page) ([docs](https://stripe.com/docs/payments/accept-a-payment?ui=checkout))| [Payment Element](./payment-element) ([docs](https://stripe.com/docs/payments/accept-a-payment?platform=web&ui=elements)) | [Custom payment flow](./custom-payment-flow) ([docs](https://stripe.com/docs/payments/accept-card-payments?platform=web&ui=elements)) |
-|---|---|---|
-| Lower complexity. | Moderate complexity. | Higher complexity. |
-| Customize logo, images, and colors. | Customize components with [Appearance API](https://stripe.com/docs/stripe-js/appearance-api). | Customize all components with CSS. |
-| Add payment method types with a single line change. | Add payment methods with a single line change. | Implement each payment method type as a custom integration. |
-| Built-in support for Apple Pay, and Google Pay. | Built-in support for Apple Pay and Google Pay. | Integrate Apple Pay and Google Pay with extra code.|
-| Redirect to Stripe hosted page. | Customers stay on your site, but payment completion triggers a redirect. |Customers stay on your site. |
-| Small refactor to collect recurring payments. | Large refactor to collect recurring payments. | Large refactor to collect recurring payments. |
-| Input validation and error handling built in. | Input validation built-in but you must implement error handling. | Implement your own input validation and error handling. |
-| Localized in 25+ languages. | Localized in 25+ languages. |Implement your own localization. |
-| Automate calculation and collection of sales tax, VAT and GST with one line of code. | Calculate tax using the [Tax API](https://stripe.com/docs/tax/custom) | Calculate tax using the [Tax API](https://stripe.com/docs/tax/custom) |
+|[Prebuilt Checkout page](./prebuilt-checkout-page) ([docs](https://stripe.com/docs/payments/accept-a-payment?ui=checkout))| [Payment Element](./payment-element) ([docs](https://stripe.com/docs/payments/accept-a-payment?platform=web&ui=elements)) | [Custom payment flow](./custom-payment-flow) ([docs](https://stripe.com/docs/payments/accept-card-payments?platform=web&ui=elements)) | [Elements with Checkout Sessions](./elements-with-checkout-sessions) ([docs](https://docs.stripe.com/payments/quickstart-checkout-sessions)) |
+|---|---|---|---|
+| Lower complexity. | Moderate complexity. | Higher complexity. | Moderate complexity. |
+| Customize logo, images, and colors. | Customize components with [Appearance API](https://stripe.com/docs/stripe-js/appearance-api). | Customize all components with CSS. | Customize components with [Appearance API](https://stripe.com/docs/stripe-js/appearance-api). |
+| Add payment method types with a single line change. | Add payment methods with a single line change. | Implement each payment method type as a custom integration. | Add payment methods with a single line change. |
+| Built-in support for Apple Pay, and Google Pay. | Built-in support for Apple Pay and Google Pay. | Integrate Apple Pay and Google Pay with extra code.| Built-in support for Apple Pay and Google Pay. |
+| Redirect to Stripe hosted page. | Customers stay on your site, but payment completion triggers a redirect. |Customers stay on your site. | Customers stay on your site, but payment completion triggers a redirect. |
+| Small refactor to collect recurring payments. | Large refactor to collect recurring payments. | Large refactor to collect recurring payments. | Small refactor to collect recurring payments. |
+| Input validation and error handling built in. | Input validation built-in but you must implement error handling. | Implement your own input validation and error handling. | Input validation built-in but you must implement error handling. |
+| Localized in 25+ languages. | Localized in 25+ languages. |Implement your own localization. | Localized in 25+ languages. |
+| Automate calculation and collection of sales tax, VAT and GST with one line of code. | Calculate tax using the [Tax API](https://stripe.com/docs/tax/custom) | Calculate tax using the [Tax API](https://stripe.com/docs/tax/custom) | Automate calculation and collection of sales tax, VAT and GST with one line of code. |
 
 
 ### Payment Method Type Support
