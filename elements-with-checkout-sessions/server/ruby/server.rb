@@ -12,7 +12,7 @@ Stripe.set_app_info(
 client = Stripe::StripeClient.new(ENV['STRIPE_SECRET_KEY'])
 
 set :static, true
-set :public_folder, File.join(File.dirname(__FILE__), ENV.fetch('STATIC_DIR', '../../client/html/public'))
+set :public_folder, File.join(File.dirname(__FILE__), ENV.fetch('STATIC_DIR', '../../client/html'))
 set :port, 4242
 
 YOUR_DOMAIN = ENV.fetch('DOMAIN', 'http://localhost:4242')
@@ -32,6 +32,7 @@ post '/create-checkout-session' do
   begin
     session = client.v1.checkout.sessions.create({
       ui_mode: 'elements',
+      # You can also use an existing Price: { price: 'price_xxx', quantity: 1 }
       line_items: [{
         price_data: {
           product_data: {
@@ -65,4 +66,28 @@ get '/session-status' do
     status 400
     { error: { message: e.message } }.to_json
   end
+end
+
+post '/webhook' do
+  payload = request.body.read
+  sig_header = request.env['HTTP_STRIPE_SIGNATURE']
+  webhook_secret = ENV['STRIPE_WEBHOOK_SECRET']
+
+  if webhook_secret
+    begin
+      event = Stripe::Webhook.construct_event(payload, sig_header, webhook_secret)
+    rescue => e
+      puts 'Webhook signature verification failed.'
+      status 400
+      return
+    end
+  else
+    event = JSON.parse(payload)
+  end
+
+  if event['type'] == 'checkout.session.completed'
+    puts 'Payment received!'
+  end
+
+  status 200
 end

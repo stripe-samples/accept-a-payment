@@ -27,7 +27,7 @@ func main() {
 
   staticDir := os.Getenv("STATIC_DIR")
   if staticDir == "" {
-    staticDir = "../../client/html/public"
+    staticDir = "../../client/html"
   }
 
   http.Handle("/", http.FileServer(http.Dir(staticDir)))
@@ -49,6 +49,7 @@ func main() {
     createCheckoutSession(sc, w, r)
   })
   http.HandleFunc("/session-status", func(w http.ResponseWriter, r *http.Request) { retrieveCheckoutSession(sc, w, r) })
+  http.HandleFunc("/webhook", handleWebhook)
   addr := "localhost:4242"
   log.Printf("Listening on %s", addr)
   log.Fatal(http.ListenAndServe(addr, nil))
@@ -62,6 +63,7 @@ func createCheckoutSession(sc *stripe.Client, w http.ResponseWriter, r *http.Req
   params := &stripe.CheckoutSessionCreateParams{
     UIMode: stripe.String("elements"),
     ReturnURL: stripe.String(domain + "/complete?session_id={CHECKOUT_SESSION_ID}"),
+    // You can also use an existing Price: &LineItemParams{Price: stripe.String("price_xxx"), Quantity: stripe.Int64(1)}
     LineItems: []*stripe.CheckoutSessionCreateLineItemParams{
       {
         PriceData: &stripe.CheckoutSessionCreateLineItemPriceDataParams{
@@ -120,6 +122,36 @@ func retrieveCheckoutSession(sc *stripe.Client, w http.ResponseWriter, r *http.R
     PaymentIntentId: nilIfEmpty(piID),
     PaymentIntentStatus: nilIfEmpty(piStatus),
   })
+}
+
+func handleWebhook(w http.ResponseWriter, r *http.Request) {
+  payload, err := io.ReadAll(r.Body)
+  if err != nil {
+    http.Error(w, err.Error(), http.StatusBadRequest)
+    return
+  }
+
+  webhookSecret := os.Getenv("STRIPE_WEBHOOK_SECRET")
+  if webhookSecret != "" {
+    _, err := stripe.ConstructEvent(payload, r.Header.Get("Stripe-Signature"), webhookSecret)
+    if err != nil {
+      log.Printf("Webhook signature verification failed.")
+      w.WriteHeader(http.StatusBadRequest)
+      return
+    }
+  }
+
+  var event stripe.Event
+  if err := json.Unmarshal(payload, &event); err != nil {
+    w.WriteHeader(http.StatusBadRequest)
+    return
+  }
+
+  if event.Type == "checkout.session.completed" {
+    log.Printf("Payment received!")
+  }
+
+  w.WriteHeader(http.StatusOK)
 }
 
 func nilIfEmpty(s string) *string {

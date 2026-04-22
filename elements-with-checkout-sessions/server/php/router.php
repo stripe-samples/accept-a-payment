@@ -7,7 +7,7 @@ require_once __DIR__ . '/secrets.php';
 
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $publicDir = __DIR__ . '/public';
-$envStaticDir = getenv('STATIC_DIR') ?: '../../client/html/public';
+$envStaticDir = getenv('STATIC_DIR') ?: '../../client/html';
 if ($envStaticDir[0] !== '/') {
     $staticDir = realpath(__DIR__ . '/' . $envStaticDir) ?: __DIR__ . '/' . $envStaticDir;
 } else {

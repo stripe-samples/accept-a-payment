@@ -1,8 +1,18 @@
 require('dotenv').config({path: './.env'});
 const express = require("express");
 const app = express();
-app.use(express.static(process.env.STATIC_DIR || "../../client/html/public"));
-app.use(express.json());
+app.use(express.static(process.env.STATIC_DIR || "../../client/html"));
+app.use(
+  express.json({
+    // We need the raw body to verify webhook signatures.
+    // Let's compute it only when hitting the Stripe webhook endpoint.
+    verify: function (req, res, buf) {
+      if (req.originalUrl.startsWith('/webhook')) {
+        req.rawBody = buf.toString();
+      }
+    },
+  })
+);
 
 // Don't put any keys in code. See https://docs.stripe.com/keys-best-practices.
 const client = require("stripe")(process.env.STRIPE_SECRET_KEY, {
@@ -20,13 +30,14 @@ app.get("/config", (req, res) => {
 });
 
 app.get("/complete", (req, res) => {
-  res.sendFile("complete.html", { root: process.env.STATIC_DIR || "../../client/html/public" });
+  res.sendFile("complete.html", { root: process.env.STATIC_DIR || "../../client/html" });
 });
 
 app.post("/create-checkout-session", async (req, res) => {
   try {
     const session = await client.checkout.sessions.create({
       ui_mode: "elements",
+      // You can also use an existing Price: { price: 'price_xxx', quantity: 1 }
       line_items: [
         {
           price_data: {
@@ -70,6 +81,35 @@ app.get("/session-status", async (req, res) => {
       },
     });
   }
+});
+
+// Webhook handler for asynchronous events.
+app.post('/webhook', async (req, res) => {
+  let event;
+
+  // Check if webhook signing is configured.
+  if (process.env.STRIPE_WEBHOOK_SECRET) {
+    let signature = req.headers['stripe-signature'];
+
+    try {
+      event = client.webhooks.constructEvent(
+        req.rawBody,
+        signature,
+        process.env.STRIPE_WEBHOOK_SECRET
+      );
+    } catch (err) {
+      console.log(`Webhook signature verification failed.`);
+      return res.sendStatus(400);
+    }
+  } else {
+    event = req.body;
+  }
+
+  if (event.type === 'checkout.session.completed') {
+    console.log(`Payment received!`);
+  }
+
+  res.sendStatus(200);
 });
 
 app.listen(4242, () => console.log(`Running on port ${4242}`));

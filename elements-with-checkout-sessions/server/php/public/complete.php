@@ -1,6 +1,6 @@
 <?php
 
-$staticDir = getenv('STATIC_DIR') ?: '../../client/html/public';
+$staticDir = getenv('STATIC_DIR') ?: '../../client/html';
 
 // Resolve relative path based on this file's directory
 if ($staticDir[0] !== '/') {
