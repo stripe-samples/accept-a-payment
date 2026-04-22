@@ -6,17 +6,29 @@ RSpec.describe 'Elements with Checkout Sessions', type: :system do
   end
 
   example 'happy path' do
-    # Wait for the payment form to load
+    # Wait for the payment iframe to appear
     expect(page).to have_css('#payment-element iframe', wait: 30)
 
     fill_in 'email', with: "test#{SecureRandom.hex(4)}@example.com"
 
     within_frame find('#payment-element iframe') do
-      fill_in 'number', with: '4242424242424242'
-      fill_in 'expiry', with: '12 / 33'
-      fill_in 'cvc', with: '123'
-      select 'United States', from: 'country'
-      fill_in 'postalCode', with: '10000'
+      # Debug: dump all visible inputs to see what's available
+      all('input').each { |i| puts "INPUT: name=#{i['name']} id=#{i['id']} type=#{i['type']}" }
+
+      # Try different field name patterns
+      page.find('input[name="number"], input[name="cardNumber"], input[name="cardnumber"], input[id*="number"]', wait: 10).set('4242424242424242')
+      page.find('input[name="expiry"], input[name="exp-date"], input[id*="expiry"]', wait: 10).set('12 / 33')
+      page.find('input[name="cvc"], input[id*="cvc"]', wait: 10).set('123')
+
+      if page.has_select?('country', wait: 2)
+        select 'United States', from: 'country'
+      end
+
+      if page.has_field?('postalCode', wait: 2)
+        fill_in 'postalCode', with: '10000'
+      elsif page.has_field?('postal', wait: 2)
+        fill_in 'postal', with: '10000'
+      end
     end
 
     click_on 'Pay'
