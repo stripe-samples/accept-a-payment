@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import com.stripe.StripeClient;
+import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.RequestOptions;
 import com.stripe.param.checkout.SessionCreateParams;
@@ -55,6 +56,7 @@ public class Server {
     }, gson::toJson);
 
     post("/create-checkout-session", (request, response) -> {
+      try {
         String YOUR_DOMAIN = env("DOMAIN", "http://localhost:4242");
         SessionCreateParams params =
           SessionCreateParams.builder()
@@ -77,28 +79,40 @@ public class Server {
                 .build())
             .build();
 
-      Session session = client.v1().checkout().sessions().create(params);
+        Session session = client.v1().checkout().sessions().create(params);
 
-      Map<String, String> map = new HashMap();
-      map.put("clientSecret", session.getRawJsonObject().getAsJsonPrimitive("client_secret").getAsString());
+        Map<String, String> map = new HashMap();
+        map.put("clientSecret", session.getRawJsonObject().getAsJsonPrimitive("client_secret").getAsString());
 
-
-      return map;
+        return map;
+      } catch (StripeException e) {
+        response.status(400);
+        Map<String, Object> error = new HashMap();
+        error.put("error", Map.of("message", e.getMessage()));
+        return error;
+      }
     }, gson::toJson);
 
     get("/session-status", (request, response) -> {
-      RequestOptions options = RequestOptions.builder().build();
-      SessionRetrieveParams params =
-        SessionRetrieveParams.builder().addExpand("payment_intent").build();
-      Session session = client.v1().checkout().sessions().retrieve(request.queryParams("session_id"), params, options);
+      try {
+        RequestOptions options = RequestOptions.builder().build();
+        SessionRetrieveParams params =
+          SessionRetrieveParams.builder().addExpand("payment_intent").build();
+        Session session = client.v1().checkout().sessions().retrieve(request.queryParams("session_id"), params, options);
 
-      Map<String, String> map = new HashMap();
-      map.put("status", session.getRawJsonObject().getAsJsonPrimitive("status").getAsString());
-      map.put("payment_status", session.getRawJsonObject().getAsJsonPrimitive("payment_status").getAsString());
-      map.put("payment_intent_id", session.getRawJsonObject().getAsJsonObject("payment_intent").getAsJsonPrimitive("id").getAsString());
-      map.put("payment_intent_status", session.getRawJsonObject().getAsJsonObject("payment_intent").getAsJsonPrimitive("status").getAsString());
+        Map<String, String> map = new HashMap();
+        map.put("status", session.getRawJsonObject().getAsJsonPrimitive("status").getAsString());
+        map.put("payment_status", session.getRawJsonObject().getAsJsonPrimitive("payment_status").getAsString());
+        map.put("payment_intent_id", session.getRawJsonObject().getAsJsonObject("payment_intent").getAsJsonPrimitive("id").getAsString());
+        map.put("payment_intent_status", session.getRawJsonObject().getAsJsonObject("payment_intent").getAsJsonPrimitive("status").getAsString());
 
-      return map;
+        return map;
+      } catch (StripeException e) {
+        response.status(400);
+        Map<String, Object> error = new HashMap();
+        error.put("error", Map.of("message", e.getMessage()));
+        return error;
+      }
     }, gson::toJson);
   }
 }

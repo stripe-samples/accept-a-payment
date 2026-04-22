@@ -1,11 +1,14 @@
 {
-  "name": "stripe-ewcs-node",
+  "name": "stripe-sample-elements-with-checkout-sessions",
   "version": "1.0.0",
   "description": "Elements with Checkout Sessions - Node server",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "author": "stripe-samples",
+  "license": "ISC",
   "dependencies": {
     "dotenv": "^16.4.7",
     "express": "^4.21.2",

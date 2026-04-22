@@ -39,6 +39,13 @@ namespace server.Controllers
       public void ConfigureServices(IServiceCollection services)
       {
           services.AddMvc().AddNewtonsoftJson();
+          // For sample support and debugging, not required for production:
+          StripeConfiguration.AppInfo = new AppInfo
+          {
+              Name = "stripe-samples/accept-a-payment/elements-with-checkout-sessions",
+              Version = "0.0.2",
+              Url = "https://github.com/stripe-samples"
+          };
           // Don't put any keys in code. See https://docs.stripe.com/keys-best-practices.
           services.AddSingleton(new StripeClient(Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY")));
       }
@@ -96,33 +103,40 @@ namespace server.Controllers
         [HttpPost]
         public ActionResult Create()
         {
-            var domain = Environment.GetEnvironmentVariable("DOMAIN") ?? "http://localhost:4242";
-            var options = new SessionCreateOptions
+            try
             {
-
-                UiMode = "elements",
-                LineItems = new List<SessionLineItemOptions>
+                var domain = Environment.GetEnvironmentVariable("DOMAIN") ?? "http://localhost:4242";
+                var options = new SessionCreateOptions
                 {
-                  new SessionLineItemOptions
-                  {
-                    PriceData = new SessionLineItemPriceDataOptions
-                    {
-                      ProductData = new SessionLineItemPriceDataProductDataOptions
-                      {
-                        Name = "T-shirt",
-                      },
-                      Currency = "usd",
-                      UnitAmount = 2000,
-                    },
-                    Quantity = 1,
-                  },
-                },
-                Mode = "payment",
-                ReturnUrl = domain + "/complete?session_id={CHECKOUT_SESSION_ID}",
-            };
-            Session session = _client.V1.Checkout.Sessions.Create(options);
 
-            return Json(new {clientSecret = session.ClientSecret});
+                    UiMode = "elements",
+                    LineItems = new List<SessionLineItemOptions>
+                    {
+                      new SessionLineItemOptions
+                      {
+                        PriceData = new SessionLineItemPriceDataOptions
+                        {
+                          ProductData = new SessionLineItemPriceDataProductDataOptions
+                          {
+                            Name = "T-shirt",
+                          },
+                          Currency = "usd",
+                          UnitAmount = 2000,
+                        },
+                        Quantity = 1,
+                      },
+                    },
+                    Mode = "payment",
+                    ReturnUrl = domain + "/complete?session_id={CHECKOUT_SESSION_ID}",
+                };
+                Session session = _client.V1.Checkout.Sessions.Create(options);
+
+                return Json(new {clientSecret = session.ClientSecret});
+            }
+            catch (StripeException e)
+            {
+                return BadRequest(new {error = new {message = e.Message}});
+            }
         }
     }
 
@@ -140,11 +154,18 @@ namespace server.Controllers
         [HttpGet]
         public ActionResult SessionStatus([FromQuery] string session_id)
         {
-            var options = new SessionGetOptions();
-            options.AddExpand("payment_intent");
-            Session session = _client.V1.Checkout.Sessions.Get(session_id, options);
+            try
+            {
+                var options = new SessionGetOptions();
+                options.AddExpand("payment_intent");
+                Session session = _client.V1.Checkout.Sessions.Get(session_id, options);
 
-            return Json(new {status = session.Status, payment_status = session.PaymentStatus, payment_intent_id = session.PaymentIntent.Id, payment_intent_status = session.PaymentIntent.Status});
+                return Json(new {status = session.Status, payment_status = session.PaymentStatus, payment_intent_id = session.PaymentIntent.Id, payment_intent_status = session.PaymentIntent.Status});
+            }
+            catch (StripeException e)
+            {
+                return BadRequest(new {error = new {message = e.Message}});
+            }
         }
     }
 }

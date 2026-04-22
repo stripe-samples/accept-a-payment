@@ -13,6 +13,12 @@ load_dotenv()
 
 import stripe
 
+# For sample support and debugging, not required for production:
+stripe.set_app_info(
+    'stripe-samples/accept-a-payment/elements-with-checkout-sessions',
+    version='0.0.2',
+    url='https://github.com/stripe-samples')
+
 client = stripe.StripeClient(
     os.environ.get('STRIPE_SECRET_KEY'),
 )
@@ -52,10 +58,10 @@ def create_checkout_session():
             'mode': 'payment',
             'return_url': YOUR_DOMAIN + '/complete?session_id={CHECKOUT_SESSION_ID}',
         })
-    except Exception as e:
-        return str(e)
 
-    return jsonify(clientSecret=session.client_secret)
+        return jsonify(clientSecret=session.client_secret)
+    except Exception as e:
+        return jsonify(error={'message': str(e)}), 400
 
 @app.route('/complete')
 def complete():
@@ -63,9 +69,12 @@ def complete():
 
 @app.route('/session-status', methods=['GET'])
 def session_status():
-  session = client.v1.checkout.sessions.retrieve(request.args.get('session_id'), params={'expand': ["payment_intent"]})
+    try:
+        session = client.v1.checkout.sessions.retrieve(request.args.get('session_id'), params={'expand': ["payment_intent"]})
 
-  return jsonify(status=session.status, payment_status=session.payment_status, payment_intent_id=session.payment_intent.id, payment_intent_status=session.payment_intent.status)
+        return jsonify(status=session.status, payment_status=session.payment_status, payment_intent_id=session.payment_intent.id, payment_intent_status=session.payment_intent.status)
+    except Exception as e:
+        return jsonify(error={'message': str(e)}), 400
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 4242))
