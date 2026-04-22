@@ -16,7 +16,9 @@ import io.github.cdimascio.dotenv.Dotenv;
 import com.stripe.Stripe;
 import com.stripe.StripeClient;
 import com.stripe.exception.StripeException;
+import com.stripe.model.Event;
 import com.stripe.model.checkout.Session;
+import com.stripe.net.Webhook;
 import com.stripe.param.checkout.SessionCreateParams;
 import com.stripe.param.checkout.SessionRetrieveParams;
 
@@ -44,7 +46,7 @@ public class Server {
     // Don't put any keys in code. See https://docs.stripe.com/keys-best-practices.
     StripeClient client = new StripeClient(env("STRIPE_SECRET_KEY", ""));
 
-    String staticDir = env("STATIC_DIR", "../../client/html/public");
+    String staticDir = env("STATIC_DIR", "../../client/html");
     staticFiles.externalLocation(
         Paths.get(staticDir).toAbsolutePath().normalize().toString());
 
@@ -69,6 +71,7 @@ public class Server {
             .setUiMode(SessionCreateParams.UiMode.ELEMENTS)
             .setMode(SessionCreateParams.Mode.PAYMENT)
             .setReturnUrl(YOUR_DOMAIN + "/complete?session_id={CHECKOUT_SESSION_ID}")
+            // You can also use an existing Price: .addLineItem(LineItem.builder().setPrice("price_xxx").setQuantity(1L).build())
             .addLineItem(
               SessionCreateParams.LineItem.builder()
                 .setQuantity(1L)
@@ -119,5 +122,31 @@ public class Server {
         return error;
       }
     }, gson::toJson);
+
+    post("/webhook", (request, response) -> {
+      String payload = request.body();
+      String sigHeader = request.headers("Stripe-Signature");
+      String webhookSecret = env("STRIPE_WEBHOOK_SECRET", "");
+
+      Event event;
+      if (!webhookSecret.isEmpty()) {
+        try {
+          event = Webhook.constructEvent(payload, sigHeader, webhookSecret);
+        } catch (Exception e) {
+          System.out.println("Webhook signature verification failed.");
+          response.status(400);
+          return "";
+        }
+      } else {
+        event = gson.fromJson(payload, Event.class);
+      }
+
+      if ("checkout.session.completed".equals(event.getType())) {
+        System.out.println("Payment received!");
+      }
+
+      response.status(200);
+      return "";
+    });
   }
 }

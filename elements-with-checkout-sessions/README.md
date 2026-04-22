@@ -12,13 +12,12 @@ the payment form.
 .
 ├── client
 │   ├── html            # Vanilla HTML/JS client
-│   │   └── public
-│   │       ├── checkout.html
-│   │       ├── checkout.css
-│   │       ├── checkout.js
-│   │       ├── complete.html
-│   │       ├── complete.css
-│   │       └── complete.js
+│   │   ├── checkout.html
+│   │   ├── checkout.css
+│   │   ├── checkout.js
+│   │   ├── complete.html
+│   │   ├── complete.css
+│   │   └── complete.js
 │   └── react           # React client (separate dev server)
 │       └── ...
 ├── server

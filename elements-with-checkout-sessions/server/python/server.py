@@ -23,7 +23,7 @@ client = stripe.StripeClient(
     os.environ.get('STRIPE_SECRET_KEY'),
 )
 
-static_dir = os.environ.get('STATIC_DIR', '../../client/html/public')
+static_dir = os.environ.get('STATIC_DIR', '../../client/html')
 # Resolve relative paths based on this file's directory
 if not os.path.isabs(static_dir):
     static_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), static_dir)
@@ -43,6 +43,7 @@ def create_checkout_session():
     try:
         session = client.v1.checkout.sessions.create(params={
             'ui_mode': 'elements',
+            # You can also use an existing Price: {'price': 'price_xxx', 'quantity': 1}
             'line_items': [
                 {
                     'price_data': {
@@ -81,6 +82,26 @@ def session_status():
         )
     except Exception as e:
         return jsonify(error={'message': str(e)}), 400
+
+@app.route('/webhook', methods=['POST'])
+def webhook():
+    payload = request.get_data()
+    sig_header = request.headers.get('stripe-signature')
+    webhook_secret = os.environ.get('STRIPE_WEBHOOK_SECRET')
+
+    if webhook_secret:
+        try:
+            event = stripe.Webhook.construct_event(payload, sig_header, webhook_secret)
+        except Exception as e:
+            print('Webhook signature verification failed.')
+            return '', 400
+    else:
+        event = request.get_json()
+
+    if event['type'] == 'checkout.session.completed':
+        print('Payment received!')
+
+    return '', 200
 
 if __name__ == '__main__':
     app.run(port=4242)

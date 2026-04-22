@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using dotenv.net;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Builder;
@@ -18,7 +19,7 @@ namespace server.Controllers
         public static void Main(string[] args)
         {
             DotEnv.Load();
-            var staticDir = Environment.GetEnvironmentVariable("STATIC_DIR") ?? "../../client/html/public";
+            var staticDir = Environment.GetEnvironmentVariable("STATIC_DIR") ?? "../../client/html";
             WebHost.CreateDefaultBuilder(args)
               .UseUrls("http://0.0.0.0:4242")
               .UseWebRoot(staticDir)
@@ -103,6 +104,7 @@ namespace server.Controllers
                 var options = new SessionCreateOptions
                 {
                     UiMode = "elements",
+                    // You can also use an existing Price: new SessionLineItemOptions { Price = "price_xxx", Quantity = 1 }
                     LineItems = new List<SessionLineItemOptions>
                     {
                       new SessionLineItemOptions
@@ -160,6 +162,43 @@ namespace server.Controllers
             {
                 return BadRequest(new {error = new {message = e.Message}});
             }
+        }
+    }
+
+    [Route("webhook")]
+    [ApiController]
+    public class WebhookController : Controller
+    {
+        [HttpPost]
+        public async Task<ActionResult> Webhook()
+        {
+            var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+            var webhookSecret = Environment.GetEnvironmentVariable("STRIPE_WEBHOOK_SECRET");
+
+            Event stripeEvent;
+            if (!string.IsNullOrEmpty(webhookSecret))
+            {
+                try
+                {
+                    stripeEvent = EventUtility.ConstructEvent(json, Request.Headers["Stripe-Signature"], webhookSecret);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Webhook signature verification failed.");
+                    return BadRequest();
+                }
+            }
+            else
+            {
+                stripeEvent = EventUtility.ParseEvent(json);
+            }
+
+            if (stripeEvent.Type == "checkout.session.completed")
+            {
+                Console.WriteLine("Payment received!");
+            }
+
+            return Ok();
         }
     }
 }
