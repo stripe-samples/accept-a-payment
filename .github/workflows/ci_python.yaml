@@ -8,6 +8,11 @@ on:
       - 'custom-payment-flow/server/python/**'
       - 'prebuilt-checkout-page/server/python/**'
       - 'payment-element/server/python/**'
+      - 'elements-with-checkout-sessions/server/python/**'
+      - '!**.md'
+  pull_request:
+    paths:
+      - 'elements-with-checkout-sessions/server/python/**'
       - '!**.md'
   workflow_dispatch:
 

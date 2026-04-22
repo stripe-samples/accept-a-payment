@@ -8,6 +8,11 @@ on:
       - 'custom-payment-flow/server/dotnet/**'
       - 'prebuilt-checkout-page/server/dotnet/**'
       - 'payment-element/server/dotnet/**'
+      - 'elements-with-checkout-sessions/server/dotnet/**'
+      - '!**.md'
+  pull_request:
+    paths:
+      - 'elements-with-checkout-sessions/server/dotnet/**'
       - '!**.md'
   workflow_dispatch:
 
