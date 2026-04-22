@@ -18,7 +18,7 @@ the payment form.
 │   │   ├── complete.html
 │   │   ├── complete.css
 │   │   └── complete.js
-│   └── react           # React client (separate dev server)
+│   └── react-cra       # React client (Vite dev server)
 │       └── ...
 ├── server
 │   ├── node
@@ -142,17 +142,15 @@ environment variable). No separate build step is needed.
 
 ### React
 
-The React client runs its own dev server and proxies API requests to the
-backend:
+The React client uses Vite and proxies API requests to the backend:
 
 ```bash
-cd client/react
-cp .env.example .env  # add your publishable key
+cd client/react-cra
 npm install
 npm start
 ```
 
-The React dev server starts on port 3000 and proxies API calls to
+The dev server starts on port 3000 and proxies `/api` requests to
 `http://127.0.0.1:4242`. Navigate to
 [http://localhost:3000/checkout](http://localhost:3000/checkout) to see the
-payment form.
+payment form. Make sure a backend server is running on port 4242 first.

@@ -36,7 +36,7 @@ const Complete = () => {
       return;
     }
 
-    fetch(`/session-status?session_id=${sessionId}`)
+    fetch(`/api/session-status?session_id=${sessionId}`)
       .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch session status');
         return res.json();

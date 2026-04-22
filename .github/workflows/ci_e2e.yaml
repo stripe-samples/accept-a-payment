@@ -50,11 +50,6 @@ jobs:
             tests: payment_element_e2e_spec.rb
           - sample: elements-with-checkout-sessions
             tests: elements_with_checkout_sessions_e2e_spec.rb
-        exclude:
-          - implementation:
-              client_type: react-cra
-            target:
-              sample: elements-with-checkout-sessions
     env:
       SERVER_URL: ${{ matrix.implementation.server_url }}
     steps:

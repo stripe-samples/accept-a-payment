@@ -45,7 +45,7 @@
     },
     {
       "name": "elements-with-checkout-sessions",
-      "clients": ["html", "react"],
+      "clients": ["html", "react-cra"],
       "servers": [
         "ruby",
         "node",
