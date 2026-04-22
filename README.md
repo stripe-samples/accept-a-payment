@@ -65,6 +65,7 @@ relevant READMEs:
 - [Prebuilt Checkout page](./prebuilt-checkout-page/README.md)
 - [Payment Element](./payment-element/README.md)
 - [Custom payment flow](./custom-payment-flow/README.md)
+- [Elements with Checkout Sessions](./elements-with-checkout-sessions/README.md)
 
 ---
 ## FAQ

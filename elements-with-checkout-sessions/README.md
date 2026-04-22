@@ -49,7 +49,8 @@ the payment form.
 |---|---|---|
 | `STRIPE_SECRET_KEY` | Your Stripe secret key (`sk_test_...`) | *required* |
 | `STRIPE_PUBLISHABLE_KEY` | Your Stripe publishable key (`pk_test_...`) | *required* |
-| `STATIC_DIR` | Path to the static files directory | `../../client/html/public` |
+| `STRIPE_WEBHOOK_SECRET` | Your Stripe webhook secret (`whsec_...`) | *optional* |
+| `STATIC_DIR` | Path to the static files directory | `../../client/html` |
 | `DOMAIN` | Base URL for return URLs | `http://localhost:4242` |
 
 ## How to run
@@ -135,7 +136,7 @@ see the payment form.
 
 ### HTML
 
-The HTML client lives in `client/html/public/`. Every server is configured
+The HTML client lives in `client/html/`. Every server is configured
 to serve this directory as static files by default (via the `STATIC_DIR`
 environment variable). No separate build step is needed.
 
@@ -152,4 +153,6 @@ npm start
 ```
 
 The React dev server starts on port 3000 and proxies API calls to
-`http://127.0.0.1:4242`.
+`http://127.0.0.1:4242`. Navigate to
+[http://localhost:3000/checkout](http://localhost:3000/checkout) to see the
+payment form.
