@@ -55,10 +55,14 @@ function setSessionDetails(session) {
   document.querySelector("#status-icon").innerHTML = icon;
   document.querySelector("#status-text").textContent= statusText;
   document.querySelector("#intent-status").textContent = session.status;
-  document.querySelector("#intent-id").textContent = session.payment_intent_id;
+  document.querySelector("#intent-id").textContent = session.payment_intent_id || "N/A";
   document.querySelector("#session-status").textContent = session.payment_status;
-  document.querySelector("#payment-intent-status").textContent = session.payment_intent_status;
-  document.querySelector("#view-details").href = `https://dashboard.stripe.com/payments/${session.payment_intent_id}`;
+  document.querySelector("#payment-intent-status").textContent = session.payment_intent_status || "N/A";
+  if (session.payment_intent_id) {
+    document.querySelector("#view-details").href = `https://dashboard.stripe.com/payments/${session.payment_intent_id}`;
+  } else {
+    document.querySelector("#view-details").classList.add("hidden");
+  }
 }
 
 function setErrorState() {
