@@ -16,6 +16,12 @@ import (
 
 func main() {
   godotenv.Load()
+  // For sample support and debugging, not required for production:
+  stripe.SetAppInfo(&stripe.AppInfo{
+    Name:    "stripe-samples/accept-a-payment/elements-with-checkout-sessions",
+    Version: "0.0.2",
+    URL:     "https://github.com/stripe-samples",
+  })
   // Don't put any keys in code. See https://docs.stripe.com/keys-best-practices.
   sc := stripe.NewClient(os.Getenv("STRIPE_SECRET_KEY"))
 
@@ -74,6 +80,8 @@ func createCheckoutSession(sc *stripe.Client, w http.ResponseWriter, r *http.Req
 
   if err != nil {
     log.Printf("sc.V1CheckoutSessions.Create: %v", err)
+    http.Error(w, err.Error(), http.StatusBadRequest)
+    return
   }
 
   writeJSON(w, struct {
@@ -86,7 +94,13 @@ func createCheckoutSession(sc *stripe.Client, w http.ResponseWriter, r *http.Req
 func retrieveCheckoutSession(sc *stripe.Client, w http.ResponseWriter, r *http.Request) {
   params := &stripe.CheckoutSessionRetrieveParams{}
   params.AddExpand("payment_intent")
-  s, _ := sc.V1CheckoutSessions.Retrieve(context.TODO(), r.URL.Query().Get("session_id"), params)
+  s, err := sc.V1CheckoutSessions.Retrieve(context.TODO(), r.URL.Query().Get("session_id"), params)
+
+  if err != nil {
+    log.Printf("sc.V1CheckoutSessions.Retrieve: %v", err)
+    http.Error(w, err.Error(), http.StatusBadRequest)
+    return
+  }
 
   writeJSON(w, struct {
     Status string `json:"status"`

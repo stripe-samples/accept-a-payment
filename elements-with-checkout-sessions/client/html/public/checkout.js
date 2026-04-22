@@ -86,14 +86,16 @@ async function handleSubmit(e) {
     return;
   }
 
-  const { error } = await actions.confirm();
+  const confirmResult = await actions.confirm();
 
   // This point will only be reached if there is an immediate error when
   // confirming the payment. Otherwise, your customer will be redirected to
   // your `return_url`. For some payment methods like iDEAL, your customer will
   // be redirected to an intermediate site first to authorize the payment, then
   // redirected to the `return_url`.
-  showMessage(error.message);
+  if (confirmResult.type === 'error') {
+    showMessage(confirmResult.error.message);
+  }
 
   setLoading(false);
 }

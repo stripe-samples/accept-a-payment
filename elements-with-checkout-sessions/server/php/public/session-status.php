@@ -13,7 +13,7 @@ try {
 
   echo json_encode(['status' => $session->status, 'payment_status' => $session->payment_status, 'payment_intent_id' => $session->payment_intent->id, 'payment_intent_status' => $session->payment_intent->status]);
   http_response_code(200);
-} catch (Error $e) {
-  http_response_code(500);
-  echo json_encode(['error' => $e->getMessage()]);
+} catch (Exception $e) {
+  http_response_code(400);
+  echo json_encode(['error' => ['message' => $e->getMessage()]]);
 }

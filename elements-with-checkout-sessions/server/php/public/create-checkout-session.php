@@ -10,21 +10,26 @@ header('Content-Type: application/json');
 
 $YOUR_DOMAIN = getenv('DOMAIN') ?: 'http://localhost:4242';
 
-$checkout_session = $stripe->checkout->sessions->create([
+try {
+  $checkout_session = $stripe->checkout->sessions->create([
 
-  'ui_mode' => 'elements',
-  'line_items' => [[
-    'price_data' => [
-      'product_data' => [
-        'name' => 'T-shirt',
+    'ui_mode' => 'elements',
+    'line_items' => [[
+      'price_data' => [
+        'product_data' => [
+          'name' => 'T-shirt',
+        ],
+        'currency' => 'usd',
+        'unit_amount' => 2000,
       ],
-      'currency' => 'usd',
-      'unit_amount' => 2000,
-    ],
-    'quantity' => 1,
-  ]],
-  'mode' => 'payment',
-  'return_url' => $YOUR_DOMAIN . '/complete?session_id={CHECKOUT_SESSION_ID}',
-]);
+      'quantity' => 1,
+    ]],
+    'mode' => 'payment',
+    'return_url' => $YOUR_DOMAIN . '/complete?session_id={CHECKOUT_SESSION_ID}',
+  ]);
 
-echo json_encode(array('clientSecret' => $checkout_session->client_secret));
+  echo json_encode(array('clientSecret' => $checkout_session->client_secret));
+} catch (Exception $e) {
+  http_response_code(400);
+  echo json_encode(['error' => ['message' => $e->getMessage()]]);
+}

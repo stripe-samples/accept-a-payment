@@ -39,7 +39,12 @@ function setSessionDetails(session) {
       icon = SuccessIcon;
       break;
     case "open":
-      statusText = "Payment failed";
+      statusText = "Your payment was not successful, please try again.";
+      iconColor = "#6772E5";
+      icon = InfoIcon;
+      break;
+    case "expired":
+      statusText = "Your session has expired.";
       iconColor = "#DF1B41";
       icon = ErrorIcon;
       break;

@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "stripe-sample-elements-with-checkout-sessions-react",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
