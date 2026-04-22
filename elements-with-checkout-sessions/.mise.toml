@@ -1,0 +1,8 @@
+[tools]
+node = "24"
+python = "3.12"
+ruby = "3.3"
+go = "1.26"
+java = "17"
+dotnet = "9"
+"ubi:adwinying/php" = "8.2.19"

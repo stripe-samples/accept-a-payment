@@ -70,8 +70,6 @@ function setErrorState() {
   document.querySelector("#view-details").classList.add("hidden");
 }
 
-initialize();
-
 async function initialize() {
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
@@ -81,8 +79,19 @@ async function initialize() {
     setErrorState();
     return;
   }
-  const response = await fetch(`/session-status?session_id=${sessionId}`);
-  const session = await response.json();
+  try {
+    const response = await fetch(`/session-status?session_id=${sessionId}`);
+    const session = await response.json();
 
-  setSessionDetails(session);
+    if (!response.ok) {
+      setErrorState();
+      return;
+    }
+
+    setSessionDetails(session);
+  } catch (err) {
+    setErrorState();
+  }
 }
+
+initialize();

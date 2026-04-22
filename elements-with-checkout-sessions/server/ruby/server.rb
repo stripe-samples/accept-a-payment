@@ -31,7 +31,6 @@ post '/create-checkout-session' do
 
   begin
     session = client.v1.checkout.sessions.create({
-
       ui_mode: 'elements',
       line_items: [{
         price_data: {

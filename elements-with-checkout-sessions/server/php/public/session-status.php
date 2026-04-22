@@ -3,7 +3,9 @@
 require_once '../vendor/autoload.php';
 require_once '../secrets.php';
 
-$stripe = new \Stripe\StripeClient($stripeSecretKey);
+$stripe = new \Stripe\StripeClient([
+  "api_key" => $stripeSecretKey,
+]);
 header('Content-Type: application/json');
 
 try {

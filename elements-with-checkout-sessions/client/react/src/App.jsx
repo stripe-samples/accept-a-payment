@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useCallback } from "react";
 import {loadStripe} from '@stripe/stripe-js';
 
 import {
@@ -19,7 +19,7 @@ import "./App.css";
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
 const App = () => {
-  const clientSecret = useMemo(() => {
+  const fetchClientSecret = useCallback(() => {
     return fetch('/create-checkout-session', {
       method: 'POST',
     })
@@ -33,11 +33,10 @@ const App = () => {
   return (
     <div className="App">
       <Router>
-
         <CheckoutElementsProvider
           stripe={stripePromise}
           options={{
-            clientSecret,
+            fetchClientSecret,
             elementsOptions: {appearance},
           }}
         >

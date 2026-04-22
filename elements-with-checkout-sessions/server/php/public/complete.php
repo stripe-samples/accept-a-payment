@@ -1,8 +1,5 @@
 <?php
 
-require_once '../vendor/autoload.php';
-require_once '../secrets.php';
-
 $staticDir = getenv('STATIC_DIR') ?: '../../client/html/public';
 
 // Resolve relative path based on this file's directory
