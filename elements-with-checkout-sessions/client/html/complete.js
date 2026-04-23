@@ -60,8 +60,7 @@ function setSessionDetails(session) {
   document.querySelector("#payment-intent-status").textContent = session.payment_intent_status || "N/A";
   if (session.payment_intent_id) {
     document.querySelector("#view-details").href = `https://dashboard.stripe.com/payments/${session.payment_intent_id}`;
-  } else {
-    document.querySelector("#view-details").classList.add("hidden");
+    document.querySelector("#view-details").classList.remove("hidden");
   }
 }
 

@@ -43,5 +43,16 @@ RSpec.describe "elements-with-checkout-sessions integration" do
       expect(status_resp['status']).to eq('open')
       expect(status_resp['payment_status']).to eq('unpaid')
     end
+
+    it "returns an error for an invalid session_id" do
+      begin
+        RestClient.get("#{SERVER_URL}/session-status?session_id=cs_test_invalid")
+        raise "Expected request to fail"
+      rescue RestClient::BadRequest => e
+        resp = JSON.parse(e.response.body)
+        expect(resp).to have_key('error')
+        expect(resp['error']).to have_key('message')
+      end
+    end
   end
 end

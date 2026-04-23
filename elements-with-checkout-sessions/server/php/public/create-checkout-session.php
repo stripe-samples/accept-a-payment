@@ -3,6 +3,11 @@
 require_once '../vendor/autoload.php';
 require_once '../secrets.php';
 
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+  http_response_code(405);
+  exit();
+}
+
 $stripe = new \Stripe\StripeClient([
   "api_key" => $stripeSecretKey,
 ]);

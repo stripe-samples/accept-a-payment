@@ -34,7 +34,7 @@ const EmailInput = ({ checkout, email, setEmail, error, setError }) => {
         Email
         <input
           id="email"
-          type="text"
+          type="email"
           value={email}
           onChange={handleChange}
           onBlur={handleBlur}

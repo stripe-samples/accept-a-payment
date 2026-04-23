@@ -35,6 +35,10 @@ func main() {
     http.ServeFile(w, r, filepath.Join(staticDir, "complete.html"))
   })
   http.HandleFunc("/config", func(w http.ResponseWriter, r *http.Request) {
+    if r.Method != http.MethodGet {
+      http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+      return
+    }
     writeJSON(w, struct {
       PublishableKey string `json:"publishableKey"`
     }{
@@ -48,8 +52,20 @@ func main() {
     }
     createCheckoutSession(sc, w, r)
   })
-  http.HandleFunc("/session-status", func(w http.ResponseWriter, r *http.Request) { retrieveCheckoutSession(sc, w, r) })
-  http.HandleFunc("/webhook", handleWebhook)
+  http.HandleFunc("/session-status", func(w http.ResponseWriter, r *http.Request) {
+    if r.Method != http.MethodGet {
+      http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+      return
+    }
+    retrieveCheckoutSession(sc, w, r)
+  })
+  http.HandleFunc("/webhook", func(w http.ResponseWriter, r *http.Request) {
+    if r.Method != http.MethodPost {
+      http.Error(w, http.StatusText(http.StatusMethodNotAllowed), http.StatusMethodNotAllowed)
+      return
+    }
+    handleWebhook(w, r)
+  })
   addr := "0.0.0.0:4242"
   log.Printf("Listening on %s", addr)
   log.Fatal(http.ListenAndServe(addr, nil))

@@ -3,6 +3,11 @@
 require_once '../vendor/autoload.php';
 require_once '../secrets.php';
 
+if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+  http_response_code(405);
+  exit();
+}
+
 $stripe = new \Stripe\StripeClient([
   "api_key" => $stripeSecretKey,
 ]);
@@ -15,7 +20,6 @@ try {
 
   $pi = $session->payment_intent;
   echo json_encode(['status' => $session->status, 'payment_status' => $session->payment_status, 'payment_intent_id' => $pi ? $pi->id : null, 'payment_intent_status' => $pi ? $pi->status : null]);
-  http_response_code(200);
 } catch (Exception $e) {
   http_response_code(400);
   echo json_encode(['error' => ['message' => $e->getMessage()]]);

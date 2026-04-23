@@ -12,9 +12,9 @@ the payment form.
 .
 ├── client
 │   ├── html            # Vanilla HTML/JS client
-│   │   ├── checkout.html
-│   │   ├── checkout.css
-│   │   ├── checkout.js
+│   │   ├── index.html
+│   │   ├── index.css
+│   │   ├── index.js
 │   │   ├── complete.html
 │   │   ├── complete.css
 │   │   └── complete.js
@@ -129,8 +129,7 @@ dotnet run
 
 ### 3. Open in the browser
 
-Visit [http://localhost:4242/checkout.html](http://localhost:4242/checkout.html) to
-see the payment form.
+Visit [http://localhost:4242](http://localhost:4242) to see the payment form.
 
 ## Clients
 
@@ -152,5 +151,5 @@ npm start
 
 The dev server starts on port 3000 and proxies `/api` requests to
 `http://127.0.0.1:4242`. Navigate to
-[http://localhost:3000/checkout](http://localhost:3000/checkout) to see the
-payment form. Make sure a backend server is running on port 4242 first.
+[http://localhost:3000](http://localhost:3000) to see the payment form.
+Make sure a backend server is running on port 4242 first.
