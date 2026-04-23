@@ -34,6 +34,10 @@ app = Flask(__name__,
 
 YOUR_DOMAIN = os.environ.get('DOMAIN', 'http://localhost:4242')
 
+@app.route('/', methods=['GET'])
+def get_root():
+    return send_from_directory(app.static_folder, 'index.html')
+
 @app.route('/config', methods=['GET'])
 def get_config():
     return jsonify(publishableKey=os.environ.get('STRIPE_PUBLISHABLE_KEY'))
