@@ -51,9 +51,9 @@ if (file_exists($staticFile) && !is_dir($staticFile)) {
     return true;
 }
 
-// Default: serve index from static dir or return 404
+// Default: serve index.html from static dir or return 404
 if ($uri === '/') {
-    $indexFile = $staticDir . '/checkout.html';
+    $indexFile = $staticDir . '/index.html';
     if (file_exists($indexFile)) {
         header('Content-Type: text/html');
         readfile($indexFile);

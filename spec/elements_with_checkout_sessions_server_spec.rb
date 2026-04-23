@@ -2,7 +2,7 @@ require_relative './spec_helper.rb'
 
 RSpec.describe "elements-with-checkout-sessions integration" do
   it "fetches the checkout page" do
-    response = get("/checkout.html")
+    response = get("/")
     expect(response).not_to be_nil
   end
 

@@ -2,7 +2,7 @@ require 'capybara_support'
 
 RSpec.describe 'Elements with Checkout Sessions', type: :system do
   before do
-    visit app_url('/checkout.html')
+    visit app_url('/')
   end
 
   example 'happy path' do
