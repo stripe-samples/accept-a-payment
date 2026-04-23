@@ -11,18 +11,25 @@ RSpec.describe 'Elements with Checkout Sessions', type: :system do
     fill_in 'email', with: "test#{SecureRandom.hex(4)}@example.com"
 
     within_frame find('#payment-element iframe') do
-      # Dump the full body HTML to understand the structure
-      body_html = page.evaluate_script('document.body.innerHTML')
-      puts "BODY HTML (first 5000 chars):"
-      puts body_html.to_s.slice(0, 5000)
+      # The Payment Element renders as an accordion — click "Card" to expand
+      find('[role="button"][data-value="card"]', wait: 10).click
 
-      # Check all clickable elements
-      clickables = all('button, [role="button"], [role="tab"], [class*="Tab"], [class*="Accordion"]', visible: :all)
-      puts "CLICKABLE ELEMENTS: #{clickables.count}"
-      clickables.each_with_index { |el, i| puts "  CLICK #{i}: tag=#{el.tag_name} text=#{el.text.slice(0,50)} class=#{el['class']&.slice(0,80)} role=#{el['role']}" }
+      # Wait for card inputs to appear after accordion expansion
+      fill_in 'number', with: '4242424242424242'
+      fill_in 'expiry', with: '12 / 33'
+      fill_in 'cvc', with: '123'
+
+      if page.has_select?('country', wait: 3)
+        select 'United States', from: 'country'
+      end
+
+      if page.has_field?('postalCode', wait: 3)
+        fill_in 'postalCode', with: '10000'
+      end
     end
 
-    # Stop here for now — just gathering data
-    expect(true).to eq(true)
+    click_on 'Pay'
+
+    expect(page).to have_content('Payment succeeded', wait: 30)
   end
 end
