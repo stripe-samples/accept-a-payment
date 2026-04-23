@@ -15,6 +15,7 @@ set :static, true
 set :public_folder, File.join(File.dirname(__FILE__), ENV.fetch('STATIC_DIR', '../../client/html'))
 set :port, 4242
 set :bind, '0.0.0.0'
+set :host_authorization, permitted_hosts: []
 
 YOUR_DOMAIN = ENV.fetch('DOMAIN', 'http://localhost:4242')
 
