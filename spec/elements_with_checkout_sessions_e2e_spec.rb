@@ -6,15 +6,21 @@ RSpec.describe 'Elements with Checkout Sessions', type: :system do
   end
 
   example 'happy path' do
+    # Wait for the dahlia SDK to render the payment element iframe
     expect(page).to have_css('#payment-element iframe', wait: 30)
 
+    # Email is a plain HTML input on the page (not inside a Stripe iframe)
     fill_in 'email', with: "test#{SecureRandom.hex(4)}@example.com"
 
-    within_frame find('#payment-element iframe') do
-      # The Payment Element renders as an accordion — click "Card" to expand
-      find('[role="button"][data-value="card"]', wait: 10).click
+    # Use first() to avoid "Ambiguous match" when multiple iframes exist.
+    # The checkout.createPaymentElement() renders the same Payment Element as
+    # standard Elements but may show an accordion of payment methods.
+    within_frame first('#payment-element iframe') do
+      # If the Payment Element renders as an accordion with multiple payment
+      # methods, click "Card" to expand the card form.
+      card_tab = first('[role="button"][data-value="card"]', wait: 5)
+      card_tab.click if card_tab
 
-      # Wait for card inputs to appear after accordion expansion
       fill_in 'number', with: '4242424242424242'
       fill_in 'expiry', with: '12 / 33'
       fill_in 'cvc', with: '123'
@@ -28,8 +34,12 @@ RSpec.describe 'Elements with Checkout Sessions', type: :system do
       end
     end
 
-    click_on 'Pay'
+    # Button text changes from "Pay now" to "Pay $20.00 now" after SDK loads,
+    # so target the button by id.
+    find('#submit').click
 
+    # After successful payment, the SDK redirects to /complete?session_id=...
+    # which fetches session status and displays the result.
     expect(page).to have_content('Payment succeeded', wait: 30)
   end
 end

@@ -46,6 +46,7 @@ const App = () => {
         >
           <Routes>
             <Route path="/checkout" element={<CheckoutForm />} />
+            <Route path="/checkout.html" element={<CheckoutForm />} />
             <Route path="/complete" element={<Complete />} />
           </Routes>
         </CheckoutElementsProvider>
