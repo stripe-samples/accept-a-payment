@@ -51,7 +51,8 @@ the payment form.
 | `STRIPE_PUBLISHABLE_KEY` | Your Stripe publishable key (`pk_test_...`) | *required* |
 | `STRIPE_WEBHOOK_SECRET` | Your Stripe webhook secret (`whsec_...`) | *optional* |
 | `STATIC_DIR` | Path to the static files directory | `../../client/html` |
-| `DOMAIN` | Base URL for return URLs | `http://localhost:4242` |
+| `DOMAIN` | Base URL for return URLs | `http://localhost:${PORT}` |
+| `PORT` | Port the server listens on | `4242` |
 
 ## How to run
 
