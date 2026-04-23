@@ -23,7 +23,8 @@ const client = require("stripe")(process.env.STRIPE_SECRET_KEY, {
   }
 });
 
-const YOUR_DOMAIN = process.env.DOMAIN || "http://localhost:4242";
+const port = process.env.PORT || 4242;
+const YOUR_DOMAIN = process.env.DOMAIN || `http://localhost:${port}`;
 
 app.get("/config", (req, res) => {
   res.send({ publishableKey: process.env.STRIPE_PUBLISHABLE_KEY });
@@ -112,4 +113,4 @@ app.post('/webhook', async (req, res) => {
   res.sendStatus(200);
 });
 
-app.listen(4242, () => console.log(`Running on port ${4242}`));
+app.listen(port, () => console.log(`Running on port ${port}`));

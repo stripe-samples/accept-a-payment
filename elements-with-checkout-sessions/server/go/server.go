@@ -66,15 +66,23 @@ func main() {
     }
     handleWebhook(w, r)
   })
-  addr := "0.0.0.0:4242"
+  listenPort := os.Getenv("PORT")
+  if listenPort == "" {
+    listenPort = "4242"
+  }
+  addr := "0.0.0.0:" + listenPort
   log.Printf("Listening on %s", addr)
   log.Fatal(http.ListenAndServe(addr, nil))
 }
 
 func createCheckoutSession(sc *stripe.Client, w http.ResponseWriter, r *http.Request) {
+  port := os.Getenv("PORT")
+  if port == "" {
+    port = "4242"
+  }
   domain := os.Getenv("DOMAIN")
   if domain == "" {
-    domain = "http://localhost:4242"
+    domain = "http://localhost:" + port
   }
   params := &stripe.CheckoutSessionCreateParams{
     UIMode: stripe.String("elements"),

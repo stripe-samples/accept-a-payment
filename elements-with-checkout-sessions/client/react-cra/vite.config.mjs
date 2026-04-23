@@ -6,12 +6,12 @@ export default defineConfig({
     react(),
   ],
   server: {
-    port: 3000,
+    port: parseInt(process.env.PORT || '3000'),
     host: "0.0.0.0",
     allowedHosts: ["frontend", "localhost", "web"],
     proxy: {
         '/api': {
-          target: 'http://localhost:4242',
+          target: process.env.VITE_SERVER_URL || 'http://localhost:4242',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, '')
         }

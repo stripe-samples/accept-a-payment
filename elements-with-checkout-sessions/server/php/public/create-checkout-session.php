@@ -13,7 +13,8 @@ $stripe = new \Stripe\StripeClient([
 ]);
 header('Content-Type: application/json');
 
-$YOUR_DOMAIN = getenv('DOMAIN') ?: 'http://localhost:4242';
+$port = getenv('PORT') ?: '4242';
+$YOUR_DOMAIN = getenv('DOMAIN') ?: "http://localhost:$port";
 
 try {
   $checkout_session = $stripe->checkout->sessions->create([

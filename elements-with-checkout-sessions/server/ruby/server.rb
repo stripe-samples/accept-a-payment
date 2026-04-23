@@ -13,11 +13,11 @@ client = Stripe::StripeClient.new(ENV['STRIPE_SECRET_KEY'])
 
 set :static, true
 set :public_folder, File.join(File.dirname(__FILE__), ENV.fetch('STATIC_DIR', '../../client/html'))
-set :port, 4242
+set :port, ENV.fetch('PORT', 4242).to_i
 set :bind, '0.0.0.0'
 set :host_authorization, permitted_hosts: []
 
-YOUR_DOMAIN = ENV.fetch('DOMAIN', 'http://localhost:4242')
+YOUR_DOMAIN = ENV.fetch('DOMAIN', "http://localhost:#{ENV.fetch('PORT', 4242)}")
 
 get '/' do
   content_type 'text/html'

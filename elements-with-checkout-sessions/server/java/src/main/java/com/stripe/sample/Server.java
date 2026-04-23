@@ -34,7 +34,8 @@ public class Server {
   }
 
   public static void main(String[] args) {
-    port(4242);
+    int serverPort = Integer.parseInt(env("PORT", "4242"));
+    port(serverPort);
 
     // For sample support and debugging, not required for production:
     Stripe.setAppInfo(
@@ -65,7 +66,7 @@ public class Server {
 
     post("/create-checkout-session", (request, response) -> {
       try {
-        String YOUR_DOMAIN = env("DOMAIN", "http://localhost:4242");
+        String YOUR_DOMAIN = env("DOMAIN", "http://localhost:" + serverPort);
         SessionCreateParams params =
           SessionCreateParams.builder()
             .setUiMode(SessionCreateParams.UiMode.ELEMENTS)

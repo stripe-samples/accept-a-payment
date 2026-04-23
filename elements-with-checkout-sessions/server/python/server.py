@@ -32,7 +32,8 @@ app = Flask(__name__,
             static_url_path='',
             static_folder=static_dir)
 
-YOUR_DOMAIN = os.environ.get('DOMAIN', 'http://localhost:4242')
+server_port = int(os.environ.get('PORT', 4242))
+YOUR_DOMAIN = os.environ.get('DOMAIN', f'http://localhost:{server_port}')
 
 @app.route('/', methods=['GET'])
 def get_root():
@@ -108,4 +109,4 @@ def webhook():
     return '', 200
 
 if __name__ == '__main__':
-    app.run(port=4242)
+    app.run(port=server_port)

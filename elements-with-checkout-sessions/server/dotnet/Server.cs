@@ -20,8 +20,9 @@ namespace server.Controllers
         {
             DotEnv.Load();
             var staticDir = Environment.GetEnvironmentVariable("STATIC_DIR") ?? "../../client/html";
+            var port = Environment.GetEnvironmentVariable("PORT") ?? "4242";
             WebHost.CreateDefaultBuilder(args)
-              .UseUrls("http://0.0.0.0:4242")
+              .UseUrls($"http://0.0.0.0:{port}")
               .UseWebRoot(staticDir)
               .UseStartup<Startup>()
               .Build()
@@ -101,7 +102,7 @@ namespace server.Controllers
         {
             try
             {
-                var domain = Environment.GetEnvironmentVariable("DOMAIN") ?? "http://localhost:4242";
+                var domain = Environment.GetEnvironmentVariable("DOMAIN") ?? $"http://localhost:{Environment.GetEnvironmentVariable("PORT") ?? "4242"}";
                 var options = new SessionCreateOptions
                 {
                     UiMode = "elements",
