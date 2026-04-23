@@ -36,7 +36,7 @@ jobs:
 
       - name: Run tests
         # Skip elements-with-checkout-sessions on old images that don't meet minimum version requirements
-        if: ${{ !(matrix.target.sample == 'elements-with-checkout-sessions' && (inputs.server_image == 'golang:1.17' || inputs.server_image == 'python:3.8' || inputs.server_image == 'maven:3.8-openjdk-8' || inputs.server_image == 'mcr.microsoft.com/dotnet/sdk:6.0' || inputs.server_image == 'ruby:2.7')) }}
+        if: ${{ !(matrix.target.sample == 'elements-with-checkout-sessions' && (inputs.server_image == 'golang:1.17' || inputs.server_image == 'python:3.8' || inputs.server_image == 'maven:3.8-openjdk-8' || inputs.server_image == 'mcr.microsoft.com/dotnet/sdk:6.0' || inputs.server_image == 'ruby:2.7' || inputs.server_image == 'ruby:latest')) }}
         env:
           STRIPE_PUBLISHABLE_KEY: ${{ secrets.TEST_STRIPE_PUBLISHABLE_KEY }}
           STRIPE_SECRET_KEY: ${{ secrets.TEST_STRIPE_SECRET_KEY }}
