@@ -40,14 +40,30 @@ RSpec.describe 'Elements with Checkout Sessions', type: :system do
     if page.has_css?('#payment-element iframe', wait: 10)
       within_frame find('#payment-element iframe') do
         puts "INSIDE IFRAME HTML SIZE: #{page.html.length}"
-        inputs = all('input', visible: :all)
-        puts "INPUTS IN IFRAME: #{inputs.count}"
-        inputs.each { |i| puts "  INPUT: name=#{i['name']} id=#{i['id']} type=#{i['type']} disabled=#{i['disabled']}" }
 
-        # Debug: check for any error messages
-        errors = all('[class*=error], [class*=Error]', visible: :all)
-        puts "ERROR ELEMENTS: #{errors.count}"
-        errors.each { |e| puts "  ERROR: #{e.text}" }
+        # Check for nested iframes
+        nested_iframes = all('iframe', visible: :all)
+        puts "NESTED IFRAMES: #{nested_iframes.count}"
+        nested_iframes.each_with_index { |f, i| puts "  NESTED IFRAME #{i}: name=#{f['name']} title=#{f['title']} src=#{f['src']&.slice(0, 80)}" }
+
+        # Check for shadow DOM hosts
+        shadow_hosts = page.evaluate_script('document.querySelectorAll("*").length')
+        puts "TOTAL DOM ELEMENTS: #{shadow_hosts}"
+
+        # Dump first 3000 chars of iframe HTML
+        puts "IFRAME HTML START: #{page.html.slice(0, 3000)}"
+
+        inputs = all('input', visible: :all)
+        puts "INPUTS IN IFRAME (visible:all): #{inputs.count}"
+
+        # Try visible only
+        visible_inputs = all('input')
+        puts "INPUTS IN IFRAME (visible only): #{visible_inputs.count}"
+
+        # Check for any elements with card-related classes
+        card_elements = all('[class*=card], [class*=Card], [class*=number], [class*=Number], [data-elements-stable-field-name]', visible: :all)
+        puts "CARD ELEMENTS: #{card_elements.count}"
+        card_elements.each { |e| puts "  CARD EL: tag=#{e.tag_name} class=#{e['class']&.slice(0, 80)}" }
       end
     else
       puts "NO PAYMENT IFRAME FOUND"
