@@ -49,6 +49,7 @@ namespace server.Controllers
       {
           if (env.IsDevelopment()) app.UseDeveloperExceptionPage();
           app.UseRouting();
+          app.UseDefaultFiles();
           app.UseStaticFiles();
           app.UseEndpoints(endpoints => endpoints.MapControllers());
       }

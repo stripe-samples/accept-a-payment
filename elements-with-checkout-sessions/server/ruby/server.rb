@@ -19,6 +19,11 @@ set :host_authorization, permitted_hosts: []
 
 YOUR_DOMAIN = ENV.fetch('DOMAIN', 'http://localhost:4242')
 
+get '/' do
+  content_type 'text/html'
+  send_file File.join(settings.public_folder, 'index.html')
+end
+
 get '/complete' do
   send_file File.join(settings.public_folder, 'complete.html')
 end
