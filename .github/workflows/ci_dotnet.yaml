@@ -27,6 +27,8 @@ jobs:
         runtime:
           - server_type: dotnet
             server_image: mcr.microsoft.com/dotnet/sdk:6.0
+          - server_type: dotnet
+            server_image: mcr.microsoft.com/dotnet/sdk:9.0
     uses: ./.github/workflows/wf_server_test.yaml
     secrets: inherit
     with:
