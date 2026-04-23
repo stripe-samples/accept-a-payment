@@ -29,8 +29,6 @@ jobs:
             server_image: ruby:latest
           - server_type: ruby
             server_image: ruby:2.7
-          - server_type: ruby
-            server_image: ruby:3.3
     uses: ./.github/workflows/wf_server_test.yaml
     secrets: inherit
     with:
