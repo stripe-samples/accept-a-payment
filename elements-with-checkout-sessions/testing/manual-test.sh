@@ -2,12 +2,13 @@
 # Start all 7 servers and 7 React dev servers for manual testing.
 # Each server gets a unique port so all 14 combinations run simultaneously.
 #
-# Usage: ./test-all.sh
-# Prerequisites: npm, ruby, python3, go, mvn, dotnet, php installed (use mise)
+# Usage: ./testing/manual-test.sh
+# Prerequisites: mise (https://mise.jdx.dev)
 
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SAMPLE_DIR="$SCRIPT_DIR/.."
 
 if ! command -v mise &>/dev/null; then
   echo "mise is required but not installed. Install it with:"
@@ -47,14 +48,14 @@ wait_for_server() {
 }
 
 # --- Check for .env ---
-if [ ! -f "$SCRIPT_DIR/server/node/.env" ]; then
+if [ ! -f "$SAMPLE_DIR/server/node/.env" ]; then
   echo "Error: server/node/.env not found. Copy .env.example and add your Stripe keys:"
   echo "  cp .env.example server/node/.env"
   exit 1
 fi
 
 # Share the same .env across all servers
-ENV_FILE="$SCRIPT_DIR/server/node/.env"
+ENV_FILE="$SAMPLE_DIR/server/node/.env"
 copy_env() {
   local dir="$1"
   [ -f "$dir/.env" ] || cp "$ENV_FILE" "$dir/.env"
@@ -62,14 +63,14 @@ copy_env() {
 
 # --- Install dependencies ---
 echo "Installing dependencies..."
-(cd "$SCRIPT_DIR/server/node" && npm install --silent) &
-(cd "$SCRIPT_DIR/server/ruby" && copy_env . && bundle install --quiet) &
-(cd "$SCRIPT_DIR/server/python" && copy_env . && pip install -q -r requirements.txt) &
-(cd "$SCRIPT_DIR/server/go" && copy_env . && go build -o /dev/null server.go) &
-(cd "$SCRIPT_DIR/server/java" && copy_env . && mvn -q compile) &
-(cd "$SCRIPT_DIR/server/dotnet" && copy_env .) &
-(cd "$SCRIPT_DIR/server/php" && copy_env . && composer install --quiet) &
-(cd "$SCRIPT_DIR/client/react-cra" && npm install --silent) &
+(cd "$SAMPLE_DIR/server/node" && npm install --silent) &
+(cd "$SAMPLE_DIR/server/ruby" && copy_env . && bundle install --quiet) &
+(cd "$SAMPLE_DIR/server/python" && copy_env . && pip install -q -r requirements.txt) &
+(cd "$SAMPLE_DIR/server/go" && copy_env . && go build -o /dev/null server.go) &
+(cd "$SAMPLE_DIR/server/java" && copy_env . && mvn -q compile) &
+(cd "$SAMPLE_DIR/server/dotnet" && copy_env .) &
+(cd "$SAMPLE_DIR/server/php" && copy_env . && composer install --quiet) &
+(cd "$SAMPLE_DIR/client/react-cra" && npm install --silent) &
 wait
 echo "Dependencies installed."
 echo ""
@@ -78,36 +79,36 @@ echo ""
 echo "Starting servers..."
 
 PORT=4242 \
-  node "$SCRIPT_DIR/server/node/server.js" >/dev/null 2>&1 &
+  node "$SAMPLE_DIR/server/node/server.js" >/dev/null 2>&1 &
 PIDS+=($!)
 
-cd "$SCRIPT_DIR/server/ruby" && PORT=4243 \
+cd "$SAMPLE_DIR/server/ruby" && PORT=4243 \
   ruby server.rb >/dev/null 2>&1 &
 PIDS+=($!)
-cd "$SCRIPT_DIR"
+cd "$SAMPLE_DIR"
 
-cd "$SCRIPT_DIR/server/python" && PORT=4244 \
+cd "$SAMPLE_DIR/server/python" && PORT=4244 \
   python3 server.py >/dev/null 2>&1 &
 PIDS+=($!)
-cd "$SCRIPT_DIR"
+cd "$SAMPLE_DIR"
 
-cd "$SCRIPT_DIR/server/go" && PORT=4245 \
+cd "$SAMPLE_DIR/server/go" && PORT=4245 \
   go run server.go >/dev/null 2>&1 &
 PIDS+=($!)
-cd "$SCRIPT_DIR"
+cd "$SAMPLE_DIR"
 
-cd "$SCRIPT_DIR/server/java" && PORT=4246 \
+cd "$SAMPLE_DIR/server/java" && PORT=4246 \
   mvn -q exec:java >/dev/null 2>&1 &
 PIDS+=($!)
-cd "$SCRIPT_DIR"
+cd "$SAMPLE_DIR"
 
-cd "$SCRIPT_DIR/server/dotnet" && PORT=4247 \
+cd "$SAMPLE_DIR/server/dotnet" && PORT=4247 \
   dotnet run >/dev/null 2>&1 &
 PIDS+=($!)
-cd "$SCRIPT_DIR"
+cd "$SAMPLE_DIR"
 
 PORT=4248 \
-  php -S localhost:4248 -t "$SCRIPT_DIR/server/php" "$SCRIPT_DIR/server/php/router.php" >/dev/null 2>&1 &
+  php -S localhost:4248 -t "$SAMPLE_DIR/server/php" "$SAMPLE_DIR/server/php/router.php" >/dev/null 2>&1 &
 PIDS+=($!)
 
 # Wait for all servers
@@ -123,7 +124,7 @@ echo ""
 # --- Start React dev servers ---
 echo "Starting React dev servers..."
 
-REACT_DIR="$SCRIPT_DIR/client/react-cra"
+REACT_DIR="$SAMPLE_DIR/client/react-cra"
 
 VITE_SERVER_URL=http://localhost:4242 PORT=3000 \
   npx --prefix "$REACT_DIR" vite --config "$REACT_DIR/vite.config.mjs" "$REACT_DIR" >/dev/null 2>&1 &

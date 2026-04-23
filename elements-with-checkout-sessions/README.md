@@ -28,6 +28,9 @@ the payment form.
 │   ├── java
 │   ├── go
 │   └── dotnet
+├── testing
+│   └── manual-test.sh  # Run all 14 server×client combinations
+├── .mise.toml          # Tool versions (mise install)
 └── .env.example        # Root env template
 ```
 
@@ -35,13 +38,14 @@ the payment form.
 
 - A [Stripe account](https://dashboard.stripe.com/register)
 - One of the following runtimes:
-  - **Node** >= 14
-  - **Python** >= 3.8
-  - **Ruby** >= 2.6
-  - **PHP** >= 7.2 with Composer
-  - **Java** >= 11 with Maven
+  - **Node** >= 18
+  - **Python** >= 3.12
+  - **Ruby** >= 3.3
+  - **PHP** >= 8.2 with Composer
+  - **Java** >= 17 with Maven
   - **Go** >= 1.22
   - **.NET** >= 9.0
+- Or install all runtimes automatically with [mise](https://mise.jdx.dev): `mise install`
 
 ## Environment variables
 
