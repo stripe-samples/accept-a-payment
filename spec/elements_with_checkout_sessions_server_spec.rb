@@ -24,7 +24,6 @@ RSpec.describe "elements-with-checkout-sessions integration" do
         expand: ['line_items'],
       })
       expect(session.mode).to eq('payment')
-      # ui_mode is sent as 'elements' but the API returns 'custom'
       expect(session.line_items.data.length).to be > 0
     end
   end
@@ -36,7 +35,7 @@ RSpec.describe "elements-with-checkout-sessions integration" do
       expect(status).to eq(200)
       session_id = resp['clientSecret'].split('_secret').first
 
-      # Then retrieve its status
+      # Then retrieve its status (get_json helper doesn't support query params)
       status_resp = JSON.parse(RestClient.get("#{SERVER_URL}/session-status?session_id=#{session_id}").body)
       expect(status_resp).to have_key('status')
       expect(status_resp).to have_key('payment_status')
