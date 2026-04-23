@@ -22,11 +22,19 @@ echo "Installing runtimes via mise..."
 mise install node python ruby go java dotnet "ubi:adwinying/php"
 PIDS=()
 
+# Kill any leftover processes from a previous run
+for port in $(seq 4242 4248) $(seq 3000 3006); do
+  kill $(lsof -ti :$port) 2>/dev/null || true
+done
+
 cleanup() {
   echo ""
   echo "Shutting down all servers..."
   for pid in "${PIDS[@]}"; do
     kill "$pid" 2>/dev/null || true
+  done
+  for port in $(seq 4242 4248) $(seq 3000 3006); do
+    kill $(lsof -ti :$port) 2>/dev/null || true
   done
   wait 2>/dev/null
   echo "Done."
@@ -47,29 +55,25 @@ wait_for_server() {
   return 1
 }
 
-# --- Check for .env ---
-if [ ! -f "$SAMPLE_DIR/server/node/.env" ]; then
-  echo "Error: server/node/.env not found. Copy .env.example and add your Stripe keys:"
-  echo "  cp .env.example server/node/.env"
+# --- Load .env ---
+if [ ! -f "$SCRIPT_DIR/.env" ]; then
+  echo "Error: testing/.env not found. Copy .env.example and add your Stripe keys:"
+  echo "  cp .env.example testing/.env"
   exit 1
 fi
 
-# Share the same .env across all servers
-ENV_FILE="$SAMPLE_DIR/server/node/.env"
-copy_env() {
-  local dir="$1"
-  [ -f "$dir/.env" ] || cp "$ENV_FILE" "$dir/.env"
-}
+set -a
+source "$SCRIPT_DIR/.env"
+set +a
 
 # --- Install dependencies ---
 echo "Installing dependencies..."
 (cd "$SAMPLE_DIR/server/node" && npm install --silent) &
-(cd "$SAMPLE_DIR/server/ruby" && copy_env . && bundle install --quiet) &
-(cd "$SAMPLE_DIR/server/python" && copy_env . && pip install -q -r requirements.txt) &
-(cd "$SAMPLE_DIR/server/go" && copy_env . && go build -o /dev/null server.go) &
-(cd "$SAMPLE_DIR/server/java" && copy_env . && mvn -q compile) &
-(cd "$SAMPLE_DIR/server/dotnet" && copy_env .) &
-(cd "$SAMPLE_DIR/server/php" && copy_env . && composer install --quiet) &
+(cd "$SAMPLE_DIR/server/ruby" && bundle install --quiet) &
+(cd "$SAMPLE_DIR/server/python" && pip install -q -r requirements.txt) &
+(cd "$SAMPLE_DIR/server/go" && go build -o /dev/null server.go) &
+(cd "$SAMPLE_DIR/server/java" && mvn -q compile) &
+(cd "$SAMPLE_DIR/server/php" && composer install --quiet) &
 (cd "$SAMPLE_DIR/client/react-cra" && npm install --silent) &
 wait
 echo "Dependencies installed."
@@ -78,9 +82,10 @@ echo ""
 # --- Start servers ---
 echo "Starting servers..."
 
-PORT=4242 \
-  node "$SAMPLE_DIR/server/node/server.js" >/dev/null 2>&1 &
+cd "$SAMPLE_DIR/server/node" && PORT=4242 \
+  node server.js >/dev/null 2>&1 &
 PIDS+=($!)
+cd "$SAMPLE_DIR"
 
 cd "$SAMPLE_DIR/server/ruby" && PORT=4243 \
   ruby server.rb >/dev/null 2>&1 &
@@ -107,9 +112,10 @@ cd "$SAMPLE_DIR/server/dotnet" && PORT=4247 \
 PIDS+=($!)
 cd "$SAMPLE_DIR"
 
-PORT=4248 \
-  php -S localhost:4248 -t "$SAMPLE_DIR/server/php" "$SAMPLE_DIR/server/php/router.php" >/dev/null 2>&1 &
+cd "$SAMPLE_DIR/server/php" && PORT=4248 \
+  php -S localhost:4248 router.php >/dev/null 2>&1 &
 PIDS+=($!)
+cd "$SAMPLE_DIR"
 
 # Wait for all servers
 wait_for_server http://localhost:4242 Node
@@ -126,33 +132,12 @@ echo "Starting React dev servers..."
 
 REACT_DIR="$SAMPLE_DIR/client/react-cra"
 
-VITE_SERVER_URL=http://localhost:4242 PORT=3000 \
-  npx --prefix "$REACT_DIR" vite --config "$REACT_DIR/vite.config.mjs" "$REACT_DIR" >/dev/null 2>&1 &
-PIDS+=($!)
-
-VITE_SERVER_URL=http://localhost:4243 PORT=3001 \
-  npx --prefix "$REACT_DIR" vite --config "$REACT_DIR/vite.config.mjs" "$REACT_DIR" >/dev/null 2>&1 &
-PIDS+=($!)
-
-VITE_SERVER_URL=http://localhost:4244 PORT=3002 \
-  npx --prefix "$REACT_DIR" vite --config "$REACT_DIR/vite.config.mjs" "$REACT_DIR" >/dev/null 2>&1 &
-PIDS+=($!)
-
-VITE_SERVER_URL=http://localhost:4245 PORT=3003 \
-  npx --prefix "$REACT_DIR" vite --config "$REACT_DIR/vite.config.mjs" "$REACT_DIR" >/dev/null 2>&1 &
-PIDS+=($!)
-
-VITE_SERVER_URL=http://localhost:4246 PORT=3004 \
-  npx --prefix "$REACT_DIR" vite --config "$REACT_DIR/vite.config.mjs" "$REACT_DIR" >/dev/null 2>&1 &
-PIDS+=($!)
-
-VITE_SERVER_URL=http://localhost:4247 PORT=3005 \
-  npx --prefix "$REACT_DIR" vite --config "$REACT_DIR/vite.config.mjs" "$REACT_DIR" >/dev/null 2>&1 &
-PIDS+=($!)
-
-VITE_SERVER_URL=http://localhost:4248 PORT=3006 \
-  npx --prefix "$REACT_DIR" vite --config "$REACT_DIR/vite.config.mjs" "$REACT_DIR" >/dev/null 2>&1 &
-PIDS+=($!)
+for i in $(seq 0 6); do
+  VITE_SERVER_URL="http://localhost:$((4242 + i))" \
+  PORT=$((3000 + i)) \
+    npx --prefix "$REACT_DIR" vite --config "$REACT_DIR/vite.config.mjs" "$REACT_DIR" >/dev/null 2>&1 &
+  PIDS+=($!)
+done
 
 sleep 3
 

@@ -1,7 +1,7 @@
 <?php
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+$dotenv->safeLoad();
 
 // Also set via putenv so getenv() works in endpoint files
 foreach ($_ENV as $key => $value) {
