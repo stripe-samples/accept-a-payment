@@ -19,13 +19,6 @@ RSpec.describe 'Payment elements', type: :system do
       fill_in 'cvc', with: '123'
       select 'United States', from: 'country'
       fill_in 'postalCode', with: '10000'
-
-      # Dismiss Link "Save my information" if present, so canConfirm
-      # becomes true without requiring phone number.
-      link_checkbox = first('input[name="linkOptIn"]', visible: false, wait: 2) rescue nil
-      if link_checkbox&.checked?
-        page.execute_script("document.querySelector('input[name=\"linkOptIn\"]').click()")
-      end
     end
 
     within_frame first('form iframe[title*="Secure email input frame"]') do

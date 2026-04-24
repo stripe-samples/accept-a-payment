@@ -35,15 +35,6 @@ RSpec.describe 'Elements with Checkout Sessions', type: :system do
 
       select 'United States', from: 'country'
       fill_in 'postalCode', with: '10000'
-
-      # If Link is enabled on the Stripe account, a "Save my information"
-      # checkbox (name="linkOptIn", hidden input) appears with email/phone
-      # fields that block canConfirm. Uncheck it via JavaScript since the
-      # actual <input> is hidden and not clickable via Capybara.
-      link_checkbox = first('input[name="linkOptIn"]', visible: false, wait: 2) rescue nil
-      if link_checkbox&.checked?
-        page.execute_script("document.querySelector('input[name=\"linkOptIn\"]').click()")
-      end
     end
 
     # Wait for the Pay button to become enabled. The SDK disables it until
