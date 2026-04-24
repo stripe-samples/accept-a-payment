@@ -158,3 +158,11 @@ The dev server starts on port 3000 and proxies `/api` requests to
 `http://127.0.0.1:4242`. Navigate to
 [http://localhost:3000](http://localhost:3000) to see the payment form.
 Make sure a backend server is running on port 4242 first.
+
+**Important:** Set `DOMAIN` to your Vite dev server URL so Stripe
+redirects back to the React app after payment:
+
+```bash
+# In your server's .env
+DOMAIN=http://localhost:3000
+```

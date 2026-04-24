@@ -9,7 +9,9 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
 }
 
 form {
@@ -38,6 +40,11 @@ form {
 }
 
 #payment-element {
+  margin-bottom: 24px;
+  margin-top: 16px;
+}
+
+#address-element {
   margin-bottom: 24px;
   margin-top: 16px;
 }

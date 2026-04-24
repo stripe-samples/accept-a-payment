@@ -134,6 +134,7 @@ REACT_DIR="$SAMPLE_DIR/client/react-cra"
 
 for i in $(seq 0 6); do
   VITE_SERVER_URL="http://localhost:$((4242 + i))" \
+  VITE_CACHE_DIR="/tmp/vite-cache-$((3000 + i))" \
   PORT=$((3000 + i)) \
     npx --prefix "$REACT_DIR" vite --config "$REACT_DIR/vite.config.mjs" "$REACT_DIR" >/dev/null 2>&1 &
   PIDS+=($!)
