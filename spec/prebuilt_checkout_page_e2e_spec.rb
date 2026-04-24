@@ -26,7 +26,12 @@ RSpec.describe 'Custom payment flow', type: :system do
     fill_in 'billingPostalCode', with: '10000'
 
     # Uncheck Link "Save my information" if present on this account.
-    uncheck 'enableStripePass', allow_label_click: true if page.has_field?('enableStripePass', wait: 2)
+    # Wait longer for Link to render after card fields are filled.
+    if page.has_field?('enableStripePass', wait: 5)
+      uncheck 'enableStripePass', allow_label_click: true
+      # Wait for Link fields (phone number) to disappear
+      expect(page).to have_no_css('[data-testid="phone-number-field"]', wait: 5) rescue nil
+    end
 
     click_on 'Pay'
 
