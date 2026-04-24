@@ -71,11 +71,11 @@ RSpec.describe 'Elements with Checkout Sessions', type: :system do
       fill_in 'expiry', with: '12 / 33'
       fill_in 'cvc', with: '123'
 
-      # Uncheck Link "Save my information" if present. The hidden checkbox
-      # (input[name="linkOptIn"]) can't be clicked directly; click the
-      # visible wrapper span instead. Verified from local DOM inspection.
-      if page.has_css?('.p-Checkbox-inputWrapper', wait: 2)
-        find('.p-Checkbox-inputWrapper').click
+      # Uncheck Link "Save my information" if present.
+      # Click the label to toggle the checkbox.
+      # Verified from local DOM: label[for="payment-linkOptInInput"]
+      if page.has_css?('label[for="payment-linkOptInInput"]', wait: 2)
+        find('label[for="payment-linkOptInInput"]').click
       end
     end
 
