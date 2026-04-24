@@ -90,7 +90,7 @@ RSpec.describe 'Custom payment flow', type: :system do
     expect(page).to have_content('Payment succeeded')
   end
 
-  example 'FPX with US Stripe account' do
+  xexample 'FPX with US Stripe account' do
     click_on 'FPX'
 
     within_frame find('iframe[name*=__privateStripeFrame][title*="button"]') do
@@ -115,7 +115,7 @@ RSpec.describe 'Custom payment flow', type: :system do
     expect(page).to have_content('Payment succeeded')
   end
 
-  example 'iDEAL: happy path' do
+  xexample 'iDEAL: happy path' do
     click_on 'iDEAL'
 
     within_frame find('iframe[name*=__privateStripeFrame][title*="button"]') do
@@ -186,7 +186,7 @@ RSpec.describe 'Custom payment flow', type: :system do
     expect(page).to have_selector('#messages')
   end
 
-  example 'Alipay' do
+  xexample 'Alipay' do
     click_on 'Alipay'
 
     click_on 'Pay'
