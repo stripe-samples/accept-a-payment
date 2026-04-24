@@ -25,9 +25,9 @@ RSpec.describe 'Custom payment flow', type: :system do
     select 'United States', from: 'billingCountry'
     fill_in 'billingPostalCode', with: '10000'
 
-    # Uncheck Link "Save my information". Capybara's uncheck doesn't
-    # reliably toggle Stripe's custom checkbox; use click instead.
-    find('#enableStripePass').click
+    # Uncheck Link "Save my information". The checkbox input is hidden;
+    # click the visible label which toggles it via the for="enableStripePass" attribute.
+    find('label[for="enableStripePass"]').click
 
     click_on 'Pay'
 
