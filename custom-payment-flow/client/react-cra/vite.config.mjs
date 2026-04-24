@@ -11,7 +11,7 @@ export default defineConfig({
     allowedHosts: ["frontend", "localhost", "web"],
     proxy: {
         '/api': {
-          target: 'http://127.0.0.1:4242',
+          target: 'http://localhost:4242',
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, '')
         }
