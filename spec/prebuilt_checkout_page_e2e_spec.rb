@@ -9,6 +9,11 @@ RSpec.describe 'Custom payment flow', type: :system do
     click_on 'Buy'
 
     fill_in 'email', with: 'test@example.com'
+
+    # If multiple payment methods are enabled, the hosted checkout page
+    # shows an accordion. Click "Card" to expand the card form.
+    find('[data-testid="card-accordion-item-button"]').click if page.has_css?('[data-testid="card-accordion-item-button"]', wait: 5)
+
     fill_in 'cardNumber', with: '4242424242424242'
     fill_in 'cardExpiry', with: '12 / 33'
     fill_in 'CVC', with: '123'
