@@ -36,14 +36,14 @@ RSpec.describe 'Elements with Checkout Sessions', type: :system do
       select 'United States', from: 'country'
       fill_in 'postalCode', with: '10000'
 
-      # DEBUG: find the Link checkbox element
-      puts "=== LINK CHECKBOX SEARCH ==="
-      all('input[type="checkbox"]', visible: :all).each { |el| puts "checkbox: name=#{el['name']} id=#{el['id']} checked=#{el.checked?} visible=#{el.visible?}" }
-      all('[data-testid]', visible: :all).each { |el| puts "testid: #{el['data-testid']} tag=#{el.tag_name} visible=#{el.visible?}" } rescue nil
-      # Try to find anything with "save" or "link" text
-      all('*', text: /save|link/i, visible: true).each { |el| puts "text_match: tag=#{el.tag_name} text=#{el.text[0..50]}" } rescue nil
-      puts "=== END LINK CHECKBOX SEARCH ==="
-      raise "DIAGNOSTIC DUMP COMPLETE"
+      # If Link is enabled on the Stripe account, a "Save my information"
+      # checkbox (name="linkOptIn", hidden input) appears with email/phone
+      # fields that block canConfirm. Uncheck it via JavaScript since the
+      # actual <input> is hidden and not clickable via Capybara.
+      link_checkbox = first('input[name="linkOptIn"]', visible: false, wait: 2) rescue nil
+      if link_checkbox&.checked?
+        page.execute_script("document.querySelector('input[name=\"linkOptIn\"]').click()")
+      end
     end
 
     # Wait for the Pay button to become enabled. The SDK disables it until
