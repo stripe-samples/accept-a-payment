@@ -64,7 +64,7 @@ RSpec.describe 'Custom payment flow', type: :system do
     expect(page).to have_content(/Payment \(pi_\w+\): succeeded/)
   end
 
-  xexample 'Bancontact: happy path' do
+  example 'Bancontact: happy path' do
     click_on 'Bancontact'
 
     click_on 'Pay'
@@ -90,7 +90,7 @@ RSpec.describe 'Custom payment flow', type: :system do
     expect(page).to have_content('Payment succeeded')
   end
 
-  xexample 'FPX with US Stripe account' do
+  example 'FPX with US Stripe account' do
     click_on 'FPX'
 
     within_frame find('iframe[name*=__privateStripeFrame][title*="button"]') do
@@ -106,7 +106,7 @@ RSpec.describe 'Custom payment flow', type: :system do
     expect(page).to have_content('The payment method type provided: fpx is invalid') # This payment method is available to Stripe accounts in MY and your Stripe account is in US.'
   end
 
-  xexample 'Giropay: happy path' do
+  example 'Giropay: happy path' do
     click_on 'giropay'
 
     click_on 'Pay'
@@ -115,7 +115,7 @@ RSpec.describe 'Custom payment flow', type: :system do
     expect(page).to have_content('Payment succeeded')
   end
 
-  xexample 'iDEAL: happy path' do
+  example 'iDEAL: happy path' do
     click_on 'iDEAL'
 
     within_frame find('iframe[name*=__privateStripeFrame][title*="button"]') do
@@ -149,7 +149,7 @@ RSpec.describe 'Custom payment flow', type: :system do
     expect(page).to have_content('Payment succeeded')
   end
 
-  xexample 'Sofort: happy path' do
+  example 'Sofort: happy path' do
     click_on 'Sofort'
 
     click_on 'Pay'
@@ -186,7 +186,7 @@ RSpec.describe 'Custom payment flow', type: :system do
     expect(page).to have_selector('#messages')
   end
 
-  xexample 'Alipay' do
+  example 'Alipay' do
     click_on 'Alipay'
 
     click_on 'Pay'
