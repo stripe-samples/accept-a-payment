@@ -12,8 +12,8 @@ RSpec.describe 'Payment elements', type: :system do
 
     within_frame first('form iframe[title*="payment input"][src*="elements-inner-payment"]') do
       # Click "Card" tab to ensure the card form is visible.
-      # Verified from CI DOM: button[data-testid="card"] with role="tab".
-      find('[data-testid="card"]', wait: 5).click
+      # Verified from CI + local DOM: button[data-testid="card"] with role="tab".
+      find('[data-testid="card"]', wait: 10).click
 
       fill_in 'number', with: '4242424242424242'
       fill_in 'expiry', with: '12 / 33'
