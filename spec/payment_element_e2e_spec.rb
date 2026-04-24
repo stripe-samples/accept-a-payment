@@ -11,9 +11,11 @@ RSpec.describe 'Payment elements', type: :system do
     )
 
     within_frame first('form iframe[title*="payment input"][src*="elements-inner-payment"]') do
-      # Click "Card" tab to ensure the card form is visible.
-      # Verified from DOM: the tab has data-testid="card".
-      find('[data-testid="card"]', wait: 5).click
+      # Click "Card" to ensure the card form is visible. The Payment
+      # Element renders as tabs (data-testid="card") or accordion
+      # (data-value="card") depending on viewport/config.
+      card = first('[data-testid="card"]', wait: 5) || first('[data-value="card"]', wait: 2)
+      card.click
 
       fill_in 'number', with: '4242424242424242'
       fill_in 'expiry', with: '12 / 33'
