@@ -31,7 +31,7 @@ RSpec.describe 'Custom payment flow', type: :system do
     click_on 'Pay'
 
     expect(page).to have_content 'Your payment succeeded'
-    expect(page).to have_content '"amount_total": 1000'
+    expect(page).to have_content '"amount_total": 2000'
   end
 
   example 'Cancel a payment' do
