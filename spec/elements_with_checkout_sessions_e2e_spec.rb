@@ -70,6 +70,13 @@ RSpec.describe 'Elements with Checkout Sessions', type: :system do
       fill_in 'number', with: '4242424242424242'
       fill_in 'expiry', with: '12 / 33'
       fill_in 'cvc', with: '123'
+
+      # Uncheck Link "Save my information" if present. The hidden checkbox
+      # (input[name="linkOptIn"]) can't be clicked directly; click the
+      # visible wrapper span instead. Verified from local DOM inspection.
+      if page.has_css?('.p-Checkbox-inputWrapper', wait: 2)
+        find('.p-Checkbox-inputWrapper').click
+      end
     end
 
     # Wait for the Pay button to become enabled. The SDK disables it until
