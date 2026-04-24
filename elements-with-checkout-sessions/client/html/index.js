@@ -72,6 +72,9 @@ async function initialize() {
     }
   });
 
+  const addressElement = checkout.createBillingAddressElement();
+  addressElement.mount("#address-element");
+
   const paymentElement = checkout.createPaymentElement();
   paymentElement.mount("#payment-element");
 }

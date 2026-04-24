@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {
   PaymentElement,
+  BillingAddressElement,
   useCheckout
 } from '@stripe/react-stripe-js/checkout';
 
@@ -104,6 +105,8 @@ const CheckoutForm = () => {
         error={emailError}
         setError={setEmailError}
       />
+      <h4>Billing address</h4>
+      <BillingAddressElement id="address-element" />
       <h4>Payment</h4>
       <PaymentElement id="payment-element" />
       <button disabled={!checkoutState.checkout.canConfirm || isSubmitting} id="submit">
