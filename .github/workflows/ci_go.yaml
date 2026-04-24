@@ -27,8 +27,6 @@ jobs:
         runtime:
           - server_type: go
             server_image: golang:latest
-          - server_type: go
-            server_image: golang:1.17
     uses: ./.github/workflows/wf_server_test.yaml
     secrets: inherit
     with:
