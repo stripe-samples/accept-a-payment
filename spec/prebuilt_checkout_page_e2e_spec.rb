@@ -8,11 +8,14 @@ RSpec.describe 'Custom payment flow', type: :system do
   example 'happy path' do
     click_on 'Buy'
 
+    # Wait for Stripe's hosted checkout page to fully load.
+    expect(page).to have_field('email', wait: 30)
     fill_in 'email', with: 'test@example.com'
 
     # If multiple payment methods are enabled, the hosted checkout page
     # shows an accordion. Click "Card" to expand the card form.
-    find('[data-testid="card-accordion-item-button"]').click if page.has_css?('[data-testid="card-accordion-item-button"]', wait: 5)
+    # Verified from local DOM: button[data-testid="card-accordion-item-button"]
+    find('[data-testid="card-accordion-item-button"]', wait: 10).click if page.has_css?('[data-testid="card-accordion-item-button"]', wait: 10)
 
     fill_in 'cardNumber', with: '4242424242424242'
     fill_in 'cardExpiry', with: '12 / 33'
