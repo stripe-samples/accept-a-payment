@@ -35,6 +35,13 @@ RSpec.describe 'Elements with Checkout Sessions', type: :system do
 
       select 'United States', from: 'country'
       fill_in 'postalCode', with: '10000'
+
+      # If Link is enabled on the Stripe account, a "Save my information
+      # for faster checkout" checkbox appears with email/phone fields.
+      # Uncheck it to dismiss those fields so canConfirm becomes true.
+      link_checkbox = first('[data-testid="LINK_AUTHENTICATION-checkbox"]', wait: 2) rescue nil
+      link_checkbox ||= first('input[type="checkbox"]', wait: 1) rescue nil
+      link_checkbox.click if link_checkbox&.checked?
     end
 
     # Wait for the Pay button to become enabled. The SDK disables it until
