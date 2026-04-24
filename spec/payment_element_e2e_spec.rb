@@ -11,13 +11,9 @@ RSpec.describe 'Payment elements', type: :system do
     )
 
     within_frame first('form iframe[title*="payment input"][src*="elements-inner-payment"]') do
-      # DEBUG: find the Card selector in the Payment Element
-      puts "=== CARD SELECTOR SEARCH ==="
-      all('[data-testid]', wait: 5).each { |el| puts "testid=#{el['data-testid']} tag=#{el.tag_name}" }
-      all('[data-value]', wait: 2).each { |el| puts "value=#{el['data-value']} tag=#{el.tag_name}" }
-      all('[role="tab"]', wait: 2).each { |el| puts "tab: text=#{el.text[0..20]} aria-selected=#{el[:'aria-selected']}" }
-      puts "=== END CARD SELECTOR SEARCH ==="
-      raise "DIAGNOSTIC DUMP COMPLETE"
+      # Click "Card" tab to ensure the card form is visible.
+      # Verified from CI DOM: button[data-testid="card"] with role="tab".
+      find('[data-testid="card"]', wait: 5).click
 
       fill_in 'number', with: '4242424242424242'
       fill_in 'expiry', with: '12 / 33'
