@@ -27,6 +27,7 @@ set :public_folder, File.join(File.dirname(__FILE__), ENV['STATIC_DIR'])
 set :port, 4242
 set :bind, '0.0.0.0'
 set :protection, except: [:json_csrf]
+set :host_authorization, permitted_hosts: []
 
 get '/' do
   content_type 'text/html'
