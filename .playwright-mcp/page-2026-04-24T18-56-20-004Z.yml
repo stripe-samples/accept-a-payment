@@ -1,0 +1,14 @@
+- main [ref=e2]:
+  - link "home" [ref=e3] [cursor=pointer]:
+    - /url: /
+  - heading "FPX" [level=1] [ref=e4]
+  - paragraph [ref=e5]: "Note: FPX is only available to Stripe accounts in MY."
+  - generic [ref=e6]:
+    - generic [ref=e7]: FPX Bank
+    - generic [ref=e9]:
+      - iframe [ref=e10]:
+        
+      - iframe
+      - textbox [disabled]
+    - button "Pay" [ref=e11] [cursor=pointer]
+    - alert

@@ -1,0 +1,10 @@
+- main [ref=e2]:
+  - link "home" [ref=e3] [cursor=pointer]:
+    - /url: /
+  - heading "giropay" [level=1] [ref=e4]
+  - generic [ref=e5]:
+    - generic [ref=e6]: Name
+    - textbox "Name" [ref=e7]: Jenny Rosen
+    - alert
+    - button "Pay" [active] [ref=e8] [cursor=pointer]
+  - alert [ref=e9]: "> The payment method type \"giropay\" is invalid. Please ensure the provided type is activated in your dashboard (https://dashboard.stripe.com/account/payments/settings) and your account is enabled for any preview features that you are trying to use."

@@ -1,0 +1,2 @@
+[     209ms] [WARNING] You may test your Stripe.js integration over HTTP. However, live Stripe.js integrations must use HTTPS. @ https://js.stripe.com/v3/:0
+[   26263ms] [LOG] Debug: Client secret returned. @ http://localhost:4242/utils.js:6

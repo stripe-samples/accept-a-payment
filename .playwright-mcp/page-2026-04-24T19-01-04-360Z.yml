@@ -1,0 +1,10 @@
+- main [ref=e2]:
+  - link "home" [ref=e3] [cursor=pointer]:
+    - /url: /
+  - heading "Sofort" [level=1] [ref=e4]
+  - generic [ref=e5]:
+    - generic [ref=e6]: Name
+    - textbox "Name" [ref=e7]: Jenny Rosen
+    - generic [ref=e8]: Email
+    - textbox "Email" [ref=e9]: jenny.rosen@example.com
+    - button "Pay" [ref=e10] [cursor=pointer]

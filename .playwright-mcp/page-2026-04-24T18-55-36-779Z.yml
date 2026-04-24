@@ -1,0 +1,14 @@
+- main [ref=e2]:
+  - link "home" [ref=e3] [cursor=pointer]:
+    - /url: /
+  - heading "EPS" [level=1] [ref=e4]
+  - generic [ref=e5]:
+    - generic [ref=e6]: Name
+    - textbox "Name" [ref=e7]: Jenny Rosen
+    - generic [ref=e8]: EPS Bank
+    - generic [ref=e10]:
+      - iframe [ref=e11]:
+        
+      - iframe
+      - textbox [disabled]
+    - button "Pay" [ref=e12] [cursor=pointer]
