@@ -1,4 +1,0 @@
-[     145ms] [WARNING] You may test your Stripe.js integration over HTTP. However, live Stripe.js integrations must use HTTPS. @ https://js.stripe.com/v3/:0
-[   21196ms] [LOG] Debug: Client secret returned. @ http://localhost:4242/utils.js:6
-[   21789ms] [ERROR] Failed to load resource: the server responded with a status of 402 () @ https://api.stripe.com/v1/payment_intents/pi_3TPoyfGYHMpLdHyK1MnsAe2l/confirm:0
-[   21801ms] [LOG] Debug: Sofort is deprecated and can no longer be used for payment acceptance. Please refer to https://docs.stripe.com/payments/sofort @ http://localhost:4242/utils.js:6

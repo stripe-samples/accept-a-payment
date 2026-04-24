@@ -138,4 +138,4 @@ playwright/test-results/
 
 # Terraform files
 .terraform*
-terraform.tfstate*
+terraform.tfstate*.playwright-mcp/

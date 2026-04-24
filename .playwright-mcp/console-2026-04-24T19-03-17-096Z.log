@@ -1,8 +1,0 @@
-[     132ms] [WARNING] You may test your Stripe.js integration over HTTP. However, live Stripe.js integrations must use HTTPS. @ https://js.stripe.com/v3/:0
-[     134ms] [LOG] Debug: Apple Pay support not found. Check the pre-requisites above and ensure you are testing in a supported browser. @ http://localhost:4242/utils.js:6
-[     808ms] [WARNING] [Stripe.js] You're using a legacy wallets integration.
-
-We released an improved way to boost conversion and integrate with wallets including Apple Pay, Google Pay, Link, and more.
-
-Learn how to upgrade your integration: https://docs.stripe.com/elements/express-checkout-element/migration @ https://js.stripe.com/v3/fingerprinted/js/controller-with-preconnect-preload-af-control-e036562eb149c72c8187a88cca72267d.js:0
-[     808ms] [WARNING] [Stripe.js] If you are testing Apple Pay or Google Pay, you must serve this page over HTTPS as it will not work over HTTP. Please read https://stripe.com/docs/stripe-js/elements/payment-request-button#html-js-prerequisites for more details. @ https://js.stripe.com/v3/fingerprinted/js/controller-with-preconnect-preload-af-control-e036562eb149c72c8187a88cca72267d.js:0

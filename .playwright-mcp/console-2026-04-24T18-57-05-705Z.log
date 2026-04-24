@@ -1,3 +1,0 @@
-[      51ms] [WARNING] You may test your Stripe.js integration over HTTP. However, live Stripe.js integrations must use HTTPS. @ https://js.stripe.com/v3/:0
-[   26698ms] [ERROR] Failed to load resource: the server responded with a status of 400 (Bad Request) @ http://localhost:4242/create-payment-intent:0
-[   26700ms] [LOG] Debug: The payment method type "giropay" is invalid. Please ensure the provided type is activated in your dashboard (https://dashboard.stripe.com/account/payments/settings) and your account is enabled for any preview features that you are trying to use. @ http://localhost:4242/utils.js:6
