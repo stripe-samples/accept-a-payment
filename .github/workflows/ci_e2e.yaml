@@ -78,6 +78,9 @@ jobs:
           EOF
 
           configure_docker_compose_for_integration "${{ matrix.target.sample }}" node ../../client/${{ matrix.implementation.client_type }} node:latest
+          # Update Selenium from Chrome 112 (4.9) to latest — old Chrome can't
+          # handle pm-redirects.stripe.com redirect flow for Bancontact/Alipay
+          sed -i 's|selenium/standalone-chrome:4.9|selenium/standalone-chrome:latest|' docker-compose.yml
           docker compose --profile="${{ matrix.implementation.profile }}" up -d && wait_web_server && wait_web_server "${{ matrix.implementation.domain }}"
 
           command="docker compose exec -T runner bundle exec rspec spec/${{ matrix.target.tests }}"
