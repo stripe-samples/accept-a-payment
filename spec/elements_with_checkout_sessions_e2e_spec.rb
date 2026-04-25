@@ -71,12 +71,9 @@ RSpec.describe 'Elements with Checkout Sessions', type: :system do
       fill_in 'expiry', with: '12 / 33'
       fill_in 'cvc', with: '123'
 
-      # Uncheck Link "Save my information" if present.
-      # Click the label to toggle the checkbox.
-      # Verified from local DOM: label[for="payment-linkOptInInput"]
-      if page.has_css?('label[for="payment-linkOptInInput"]', wait: 2)
-        find('label[for="payment-linkOptInInput"]').click
-      end
+      # Uncheck Link "Save my information" — blocks canConfirm.
+      # Verified from local DOM + CI: label[for="payment-linkOptInInput"]
+      find('label[for="payment-linkOptInInput"]').click
     end
 
     # Wait for the Pay button to become enabled. The SDK disables it until

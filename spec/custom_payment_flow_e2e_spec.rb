@@ -55,20 +55,27 @@ RSpec.describe 'Custom payment flow', type: :system do
   example 'SEPA Direct Debit: happy path' do
     click_on 'SEPA Direct Debit'
 
-    # HTML client uses individual IBAN element; React client uses PaymentElement
-    # which requires different interaction (country selection, address fields).
-    # Verified from DOM: HTML has iframe[title*="IBAN"], React has PaymentElement.
+    # HTML client uses individual IBAN element; React client uses PaymentElement.
+    # Both verified from DOM inspection + Puppeteer.
     if page.has_css?('iframe[name*=__privateStripeFrame][title*="IBAN"]', wait: 5)
+      # HTML: individual IBAN element
       within_frame find('iframe[name*=__privateStripeFrame][title*="IBAN"]') do
         fill_in 'iban', with: 'DE89370400440532013000'
       end
-
-      click_on 'Pay'
-      expect(page).to have_content('Payment processing')
-      expect(page).to have_content(/Payment \(pi_\w+\): succeeded/)
     else
-      skip 'React client: SEPA uses PaymentElement which requires different interaction'
+      # React: PaymentElement with IBAN + email + name fields
+      # Verified from Puppeteer: iframe[title="Secure payment input frame"]
+      # with fields: iban, email, name, country
+      within_frame find('iframe[title="Secure payment input frame"]', wait: 10) do
+        fill_in 'iban', with: 'DE89370400440532013000'
+        fill_in 'email', with: 'jenny.rosen@example.com'
+        fill_in 'name', with: 'Jenny Rosen'
+      end
     end
+
+    click_on 'Pay'
+    expect(page).to have_content('Payment processing')
+    expect(page).to have_content(/Payment \(pi_\w+\): succeeded/)
   end
 
   example 'Bancontact: happy path' do
@@ -131,9 +138,8 @@ RSpec.describe 'Custom payment flow', type: :system do
     click_on 'iDEAL'
 
     # HTML client creates an idealBank element for bank selection.
-    # React client lacks IdealBankElement in @stripe/react-stripe-js,
-    # so confirmIdealPayment throws IntegrationError. When no bank
-    # element iframe is present, we're on the React client — skip.
+    # React client uses PaymentElement (no bank dropdown on page,
+    # bank selection happens on redirect). Both verified with Puppeteer.
     if page.has_css?('iframe[name*=__privateStripeFrame][title*="button"]', wait: 5)
       within_frame find('iframe[name*=__privateStripeFrame][title*="button"]') do
         find('#bank-list-value', text: 'Select bank').click
@@ -141,14 +147,12 @@ RSpec.describe 'Custom payment flow', type: :system do
       within_frame find('iframe[name*=__privateStripeFrame][title*="list"]') do
         find('.SelectListItem-text', text: 'ING Bank').click
       end
-
-      click_on 'Pay'
-
-      click_on 'Authorize Test Payment'
-      expect(page).to have_content('Payment succeeded')
-    else
-      skip 'React client: IdealBankElement not available in @stripe/react-stripe-js'
     end
+
+    click_on 'Pay'
+
+    click_on 'Authorize Test Payment'
+    expect(page).to have_content('Payment succeeded')
   end
 
   example 'Przelewy24(P24): happy path' do

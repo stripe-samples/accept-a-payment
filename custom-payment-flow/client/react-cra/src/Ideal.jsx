@@ -1,82 +1,51 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useLocation} from 'react-router-dom';
-import {useStripe} from '@stripe/react-stripe-js';
+import {Elements, PaymentElement, useStripe, useElements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
 import StatusMessages, {useMessages} from './StatusMessages';
 
+// Inner form component that uses PaymentElement
 const IdealForm = () => {
   const stripe = useStripe();
+  const elements = useElements();
   const [messages, addMessage] = useMessages();
 
   const handleSubmit = async (e) => {
-    // We don't want to let default form submission happen here,
-    // which would refresh the page.
     e.preventDefault();
 
-    if (!stripe) {
-      // Stripe.js has not yet loaded.
-      // Make sure to disable form submission until Stripe.js has loaded.
+    if (!stripe || !elements) {
       addMessage('Stripe.js has not yet loaded.');
       return;
     }
 
-    const {error: backendError, clientSecret} = await fetch(
-      '/api/create-payment-intent',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          paymentMethodType: 'ideal',
-          currency: 'eur',
-        }),
-      }
-    ).then((r) => r.json());
+    addMessage('Processing payment...');
 
-    if (backendError) {
-      addMessage(backendError.message);
-      return;
-    }
-
-    addMessage('Client secret returned');
-
-    const {error: stripeError, paymentIntent} =
-      await stripe.confirmIdealPayment(clientSecret, {
-        payment_method: {
-          billing_details: {
-            name: 'Jenny Rosen',
-          },
-        },
+    const {error, paymentIntent} = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
         return_url: `${window.location.origin}/ideal?return=true`,
-      });
+      },
+      redirect: 'if_required',
+    });
 
-    if (stripeError) {
-      // Show error to your customer (e.g., insufficient funds)
-      addMessage(stripeError.message);
+    if (error) {
+      addMessage(error.message);
       return;
     }
 
-    // Show a success message to your customer
-    // There's a risk of the customer closing the window before callback
-    // execution. Set up a webhook or plugin to listen for the
-    // payment_intent.succeeded event that handles any business critical
-    // post-payment actions.
     addMessage(`Payment ${paymentIntent.status}: ${paymentIntent.id}`);
   };
 
   return (
-    <>
-      <h1>iDEAL</h1>
-      <form id="payment-form" onSubmit={handleSubmit}>
-        <button type="submit">Pay</button>
-      </form>
+    <form id="payment-form" onSubmit={handleSubmit}>
+      <PaymentElement />
+      <button type="submit" disabled={!stripe || !elements}>Pay</button>
       <StatusMessages messages={messages} />
-    </>
+    </form>
   );
 };
 
-// Component for displaying results after returning from
-// iDEAL redirect flow.
+// Component for displaying results after returning from redirect flow.
 const IdealReturn = () => {
   const stripe = useStripe();
   const [messages, addMessage] = useMessages();
@@ -85,7 +54,7 @@ const IdealReturn = () => {
   const clientSecret = query.get('payment_intent_client_secret');
 
   useEffect(() => {
-    if (!stripe) {
+    if (!stripe || !clientSecret) {
       return;
     }
     const fetchPaymentIntent = async () => {
@@ -102,8 +71,65 @@ const IdealReturn = () => {
 
   return (
     <>
-      <h1>Ideal Return</h1>
+      <h1>iDEAL Return</h1>
       <StatusMessages messages={messages} />
+    </>
+  );
+};
+
+// Wrapper component that fetches clientSecret and sets up Elements
+const IdealWrapper = () => {
+  const [clientSecret, setClientSecret] = useState('');
+  const [stripePromise, setStripePromise] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const {publishableKey} = await fetch('/api/config').then((r) => r.json());
+        setStripePromise(loadStripe(publishableKey));
+
+        const response = await fetch('/api/create-payment-intent', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            paymentMethodType: 'ideal',
+            currency: 'eur',
+          }),
+        });
+        const data = await response.json();
+
+        if (data.error) {
+          setError(data.error.message);
+        } else {
+          setClientSecret(data.clientSecret);
+        }
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+    init();
+  }, []);
+
+  return (
+    <>
+      <h1>iDEAL</h1>
+
+      {error && <div className="error">{error}</div>}
+
+      {clientSecret && stripePromise && (
+        <Elements
+          stripe={stripePromise}
+          options={{
+            clientSecret,
+            appearance: {theme: 'stripe'},
+          }}
+        >
+          <IdealForm />
+        </Elements>
+      )}
+
+      {!clientSecret && !error && <div>Loading...</div>}
     </>
   );
 };
@@ -113,7 +139,7 @@ const Ideal = () => {
   if (query.get('return')) {
     return <IdealReturn />;
   } else {
-    return <IdealForm />;
+    return <IdealWrapper />;
   }
 };
 
