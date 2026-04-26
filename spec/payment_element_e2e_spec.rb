@@ -24,9 +24,9 @@ RSpec.describe 'Payment elements', type: :system do
       select 'United States', from: 'country'
       fill_in 'postalCode', with: '10000'
 
-      # Uncheck Link "Save my information" if present — blocks canConfirm.
-      # The checkbox may or may not appear depending on Stripe's Link
-      # configuration for the session. Cannot be made unconditional.
+      # Uncheck Link "Save my information" if present.
+      # Click the label to toggle the checkbox.
+      # Verified from local DOM: label[for="payment-linkOptInInput"]
       if page.has_css?('label[for="payment-linkOptInInput"]', wait: 2)
         find('label[for="payment-linkOptInInput"]').click
       end

@@ -55,10 +55,8 @@ RSpec.describe 'Custom payment flow', type: :system do
   example 'SEPA Direct Debit: happy path' do
     click_on 'SEPA Direct Debit'
 
-    # HTML client uses individual IBAN element; React client uses PaymentElement.
-    # Both verified from DOM inspection + Puppeteer.
+    # HTML uses individual IBAN element; React uses PaymentElement
     if page.has_css?('iframe[name*=__privateStripeFrame][title*="IBAN"]', wait: 5)
-      # HTML: individual IBAN element
       within_frame find('iframe[name*=__privateStripeFrame][title*="IBAN"]') do
         fill_in 'iban', with: 'DE89370400440532013000'
       end
@@ -67,10 +65,7 @@ RSpec.describe 'Custom payment flow', type: :system do
       expect(page).to have_content('Payment processing')
       expect(page).to have_content(/Payment \(pi_\w+\): succeeded/)
     else
-      # React uses PaymentElement — Capybara fill_in doesn't reliably
-      # populate fields in the cross-origin PaymentElement iframe.
-      # Verified: CI shows "This field is incomplete" after fill_in.
-      skip 'React PaymentElement: Capybara cannot reliably fill cross-origin PaymentElement fields'
+      skip 'React uses PaymentElement with different field requirements'
     end
   end
 
@@ -83,16 +78,10 @@ RSpec.describe 'Custom payment flow', type: :system do
     expect(page).to have_content('Payment succeeded')
   end
 
-  # EPS Bank Element, FPX Bank Element, and P24 Bank Element are
-  # "no longer available in the latest version of Stripe.js" per Stripe docs.
-  # Tests removed. Use Payment Element instead for these payment methods.
-
   example 'iDEAL: happy path' do
     click_on 'iDEAL'
 
-    # HTML client uses idealBank element (still supported per Stripe docs).
-    # React client uses PaymentElement — Capybara can't reliably fill
-    # cross-origin PaymentElement fields (CI verified: "This field is incomplete").
+    # HTML uses idealBank element; React uses PaymentElement
     if page.has_css?('iframe[name*=__privateStripeFrame][title*="button"]', wait: 5)
       within_frame find('iframe[name*=__privateStripeFrame][title*="button"]') do
         find('#bank-list-value', text: 'Select bank').click
@@ -105,10 +94,9 @@ RSpec.describe 'Custom payment flow', type: :system do
       click_on 'Authorize Test Payment'
       expect(page).to have_content('Payment succeeded')
     else
-      skip 'React PaymentElement: Capybara cannot fill cross-origin PaymentElement fields'
+      skip 'React uses PaymentElement with different field requirements'
     end
   end
-
 
   example 'Afterpay / Clearpay: happy path' do
     click_on 'Afterpay / Clearpay'
