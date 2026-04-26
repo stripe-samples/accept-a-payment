@@ -24,9 +24,12 @@ RSpec.describe 'Payment elements', type: :system do
       select 'United States', from: 'country'
       fill_in 'postalCode', with: '10000'
 
-      # Uncheck Link "Save my information" — blocks canConfirm.
-      # Verified from local DOM + CI: label[for="payment-linkOptInInput"]
-      find('label[for="payment-linkOptInInput"]').click
+      # Uncheck Link "Save my information" if present — blocks canConfirm.
+      # The checkbox may or may not appear depending on Stripe's Link
+      # configuration for the session. Cannot be made unconditional.
+      if page.has_css?('label[for="payment-linkOptInInput"]', wait: 2)
+        find('label[for="payment-linkOptInInput"]').click
+      end
     end
 
     within_frame first('form iframe[title*="Secure email input frame"]') do

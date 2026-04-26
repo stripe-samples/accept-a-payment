@@ -71,9 +71,12 @@ RSpec.describe 'Elements with Checkout Sessions', type: :system do
       fill_in 'expiry', with: '12 / 33'
       fill_in 'cvc', with: '123'
 
-      # Uncheck Link "Save my information" — blocks canConfirm.
-      # Verified from local DOM + CI: label[for="payment-linkOptInInput"]
-      find('label[for="payment-linkOptInInput"]').click
+      # Uncheck Link "Save my information" if present — blocks canConfirm.
+      # The checkbox may or may not appear depending on Stripe's Link
+      # configuration for the session. Cannot be made unconditional.
+      if page.has_css?('label[for="payment-linkOptInInput"]', wait: 2)
+        find('label[for="payment-linkOptInInput"]').click
+      end
     end
 
     # Wait for the Pay button to become enabled. The SDK disables it until
