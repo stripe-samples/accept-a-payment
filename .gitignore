@@ -139,3 +139,4 @@ playwright/test-results/
 # Terraform files
 .terraform*
 terraform.tfstate*.playwright-mcp/
+elements-with-checkout-sessions/testing/docs-quickstart-test/
