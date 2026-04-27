@@ -42,6 +42,7 @@ const App = () => {
           options={{
             clientSecret,
             elementsOptions: { appearance },
+            adaptivePricing: { allowed: true },
           }}
         >
           <Routes>

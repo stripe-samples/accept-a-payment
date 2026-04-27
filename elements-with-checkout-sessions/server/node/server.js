@@ -38,7 +38,6 @@ app.post("/create-checkout-session", async (req, res) => {
   try {
     const session = await client.checkout.sessions.create({
       ui_mode: "elements",
-      // You can also use an existing Price: { price: 'price_xxx', quantity: 1 }
       line_items: [
         {
           price_data: {
@@ -52,6 +51,8 @@ app.post("/create-checkout-session", async (req, res) => {
         },
       ],
       mode: "payment",
+      adaptive_pricing: { enabled: true },
+      ...(process.env.CUSTOMER_EMAIL && { customer_email: process.env.CUSTOMER_EMAIL }),
       return_url: `${YOUR_DOMAIN}/complete?session_id={CHECKOUT_SESSION_ID}`,
     });
 

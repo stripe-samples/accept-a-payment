@@ -101,6 +101,12 @@ func createCheckoutSession(sc *stripe.Client, w http.ResponseWriter, r *http.Req
       },
     },
     Mode: stripe.String("payment"),
+    AdaptivePricing: &stripe.CheckoutSessionCreateAdaptivePricingParams{
+      Enabled: stripe.Bool(true),
+    },
+  }
+  if os.Getenv("CUSTOMER_EMAIL") != "" {
+    params.CustomerEmail = stripe.String(os.Getenv("CUSTOMER_EMAIL"))
   }
 
   s, err := sc.V1CheckoutSessions.Create(context.TODO(), params)

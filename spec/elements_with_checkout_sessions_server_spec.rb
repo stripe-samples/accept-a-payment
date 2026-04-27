@@ -25,6 +25,7 @@ RSpec.describe "elements-with-checkout-sessions integration" do
       })
       expect(session.mode).to eq('payment')
       expect(session.line_items.data.length).to be > 0
+      expect(session.adaptive_pricing.enabled).to be true
     end
   end
 

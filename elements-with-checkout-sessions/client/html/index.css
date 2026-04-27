@@ -49,6 +49,22 @@ form {
   margin-top: 16px;
 }
 
+#email-readonly {
+  background-color: #f9f9f9;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+  padding: 0.75rem;
+  color: #30313d;
+  margin-top: 0.25rem;
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  height: 44px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 #email {
   border-radius: 5px;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.03), 0px 3px 6px rgba(0, 0, 0, 0.02);
