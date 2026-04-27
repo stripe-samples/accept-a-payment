@@ -53,7 +53,7 @@ post '/create-checkout-session' do
       mode: 'payment',
       return_url: YOUR_DOMAIN + '/complete?session_id={CHECKOUT_SESSION_ID}',
       adaptive_pricing: { enabled: true },
-      **(ENV['CUSTOMER_EMAIL'] ? { customer_email: ENV['CUSTOMER_EMAIL'] } : {}),
+      customer_email: 'test+location_FR@example.com',
     })
 
     { clientSecret: session.client_secret }.to_json
