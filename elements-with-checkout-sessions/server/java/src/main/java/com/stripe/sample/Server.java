@@ -90,10 +90,7 @@ public class Server {
               SessionCreateParams.AdaptivePricing.builder()
                 .setEnabled(true)
                 .build());
-        String customerEmail = System.getenv("CUSTOMER_EMAIL");
-        if (customerEmail != null && !customerEmail.isEmpty()) {
-          paramsBuilder.setCustomerEmail(customerEmail);
-        }
+        paramsBuilder.setCustomerEmail("test+location_FR@example.com");
         SessionCreateParams params = paramsBuilder.build();
 
         Session session = client.v1().checkout().sessions().create(params);

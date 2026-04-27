@@ -52,7 +52,7 @@ app.post("/create-checkout-session", async (req, res) => {
       ],
       mode: "payment",
       adaptive_pricing: { enabled: true },
-      ...(process.env.CUSTOMER_EMAIL && { customer_email: process.env.CUSTOMER_EMAIL }),
+      customer_email: "test+location_FR@example.com",
       return_url: `${YOUR_DOMAIN}/complete?session_id={CHECKOUT_SESSION_ID}`,
     });
 

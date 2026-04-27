@@ -105,9 +105,7 @@ func createCheckoutSession(sc *stripe.Client, w http.ResponseWriter, r *http.Req
       Enabled: stripe.Bool(true),
     },
   }
-  if os.Getenv("CUSTOMER_EMAIL") != "" {
-    params.CustomerEmail = stripe.String(os.Getenv("CUSTOMER_EMAIL"))
-  }
+  params.CustomerEmail = stripe.String("test+location_FR@example.com")
 
   s, err := sc.V1CheckoutSessions.Create(context.TODO(), params)
 

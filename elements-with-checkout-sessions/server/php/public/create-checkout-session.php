@@ -33,7 +33,8 @@ try {
     'mode' => 'payment',
     'return_url' => $YOUR_DOMAIN . '/complete?session_id={CHECKOUT_SESSION_ID}',
     'adaptive_pricing' => ['enabled' => true],
-  ] + (getenv('CUSTOMER_EMAIL') ? ['customer_email' => getenv('CUSTOMER_EMAIL')] : []));
+    'customer_email' => 'test+location_FR@example.com',
+  ]);
 
   echo json_encode(array('clientSecret' => $checkout_session->client_secret));
 } catch (Exception $e) {
