@@ -75,6 +75,7 @@ jobs:
           DOMAIN=${{ matrix.implementation.domain }}
           PRICE=${{ secrets.TEST_PRICE }}
           PAYMENT_METHOD_TYPES="card"
+          CUSTOMER_EMAIL="test+location_FR@example.com"
           EOF
 
           configure_docker_compose_for_integration "${{ matrix.target.sample }}" node ../../client/${{ matrix.implementation.client_type }} node:latest

@@ -12,11 +12,14 @@
   <body>
     <!-- Display a payment form -->
     <form id="payment-form">
-      <label>
-        Email
-        <input type="email" id="email"
-      /></label>
-      <div id="email-errors"></div>
+      <div id="email-section">
+        <label>
+          Email
+          <input type="email" id="email"
+        /></label>
+        <div id="email-readonly" class="hidden"></div>
+        <div id="email-errors"></div>
+      </div>
       <h4>Billing address</h4>
       <div id="address-element">
         <!--Stripe.js injects the Address Element-->
@@ -24,6 +27,9 @@
       <h4>Payment</h4>
       <div id="payment-element">
         <!--Stripe.js injects the Payment Element-->
+      </div>
+      <div id="currency-selector">
+        <!--Stripe.js injects the Currency Selector Element-->
       </div>
       <button id="submit">
         <div class="spinner hidden" id="spinner"></div>

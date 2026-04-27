@@ -125,7 +125,13 @@ namespace server.Controllers
                     },
                     Mode = "payment",
                     ReturnUrl = domain + "/complete?session_id={CHECKOUT_SESSION_ID}",
+                    AdaptivePricing = new SessionAdaptivePricingOptions { Enabled = true },
                 };
+                var customerEmail = Environment.GetEnvironmentVariable("CUSTOMER_EMAIL");
+                if (!string.IsNullOrEmpty(customerEmail))
+                {
+                    options.CustomerEmail = customerEmail;
+                }
                 Session session = _client.V1.Checkout.Sessions.Create(options);
 
                 return Json(new {clientSecret = session.ClientSecret});

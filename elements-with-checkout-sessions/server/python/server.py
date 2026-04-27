@@ -63,6 +63,8 @@ def create_checkout_session():
             ],
             'mode': 'payment',
             'return_url': YOUR_DOMAIN + '/complete?session_id={CHECKOUT_SESSION_ID}',
+            'adaptive_pricing': {'enabled': True},
+            **(({'customer_email': os.environ['CUSTOMER_EMAIL']} if os.environ.get('CUSTOMER_EMAIL') else {})),
         })
 
         return jsonify(clientSecret=session.client_secret)

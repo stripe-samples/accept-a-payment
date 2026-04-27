@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import {
   PaymentElement,
   BillingAddressElement,
+  CurrencySelectorElement,
   useCheckout
 } from '@stripe/react-stripe-js/checkout';
 
@@ -67,6 +68,7 @@ const CheckoutForm = () => {
     );
   }
 
+  const emailAlreadySet = !!checkoutState.checkout.email;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -74,21 +76,18 @@ const CheckoutForm = () => {
     const {checkout} = checkoutState;
     setIsSubmitting(true);
 
-    const { isValid, message } = await validateEmail(email, checkout);
-    if (!isValid) {
-      setEmailError(message);
-      setMessage(message);
-      setIsSubmitting(false);
-      return;
+    if (!emailAlreadySet) {
+      const { isValid, message } = await validateEmail(email, checkout);
+      if (!isValid) {
+        setEmailError(message);
+        setMessage(message);
+        setIsSubmitting(false);
+        return;
+      }
     }
 
     const confirmResult = await checkout.confirm();
 
-    // This point will only be reached if there is an immediate error when
-    // confirming the payment. Otherwise, your customer will be redirected to
-    // your `return_url`. For some payment methods like iDEAL, your customer will
-    // be redirected to an intermediate site first to authorize the payment, then
-    // redirected to the `return_url`.
     if (confirmResult.type === 'error') {
       setMessage(confirmResult.error.message);
     }
@@ -98,17 +97,25 @@ const CheckoutForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <EmailInput
-        checkout={checkoutState.checkout}
-        email={email}
-        setEmail={setEmail}
-        error={emailError}
-        setError={setEmailError}
-      />
+      {emailAlreadySet ? (
+        <>
+          <label>Email</label>
+          <div id="email-readonly">{checkoutState.checkout.email}</div>
+        </>
+      ) : (
+        <EmailInput
+          checkout={checkoutState.checkout}
+          email={email}
+          setEmail={setEmail}
+          error={emailError}
+          setError={setEmailError}
+        />
+      )}
       <h4>Billing address</h4>
       <BillingAddressElement id="address-element" />
       <h4>Payment</h4>
       <PaymentElement id="payment-element" />
+      <CurrencySelectorElement id="currency-selector" />
       <button disabled={!checkoutState.checkout.canConfirm || isSubmitting} id="submit">
         {isSubmitting ? (
           <div className="spinner"></div>
@@ -116,7 +123,6 @@ const CheckoutForm = () => {
           `Pay ${checkoutState.checkout.total.total.amount} now`
         )}
       </button>
-      {/* Show any error or success messages */}
       {message && <div id="payment-message">{message}</div>}
     </form>
   );

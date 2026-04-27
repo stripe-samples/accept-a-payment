@@ -67,7 +67,7 @@ public class Server {
     post("/create-checkout-session", (request, response) -> {
       try {
         String YOUR_DOMAIN = env("DOMAIN", "http://localhost:" + serverPort);
-        SessionCreateParams params =
+        SessionCreateParams.Builder paramsBuilder =
           SessionCreateParams.builder()
             .setUiMode(SessionCreateParams.UiMode.ELEMENTS)
             .setMode(SessionCreateParams.Mode.PAYMENT)
@@ -86,7 +86,15 @@ public class Server {
                     .setUnitAmount(2000L)
                     .build())
                 .build())
-            .build();
+            .setAdaptivePricing(
+              SessionCreateParams.AdaptivePricing.builder()
+                .setEnabled(true)
+                .build());
+        String customerEmail = System.getenv("CUSTOMER_EMAIL");
+        if (customerEmail != null && !customerEmail.isEmpty()) {
+          paramsBuilder.setCustomerEmail(customerEmail);
+        }
+        SessionCreateParams params = paramsBuilder.build();
 
         Session session = client.v1().checkout().sessions().create(params);
 
