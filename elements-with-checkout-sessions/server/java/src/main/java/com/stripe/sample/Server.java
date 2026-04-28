@@ -90,6 +90,10 @@ public class Server {
               SessionCreateParams.AdaptivePricing.builder()
                 .setEnabled(true)
                 .build());
+        // Set customer_email when the user is already known (e.g. logged in) —
+        // the payment form will display it as read-only. In production, use your
+        // authenticated user's email. The +location_FR suffix is a test-mode
+        // feature that simulates a customer in France for Adaptive Pricing.
         paramsBuilder.setCustomerEmail("test+location_FR@example.com");
         SessionCreateParams params = paramsBuilder.build();
 

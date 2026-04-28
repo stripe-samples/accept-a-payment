@@ -64,6 +64,10 @@ def create_checkout_session():
             'mode': 'payment',
             'return_url': YOUR_DOMAIN + '/complete?session_id={CHECKOUT_SESSION_ID}',
             'adaptive_pricing': {'enabled': True},
+            # Set customer_email when the user is already known (e.g. logged in) —
+            # the payment form will display it as read-only. In production, use your
+            # authenticated user's email. The +location_FR suffix is a test-mode
+            # feature that simulates a customer in France for Adaptive Pricing.
             'customer_email': 'test+location_FR@example.com',
         })
 
