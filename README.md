@@ -1,54 +1,138 @@
 # Accept a payment
 
-_Learn how to securely accept payments online._
+_Explore different ways to accept payments on the web with Stripe._
 
-This repository includes examples of 4 types of integration.
+> [!TIP]
+> **Starting a new integration?** Stripe recommends [Elements with Checkout Sessions](./elements-with-checkout-sessions) — it combines the Checkout Sessions API with the Payment Element for the best balance of simplicity and customization. [Read the docs →](https://docs.stripe.com/payments/quickstart-checkout-sessions)
 
-|[Prebuilt Checkout page](./prebuilt-checkout-page) ([docs](https://stripe.com/docs/payments/accept-a-payment?ui=checkout))| [Payment Element](./payment-element) ([docs](https://stripe.com/docs/payments/accept-a-payment?platform=web&ui=elements)) | [Custom payment flow](./custom-payment-flow) ([docs](https://stripe.com/docs/payments/accept-card-payments?platform=web&ui=elements)) | [Elements with Checkout Sessions](./elements-with-checkout-sessions) ([docs](https://docs.stripe.com/payments/quickstart-checkout-sessions)) |
-|---|---|---|---|
-| Lower complexity. | Moderate complexity. | Higher complexity. | Moderate complexity. |
-| Customize logo, images, and colors. | Customize components with [Appearance API](https://stripe.com/docs/stripe-js/appearance-api). | Customize all components with CSS. | Customize components with [Appearance API](https://stripe.com/docs/stripe-js/appearance-api). |
-| Add payment method types with a single line change. | Add payment methods with a single line change. | Implement each payment method type as a custom integration. | Add payment methods with a single line change. |
-| Built-in support for Apple Pay, and Google Pay. | Built-in support for Apple Pay and Google Pay. | Integrate Apple Pay and Google Pay with extra code.| Built-in support for Apple Pay and Google Pay. |
-| Redirect to Stripe hosted page. | Customers stay on your site, but payment completion triggers a redirect. |Customers stay on your site. | Customers stay on your site, but payment completion triggers a redirect. |
-| Small refactor to collect recurring payments. | Large refactor to collect recurring payments. | Large refactor to collect recurring payments. | Small refactor to collect recurring payments. |
-| Input validation and error handling built in. | Input validation built-in but you must implement error handling. | Implement your own input validation and error handling. | Input validation built-in but you must implement error handling. |
-| Localized in 25+ languages. | Localized in 25+ languages. |Implement your own localization. | Localized in 25+ languages. |
-| Automate calculation and collection of sales tax, VAT and GST with one line of code. | Calculate tax using the [Tax API](https://stripe.com/docs/tax/custom) | Calculate tax using the [Tax API](https://stripe.com/docs/tax/custom) | Automate calculation and collection of sales tax, VAT and GST with one line of code. |
+## Choose your integration
 
+This repository includes four sample integrations, ordered from Stripe's recommended starting point to maximum control.
 
-### Payment Method Type Support
+### [Elements with Checkout Sessions](./elements-with-checkout-sessions) — Recommended
 
-|Payment Method Type | [Prebuilt Checkout page](./prebuilt-checkout-page) ([docs](https://stripe.com/docs/payments/accept-a-payment?ui=checkout))| [Payment Element](./payment-element) ([docs](https://stripe.com/docs/payments/accept-a-payment?platform=web&ui=elements)) | [Custom payment flow](./custom-payment-flow) ([docs](https://stripe.com/docs/payments/accept-card-payments?platform=web&ui=elements)) | [Elements with Checkout Sessions](./elements-with-checkout-sessions) ([docs](https://docs.stripe.com/payments/quickstart-checkout-sessions)) |
+Create a Checkout Session on your server, then render the Payment Element on your site using the Checkout Sessions API with `ui_mode: 'elements'`.
+
+- **Moderate complexity.** A few API calls on your server, a few lines of Stripe.js on your client.
+- **Customize** components with the [Appearance API](https://stripe.com/docs/stripe-js/appearance-api).
+- **Payment methods added automatically** — no code changes needed for new methods.
+- **Built-in** Apple Pay and Google Pay support.
+- **Customers stay on your site**, with a redirect after payment completion.
+- **Small refactor** to collect recurring payments.
+- **Built-in** input validation and error handling.
+- **Localized** in 25+ languages.
+- **Automate** sales tax, VAT, and GST calculation with one line of code.
+
+Servers: Node, Python, Ruby, PHP, Java, Go, .NET · Clients: HTML, React
+
+[Sample code](./elements-with-checkout-sessions) | [Docs](https://docs.stripe.com/payments/quickstart-checkout-sessions)
+
+---
+
+### [Prebuilt Checkout page](./prebuilt-checkout-page) — Stripe-hosted
+
+Redirect customers to a Stripe-hosted payment page. The simplest integration with the least code.
+
+- **Low complexity.** Create a Checkout Session and redirect — that's it.
+- **Customize** logo, images, and colors.
+- **Payment methods added automatically** with a single line change.
+- **Built-in** Apple Pay and Google Pay support.
+- **Customers redirect** to a Stripe-hosted page, then return to your site.
+- **Small refactor** to collect recurring payments.
+- **Built-in** input validation and error handling.
+- **Localized** in 25+ languages.
+- **Automate** sales tax, VAT, and GST calculation with one line of code.
+
+Servers: Node, Python, Ruby, PHP, Java, Go, .NET, Next.js · Clients: HTML, React, Vue
+
+[Sample code](./prebuilt-checkout-page) | [Docs](https://stripe.com/docs/payments/accept-a-payment?ui=checkout)
+
+---
+
+### [Payment Element](./payment-element) — Direct API
+
+Render the Payment Element on your site using the Payment Intents API directly. Similar UI to Elements with Checkout Sessions but requires more server-side code.
+
+- **Moderate complexity.** More server-side payment lifecycle management.
+- **Customize** components with the [Appearance API](https://stripe.com/docs/stripe-js/appearance-api).
+- **Payment methods added automatically** with a single line change.
+- **Built-in** Apple Pay and Google Pay support.
+- **Customers stay on your site**, but payment completion may trigger a redirect.
+- **Large refactor** to collect recurring payments.
+- **Built-in** input validation; you must implement error handling.
+- **Localized** in 25+ languages.
+- Calculate tax using the [Tax API](https://stripe.com/docs/tax/custom).
+
+Servers: Node, Node (TypeScript), Python, Ruby, PHP, Java, Go, .NET, Next.js · Clients: HTML, React, Vue
+
+[Sample code](./payment-element) | [Docs](https://stripe.com/docs/payments/accept-a-payment?platform=web&ui=elements)
+
+---
+
+### [Custom payment flow](./custom-payment-flow) — Advanced
+
+Build a fully custom checkout using individual Stripe Elements and the Payment Intents API. Maximum control over every detail.
+
+- **High complexity.** You manage the full payment lifecycle and UI.
+- **Customize** all components with CSS.
+- **Implement each payment method** as a separate integration.
+- **Integrate** Apple Pay and Google Pay with extra code.
+- **Customers stay on your site** throughout the entire flow.
+- **Large refactor** to collect recurring payments.
+- **Implement your own** input validation and error handling.
+- **Implement your own** localization.
+- Calculate tax using the [Tax API](https://stripe.com/docs/tax/custom).
+
+Servers: Node, Node (TypeScript), Python, Ruby, PHP, Java, Go, .NET, Next.js · Clients: HTML, React, Android (Kotlin), iOS (SwiftUI), React Native (Expo)
+
+[Sample code](./custom-payment-flow) | [Docs](https://stripe.com/docs/payments/accept-card-payments?platform=web&ui=elements)
+
+---
+
+## At a glance
+
+| | Elements with Checkout Sessions | Prebuilt Checkout page | Payment Element | Custom payment flow |
 |---|---|---|---|---|
-|ACH Credit Transfer|  |  | | |
-|ACH Debit| ✅ | ✅ | ✅ | ✅ |
-|Afterpay/Clearpay| ✅ | ✅ | ✅ | ✅ |
-|Alipay| ✅ | ✅ | ✅ | ✅ |
-|Apple Pay| ✅ | ✅ | ✅ | ✅ |
-|Bacs Direct Debit| ✅ |  |  | ✅ |
-|Bancontact| ✅ | ✅ | ✅ | ✅ |
-|BECS Direct Debit| ✅ | ✅ | ✅ | ✅ |
-|Boleto| ✅ | ✅ | ✅ | ✅ |
-|Cards| ✅ | ✅ | ✅ | ✅ |
-|EPS| ✅ | ✅ | ✅ | ✅ |
-|FPX| ✅ | ✅ | ✅ | ✅ |
-|giropay| ✅ | ✅ | ✅ | ✅ |
-|Google Pay| ✅ | ✅ | ✅ | ✅ |
-|GrabPay| ✅ | ✅ | ✅ | ✅ |
-|iDEAL| ✅ | ✅ | ✅ | ✅ |
-|Klarna| ✅ | ✅ | ✅ | ✅ |
-|Link| ✅ | ✅ |  | ✅ |
-|Multibanco| ✅ | ✅ |  | ✅ |
-|OXXO| ✅ | ✅ | ✅ | ✅ |
-|PayPal| ✅ | ✅ | ✅ | ✅ |
-|Przelewy24 (P24)| ✅ | ✅ | ✅ | ✅ |
-|SEPA Direct Debit| ✅ | ✅ | ✅ | ✅ |
-|Sofort| ✅ | ✅ | ✅ | ✅ |
-|WeChat Pay| ✅ | ✅ | ✅ | ✅ |
+| Complexity | Moderate | Low | Moderate | High |
+| Customization | Appearance API | Logo, images, colors | Appearance API | Full CSS |
+| Customer experience | Stays on your site | Redirects to Stripe | Stays on your site | Stays on your site |
+| Recurring payments | Small refactor | Small refactor | Large refactor | Large refactor |
+| Tax calculation | Built-in | Built-in | Tax API | Tax API |
+| Payment methods | Automatic | Automatic | Automatic | Manual per method |
 
+### Payment method support
 
-## Installation
+| Payment method | Elements with Checkout Sessions | Prebuilt Checkout page | Payment Element | Custom payment flow |
+|---|---|---|---|---|
+| ACH Debit | ✅ | ✅ | ✅ | ✅ |
+| Affirm | ✅ | ✅ | ✅ | |
+| Afterpay / Clearpay | ✅ | ✅ | ✅ | ✅ |
+| Alipay | ✅ | ✅ | ✅ | ✅ |
+| Amazon Pay | ✅ | ✅ | ✅ | |
+| Apple Pay | ✅ | ✅ | ✅ | ✅ |
+| Bacs Direct Debit | ✅ | ✅ | | |
+| Bancontact | ✅ | ✅ | ✅ | ✅ |
+| BECS Direct Debit | ✅ | ✅ | ✅ | ✅ |
+| Boleto | ✅ | ✅ | ✅ | ✅ |
+| Cards | ✅ | ✅ | ✅ | ✅ |
+| Cash App Pay | ✅ | ✅ | ✅ | |
+| EPS | ✅ | ✅ | ✅ | ✅ |
+| FPX | ✅ | ✅ | ✅ | ✅ |
+| Google Pay | ✅ | ✅ | ✅ | ✅ |
+| GrabPay | ✅ | ✅ | ✅ | ✅ |
+| iDEAL | ✅ | ✅ | ✅ | ✅ |
+| Klarna | ✅ | ✅ | ✅ | ✅ |
+| Link | ✅ | ✅ | ✅ | |
+| Multibanco | ✅ | ✅ | ✅ | |
+| OXXO | ✅ | ✅ | ✅ | ✅ |
+| PayPal | ✅ | ✅ | ✅ | ✅ |
+| Przelewy24 (P24) | ✅ | ✅ | ✅ | ✅ |
+| Revolut Pay | ✅ | ✅ | ✅ | |
+| SEPA Direct Debit | ✅ | ✅ | ✅ | ✅ |
+| WeChat Pay | ✅ | ✅ | ✅ | ✅ |
+| Zip | ✅ | ✅ | ✅ | |
+
+## Quick start
 
 The recommended way to use this Stripe Sample is with the [Stripe CLI](https://stripe.com/docs/stripe-cli#install):
 
@@ -56,26 +140,46 @@ The recommended way to use this Stripe Sample is with the [Stripe CLI](https://s
 stripe samples create accept-a-payment
 ```
 
-You can also clone the repository, but there is a bit more manual setup work to
-configure the `.env` environment variable file in the server directory.
+You can also clone the repository directly. See the individual READMEs for setup instructions:
 
-You'll find more detailed instructions for each integration type in the
-relevant READMEs:
-
+- [**Elements with Checkout Sessions**](./elements-with-checkout-sessions/README.md) — start here
 - [Prebuilt Checkout page](./prebuilt-checkout-page/README.md)
 - [Payment Element](./payment-element/README.md)
 - [Custom payment flow](./custom-payment-flow/README.md)
-- [Elements with Checkout Sessions](./elements-with-checkout-sessions/README.md)
 
----
+## Testing
+
+See [TESTING.md](./TESTING.md).
+
+<details>
+<summary><strong>Dev Containers and Codespaces</strong></summary>
+
+We provide [Dev Container](https://containers.dev/) configurations for most of the sample apps for web. In Visual Studio Code, use `Reopen in Containers` from the Command Palette and choose a sample from the options.
+
+You can also try these samples without installing Docker by using [GitHub Codespaces](https://github.com/features/codespaces). Click "New with options..." and choose a sample from the Dev container configuration select box. **Note: you will be charged for GitHub Codespaces usage.**
+
+![](https://github.com/stripe-samples/accept-a-payment/assets/43346/9db4688c-a71d-4624-80f1-4b79c5cae44d)
+
+After launching, export the required environment variables and start the server:
+
+```sh
+export STRIPE_PUBLISHABLE_KEY=pk_test_...
+export STRIPE_SECRET_KEY=sk_test_...
+```
+
+See [TESTING.md](./TESTING.md) for running tests inside Dev Containers.
+
+</details>
+
 ## FAQ
 
-Q: Why did you pick these frameworks?
+Q: **Which integration should I choose?**
 
-A: We chose the most minimal framework to convey the key Stripe calls and
-concepts you need to understand. These demos are meant as an educational tool
-that helps you roadmap how to integrate Stripe within your own system
-independent of the framework.
+A: For most new projects, start with [Elements with Checkout Sessions](./elements-with-checkout-sessions). It gives you an embedded payment form with minimal server-side code, built-in tax calculation, and easy recurring payment support. Choose [Prebuilt Checkout page](./prebuilt-checkout-page) if you want a fully hosted page with zero front-end work. Choose [Custom payment flow](./custom-payment-flow) only if you need pixel-level control over every UI component.
+
+Q: **Why did you pick these frameworks?**
+
+A: We chose the most minimal framework to convey the key Stripe calls and concepts you need to understand. These demos are meant as an educational tool that helps you roadmap how to integrate Stripe within your own system independent of the framework.
 
 ## Get support
 
@@ -83,57 +187,10 @@ If you found a bug or want to suggest a new [feature/use case/sample], please [f
 
 If you have questions, comments, or need help with code, we're here to help:
 - on [Discord](https://stripe.com/go/developer-chat)
-- on Twitter at [@StripeDev](https://twitter.com/StripeDev)
+- on X at [@StripeDev](https://x.com/StripeDev)
 - on Stack Overflow at the [stripe-payments](https://stackoverflow.com/tags/stripe-payments/info) tag
 
 Sign up to [stay updated with developer news](https://go.stripe.global/dev-digest).
-
-
-## Testing
-
-See [TESTING.md](./TESTING.md).
-
-## Running samples with Dev Containers or Codespaces
-
-We provide [Dev Container](https://containers.dev/) configurations for most of the sample apps for web. For the Visual Studio Code example, by hitting `Reopen in Containers` in the Command Pallete and choosing a sample from the options prompted, dedicated Docker containers for the sample will be automatically created.
-
-You can also try these samples even without installing Docker on your machine by using [GitHub Codespaces](https://github.com/features/codespaces). A sample app codespace can be created by clicking "New with options..." below and choosing a sample app from the Dev container configuration select box. **Note that in this case, you would be charged for usage of GitHub Codespaces.**
-
-![](https://github.com/stripe-samples/accept-a-payment/assets/43346/9db4688c-a71d-4624-80f1-4b79c5cae44d)
-
-### Running server app samples
-
-After launching the environment, a couple of setup steps would be needed to launch the web app. For the NodeJS (`custom-payment-flow-server-node`) example:
-
-1. Export the required environment variables
-    1. `export STRIPE_PUBLISHABLE_KEY=XXXX`
-    2. `export STRIPE_SECRET_KEY=XXXX`
-    3. `export PRICE=XXXX`
-2. Install the dependencies and run the web server. For NodeJS example, `npm install && npm run start`
-
-You can also run some tests for the server app by the following steps. This example is a little hacky as we need to use SSH to run a test command in another container (`runner`).
-
-1. Run `ssh-keygen` and `chmod 600 ~/.ssh/*`
-2. Login to the test runner service with `ssh runner`
-3. Move to the working dir with `cd /work`
-4. Export the required environment variables
-    1. `export $(cat .devcontainer/.env | xargs)`
-    2. `export STRIPE_PUBLISHABLE_KEY=XXXX`
-    3. `export STRIPE_SECRET_KEY=XXXX`
-    4. `export PRICE=XXXX`
-5. Run tests like `bundle exec rspec spec/custom_payment_flow_server_spec.rb `
-
-### Running client app samples
-
-After launching the environment, a couple of setup steps would be needed to launch the app. For the Create React App (`custom-payment-flow-client-react-cra`) example:
-
-1. Export the required environment variables
-    1. `export STRIPE_PUBLISHABLE_KEY=XXXX`
-    2. `export STRIPE_SECRET_KEY=XXXX`
-    3. `export PRICE=XXXX`
-2. Install the dependencies and run the node web server by running `cd ../../server/node && npm install && npm run start`
-3. In another terminal, install the dependencies and run the client app by running `npm install && npm start`
-  * :memo: You might want to set `server.hmr.port` to `443` in `vite.config.js` ([related issue](https://github.com/vitejs/vite/issues/4259))
 
 ## Authors
 
