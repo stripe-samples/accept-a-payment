@@ -27,8 +27,6 @@ Redirect customers to a Stripe-hosted payment page. The simplest integration wit
 - **Localized** in 50+ languages.
 - **Automate** sales tax, VAT, and GST calculation with one line of code.
 
-Servers: Node, Python, Ruby, PHP, Java, Go, .NET, Next.js · Clients: HTML, React, Vue
-
 [Sample code](./prebuilt-checkout-page) | [Docs](https://stripe.com/docs/payments/accept-a-payment?ui=checkout)
 
 #### [Elements with Checkout Sessions](./elements-with-checkout-sessions) — Custom form
@@ -44,8 +42,6 @@ Create a Checkout Session on your server, then render the Payment Element on you
 - **Built-in** input validation and error handling.
 - **Localized** in 50+ languages.
 - **Automate** sales tax, VAT, and GST calculation with one line of code.
-
-Servers: Node, Python, Ruby, PHP, Java, Go, .NET · Clients: HTML, React
 
 [Sample code](./elements-with-checkout-sessions) | [Docs](https://docs.stripe.com/payments/quickstart-checkout-sessions)
 
@@ -69,8 +65,6 @@ Render the Payment Element on your site using the Payment Intents API directly. 
 - **Localized** in 50+ languages.
 - Calculate tax using the [Tax API](https://stripe.com/docs/tax/custom).
 
-Servers: Node, Node (TypeScript), Python, Ruby, PHP, Java, Go, .NET, Next.js · Clients: HTML, React, Vue
-
 [Sample code](./payment-element) | [Docs](https://stripe.com/docs/payments/accept-a-payment?platform=web&ui=elements)
 
 #### [Custom payment flow](./custom-payment-flow) — Advanced
@@ -86,8 +80,6 @@ Build a fully custom checkout using individual Stripe Elements and the Payment I
 - **Implement your own** input validation and error handling.
 - **Implement your own** localization.
 - Calculate tax using the [Tax API](https://stripe.com/docs/tax/custom).
-
-Servers: Node, Node (TypeScript), Python, Ruby, PHP, Java, Go, .NET, Next.js · Clients: HTML, React, Android (Kotlin), iOS (SwiftUI), React Native (Expo)
 
 [Sample code](./custom-payment-flow) | [Docs](https://stripe.com/docs/payments/accept-card-payments?platform=web&ui=elements)
 
