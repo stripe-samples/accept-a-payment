@@ -3,15 +3,19 @@
 _Explore different ways to accept payments on the web with Stripe._
 
 > [!TIP]
-> **Starting a new integration?** Stripe recommends [Elements with Checkout Sessions](./elements-with-checkout-sessions) — it combines the Checkout Sessions API with the Payment Element for the best balance of simplicity and customization. [Read the docs →](https://docs.stripe.com/payments/quickstart-checkout-sessions)
+> **Starting a new integration?** Stripe recommends building on the [Checkout Sessions API](https://docs.stripe.com/payments/checkout) — choose between a [Stripe-hosted page](./prebuilt-checkout-page) for simplicity or [Elements with Checkout Sessions](./elements-with-checkout-sessions) for full design control.
 
 ## Choose your integration
 
-This repository includes four sample integrations, ordered from Stripe's recommended starting point to maximum control.
+This repository includes four sample integrations built on two different APIs.
 
-### [Elements with Checkout Sessions](./elements-with-checkout-sessions) — Recommended
+### Checkout Sessions API — Recommended
 
-Create a Checkout Session on your server, then render the Payment Element on your site using the Checkout Sessions API with `ui_mode: 'elements'`.
+Stripe recommends the Checkout Sessions API for most integrations. It requires less code than the Payment Intents API and includes built-in support for tax, recurring payments, localization, and automatic payment methods.
+
+#### [Elements with Checkout Sessions](./elements-with-checkout-sessions) — Custom form
+
+Create a Checkout Session on your server, then render the Payment Element on your site using `ui_mode: 'elements'`. Full design control while Stripe handles the payment logic.
 
 - **Moderate complexity.** A few API calls on your server, a few lines of Stripe.js on your client.
 - **Customize** components with the [Appearance API](https://stripe.com/docs/stripe-js/appearance-api).
@@ -27,9 +31,7 @@ Servers: Node, Python, Ruby, PHP, Java, Go, .NET · Clients: HTML, React
 
 [Sample code](./elements-with-checkout-sessions) | [Docs](https://docs.stripe.com/payments/quickstart-checkout-sessions)
 
----
-
-### [Prebuilt Checkout page](./prebuilt-checkout-page) — Stripe-hosted
+#### [Prebuilt Checkout page](./prebuilt-checkout-page) — Stripe-hosted
 
 Redirect customers to a Stripe-hosted payment page. The simplest integration with the least code.
 
@@ -49,9 +51,13 @@ Servers: Node, Python, Ruby, PHP, Java, Go, .NET, Next.js · Clients: HTML, Reac
 
 ---
 
-### [Payment Element](./payment-element) — Direct API
+### Payment Intents API — Direct API
 
-Render the Payment Element on your site using the Payment Intents API directly. Similar UI to Elements with Checkout Sessions but requires more server-side code.
+The Payment Intents API gives you direct control over the payment lifecycle. It requires more server-side code and doesn't include built-in tax or easy recurring payment support. Use this when you need capabilities beyond what Checkout Sessions provides.
+
+#### [Payment Element](./payment-element) — Prebuilt UI
+
+Render the Payment Element on your site using the Payment Intents API directly. Similar UI to Elements with Checkout Sessions but you manage the payment lifecycle yourself.
 
 - **Moderate complexity.** More server-side payment lifecycle management.
 - **Customize** components with the [Appearance API](https://stripe.com/docs/stripe-js/appearance-api).
@@ -67,9 +73,7 @@ Servers: Node, Node (TypeScript), Python, Ruby, PHP, Java, Go, .NET, Next.js · 
 
 [Sample code](./payment-element) | [Docs](https://stripe.com/docs/payments/accept-a-payment?platform=web&ui=elements)
 
----
-
-### [Custom payment flow](./custom-payment-flow) — Advanced
+#### [Custom payment flow](./custom-payment-flow) — Advanced
 
 Build a fully custom checkout using individual Stripe Elements and the Payment Intents API. Maximum control over every detail.
 
@@ -91,8 +95,9 @@ Servers: Node, Node (TypeScript), Python, Ruby, PHP, Java, Go, .NET, Next.js · 
 
 ## At a glance
 
-| | Elements with Checkout Sessions | Prebuilt Checkout page | Payment Element | Custom payment flow |
+| | Checkout Sessions API | | Payment Intents API | |
 |---|---|---|---|---|
+| | Elements with Checkout Sessions | Prebuilt Checkout page | Payment Element | Custom payment flow |
 | Complexity | Moderate | Low | Moderate | High |
 | Customization | Appearance API | Logo, images, colors | Appearance API | Full CSS |
 | Customer experience | Stays on your site | Redirects to Stripe | Stays on your site | Stays on your site |
@@ -142,10 +147,13 @@ stripe samples create accept-a-payment
 
 You can also clone the repository directly. See the individual READMEs for setup instructions:
 
-- [**Elements with Checkout Sessions**](./elements-with-checkout-sessions/README.md) — start here
-- [Prebuilt Checkout page](./prebuilt-checkout-page/README.md)
-- [Payment Element](./payment-element/README.md)
-- [Custom payment flow](./custom-payment-flow/README.md)
+**Checkout Sessions API** (recommended):
+- [Elements with Checkout Sessions](./elements-with-checkout-sessions/README.md) — custom form on your site
+- [Prebuilt Checkout page](./prebuilt-checkout-page/README.md) — Stripe-hosted page
+
+**Payment Intents API:**
+- [Payment Element](./payment-element/README.md) — prebuilt UI, direct API
+- [Custom payment flow](./custom-payment-flow/README.md) — fully custom UI
 
 ## Testing
 
@@ -175,7 +183,7 @@ See [TESTING.md](./TESTING.md) for running tests inside Dev Containers.
 
 Q: **Which integration should I choose?**
 
-A: For most new projects, start with [Elements with Checkout Sessions](./elements-with-checkout-sessions). It gives you an embedded payment form with minimal server-side code, built-in tax calculation, and easy recurring payment support. Choose [Prebuilt Checkout page](./prebuilt-checkout-page) if you want a fully hosted page with zero front-end work. Choose [Custom payment flow](./custom-payment-flow) only if you need pixel-level control over every UI component.
+A: Start with the Checkout Sessions API — it handles tax, recurring payments, and localization with less code. Choose [Elements with Checkout Sessions](./elements-with-checkout-sessions) if you want a custom payment form on your site, or [Prebuilt Checkout page](./prebuilt-checkout-page) if you want a Stripe-hosted page with zero front-end work. The [Payment Element](./payment-element) and [Custom payment flow](./custom-payment-flow) use the Payment Intents API directly, which gives you more control but requires significantly more code.
 
 Q: **Why did you pick these frameworks?**
 
