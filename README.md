@@ -11,7 +11,7 @@ This repository includes four sample integrations built on two different APIs.
 
 ### Checkout Sessions API — Recommended
 
-Stripe recommends the Checkout Sessions API for most integrations. It requires less code than the Payment Intents API and includes built-in support for tax, recurring payments, localization, and automatic payment methods.
+Stripe recommends the Checkout Sessions API for most integrations. It requires less code than the Payment Intents API and includes built-in support for tax, discounts, shipping, adaptive pricing, recurring payments, localization, and automatic payment methods.
 
 #### [Elements with Checkout Sessions](./elements-with-checkout-sessions) — Custom form
 
@@ -24,7 +24,7 @@ Create a Checkout Session on your server, then render the Payment Element on you
 - **Customers stay on your site**, with a redirect after payment completion.
 - **Small refactor** to collect recurring payments.
 - **Built-in** input validation and error handling.
-- **Localized** in 25+ languages.
+- **Localized** in 50+ languages.
 - **Automate** sales tax, VAT, and GST calculation with one line of code.
 
 Servers: Node, Python, Ruby, PHP, Java, Go, .NET · Clients: HTML, React
@@ -42,7 +42,7 @@ Redirect customers to a Stripe-hosted payment page. The simplest integration wit
 - **Customers redirect** to a Stripe-hosted page, then return to your site.
 - **Small refactor** to collect recurring payments.
 - **Built-in** input validation and error handling.
-- **Localized** in 25+ languages.
+- **Localized** in 50+ languages.
 - **Automate** sales tax, VAT, and GST calculation with one line of code.
 
 Servers: Node, Python, Ruby, PHP, Java, Go, .NET, Next.js · Clients: HTML, React, Vue
@@ -66,7 +66,7 @@ Render the Payment Element on your site using the Payment Intents API directly. 
 - **Customers stay on your site**, but payment completion may trigger a redirect.
 - **Large refactor** to collect recurring payments.
 - **Built-in** input validation; you must implement error handling.
-- **Localized** in 25+ languages.
+- **Localized** in 50+ languages.
 - Calculate tax using the [Tax API](https://stripe.com/docs/tax/custom).
 
 Servers: Node, Node (TypeScript), Python, Ruby, PHP, Java, Go, .NET, Next.js · Clients: HTML, React, Vue
@@ -103,6 +103,7 @@ Servers: Node, Node (TypeScript), Python, Ruby, PHP, Java, Go, .NET, Next.js · 
 | Customer experience | Stays on your site | Redirects to Stripe | Stays on your site | Stays on your site |
 | Recurring payments | Small refactor | Small refactor | Large refactor | Large refactor |
 | Tax calculation | Built-in | Built-in | Tax API | Tax API |
+| Adaptive pricing | Built-in | Built-in | Not available | Not available |
 | Payment methods | Automatic | Automatic | Automatic | Manual per method |
 
 ### Payment method support
