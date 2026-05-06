@@ -54,7 +54,7 @@ the payment form.
 | `STRIPE_SECRET_KEY` | Your secret key (`sk_test_...`) | Set by CLI | *required* |
 | `STRIPE_WEBHOOK_SECRET` | Webhook secret (`whsec_...`) | Set by CLI | *optional* |
 | `STATIC_DIR` | Path to client files | `../client` | `../../client/html` |
-| `DOMAIN` | Base URL for return URLs | Set by CLI | `http://localhost:4242` (HTML) or `:3000` (React) |
+| `DOMAIN` | Base URL for return URLs | `http://localhost:4242` (HTML) or `:3000` (React) | `http://localhost:4242` (HTML) or `:3000` (React) |
 | `PORT` | Server port | `4242` | `4242` |
 
 ## How to run
