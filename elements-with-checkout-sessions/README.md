@@ -45,96 +45,40 @@ the payment form.
   - **Java** >= 17 with Maven
   - **Go** >= 1.22
   - **.NET** >= 9.0
-- Or install all runtimes automatically with [mise](https://mise.jdx.dev): `mise install`
 
 ## Environment variables
 
-| Variable | Description | Default |
-|---|---|---|
-| `STRIPE_SECRET_KEY` | Your Stripe secret key (`sk_test_...`) | *required* |
-| `STRIPE_PUBLISHABLE_KEY` | Your Stripe publishable key (`pk_test_...`) | *required* |
-| `STRIPE_WEBHOOK_SECRET` | Your Stripe webhook secret (`whsec_...`) | *optional* |
-| `STATIC_DIR` | Path to the static files directory | `../../client/html` |
-| `DOMAIN` | Base URL for return URLs | `http://localhost:${PORT}` |
-| `PORT` | Port the server listens on | `4242` |
+| Variable | Description | CLI | Clone |
+|---|---|---|---|
+| `STRIPE_PUBLISHABLE_KEY` | Your publishable key (`pk_test_...`) | Set by CLI | *required* |
+| `STRIPE_SECRET_KEY` | Your secret key (`sk_test_...`) | Set by CLI | *required* |
+| `STRIPE_WEBHOOK_SECRET` | Webhook secret (`whsec_...`) | Set by CLI | *optional* |
+| `STATIC_DIR` | Path to client files | `../client` | `../../client/html` |
+| `DOMAIN` | Base URL for return URLs | `http://localhost:4242` | `http://localhost:4242` |
+| `PORT` | Server port | `4242` | `4242` |
+
+> For the React client, set `DOMAIN=http://localhost:3000`.
 
 ## How to run
 
-### 1. Set up environment variables
+### Stripe CLI
 
-Copy the `.env.example` file into the server directory you plan to use and
-fill in your Stripe API keys:
+If you used `stripe samples create accept-a-payment`, `cd server` and see your language's README:
 
-```bash
-cp .env.example server/node/.env
-# Edit server/node/.env and add your keys
-```
+[Node](server/node/README.md) | [Python](server/python/README.md) | [Ruby](server/ruby/README.md) | [PHP](server/php/README.md) | [Java](server/java/README.md) | [Go](server/go/README.md) | [.NET](server/dotnet/README.md)
 
-### 2. Pick a server and start it
+> **Not working?** Make sure you ran `stripe login` before `stripe samples create`. The CLI uses your login to write `server/.env` with API keys and `STATIC_DIR=../client`. If `.env` is missing, either re-run with login or create it manually:
+> ```
+> STRIPE_PUBLISHABLE_KEY=pk_test_...
+> STRIPE_SECRET_KEY=sk_test_...
+> STATIC_DIR=../client
+> ```
 
-#### Node
+### Cloned from GitHub
 
-```bash
-cd server/node
-cp ../../.env.example .env  # add your keys
-npm install
-npm start
-```
+Pick a server language and follow its README:
 
-#### Python
-
-```bash
-cd server/python
-cp ../../.env.example .env  # add your keys
-pip install -r requirements.txt
-python server.py
-```
-
-#### Ruby
-
-```bash
-cd server/ruby
-cp ../../.env.example .env  # add your keys
-bundle install
-ruby server.rb
-```
-
-#### PHP
-
-```bash
-cd server/php
-cp ../../.env.example .env  # add your keys
-composer install
-php -S localhost:4242 router.php
-```
-
-#### Java
-
-```bash
-cd server/java
-cp ../../.env.example .env  # add your keys
-mvn compile exec:java
-```
-
-#### Go
-
-```bash
-cd server/go
-cp ../../.env.example .env  # add your keys
-go run server.go
-```
-
-#### .NET
-
-```bash
-cd server/dotnet
-cp ../../.env.example .env  # add your keys
-dotnet run
-```
-
-### 3. Open in the browser
-
-Visit [http://localhost:4242](http://localhost:4242) to see the payment form.
+[Node](server/node/README.md) | [Python](server/python/README.md) | [Ruby](server/ruby/README.md) | [PHP](server/php/README.md) | [Java](server/java/README.md) | [Go](server/go/README.md) | [.NET](server/dotnet/README.md)
 
 ## Clients
 

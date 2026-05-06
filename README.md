@@ -3,6 +3,9 @@
 _Explore different ways to accept payments on the web with Stripe._
 
 > [!TIP]
+> **Downloaded via `stripe samples create`?** Your server is in `./server/` and your client is in `./client/`. Install dependencies and start (e.g. `cd server && npm install && npm start` for Node). If the page doesn't load or you see errors about missing keys, make sure you ran `stripe login` before `stripe samples create` — the CLI needs this to write `server/.env`.
+
+> [!TIP]
 > **Starting a new integration?** Stripe recommends building on the [Checkout Sessions API](https://docs.stripe.com/payments/checkout) — choose a [Stripe-hosted page](./prebuilt-checkout-page) for simplicity or [Elements with Checkout Sessions](./elements-with-checkout-sessions) for full design control.
 
 ## Choose your integration
@@ -132,13 +135,26 @@ Build a fully custom checkout using individual Stripe Elements and the Payment I
 
 ## Quick start
 
+### Option A: Stripe CLI (recommended)
+
 The recommended way to use this Stripe Sample is with the [Stripe CLI](https://stripe.com/docs/stripe-cli#install):
 
 ```sh
+stripe login
 stripe samples create accept-a-payment
 ```
 
-You can also clone the repository directly. See the individual READMEs for setup instructions:
+Then see the integration's README for how to install dependencies and start the server.
+
+> **Important:** You must run `stripe login` before `stripe samples create`. The CLI uses your login to configure API keys and file paths in `server/.env`.
+
+### Option B: Clone the repo
+
+```sh
+git clone https://github.com/stripe-samples/accept-a-payment
+```
+
+See the individual integration READMEs for setup:
 
 **Checkout Sessions API** (recommended):
 - [Prebuilt Checkout page](./prebuilt-checkout-page/README.md) — Stripe-hosted page
