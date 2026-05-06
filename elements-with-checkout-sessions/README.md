@@ -30,7 +30,6 @@ the payment form.
 │   └── dotnet
 ├── testing
 │   └── manual-test.sh  # Run all 14 server×client combinations
-├── .mise.toml          # Tool versions (mise install)
 └── .env.example        # Root env template
 ```
 
@@ -45,7 +44,6 @@ the payment form.
   - **Java** >= 17 with Maven
   - **Go** >= 1.22
   - **.NET** >= 9.0
-- Or install all runtimes automatically with [mise](https://mise.jdx.dev): `mise install`
 
 ## Environment variables
 

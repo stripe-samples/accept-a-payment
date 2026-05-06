@@ -10,4 +10,4 @@ if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
 
 header('Content-Type: application/json');
 
-echo json_encode(array('publishableKey' => $_ENV['STRIPE_PUBLISHABLE_KEY']));
+echo json_encode(array('publishableKey' => $_ENV['STRIPE_PUBLISHABLE_KEY'] ?? getenv('STRIPE_PUBLISHABLE_KEY')));

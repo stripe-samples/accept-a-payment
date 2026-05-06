@@ -8,7 +8,7 @@ foreach ($_ENV as $key => $value) {
     putenv("$key=$value");
 }
 
-$stripeSecretKey = $_ENV['STRIPE_SECRET_KEY'];
+$stripeSecretKey = $_ENV['STRIPE_SECRET_KEY'] ?? getenv('STRIPE_SECRET_KEY');
 
 // For sample support and debugging, not required for production:
 \Stripe\Stripe::setAppInfo(

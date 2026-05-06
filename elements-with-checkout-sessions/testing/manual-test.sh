@@ -10,6 +10,15 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SAMPLE_DIR="$SCRIPT_DIR/.."
 
+# Runtime versions
+NODE_V="24"
+PYTHON_V="3.12"
+RUBY_V="3.3"
+GO_V="1.26"
+JAVA_V="17"
+DOTNET_V="9"
+PHP_V="8.2.19"
+
 if ! command -v mise &>/dev/null; then
   echo "mise is required but not installed. Install it with:"
   echo "  curl https://mise.run | sh"
@@ -19,7 +28,7 @@ fi
 
 # Install all required language runtimes via mise
 echo "Installing runtimes via mise..."
-mise install node python ruby go java dotnet "ubi:adwinying/php"
+mise install node@$NODE_V python@$PYTHON_V ruby@$RUBY_V go@$GO_V java@$JAVA_V dotnet@$DOTNET_V "ubi:adwinying/php@$PHP_V"
 PIDS=()
 
 # Kill any leftover processes from a previous run
@@ -68,13 +77,13 @@ set +a
 
 # --- Install dependencies ---
 echo "Installing dependencies..."
-(cd "$SAMPLE_DIR/server/node" && npm install --silent) &
-(cd "$SAMPLE_DIR/server/ruby" && bundle install --quiet) &
-(cd "$SAMPLE_DIR/server/python" && pip install -q -r requirements.txt) &
-(cd "$SAMPLE_DIR/server/go" && go build -o /dev/null server.go) &
-(cd "$SAMPLE_DIR/server/java" && mvn -q compile) &
-(cd "$SAMPLE_DIR/server/php" && composer install --quiet) &
-(cd "$SAMPLE_DIR/client/react-cra" && npm install --silent) &
+(cd "$SAMPLE_DIR/server/node" && mise exec node@$NODE_V -- npm install --silent) &
+(cd "$SAMPLE_DIR/server/ruby" && mise exec ruby@$RUBY_V -- bundle install --quiet) &
+(cd "$SAMPLE_DIR/server/python" && mise exec python@$PYTHON_V -- pip install -q -r requirements.txt) &
+(cd "$SAMPLE_DIR/server/go" && mise exec go@$GO_V -- go build -o /dev/null server.go) &
+(cd "$SAMPLE_DIR/server/java" && mise exec java@$JAVA_V -- mvn -q compile) &
+(cd "$SAMPLE_DIR/server/php" && mise exec "ubi:adwinying/php@$PHP_V" -- composer install --quiet) &
+(cd "$SAMPLE_DIR/client/react-cra" && mise exec node@$NODE_V -- npm install --silent) &
 wait
 echo "Dependencies installed."
 echo ""
@@ -83,37 +92,37 @@ echo ""
 echo "Starting servers..."
 
 cd "$SAMPLE_DIR/server/node" && PORT=4242 \
-  node server.js >/dev/null 2>&1 &
+  mise exec node@$NODE_V -- node server.js >/dev/null 2>&1 &
 PIDS+=($!)
 cd "$SAMPLE_DIR"
 
 cd "$SAMPLE_DIR/server/ruby" && PORT=4243 \
-  ruby server.rb >/dev/null 2>&1 &
+  mise exec ruby@$RUBY_V -- ruby server.rb >/dev/null 2>&1 &
 PIDS+=($!)
 cd "$SAMPLE_DIR"
 
 cd "$SAMPLE_DIR/server/python" && PORT=4244 \
-  python3 server.py >/dev/null 2>&1 &
+  mise exec python@$PYTHON_V -- python3 server.py >/dev/null 2>&1 &
 PIDS+=($!)
 cd "$SAMPLE_DIR"
 
 cd "$SAMPLE_DIR/server/go" && PORT=4245 \
-  go run server.go >/dev/null 2>&1 &
+  mise exec go@$GO_V -- go run server.go >/dev/null 2>&1 &
 PIDS+=($!)
 cd "$SAMPLE_DIR"
 
 cd "$SAMPLE_DIR/server/java" && PORT=4246 \
-  mvn -q exec:java >/dev/null 2>&1 &
+  mise exec java@$JAVA_V -- mvn -q exec:java >/dev/null 2>&1 &
 PIDS+=($!)
 cd "$SAMPLE_DIR"
 
 cd "$SAMPLE_DIR/server/dotnet" && PORT=4247 \
-  dotnet run >/dev/null 2>&1 &
+  mise exec dotnet@$DOTNET_V -- dotnet run >/dev/null 2>&1 &
 PIDS+=($!)
 cd "$SAMPLE_DIR"
 
 cd "$SAMPLE_DIR/server/php" && PORT=4248 \
-  php -S localhost:4248 router.php >/dev/null 2>&1 &
+  mise exec "ubi:adwinying/php@$PHP_V" -- php -S localhost:4248 router.php >/dev/null 2>&1 &
 PIDS+=($!)
 cd "$SAMPLE_DIR"
 
@@ -136,7 +145,7 @@ for i in $(seq 0 6); do
   VITE_SERVER_URL="http://localhost:$((4242 + i))" \
   VITE_CACHE_DIR="/tmp/vite-cache-$((3000 + i))" \
   PORT=$((3000 + i)) \
-    npx --prefix "$REACT_DIR" vite --config "$REACT_DIR/vite.config.mjs" "$REACT_DIR" >/dev/null 2>&1 &
+    mise exec node@$NODE_V -- npx --prefix "$REACT_DIR" vite --config "$REACT_DIR/vite.config.mjs" "$REACT_DIR" >/dev/null 2>&1 &
   PIDS+=($!)
 done
 

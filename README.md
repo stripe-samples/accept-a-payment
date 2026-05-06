@@ -3,6 +3,9 @@
 _Explore different ways to accept payments on the web with Stripe._
 
 > [!TIP]
+> **Downloaded via `stripe samples create`?** Your server is in `./server/` and your client is in `./client/`. Run `stripe login`, then install dependencies and start the server (e.g. `cd server && npm install && npm start` for Node). It listens on http://localhost:4242.
+
+> [!TIP]
 > **Starting a new integration?** Stripe recommends building on the [Checkout Sessions API](https://docs.stripe.com/payments/checkout) — choose a [Stripe-hosted page](./prebuilt-checkout-page) for simplicity or [Elements with Checkout Sessions](./elements-with-checkout-sessions) for full design control.
 
 ## Choose your integration
