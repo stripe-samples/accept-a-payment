@@ -59,52 +59,15 @@ the payment form.
 
 ## How to run
 
-### Stripe CLI
-
-If you used `stripe samples create accept-a-payment`, `cd server` and see your language's README:
+Pick your server language:
 
 [Node](server/node/README.md) | [Python](server/python/README.md) | [Ruby](server/ruby/README.md) | [PHP](server/php/README.md) | [Java](server/java/README.md) | [Go](server/go/README.md) | [.NET](server/dotnet/README.md)
 
-> **Not working?** Make sure you ran `stripe login` before `stripe samples create`. The CLI uses your login to write `server/.env` with API keys and `STATIC_DIR=../client`. If `.env` is missing, either re-run with login or create it manually:
+Each README covers both setup methods (Stripe CLI and cloning) and both clients (HTML and React).
+
+> **Downloaded via `stripe samples create` and something's not working?** Make sure you ran `stripe login` first. The CLI needs this to write `server/.env`. If `.env` is missing, create it manually:
 > ```
 > STRIPE_PUBLISHABLE_KEY=pk_test_...
 > STRIPE_SECRET_KEY=sk_test_...
 > STATIC_DIR=../client
 > ```
-
-### Cloned from GitHub
-
-Pick a server language and follow its README:
-
-[Node](server/node/README.md) | [Python](server/python/README.md) | [Ruby](server/ruby/README.md) | [PHP](server/php/README.md) | [Java](server/java/README.md) | [Go](server/go/README.md) | [.NET](server/dotnet/README.md)
-
-## Clients
-
-### HTML
-
-The HTML client lives in `client/html/`. Every server is configured
-to serve this directory as static files by default (via the `STATIC_DIR`
-environment variable). No separate build step is needed.
-
-### React
-
-The React client uses Vite and proxies API requests to the backend:
-
-```bash
-cd client/react-cra
-npm install
-npm start
-```
-
-The dev server starts on port 3000 and proxies `/api` requests to
-`http://127.0.0.1:4242`. Navigate to
-[http://localhost:3000](http://localhost:3000) to see the payment form.
-Make sure a backend server is running on port 4242 first.
-
-**Important:** Set `DOMAIN` to your Vite dev server URL so Stripe
-redirects back to the React app after payment:
-
-```bash
-# In your server's .env
-DOMAIN=http://localhost:3000
-```
