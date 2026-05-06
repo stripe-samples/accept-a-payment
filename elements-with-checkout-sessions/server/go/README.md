@@ -10,7 +10,7 @@ A Go standard library server implementation.
 
 ### Stripe CLI
 
-If you downloaded with `stripe samples create` (and ran `stripe login` first):
+If you downloaded with `stripe samples create`:
 
 ```bash
 go run server.go
@@ -22,7 +22,7 @@ Open http://localhost:4242.
 
 #### React client
 
-Add `DOMAIN=http://localhost:3000` to your `.env`, then start the React dev server:
+Check that `DOMAIN=http://localhost:3000` is in your `.env`, then start the React dev server:
 
 ```bash
 cd ../client
