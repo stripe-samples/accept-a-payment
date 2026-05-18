@@ -10,7 +10,7 @@
   "author": "stripe-samples",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^2.0.1",
+    "body-parser": "^2.2.2",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
