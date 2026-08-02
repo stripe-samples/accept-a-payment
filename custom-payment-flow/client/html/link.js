@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   const stripe = Stripe(publishableKey, {
-    apiVersion: '2022-11-15',
+    apiVersion: '2026-07-29.dahlia',
   });
 
   const { clientSecret } = await fetch('/create-payment-intent', {

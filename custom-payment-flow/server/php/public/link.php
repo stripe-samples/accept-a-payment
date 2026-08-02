@@ -35,7 +35,7 @@ try {
     <script>
       document.addEventListener('DOMContentLoaded', async () => {
         const stripe = Stripe('<?= $_ENV["STRIPE_PUBLISHABLE_KEY"]; ?>', {
-          apiVersion: '2022-11-15',
+          apiVersion: '2026-07-29.dahlia',
         });
           // Enable the skeleton loader UI for the optimal loading experience.
         const loader = 'auto';

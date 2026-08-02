@@ -11,7 +11,7 @@ import Stripe from "stripe";
 
 const calculateTax = false;
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: "2025-12-15.clover",
+  apiVersion: "2026-07-29.dahlia",
   appInfo: { // For sample support and debugging, not required for production:
     name: "stripe-samples/accept-a-payment",
     url: "https://github.com/stripe-samples",

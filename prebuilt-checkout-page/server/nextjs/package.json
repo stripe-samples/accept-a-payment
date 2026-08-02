@@ -13,7 +13,7 @@
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "@stripe/stripe-js": "^8.6.3",
-    "stripe": "^20.2.0"
+    "stripe": "^22.4.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.7",
