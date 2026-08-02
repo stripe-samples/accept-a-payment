@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // 1. Initialize Stripe
   const stripe = Stripe(publishableKey, {
-    apiVersion: '2024-06-20',
+    apiVersion: '2025-12-15.clover',
   });
 
   MODE = 'payment';
