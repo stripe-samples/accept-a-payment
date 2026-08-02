@@ -15,7 +15,7 @@ stripe.set_app_info(
     version='0.0.2',
     url='https://github.com/stripe-samples')
 
-stripe.api_version = '2023-10-16'
+stripe.api_version = '2026-07-29.dahlia'
 # Don't put any keys in code. Use an environment variable (as shown
 # here) or secrets vault to supply keys to your integration.
 #

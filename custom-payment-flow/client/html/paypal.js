@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // 1. Initialize Stripe
   const stripe = Stripe(publishableKey, {
-    apiVersion: '2024-06-20',
+    apiVersion: '2026-07-29.dahlia',
   });
 
   MODE = 'payment';
