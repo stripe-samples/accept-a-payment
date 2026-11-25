@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   const stripe = Stripe(publishableKey, {
-    apiVersion: '2022-11-15',
+    apiVersion: '2025-12-15.clover',
   });
 
   const { clientSecret } = await fetch('/create-payment-intent', {

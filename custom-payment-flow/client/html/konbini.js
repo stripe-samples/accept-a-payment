@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   
     const stripe = Stripe(publishableKey, {
       betas: ['konbini_pm_beta_1'],
-      apiVersion: '2020-08-27; konbini_beta=v1',
+      apiVersion: '2025-12-15.clover',
     });
   
     // When the form is submitted...

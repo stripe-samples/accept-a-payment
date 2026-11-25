@@ -13,7 +13,7 @@ checkEnv();
 // See https://docs.stripe.com/keys-best-practices and find your
 // keys at https://dashboard.stripe.com/apikeys.
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2023-10-16',
+  apiVersion: '2025-12-15.clover',
   appInfo: { // For sample support and debugging, not required for production:
     name: "stripe-samples/accept-a-payment/prebuilt-checkout-page",
     version: "0.0.1",
