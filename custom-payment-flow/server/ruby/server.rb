@@ -87,7 +87,7 @@ post '/create-payment-intent' do
   rescue => e
     halt 500,
       { 'Content-Type' => 'application/json' },
-      { error: { message: e.error.message }}.to_json
+      { error: { message: e.message }}.to_json
   end
 
   # This API endpoint renders back JSON with the client_secret for the payment
