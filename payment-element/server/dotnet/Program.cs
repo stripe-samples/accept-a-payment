@@ -87,7 +87,7 @@ app.MapGet("/create-payment-intent", async (IConfiguration configuration) =>
     }
     catch (StripeException e)
     {
-        return Results.BadRequest(new { error = new { message = e.StripeError.Message } });
+        return Results.BadRequest(new { error = new { message = e.StripeError?.Message ?? e.Message } });
     }
 });
 

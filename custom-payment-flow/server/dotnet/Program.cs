@@ -102,7 +102,7 @@ app.MapPost("/create-payment-intent", async (CreatePaymentIntentRequest req, ICo
     }
     catch (StripeException e)
     {
-        return Results.BadRequest(new { error = new { message = e.StripeError.Message } });
+        return Results.BadRequest(new { error = new { message = e.StripeError?.Message ?? e.Message } });
     }
 });
 
